@@ -11,4 +11,5 @@ neutralino.js
 # Neutralinojs related files
 .storage
 *.log
-react-src/node_modules
+react-src/node_modules/
+.tmp
