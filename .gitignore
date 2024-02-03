@@ -13,3 +13,4 @@ neutralino.js
 *.log
 react-src/node_modules/
 .tmp
+react-src/build
