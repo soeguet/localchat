@@ -1,0 +1,37 @@
+{
+  "applicationId": "js.neutralino.zero",
+  "version": "1.0.0",
+  "defaultMode": "window",
+  "documentRoot": "/react-src/build/",
+  "url": "/",
+  "enableServer": true,
+  "enableNativeAPI": true,
+  "nativeAllowList": [
+    "app.*",
+    "filesystem.readDirectory"
+  ],
+  "modes": {
+    "window": {
+      "title": "localchat",
+      "width": 800,
+      "height": 500,
+      "minWidth": 400,
+      "minHeight": 200,
+      "icon": "/react-src/public/logo192.png"
+    }
+  },
+  "cli": {
+    "binaryName": "localchat",
+    "extensionsPath": "/extensions/",
+    "resourcesPath": "/react-src/build/",
+    "frontendLibrary": {
+      "patchFile": "/react-src/public/index.html",
+      "devUrl": "http://localhost:3000",
+      "projectPath": "/react-src/",
+      "initCommand": "npm install",
+      "devCommand": "BROWSER=none npm start",
+      "buildCommand": "npm run build"
+    },
+    "binaryVersion": "5.0.0"
+  }
+}
