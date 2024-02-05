@@ -1,3 +1,4 @@
+import { os } from "@neutralinojs/lib";
 import { useState } from "react";
 
 type inputProps = {
@@ -20,9 +21,20 @@ const ChatInputSection = (props: inputProps) => {
         }
     };
 
+    async function sendNotification() {
+        console.log("sendtestnotification1");
+        await os
+            .showNotification("test", "klappt")
+            .then(() => console.log("finally"))
+            .catch(() => console.log("error"));
+    }
+
     return (
         <div className="flex items-end gap-2 border-t border-gray-200 bg-white p-4">
-            <button className="mx-1 my-auto text-gray-500 hover:text-gray-700 focus:outline-none">
+            <button
+                onClick={sendNotification}
+                className="mx-1 my-auto text-gray-500 hover:text-gray-700 focus:outline-none"
+            >
                 <i className="far fa-smile">😊</i>
             </button>
             <button className="mx-1 my-auto text-gray-500 hover:text-gray-700 focus:outline-none">

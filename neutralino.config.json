@@ -2,14 +2,11 @@
   "applicationId": "js.neutralino.zero",
   "version": "1.0.0",
   "defaultMode": "window",
-  "documentRoot": "/react-src/build/",
+  "documentRoot": "/react-src/dist/",
   "url": "/",
   "enableServer": true,
   "enableNativeAPI": true,
-  "nativeAllowList": [
-    "app.*",
-    "filesystem.readDirectory"
-  ],
+  "nativeAllowList": ["app.*", "os.showNotification", "debug.log"],
   "modes": {
     "window": {
       "title": "localchat",
@@ -17,20 +14,21 @@
       "height": 500,
       "minWidth": 400,
       "minHeight": 200,
-      "icon": "/react-src/public/logo192.png"
+      "icon": "/react-src/src/assets/react.svg",
+      "enableInspector": true
     }
   },
   "cli": {
     "binaryName": "localchat",
     "extensionsPath": "/extensions/",
-    "resourcesPath": "/react-src/build/",
+    "resourcesPath": "/react-src/dist/",
     "frontendLibrary": {
       "patchFile": "/react-src/index.html",
-      "devUrl": "http://localhost:5173",
+      "devUrl": "http://localhost:3000",
       "projectPath": "/react-src/",
       "initCommand": "npm install",
-      "devCommand": "BROWSER=none npm run dev",
-      "buildCommand": "npm run build"
+      "devCommand": "vite --host",
+      "buildCommand": "tsc && vite build"
     },
     "binaryVersion": "5.0.0"
   }

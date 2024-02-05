@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import ChatBubble from "./components/ChatBubble";
 import ChatInputSection from "./components/ChatInputSection";
+import { os } from "@neutralinojs/lib";
 
 function App() {
     type userType = {
@@ -8,42 +9,54 @@ function App() {
         isUser: boolean;
         profilePhoto: string;
     };
+
     type messageType = {
         message: string;
         time: string;
     };
+
     const [testData, setTestData] = useState<(userType & messageType)[]>([
         {
             name: "John Doe",
             isUser: false,
             profilePhoto:
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk1wr1yrOBQiwirwFdBeIUAeIU9vPg09-NpaXWEipuyQ&s",
+                "",
             message: "Hello",
             time: "10:45 PM",
         },
-
     ]);
-    const endOfListRef = useRef<HTMLDivElement | null>(null); // Gibt den Typ explizit an
 
+    const endOfListRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         if (testData.length > 0) {
             scrollToBottom();
         }
+        os.showNotification("test1", "test2")
+            .then(() => console.log("success"))
+            .catch(() => console.log("failed"));
     }, [testData]);
 
-    const scrollToBottom = () => {
-        endOfListRef.current?.scrollIntoView({ behavior: 'smooth' });
+    async function scrollToBottom() {
+        endOfListRef.current?.scrollIntoView({ behavior: "smooth" });
         console.log("scrolling");
-    };
+        sendNotification();
+    }
 
+    async function sendNotification() {
+        const message = testData[testData.length - 1].message;
+        console.log(message);
+        await os
+            .showNotification("notification", "message")
+            .catch((error) => console.log(error));
+    }
 
     function displayMessage(text: string): void {
         const newMessage = {
             name: "Me",
             isUser: true,
             profilePhoto:
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTknVlvLdeZKfg--zh687bCOU7R9mdf_KaleoQxTzMsgg&s",
+                "",
             message: text,
             time: "10:46 PM",
         };
@@ -53,7 +66,7 @@ function App() {
     return (
         <>
             <div className="flex h-screen flex-col justify-evenly">
-                <div className="px-2 pt-2 grow overflow-y-scroll hover:overflow-scroll">
+                <div className="grow overflow-y-scroll px-2 pt-2 hover:overflow-scroll">
                     {testData.map((data, index) => (
                         <ChatBubble
                             key={index}
@@ -71,7 +84,6 @@ function App() {
                 </div>
             </div>
         </>
-
     );
 }
 
