@@ -25,7 +25,7 @@
     "extensionsPath": "/extensions/",
     "resourcesPath": "/react-src/build/",
     "frontendLibrary": {
-      "patchFile": "/react-src/public/index.html",
+      "patchFile": "/react-src/index.html",
       "devUrl": "http://localhost:5173",
       "projectPath": "/react-src/",
       "initCommand": "npm install",
