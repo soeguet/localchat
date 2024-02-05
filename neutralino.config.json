@@ -26,10 +26,10 @@
     "resourcesPath": "/react-src/build/",
     "frontendLibrary": {
       "patchFile": "/react-src/public/index.html",
-      "devUrl": "http://localhost:3000",
+      "devUrl": "http://localhost:5173",
       "projectPath": "/react-src/",
       "initCommand": "npm install",
-      "devCommand": "BROWSER=none npm start",
+      "devCommand": "BROWSER=none npm run dev",
       "buildCommand": "npm run build"
     },
     "binaryVersion": "5.0.0"
