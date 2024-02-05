@@ -31,23 +31,18 @@ function App() {
     useEffect(() => {
         if (testData.length > 0) {
             scrollToBottom();
+            sendNotification();
         }
-        os.showNotification("test1", "test2")
-            .then(() => console.log("success"))
-            .catch(() => console.log("failed"));
     }, [testData]);
 
     async function scrollToBottom() {
         endOfListRef.current?.scrollIntoView({ behavior: "smooth" });
-        console.log("scrolling");
-        sendNotification();
     }
 
     async function sendNotification() {
         const message = testData[testData.length - 1].message;
-        console.log(message);
         await os
-            .showNotification("notification", "message")
+            .showNotification("notification", message)
             .catch((error) => console.log(error));
     }
 

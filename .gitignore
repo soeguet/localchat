@@ -14,3 +14,4 @@ neutralino.js
 react-src/node_modules/
 .tmp
 react-src/build
+react-src/package-lock.json
