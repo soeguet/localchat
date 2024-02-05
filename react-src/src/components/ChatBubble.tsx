@@ -12,32 +12,50 @@ const ChatBubble = (props: messageProps) => {
     const [showMenu, setShowMenu] = useState(false);
 
     return (
-        <div className={`flex items-start ${props.isUser ? 'flex-row-reverse' : ''} mb-4`}>
-            <div className="relative flex flex-col items-center mx-2">
-                <img src={props.profilePhoto} alt={`${props.name}'s profile`} className="w-10 h-10 rounded-full mb-1" />
+        <div
+            className={`flex items-start ${props.isUser ? "flex-row-reverse" : ""} mb-4`}
+        >
+            <div className="relative mx-2 flex flex-col items-center">
+                <img
+                    src={props.profilePhoto}
+                    alt={`${props.name}'s profile`}
+                    className="mb-1 h-10 w-10 rounded-full"
+                />
                 <button
                     onClick={() => setShowMenu(!showMenu)}
-                    className="text-gray-500 focus:outline-none mt-2"
+                    className="mt-2 text-gray-500 focus:outline-none"
                 >
                     •••
                 </button>
                 {showMenu && (
-                    <div className={`absolute ${props.isUser ? 'right-0 mr-12' : 'left-0 ml-12'} mt-2 py-1 w-48 bg-white rounded-md shadow-xl z-20`}>
-
-                        <button className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 w-full text-left" onClick={() => console.log('Replying')}>
+                    <div
+                        className={`absolute ${props.isUser ? "right-0 mr-12" : "left-0 ml-12"} z-20 mt-2 w-48 rounded-md border-2 bg-white py-1 shadow-xl`}
+                    >
+                        <button
+                            className="block w-full px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
+                            onClick={() => console.log("Replying")}
+                        >
                             Reply
                         </button>
-                        <button className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 w-full text-left" onClick={() => console.log('Editing')}>
+                        <button
+                            className="block w-full px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
+                            onClick={() => console.log("Editing")}
+                        >
                             Edit
                         </button>
                     </div>
                 )}
             </div>
-            <div className={`flex flex-col ${props.isUser ? 'items-end' : 'items-start'}`}>
+            <div
+                className={`flex flex-col ${props.isUser ? "items-end" : "items-start"}`}
+            >
                 <div className="text-xs">
-                    <span className="font-semibold">{props.name}</span> <span className="text-gray-500">{props.time}</span>
+                    <span className="font-semibold">{props.name}</span>{" "}
+                    <span className="text-gray-500">{props.time}</span>
                 </div>
-                <div className={`max-w-xs md:max-w-md lg:max-w-lg px-4 py-2 rounded-lg mt-1 ${props.isUser ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800'}`}>
+                <div
+                    className={`mt-1 max-w-md rounded-lg px-4 py-2 md:max-w-2xl lg:max-w-4xl ${props.isUser ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"}`}
+                >
                     {props.message}
                 </div>
             </div>
