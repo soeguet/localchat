@@ -2,19 +2,39 @@ import { useEffect, useRef, useState } from "react";
 import ChatBubble from "./components/ChatBubble";
 import ChatInputSection from "./components/ChatInputSection";
 import { Notification } from "./../wailsjs/go/main/App"
-
 function App() {
+
+    type MessageBackToClients = {
+        sender: string;
+        message: string;
+    };
+
     type userType = {
         name: string;
         isUser: boolean;
         profilePhoto: string;
     };
+
     const socket = new WebSocket("ws://localhost:5555");
+    // message is received
+    socket.addEventListener("message", event => {
+        const dataAsObject:MessageBackToClients = JSON.parse(event.data);
+        displayMessage(dataAsObject)
+    });
 
+    // socket opened
+    socket.addEventListener("open", event => {
+        socket.send(JSON.stringify({ type: "auth", username: "ossi" }));
+    });
 
-    console.log(socket)
+    // socket closed
+    socket.addEventListener("close", event => { });
+
+    // error handler
+    socket.addEventListener("error", event => { });
 
     type messageType = {
+
         message: string;
         time: string;
     };
@@ -48,14 +68,14 @@ function App() {
         const message = testData[testData.length - 1].message;
     }
 
-    function displayMessage(text: string): void {
+    function displayMessage(dataAsObject: MessageBackToClients): void {
         const newMessage = {
-            name: "Me",
-            isUser: true,
+            name: dataAsObject.sender,
+            isUser: dataAsObject.sender === "ossi",
             profilePhoto:
                 "",
-            message: text,
-            time: "10:46 PM",
+            message: dataAsObject.message,
+            time: Date.now().toString(),
         };
         setTestData((prev) => [...prev, newMessage]);
     }
