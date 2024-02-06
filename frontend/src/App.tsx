@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import ChatBubble from "./components/ChatBubble";
 import ChatInputSection from "./components/ChatInputSection";
+import { Notification } from "./../wailsjs/go/main/App"
 
 function App() {
     type userType = {
@@ -8,6 +9,10 @@ function App() {
         isUser: boolean;
         profilePhoto: string;
     };
+    const socket = new WebSocket("ws://localhost:5555");
+
+
+    console.log(socket)
 
     type messageType = {
         message: string;
@@ -32,6 +37,7 @@ function App() {
             scrollToBottom();
             sendNotification();
         }
+        Notification(testData[testData.length - 1].message)
     }, [testData]);
 
     async function scrollToBottom() {

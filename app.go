@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
+
+	"github.com/gen2brain/beeep"
 )
 
 // App struct
@@ -24,4 +26,7 @@ func (a *App) startup(ctx context.Context) {
 // Greet returns a greeting for the given name
 func (a *App) Greet(name string) string {
 	return fmt.Sprintf("Hello %s, It's show time!", name)
+}
+func (a *App) Notification(name string) {
+	beeep.Notify("localchat", name, "./build/appicon.png")
 }
