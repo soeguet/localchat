@@ -1,4 +1,3 @@
-import { os } from "@neutralinojs/lib";
 import { useState } from "react";
 
 type inputProps = {
@@ -23,10 +22,6 @@ const ChatInputSection = (props: inputProps) => {
 
     async function sendNotification() {
         console.log("sendtestnotification1");
-        await os
-            .showNotification("test", "klappt")
-            .then(() => console.log("finally"))
-            .catch(() => console.log("error"));
     }
 
     return (

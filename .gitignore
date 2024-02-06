@@ -1,17 +1,9 @@
-# Developer tools' files
-.lite_workspace.lua
-
-# Neutralinojs binaries and builds
-/bin
-/dist
-
-# Neutralinojs client (minified)
-neutralino.js
-
-# Neutralinojs related files
-.storage
-*.log
-react-src/node_modules/
-.tmp
-react-src/build
-react-src/package-lock.json
+build/bin
+node_modules
+frontend/dist
+build
+frontend/wailsjs
+frontend/package-lock.json
+frontend/package.json.md5
+go.mod
+go.sum

@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import ChatBubble from "./components/ChatBubble";
 import ChatInputSection from "./components/ChatInputSection";
-import { os } from "@neutralinojs/lib";
 
 function App() {
     type userType = {
@@ -41,9 +40,6 @@ function App() {
 
     async function sendNotification() {
         const message = testData[testData.length - 1].message;
-        await os
-            .showNotification("notification", message)
-            .catch((error) => console.log(error));
     }
 
     function displayMessage(text: string): void {

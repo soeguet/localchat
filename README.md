@@ -1,30 +1,19 @@
-# neutralinojs-react
-A simple React.js template for building Neutralinojs apps
+# README
 
-## How to install
+## About
 
-Create a new Neutralinojs project with this template with the following command:
+This is the official Wails React-TS template.
 
-```bash
-neu create myapp --template codezri/neutralinojs-react
-cd myapp
-```
+You can configure the project by editing `wails.json`. More information about the project settings can be found
+here: https://wails.io/docs/reference/project-config
 
-## How to develop
+## Live Development
 
-Start the React development server and Neutralinojs app:
+To run in live development mode, run `wails dev` in the project directory. This will run a Vite development
+server that will provide very fast hot reload of your frontend changes. If you want to develop in a browser
+and have access to your Go methods, there is also a dev server that runs on http://localhost:34115. Connect
+to this in your browser, and you can call your Go code from devtools.
 
-```bash
-neu run
-```
+## Building
 
-## How to bundle the app
-
-Trigger a new React build and create the application bundle with the following command:
-```bash
-neu build
-```
-
-## License
-
-[MIT](LICENSE)
+To build a redistributable, production mode package, use `wails build`.
