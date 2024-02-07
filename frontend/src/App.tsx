@@ -2,102 +2,105 @@ import { useEffect, useRef, useState } from "react";
 import ChatBubble from "./components/ChatBubble";
 import ChatInputSection from "./components/ChatInputSection";
 import { Notification } from "./../wailsjs/go/main/App"
+import socket from "./Socket";
+
 function App() {
 
     type MessageBackToClients = {
+        id: string;
         sender: string;
         message: string;
     };
 
-    type userType = {
+    type UserType = {
         name: string;
         isUser: boolean;
         profilePhoto: string;
     };
 
-    const socket = new WebSocket("ws://localhost:5555");
-    // message is received
-    socket.addEventListener("message", event => {
-        const dataAsObject:MessageBackToClients = JSON.parse(event.data);
-        displayMessage(dataAsObject)
-    });
-
-    // socket opened
-    socket.addEventListener("open", event => {
-        socket.send(JSON.stringify({ type: "auth", username: "ossi" }));
-    });
-
-    // socket closed
-    socket.addEventListener("close", event => { });
-
-    // error handler
-    socket.addEventListener("error", event => { });
-
-    type messageType = {
+    type MessageType = {
 
         message: string;
         time: string;
     };
 
-    const [testData, setTestData] = useState<(userType & messageType)[]>([
-        {
-            name: "John Doe",
-            isUser: false,
-            profilePhoto:
-                "",
-            message: "Hello",
-            time: "10:45 PM",
-        },
-    ]);
+    const [messagesMap, setMessagesMap] = useState<Map<string, UserType & MessageType>>(new Map<string, UserType & MessageType>());
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messagesMap]);
+
+    function addMessageIfUniqueId(newMessage: MessageBackToClients) {
+
+        const { id } = newMessage;
+
+        if (!messagesMap.has(id)) {
+
+            const newMapEntry = {
+                name: newMessage.sender,
+                isUser: newMessage.sender === "ossi",
+                profilePhoto: "",
+                message: newMessage.message,
+                time: formatTime(new Date()),
+            };
+            setMessagesMap(prev => new Map(prev).set(newMessage.id, newMapEntry))
+
+            // TODO put this somewhere else
+            if (newMessage.sender !== "ossi") {
+                Notification(newMessage.sender, newMessage.message);
+            }
+
+            console.log(`added message with id ${id} to map.`);
+        } else {
+            console.log(`rejected message with id ${id}since it already exists.`);
+        }
+    }
+    function formatTime(date: Date): string {
+        let hours: string | number = date.getHours();
+        let minutes: string | number = date.getMinutes();
+
+        hours = hours < 10 ? '0' + hours : hours;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+
+        return `${hours}:${minutes}`;
+    }
 
     const endOfListRef = useRef<HTMLDivElement | null>(null);
 
-    useEffect(() => {
-        if (testData.length > 0) {
-            scrollToBottom();
-            sendNotification();
-        }
-        Notification(testData[testData.length - 1].message)
-    }, [testData]);
+    // WEBSOCKET CLIENT -- LISTENER METHOD -- message is received
+    socket.addEventListener("message", (event) => {
+        // Notification("CLIENT: " + event.data)
+        const dataAsObject: MessageBackToClients = JSON.parse(event.data);
+        addMessageIfUniqueId(dataAsObject);
+    });
 
-    async function scrollToBottom() {
+    async function scrollToBottom(): Promise<void> {
         endOfListRef.current?.scrollIntoView({ behavior: "smooth" });
     }
 
-    async function sendNotification() {
-        const message = testData[testData.length - 1].message;
-    }
 
-    function displayMessage(dataAsObject: MessageBackToClients): void {
-        const newMessage = {
-            name: dataAsObject.sender,
-            isUser: dataAsObject.sender === "ossi",
-            profilePhoto:
-                "",
-            message: dataAsObject.message,
-            time: Date.now().toString(),
-        };
-        setTestData((prev) => [...prev, newMessage]);
+    function sendClientMessageToWebsocket(message: string): void {
+        socket.send(JSON.stringify({ type: "message", message: message }));
     }
 
     return (
         <>
             <div className="flex h-screen flex-col justify-evenly">
                 <div className="grow overflow-y-scroll px-2 pt-2 hover:overflow-scroll">
-                    {testData.map((data, index) => (
+                    {Array.from(messagesMap.entries()).map((entry) => (
                         <ChatBubble
-                            key={index}
-                            name={data.name}
-                            time={data.time}
-                            message={data.message}
-                            isUser={data.isUser}
-                            profilePhoto={data.profilePhoto}
+                            key={entry[0]}
+                            name={entry[1].name}
+                            time={formatTime(new Date())}
+                            message={entry[1].message}
+                            isUser={entry[1].name === "ossi"}
+                            profilePhoto={""}
                         />
                     ))}
                     <div ref={endOfListRef} />
                 </div>
                 <div className="grow-0">
-                    <ChatInputSection onSend={displayMessage} />
+                    <ChatInputSection sendClientMessageToWebsocket={sendClientMessageToWebsocket} />
                 </div>
             </div>
         </>

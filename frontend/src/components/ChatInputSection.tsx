@@ -1,22 +1,22 @@
 import { useState } from "react";
 
-type inputProps = {
-    onSend: (message: string) => void;
+type InputProps = {
+    sendClientMessageToWebsocket: (message: string) => void;
 };
 
-const ChatInputSection = (props: inputProps) => {
+function ChatInputSection(inputProps: InputProps) {
     const [message, setMessage] = useState("");
 
-    const handleSendMessage = () => {
+    function handleSendMessage(message: string) {
         if (message.trim()) {
-            props.onSend(message);
+            inputProps.sendClientMessageToWebsocket(message);
             setMessage("");
         }
     };
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
         if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
-            handleSendMessage();
+            handleSendMessage(message);
         }
     };
 
@@ -45,7 +45,7 @@ const ChatInputSection = (props: inputProps) => {
             ></textarea>
             <button
                 className="my-auto rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none"
-                onClick={handleSendMessage}
+                onClick={() => handleSendMessage(message)}
             >
                 Send
             </button>

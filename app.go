@@ -27,6 +27,6 @@ func (a *App) startup(ctx context.Context) {
 func (a *App) Greet(name string) string {
 	return fmt.Sprintf("Hello %s, It's show time!", name)
 }
-func (a *App) Notification(name string) {
-	beeep.Notify("localchat", name, "./build/appicon.png")
+func (a *App) Notification(sender string, message string) {
+	beeep.Notify(sender, message, "./build/appicon.png")
 }
