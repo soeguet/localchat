@@ -6,3 +6,4 @@ frontend/wailsjs
 frontend/package-lock.json
 frontend/package.json.md5
 go.sum
+.vscode

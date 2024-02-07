@@ -12,6 +12,7 @@ import (
 //go:embed all:frontend/dist
 var assets embed.FS
 
+// main is the entry point of the application.
 func main() {
 	// Create an instance of the app structure
 	app := NewApp()

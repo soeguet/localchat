@@ -1,11 +1,16 @@
-import { Notification } from "./../wailsjs/go/main/App";
+import { GetLocalChatUsername, Notification } from "./../wailsjs/go/main/App";
 
+/**
+ * Represents a WebSocket connection.
+ */
 const socket = new WebSocket("ws://localhost:5555");
 
 // socket opened
-socket.addEventListener("open", (event) => {
+socket.addEventListener("open", async (event) => {
     Notification("localchat", "Connection opened");
-    socket.send(JSON.stringify({ type: "auth", username: "ossi" }));
+    const username = await GetLocalChatUsername();
+    console.log("Username: " + username);
+    socket.send(JSON.stringify({ type: "auth", username: username }));
 });
 
 // socket closed
