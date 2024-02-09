@@ -1,7 +1,7 @@
 import { formatTime } from "./time";
 import { UserType, MessageType, MessageBackToClients } from "./types";
-import { Notification } from "./../../wailsjs/go/main/App"
-import clientUserName from "./envVariables";
+import { FlashWindow, Notification } from "./../../wailsjs/go/main/App";
+import { getClientUsername } from "./envVariables";
 
 /**
  * Adds a message to the messages map if it has a unique ID.
@@ -9,11 +9,12 @@ import clientUserName from "./envVariables";
  */
 export async function addMessageIfUniqueId(
     messagesMap: Map<string, UserType & MessageType>,
-    setMessagesMap: React.Dispatch<React.SetStateAction<Map<string, UserType & MessageType>>>,
+    setMessagesMap: React.Dispatch<
+        React.SetStateAction<Map<string, UserType & MessageType>>
+    >,
     newMessage: MessageBackToClients
 ) {
     const { id } = newMessage;
-    const username = await clientUserName;
 
     if (!messagesMap.has(id)) {
         /**
@@ -21,7 +22,7 @@ export async function addMessageIfUniqueId(
          */
         const newMapEntry = {
             name: newMessage.sender,
-            isUser: newMessage.sender === username,
+            isUser: newMessage.sender === getClientUsername(),
             profilePhoto: "",
             message: newMessage.message,
             time: formatTime(new Date()),
@@ -29,8 +30,15 @@ export async function addMessageIfUniqueId(
         setMessagesMap((prev) => new Map(prev).set(newMessage.id, newMapEntry));
 
         // TODO put this somewhere else
-        if (newMessage.sender !== username) {
+        if (newMessage.sender !== getClientUsername()) {
             Notification(newMessage.sender, newMessage.message);
+            FlashWindow("localchat")
+                .then((bool) => {
+                    console.log("flashed window: " + bool);
+                })
+                .catch((err) => {
+                    console.error("error flashing window: " + err);
+                });
         }
 
         console.log(`added message with id ${id} to map.`);

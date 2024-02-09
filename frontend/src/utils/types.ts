@@ -23,3 +23,12 @@ export type MessageType = {
     message: string;
     time: string;
 };
+
+/**
+ * Represents the environment variables required for the application.
+ */
+export type EnvVars = {
+    username: string;
+    ip: string;
+    port: string;
+}

@@ -1,5 +1,43 @@
-import { GetLocalChatUsername } from "../../wailsjs/go/main/App";
+import { GetLocalChatEnvVars } from "../../wailsjs/go/main/App";
 
-const clientUserName = GetLocalChatUsername();
+async function retrieveLocalClientEnvVariables() {
+    const clientEnvVars = await GetLocalChatEnvVars();
+    return JSON.parse(clientEnvVars);
+}
 
-export default clientUserName;
+let clientUsername: string, socketIp: string, socketPort: string;
+
+async function initializeEnvVars() {
+    await retrieveLocalClientEnvVariables()
+        .then((envVars) => {
+
+            console.log("envVars: " + envVars);
+            clientUsername = envVars.username;
+            socketIp = envVars.ip;
+            socketPort = envVars.port;
+        })
+        .catch((err) => {
+            console.error(
+                "Error occurred while retrieving environment variables: " + err
+            );
+            throw new Error(
+                "Error occurred while retrieving environment variables."
+            );
+        });
+}
+
+export function getClientUsername() {
+    return clientUsername;
+}
+
+export function getSocketIp() {
+    console.log("socket ip: " + socketIp);
+    return socketIp;
+}
+
+export function getSocketPort() {
+    console.log("socket port: " + socketPort);
+    return socketPort;
+}
+
+await initializeEnvVars();
