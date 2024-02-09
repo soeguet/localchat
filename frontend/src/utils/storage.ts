@@ -1,7 +1,7 @@
 import { formatTime } from "./time";
 import { UserType, MessageType, MessageBackToClients } from "./types";
-import { FlashWindow, Notification } from "./../../wailsjs/go/main/App";
-import { getClientUsername } from "./envVariables";
+import { MakeWindowsTaskIconFlash, Notification } from "./../../wailsjs/go/main/App";
+import { getClientOs, getClientUsername } from "./envVariables";
 
 /**
  * Adds a message to the messages map if it has a unique ID.
@@ -32,13 +32,15 @@ export async function addMessageIfUniqueId(
         // TODO put this somewhere else
         if (newMessage.sender !== getClientUsername()) {
             Notification(newMessage.sender, newMessage.message);
-            FlashWindow("localchat")
-                .then((bool) => {
-                    console.log("flashed window: " + bool);
-                })
-                .catch((err) => {
-                    console.error("error flashing window: " + err);
-                });
+            if (getClientOs() === "windows") {
+                MakeWindowsTaskIconFlash("localchat")
+                    .then((bool: any) => {
+                        console.log("flashed window: " + bool);
+                    })
+                    .catch((err: any) => {
+                        console.error("error flashing window: " + err);
+                    });
+            }
         }
 
         console.log(`added message with id ${id} to map.`);

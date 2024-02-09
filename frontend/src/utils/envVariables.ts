@@ -5,16 +5,19 @@ async function retrieveLocalClientEnvVariables() {
     return JSON.parse(clientEnvVars);
 }
 
-let clientUsername: string, socketIp: string, socketPort: string;
+let clientUsername: string,
+    socketIp: string,
+    socketPort: string,
+    clientOs: string;
 
 async function initializeEnvVars() {
     await retrieveLocalClientEnvVariables()
         .then((envVars) => {
-
             console.log("envVars: " + envVars);
             clientUsername = envVars.username;
             socketIp = envVars.ip;
             socketPort = envVars.port;
+            clientOs = envVars.os;
         })
         .catch((err) => {
             console.error(
@@ -38,6 +41,10 @@ export function getSocketIp() {
 export function getSocketPort() {
     console.log("socket port: " + socketPort);
     return socketPort;
+}
+
+export function getClientOs() {
+    return clientOs;
 }
 
 await initializeEnvVars();
