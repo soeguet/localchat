@@ -7,8 +7,8 @@ import { scrollToBottom } from "./utils/functionality";
 import { addMessageIfUniqueId } from "./utils/storage";
 import { getClientUsername } from "./utils/envVariables";
 import Header from "./components/Header";
+import { WindowReloadApp } from "./../wailsjs/runtime/runtime";
 import {
-    closeWebSocket,
     initWebSocket,
     sendClientMessageToWebsocket,
 } from "./utils/socket";
@@ -25,6 +25,8 @@ function App() {
 
     addEventListenerToSocket(messagesMap, setMessagesMap, setIsConnected);
 
+    
+
     const endOfListRef = useRef<HTMLDivElement | null>(null);
     updatePanelView(endOfListRef, messagesMap);
 
@@ -36,6 +38,7 @@ function App() {
                     chatName={getClientUsername()}
                     isConnected={isConnected}
                     unreadMessages={0}
+                    onReconnect={() => reconnectToWebsocket()}
                 />
                 <div className="grow overflow-y-scroll px-2 pt-2 hover:overflow-scroll">
                     {Array.from(messagesMap.entries()).map((entry) => (
@@ -64,11 +67,11 @@ function App() {
 
 export default App;
 
-function setNewConnectionStatus(connected: boolean, setIsConnected): void {
+function setNewConnectionStatus(connected: boolean, setIsConnected: React.Dispatch<React.SetStateAction<boolean>>): void {
     setIsConnected(connected);
 }
 
-function handleIncomingMessages(event, messagesMap, setMessagesMap) {
+function handleIncomingMessages(event: MessageEvent<any>, messagesMap: Map<string, UserType & MessageType>, setMessagesMap: React.Dispatch<React.SetStateAction<Map<string, UserType & MessageType>>>) {
     const dataAsObject: MessageBackToClients = JSON.parse(event.data);
     addMessageIfUniqueId(messagesMap, setMessagesMap, dataAsObject);
 }
@@ -111,4 +114,9 @@ function updatePanelView(
     useEffect(() => {
         scrollToBottom(endOfListRef);
     }, [messagesMap]);
+}
+
+function reconnectToWebsocket() {
+    console.log("reconnecting to websocket");
+    WindowReloadApp()
 }

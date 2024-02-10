@@ -6,20 +6,26 @@ import { MessageBackToClients } from "./types";
 type CallbackProps = {
     onOpen: () => void;
     onClose: () => void;
-    onMessage: (event) => void;
-    onError: (event) => void;
+    onMessage: (event: MessageEvent<any>) => void;
+    onError: (event: Event) => void;
 };
 
 let socket: WebSocket;
 
 function initWebSocket(callbacks: CallbackProps) {
     socket = new WebSocket(`ws://${getSocketIp()}:${getSocketPort()}`);
-
     socket.onopen = () => {
         Notification("localchat", "Connection opened");
-        socket.send(
-            JSON.stringify({ type: "auth", username: getClientUsername() })
-        );
+
+        // one second timeout to give the socket some breathing room :D
+        const timeout = setTimeout(() => {
+            socket.send(
+                JSON.stringify({ type: "auth", username: getClientUsername() })
+            );
+
+            return () => clearTimeout(timeout);
+        }, 1000);
+
         console.log("WebSocket verbunden");
         callbacks.onOpen();
     };
@@ -34,11 +40,9 @@ function initWebSocket(callbacks: CallbackProps) {
         callbacks.onMessage(event);
     };
 
-    socket.onerror = (event) => {
+    socket.onerror = (event: Event) => {
         callbacks.onError(event);
     };
-
-    // Fügen Sie hier weitere EventListener hinzu, z.B. für `onmessage`
 }
 
 function closeWebSocket() {
@@ -54,4 +58,4 @@ function sendClientMessageToWebsocket(message: string): void {
     socket.send(JSON.stringify({ type: "message", message: message }));
 }
 
-export { initWebSocket, closeWebSocket, sendClientMessageToWebsocket };
+export { initWebSocket, closeWebSocket, sendClientMessageToWebsocket, socket };
