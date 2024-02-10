@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import ChatBubble from "./components/ChatBubble";
 import ChatInputSection from "./components/ChatInputSection";
 import { MessageBackToClients, MessageType, UserType } from "./utils/types";
@@ -18,26 +18,27 @@ import {
  * Renders the chat interface and handles message handling and sending.
  */
 function App() {
+
+    const [isConnected, setIsConnected] = useState(false);
+    const [unreadMessages, setUnreadMessages] = useState(0);
+    const [guiHasFocus, setGuiHasFocus] = useState(true);
+    const endOfListRef = useRef<HTMLDivElement | null>(null);
     const [messagesMap, setMessagesMap] = useState<
         Map<string, UserType & MessageType>
     >(new Map());
-    const [isConnected, setIsConnected] = useState(false);
 
+    addWindowFocusListener(setGuiHasFocus);
     addEventListenerToSocket(messagesMap, setMessagesMap, setIsConnected);
-
-    
-
-    const endOfListRef = useRef<HTMLDivElement | null>(null);
-    updatePanelView(endOfListRef, messagesMap);
+    updatePanelView(endOfListRef, messagesMap, unreadMessages, setUnreadMessages, guiHasFocus);
 
     return (
         <>
             <div className="flex h-screen flex-col justify-evenly">
                 <Header
-                    profileImageUrl="/home/soeguet/Pictures/dcabb7fbb2f763d680d20a3d228cc6f9.jpg"
+                    profileImageUrl="https://avatars.githubusercontent.com/u/117000423?v=4"
                     chatName={getClientUsername()}
                     isConnected={isConnected}
-                    unreadMessages={0}
+                    unreadMessages={unreadMessages}
                     onReconnect={() => reconnectToWebsocket()}
                 />
                 <div className="grow overflow-y-scroll px-2 pt-2 hover:overflow-scroll">
@@ -48,7 +49,7 @@ function App() {
                             time={formatTime(new Date())}
                             message={entry[1].message}
                             isUser={entry[1].name === getClientUsername()}
-                            profilePhoto={""}
+                            profilePhoto={"https://avatars.githubusercontent.com/u/117000423?v=4"}
                         />
                     ))}
                     <div ref={endOfListRef} />
@@ -67,10 +68,21 @@ function App() {
 
 export default App;
 
-function setNewConnectionStatus(connected: boolean, setIsConnected: React.Dispatch<React.SetStateAction<boolean>>): void {
-    setIsConnected(connected);
+/**
+ * Sets the new connection status.
+ * @param newStatus - The new connection status.
+ * @param setIsConnected - The state setter function for the connection status.
+ */
+function setNewConnectionStatus(newStatus: boolean, setIsConnected: React.Dispatch<React.SetStateAction<boolean>>): void {
+    setIsConnected(newStatus);
 }
 
+/**
+ * Handles incoming messages from the server.
+ * @param event - The message event.
+ * @param messagesMap - The map of messages.
+ * @param setMessagesMap - The state setter for the messages map.
+ */
 function handleIncomingMessages(event: MessageEvent<any>, messagesMap: Map<string, UserType & MessageType>, setMessagesMap: React.Dispatch<React.SetStateAction<Map<string, UserType & MessageType>>>) {
     const dataAsObject: MessageBackToClients = JSON.parse(event.data);
     addMessageIfUniqueId(messagesMap, setMessagesMap, dataAsObject);
@@ -106,17 +118,47 @@ function addEventListenerToSocket(
  */
 function updatePanelView(
     endOfListRef: React.RefObject<HTMLDivElement>,
-    messagesMap: Map<string, UserType & MessageType>
+    messagesMap: Map<string, UserType & MessageType>,
+    unreadMessages: number,
+    setUnreadMessages: React.Dispatch<React.SetStateAction<number>>,
+    guiHasFocus: boolean,
 ) {
     if (endOfListRef.current) {
         endOfListRef.current.scrollIntoView({ behavior: "smooth" });
     }
     useEffect(() => {
-        scrollToBottom(endOfListRef);
+        //only scroll if client is "up to date"
+        if (guiHasFocus && unreadMessages === 0) {
+            scrollToBottom(endOfListRef);
+        } else {
+            setUnreadMessages(prev => prev + 1);
+        }
+
     }, [messagesMap]);
 }
 
+/**
+ * Reconnects to the WebSocket by restarting the frontend.
+ */
 function reconnectToWebsocket() {
-    console.log("reconnecting to websocket");
     WindowReloadApp()
+}
+
+/**
+ * Adds a window focus listener to track the focus state of the GUI.
+ * @param setGuiHasFocus - A state setter function to update the GUI focus state.
+ */
+function addWindowFocusListener(setGuiHasFocus: Dispatch<SetStateAction<boolean>>) {
+
+    useEffect(() => {
+
+        window.addEventListener('focus', () => {
+            setGuiHasFocus(true);
+        });
+
+        window.addEventListener('blur', () => {
+            setGuiHasFocus(false);
+        });
+
+    }, []);
 }
