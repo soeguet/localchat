@@ -1,26 +1,27 @@
 import { Notification } from "../../wailsjs/go/main/App";
-import { getClientUsername, getSocketIp, getSocketPort } from "./envVariables";
+import { useEnvVarsStore } from "../stores/envVarsStore";
 import { addMessageIfUniqueId } from "./storage";
-import { MessageBackToClients } from "./types";
+import { EnvVars, MessageBackToClients } from "./types";
 
 type CallbackProps = {
     onOpen: () => void;
     onClose: () => void;
     onMessage: (event: MessageEvent<any>) => void;
     onError: (event: Event) => void;
+    envVars: EnvVars;
 };
 
 let socket: WebSocket;
 
-function initWebSocket(callbacks: CallbackProps) {
-    socket = new WebSocket(`ws://${getSocketIp()}:${getSocketPort()}`);
+export const initWebSocket = (callbacks: CallbackProps) => {
+    socket = new WebSocket(`ws://${callbacks.envVars.ip}:${callbacks.envVars.port}`);
     socket.onopen = () => {
         Notification("localchat", "Connection opened");
 
         // one second timeout to give the socket some breathing room :D
         const timeout = setTimeout(() => {
             socket.send(
-                JSON.stringify({ type: "auth", username: getClientUsername() })
+                JSON.stringify({ type: "auth", username: callbacks.envVars.username })
             );
 
             return () => clearTimeout(timeout);
@@ -58,4 +59,4 @@ function sendClientMessageToWebsocket(message: string): void {
     socket.send(JSON.stringify({ type: "message", message: message }));
 }
 
-export { initWebSocket, closeWebSocket, sendClientMessageToWebsocket, socket };
+export { closeWebSocket, sendClientMessageToWebsocket, socket };

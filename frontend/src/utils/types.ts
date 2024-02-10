@@ -31,4 +31,14 @@ export type EnvVars = {
     username: string;
     ip: string;
     port: string;
-}
+    os: string;
+};
+
+/**
+ * Represents the state of environment variables.
+ */
+export type EnvVarsState = {
+    zustandVar: EnvVars;
+    setEnvVars: (newEnvVars: EnvVars) => void;
+    checkIfAllEnvVarsAreSet: () => boolean;
+};

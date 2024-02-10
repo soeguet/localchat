@@ -31,10 +31,13 @@ func main() {
 			app,
 		},
 		Linux: &linux.Options{
-            WindowIsTranslucent: false,
-            WebviewGpuPolicy: linux.WebviewGpuPolicyAlways,
-            ProgramName: "wails",
-        },
+			WindowIsTranslucent: false,
+			WebviewGpuPolicy:    linux.WebviewGpuPolicyAlways,
+			ProgramName:         "wails",
+		},
+		Debug: options.Debug{
+			OpenInspectorOnStartup: true,
+		},
 	})
 
 	if err != nil {

@@ -5,13 +5,14 @@ import { MessageBackToClients, MessageType, UserType } from "./../utils/types";
 import { formatTime } from "./../utils/time";
 import { scrollToBottom } from "./../utils/functionality";
 import { addMessageIfUniqueId } from "./../utils/storage";
-import { getClientUsername } from "./../utils/envVariables";
 import Header from "./Header";
 import { WindowReloadApp } from "./../../wailsjs/runtime/runtime";
 import {
     initWebSocket,
     sendClientMessageToWebsocket,
 } from "./../utils/socket";
+import { useEnvVarsStore } from "../stores/envVarsStore";
+
 
 /**
  * The main component of the application.
@@ -19,16 +20,27 @@ import {
  */
 function App() {
 
-    const [isConnected, setIsConnected] = useState(false);
     const [unreadMessages, setUnreadMessages] = useState(0);
+    const [isConnected, setIsConnected] = useState(false);
     const [guiHasFocus, setGuiHasFocus] = useState(true);
     const endOfListRef = useRef<HTMLDivElement | null>(null);
     const [messagesMap, setMessagesMap] = useState<
         Map<string, UserType & MessageType>
     >(new Map());
+    const { zustandVar: envVars, setEnvVars, checkIfAllEnvVarsAreSet } = useEnvVarsStore();
+
 
     addWindowFocusListener(setGuiHasFocus);
-    addEventListenerToSocket(messagesMap, setMessagesMap, setIsConnected);
+    useEffect(() => {
+        initWebSocket({
+            onOpen: () => setNewConnectionStatus(true, setIsConnected),
+            onClose: () => setNewConnectionStatus(false, setIsConnected),
+            onMessage: (event) =>
+                handleIncomingMessages(event, messagesMap, setMessagesMap),
+            onError: (event) => console.error(event),
+            envVars: envVars,
+        });
+    }, []);
     updatePanelView(endOfListRef, messagesMap, unreadMessages, setUnreadMessages, guiHasFocus);
 
     return (
@@ -36,7 +48,7 @@ function App() {
             <div className="flex h-screen flex-col justify-evenly">
                 <Header
                     profileImageUrl="https://avatars.githubusercontent.com/u/117000423?v=4"
-                    chatName={getClientUsername()}
+                    chatName={envVars.username}
                     isConnected={isConnected}
                     unreadMessages={unreadMessages}
                     onReconnect={() => reconnectToWebsocket()}
@@ -48,7 +60,7 @@ function App() {
                             name={entry[1].name}
                             time={formatTime(new Date())}
                             message={entry[1].message}
-                            isUser={entry[1].name === getClientUsername()}
+                            isUser={entry[1].name === envVars.username}
                             profilePhoto={"https://avatars.githubusercontent.com/u/117000423?v=4"}
                         />
                     ))}
@@ -86,29 +98,6 @@ function setNewConnectionStatus(newStatus: boolean, setIsConnected: React.Dispat
 function handleIncomingMessages(event: MessageEvent<any>, messagesMap: Map<string, UserType & MessageType>, setMessagesMap: React.Dispatch<React.SetStateAction<Map<string, UserType & MessageType>>>) {
     const dataAsObject: MessageBackToClients = JSON.parse(event.data);
     addMessageIfUniqueId(messagesMap, setMessagesMap, dataAsObject);
-}
-
-/**
- * Adds an event listener to the socket to handle incoming messages.
- * @param messagesMap - The map of messages.
- * @param setMessagesMap - The function to update the messages map.
- */
-function addEventListenerToSocket(
-    messagesMap: Map<string, UserType & MessageType>,
-    setMessagesMap: React.Dispatch<
-        React.SetStateAction<Map<string, UserType & MessageType>>
-    >,
-    setIsConnected: React.Dispatch<React.SetStateAction<boolean>>
-) {
-    useEffect(() => {
-        initWebSocket({
-            onOpen: () => setNewConnectionStatus(true, setIsConnected),
-            onClose: () => setNewConnectionStatus(false, setIsConnected),
-            onMessage: (event) =>
-                handleIncomingMessages(event, messagesMap, setMessagesMap),
-            onError: (event) => console.error(event),
-        });
-    }, []);
 }
 
 /**

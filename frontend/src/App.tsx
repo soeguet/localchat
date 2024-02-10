@@ -1,30 +1,34 @@
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
-import ChatBubble from "./components/ChatBubble";
-import ChatInputSection from "./components/ChatInputSection";
-import { MessageBackToClients, MessageType, UserType } from "./utils/types";
-import { formatTime } from "./utils/time";
-import { scrollToBottom } from "./utils/functionality";
-import { addMessageIfUniqueId } from "./utils/storage";
-import { getClientUsername } from "./utils/envVariables";
-import Header from "./components/Header";
-import { WindowReloadApp } from "./../wailsjs/runtime/runtime";
-import {
-    initWebSocket,
-    sendClientMessageToWebsocket,
-} from "./utils/socket";
+import { useEffect } from "react";
+import { GetLocalChatEnvVars } from "../wailsjs/go/main/App";
 import Chat from "./components/Chat";
+import Form from "./components/Form";
+import useEnvVars from "./hooks/useEnv";
+import { useEnvVarsStore } from "./stores/envVarsStore";
 
 /**
  * The main component of the application.
  * Renders all interfaces.
  */
 function App() {
+    async function initializeEnvVars() {
+        const clientEnvVars = await GetLocalChatEnvVars();
+        console.log("clientEnvVars", clientEnvVars);
+        const envVars = JSON.parse(clientEnvVars);
+        useEnvVarsStore.getState().setEnvVars(envVars);
+    }
 
-    return (
-        <>
-            <Chat />
-        </>
-    );
+    useEffect(() => {
+        const startEnvs = async () => {
+            await initializeEnvVars();
+        }
+        startEnvs();
+    }, []);
+
+    const { zustandVar: envVars, setEnvVars, checkIfAllEnvVarsAreSet } = useEnvVarsStore();
+
+    console.log(checkIfAllEnvVarsAreSet());
+
+    return <>{checkIfAllEnvVarsAreSet() ? <Chat /> : <Form />}</>;
 }
 
 export default App;

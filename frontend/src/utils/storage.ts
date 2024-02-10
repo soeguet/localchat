@@ -1,7 +1,7 @@
 import { formatTime } from "./time";
 import { UserType, MessageType, MessageBackToClients } from "./types";
 import { MakeWindowsTaskIconFlash, Notification } from "./../../wailsjs/go/main/App";
-import { getClientOs, getClientUsername } from "./envVariables";
+import { useEnvVarsStore } from "../stores/envVarsStore";
 
 /**
  * Adds a message to the messages map if it has a unique ID.
@@ -14,6 +14,7 @@ export async function addMessageIfUniqueId(
     >,
     newMessage: MessageBackToClients
 ) {
+    const { zustandVar: envVars, setEnvVars, checkIfAllEnvVarsAreSet } = useEnvVarsStore();
     const { id } = newMessage;
 
     if (!messagesMap.has(id)) {
@@ -22,7 +23,7 @@ export async function addMessageIfUniqueId(
          */
         const newMapEntry = {
             name: newMessage.sender,
-            isUser: newMessage.sender === getClientUsername(),
+            isUser: newMessage.sender === envVars.username,
             profilePhoto: "",
             message: newMessage.message,
             time: formatTime(new Date()),
@@ -30,9 +31,9 @@ export async function addMessageIfUniqueId(
         setMessagesMap((prev) => new Map(prev).set(newMessage.id, newMapEntry));
 
         // TODO put this somewhere else
-        if (newMessage.sender !== getClientUsername()) {
+        if (newMessage.sender !== envVars.username) {
             Notification(newMessage.sender, newMessage.message);
-            if (getClientOs() === "windows") {
+            if (envVars.os === "windows") {
                 MakeWindowsTaskIconFlash("localchat")
                     .then((bool: any) => {
                         console.log("flashed window: " + bool);
