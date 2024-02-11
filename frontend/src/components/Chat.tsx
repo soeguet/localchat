@@ -51,7 +51,6 @@ function App() {
                         <ChatBubble
                             key={entry[0]}
                             name={entry[1].name}
-                            time={formatTime(new Date())}
                             message={entry[1].message}
                             isUser={entry[1].name === envVars.username}
                             profilePhoto={"https://avatars.githubusercontent.com/u/117000423?v=4"}

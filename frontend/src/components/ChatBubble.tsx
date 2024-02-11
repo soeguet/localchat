@@ -1,16 +1,17 @@
 import { useEffect, useRef, useState } from "react";
+import { formatTime } from "../utils/time";
 
 type messageProps = {
     message: string;
     isUser: boolean;
     name: string;
-    time: string;
     profilePhoto: string;
 };
 
 const ChatBubble = (props: messageProps) => {
     const [showMenu, setShowMenu] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
+    const [currentTime] = useState(formatTime(new Date()));
 
     /**
      * Handles the click outside of the menu.
@@ -67,7 +68,7 @@ const ChatBubble = (props: messageProps) => {
             <div className={`flex flex-col ${props.isUser ? "items-end" : "items-start"}`}>
                 <div className="text-xs">
                     <span className="font-semibold">{props.name}</span>{" "}
-                    <span className="text-gray-500">{props.time}</span>
+                    <span className="text-gray-500">{currentTime}</span>
                 </div>
                 <div
                     className={`mt-1 max-w-md rounded-lg px-4 py-2 md:max-w-2xl lg:max-w-4xl ${props.isUser ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"}`}
