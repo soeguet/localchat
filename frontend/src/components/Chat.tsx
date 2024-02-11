@@ -2,7 +2,6 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import ChatBubble from "./ChatBubble";
 import ChatInputSection from "./ChatInputSection";
 import { MessageBackToClients, MessageType, UserType } from "./../utils/customTypes";
-import { formatTime } from "./../utils/time";
 import { scrollToBottom } from "./../utils/functionality";
 import { addMessageIfUniqueId } from "./../utils/storage";
 import Header from "./Header";

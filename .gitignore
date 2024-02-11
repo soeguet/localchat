@@ -10,3 +10,4 @@ go.sum
 frontend/bun.lockb
 go.work.sum
 go.work
+package-lock.json
