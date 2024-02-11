@@ -1,18 +1,18 @@
 function Form() {
-
     return (
         <>
             <div className="m-20 overflow-hidden rounded-lg bg-gray-100 shadow">
                 <div className="p-10">
                     <div className="space-y-4">
-
                         <div className="border-b border-gray-900/10 pb-12">
                             <h2 className="text-base font-semibold leading-7 text-gray-900">missing env variables</h2>
 
                             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-
                                 <div className="col-span-full">
-                                    <label htmlFor="street-address" className="block text-sm font-medium leading-6 text-gray-900">
+                                    <label
+                                        htmlFor="street-address"
+                                        className="block text-sm font-medium leading-6 text-gray-900"
+                                    >
                                         client name
                                     </label>
                                     <div className="mt-2">
@@ -28,7 +28,7 @@ function Form() {
 
                                 <div className="col-span-full">
                                     <label htmlFor="city" className="block text-sm font-medium leading-6 text-gray-900">
-                                    socket ip
+                                        socket ip
                                     </label>
                                     <div className="mt-2">
                                         <input
@@ -42,8 +42,11 @@ function Form() {
                                 </div>
 
                                 <div className="col-span-full">
-                                    <label htmlFor="region" className="block text-sm font-medium leading-6 text-gray-900">
-                                    socket port
+                                    <label
+                                        htmlFor="region"
+                                        className="block text-sm font-medium leading-6 text-gray-900"
+                                    >
+                                        socket port
                                     </label>
                                     <div className="mt-2">
                                         <input
@@ -57,8 +60,10 @@ function Form() {
                                 </div>
 
                                 <div className="col-span-full">
-                                    <label htmlFor="postal-code" className="block text-sm font-medium leading-6 text-gray-900">
-                                    </label>
+                                    <label
+                                        htmlFor="postal-code"
+                                        className="block text-sm font-medium leading-6 text-gray-900"
+                                    ></label>
                                     <div className="mt-2">
                                         <input
                                             type="text"
@@ -71,7 +76,6 @@ function Form() {
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
                     <div className="mt-6 flex items-center justify-end gap-x-6">

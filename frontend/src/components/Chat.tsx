@@ -1,47 +1,40 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import ChatBubble from "./ChatBubble";
 import ChatInputSection from "./ChatInputSection";
-import { MessageBackToClients, MessageType, UserType } from "./../utils/types";
+import { MessageBackToClients, MessageType, UserType } from "./../utils/customTypes";
 import { formatTime } from "./../utils/time";
 import { scrollToBottom } from "./../utils/functionality";
 import { addMessageIfUniqueId } from "./../utils/storage";
 import Header from "./Header";
 import { WindowReloadApp } from "./../../wailsjs/runtime/runtime";
-import {
-    initWebSocket,
-    sendClientMessageToWebsocket,
-} from "./../utils/socket";
-import { useEnvVarsStore } from "../stores/envVarsStore";
-
+import { initWebSocket, sendClientMessageToWebsocket } from "./../utils/socket";
+import { useEnvVarsStore } from "../stores/useEnvVarsStore";
+import { EnvVars } from "../utils/customTypes";
 
 /**
  * The main component of the application.
  * Renders the chat interface and handles message handling and sending.
  */
 function App() {
-
     const [unreadMessages, setUnreadMessages] = useState(0);
     const [isConnected, setIsConnected] = useState(false);
     const [guiHasFocus, setGuiHasFocus] = useState(true);
     const endOfListRef = useRef<HTMLDivElement | null>(null);
-    const [messagesMap, setMessagesMap] = useState<
-        Map<string, UserType & MessageType>
-    >(new Map());
-    const { zustandVar: envVars, setEnvVars, checkIfAllEnvVarsAreSet } = useEnvVarsStore();
+    const [messagesMap, setMessagesMap] = useState<Map<string, UserType & MessageType>>(new Map());
+    const { zustandVar: envVars } = useEnvVarsStore();
 
+    useAddWindowFocusListener(setGuiHasFocus);
+    useUpdatePanelView(endOfListRef, messagesMap, unreadMessages, setUnreadMessages, guiHasFocus);
 
-    addWindowFocusListener(setGuiHasFocus);
     useEffect(() => {
         initWebSocket({
             onOpen: () => setNewConnectionStatus(true, setIsConnected),
             onClose: () => setNewConnectionStatus(false, setIsConnected),
-            onMessage: (event) =>
-                handleIncomingMessages(event, messagesMap, setMessagesMap),
+            onMessage: (event) => handleIncomingMessages(event, messagesMap, setMessagesMap, envVars),
             onError: (event) => console.error(event),
             envVars: envVars,
         });
     }, []);
-    updatePanelView(endOfListRef, messagesMap, unreadMessages, setUnreadMessages, guiHasFocus);
 
     return (
         <>
@@ -67,11 +60,7 @@ function App() {
                     <div ref={endOfListRef} />
                 </div>
                 <div className="grow-0">
-                    <ChatInputSection
-                        sendClientMessageToWebsocket={
-                            sendClientMessageToWebsocket
-                        }
-                    />
+                    <ChatInputSection sendClientMessageToWebsocket={sendClientMessageToWebsocket} />
                 </div>
             </div>
         </>
@@ -85,19 +74,21 @@ export default App;
  * @param newStatus - The new connection status.
  * @param setIsConnected - The state setter function for the connection status.
  */
-function setNewConnectionStatus(newStatus: boolean, setIsConnected: React.Dispatch<React.SetStateAction<boolean>>): void {
+function setNewConnectionStatus(
+    newStatus: boolean,
+    setIsConnected: React.Dispatch<React.SetStateAction<boolean>>
+): void {
     setIsConnected(newStatus);
 }
 
-/**
- * Handles incoming messages from the server.
- * @param event - The message event.
- * @param messagesMap - The map of messages.
- * @param setMessagesMap - The state setter for the messages map.
- */
-function handleIncomingMessages(event: MessageEvent<any>, messagesMap: Map<string, UserType & MessageType>, setMessagesMap: React.Dispatch<React.SetStateAction<Map<string, UserType & MessageType>>>) {
+function handleIncomingMessages(
+    event: MessageEvent,
+    messagesMap: Map<string, UserType & MessageType>,
+    setMessagesMap: React.Dispatch<React.SetStateAction<Map<string, UserType & MessageType>>>,
+    envVars: EnvVars
+) {
     const dataAsObject: MessageBackToClients = JSON.parse(event.data);
-    addMessageIfUniqueId(messagesMap, setMessagesMap, dataAsObject);
+    addMessageIfUniqueId(messagesMap, setMessagesMap, dataAsObject, envVars);
 }
 
 /**
@@ -105,12 +96,12 @@ function handleIncomingMessages(event: MessageEvent<any>, messagesMap: Map<strin
  * @param endOfListRef - The reference to the HTMLDivElement at the end of the list.
  * @param messagesMap - The map containing the messages.
  */
-function updatePanelView(
+function useUpdatePanelView(
     endOfListRef: React.RefObject<HTMLDivElement>,
     messagesMap: Map<string, UserType & MessageType>,
     unreadMessages: number,
     setUnreadMessages: React.Dispatch<React.SetStateAction<number>>,
-    guiHasFocus: boolean,
+    guiHasFocus: boolean
 ) {
     if (endOfListRef.current) {
         endOfListRef.current.scrollIntoView({ behavior: "smooth" });
@@ -120,9 +111,8 @@ function updatePanelView(
         if (guiHasFocus && unreadMessages === 0) {
             scrollToBottom(endOfListRef);
         } else {
-            setUnreadMessages(prev => prev + 1);
+            setUnreadMessages((prev) => prev + 1);
         }
-
     }, [messagesMap]);
 }
 
@@ -130,24 +120,21 @@ function updatePanelView(
  * Reconnects to the WebSocket by restarting the frontend.
  */
 function reconnectToWebsocket() {
-    WindowReloadApp()
+    WindowReloadApp();
 }
 
 /**
  * Adds a window focus listener to track the focus state of the GUI.
  * @param setGuiHasFocus - A state setter function to update the GUI focus state.
  */
-function addWindowFocusListener(setGuiHasFocus: Dispatch<SetStateAction<boolean>>) {
-
+function useAddWindowFocusListener(setGuiHasFocus: Dispatch<SetStateAction<boolean>>) {
     useEffect(() => {
-
-        window.addEventListener('focus', () => {
+        window.addEventListener("focus", () => {
             setGuiHasFocus(true);
         });
 
-        window.addEventListener('blur', () => {
+        window.addEventListener("blur", () => {
             setGuiHasFocus(false);
         });
-
     }, []);
 }

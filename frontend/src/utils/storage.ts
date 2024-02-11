@@ -1,7 +1,6 @@
 import { formatTime } from "./time";
-import { UserType, MessageType, MessageBackToClients } from "./types";
+import { UserType, MessageType, MessageBackToClients, EnvVars } from "./customTypes";
 import { MakeWindowsTaskIconFlash, Notification } from "./../../wailsjs/go/main/App";
-import { useEnvVarsStore } from "../stores/envVarsStore";
 
 /**
  * Adds a message to the messages map if it has a unique ID.
@@ -9,12 +8,10 @@ import { useEnvVarsStore } from "../stores/envVarsStore";
  */
 export async function addMessageIfUniqueId(
     messagesMap: Map<string, UserType & MessageType>,
-    setMessagesMap: React.Dispatch<
-        React.SetStateAction<Map<string, UserType & MessageType>>
-    >,
-    newMessage: MessageBackToClients
+    setMessagesMap: React.Dispatch<React.SetStateAction<Map<string, UserType & MessageType>>>,
+    newMessage: MessageBackToClients,
+    envVars: EnvVars
 ) {
-    const { zustandVar: envVars, setEnvVars, checkIfAllEnvVarsAreSet } = useEnvVarsStore();
     const { id } = newMessage;
 
     if (!messagesMap.has(id)) {
@@ -35,10 +32,10 @@ export async function addMessageIfUniqueId(
             Notification(newMessage.sender, newMessage.message);
             if (envVars.os === "windows") {
                 MakeWindowsTaskIconFlash("localchat")
-                    .then((bool: any) => {
+                    .then((bool: void) => {
                         console.log("flashed window: " + bool);
                     })
-                    .catch((err: any) => {
+                    .catch((err: void) => {
                         console.error("error flashing window: " + err);
                     });
             }

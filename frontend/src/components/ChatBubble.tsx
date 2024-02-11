@@ -29,28 +29,19 @@ const ChatBubble = (props: messageProps) => {
 
     useEffect(() => {
         if (showMenu) {
-            document.addEventListener('mousedown', handleClickOutside);
+            document.addEventListener("mousedown", handleClickOutside);
         }
 
         return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [showMenu]);
 
     return (
-        <div
-            className={`flex items-start ${props.isUser ? "flex-row-reverse" : ""} mb-4`}
-        >
+        <div className={`flex items-start ${props.isUser ? "flex-row-reverse" : ""} mb-4`}>
             <div className="relative mx-2 flex flex-col items-center">
-                <img
-                    src={props.profilePhoto}
-                    alt={`${props.name}'s profile`}
-                    className="mb-1 h-10 w-10 rounded-full"
-                />
-                <button
-                    onClick={() => setShowMenu(!showMenu)}
-                    className="mt-2 text-gray-500 focus:outline-none"
-                >
+                <img src={props.profilePhoto} alt={`${props.name}'s profile`} className="mb-1 h-10 w-10 rounded-full" />
+                <button onClick={() => setShowMenu(!showMenu)} className="mt-2 text-gray-500 focus:outline-none">
                     •••
                 </button>
                 {showMenu && (
@@ -73,9 +64,7 @@ const ChatBubble = (props: messageProps) => {
                     </div>
                 )}
             </div>
-            <div
-                className={`flex flex-col ${props.isUser ? "items-end" : "items-start"}`}
-            >
+            <div className={`flex flex-col ${props.isUser ? "items-end" : "items-start"}`}>
                 <div className="text-xs">
                     <span className="font-semibold">{props.name}</span>{" "}
                     <span className="text-gray-500">{props.time}</span>

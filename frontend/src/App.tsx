@@ -1,34 +1,30 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { GetLocalChatEnvVars } from "../wailsjs/go/main/App";
 import Chat from "./components/Chat";
-import Form from "./components/Form";
-import useEnvVars from "./hooks/useEnv";
-import { useEnvVarsStore } from "./stores/envVarsStore";
+import { useEnvVarsStore } from "./stores/useEnvVarsStore";
 
 /**
  * The main component of the application.
  * Renders all interfaces.
  */
 function App() {
-    async function initializeEnvVars() {
-        const clientEnvVars = await GetLocalChatEnvVars();
-        console.log("clientEnvVars", clientEnvVars);
-        const envVars = JSON.parse(clientEnvVars);
-        useEnvVarsStore.getState().setEnvVars(envVars);
-    }
+    const [isEnvVarsLoaded, setIsEnvVarsLoaded] = useState(false);
 
     useEffect(() => {
-        const startEnvs = async () => {
+        async function initializeEnvVars() {
+            const clientEnvVars = await GetLocalChatEnvVars();
+            console.log("clientEnvVars", clientEnvVars);
+            const envVars = JSON.parse(clientEnvVars);
+            useEnvVarsStore.getState().setEnvVars(envVars);
+            setIsEnvVarsLoaded(true);
+        }
+        async function startEnvs() {
             await initializeEnvVars();
         }
         startEnvs();
     }, []);
 
-    const { zustandVar: envVars, setEnvVars, checkIfAllEnvVarsAreSet } = useEnvVarsStore();
-
-    console.log(checkIfAllEnvVarsAreSet());
-
-    return <>{checkIfAllEnvVarsAreSet() ? <Chat /> : <Form />}</>;
+    return <>{isEnvVarsLoaded ? <Chat /> : <div>Loading...</div>}</>;
 }
 
 export default App;

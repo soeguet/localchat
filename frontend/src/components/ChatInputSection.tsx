@@ -12,13 +12,13 @@ function ChatInputSection(inputProps: InputProps) {
             inputProps.sendClientMessageToWebsocket(message);
             setMessage("");
         }
-    };
+    }
     function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
         if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
             handleSendMessage(message);
         }
-    };
+    }
 
     async function sendNotification() {
         console.log("sendtestnotification1");
@@ -51,6 +51,6 @@ function ChatInputSection(inputProps: InputProps) {
             </button>
         </div>
     );
-};
+}
 
 export default ChatInputSection;

@@ -1,12 +1,10 @@
 import { Notification } from "../../wailsjs/go/main/App";
-import { useEnvVarsStore } from "../stores/envVarsStore";
-import { addMessageIfUniqueId } from "./storage";
-import { EnvVars, MessageBackToClients } from "./types";
+import { EnvVars } from "./../utils/customTypes";
 
 type CallbackProps = {
     onOpen: () => void;
     onClose: () => void;
-    onMessage: (event: MessageEvent<any>) => void;
+    onMessage: (event: MessageEvent) => void;
     onError: (event: Event) => void;
     envVars: EnvVars;
 };
@@ -20,9 +18,7 @@ export const initWebSocket = (callbacks: CallbackProps) => {
 
         // one second timeout to give the socket some breathing room :D
         const timeout = setTimeout(() => {
-            socket.send(
-                JSON.stringify({ type: "auth", username: callbacks.envVars.username })
-            );
+            socket.send(JSON.stringify({ type: "auth", username: callbacks.envVars.username }));
 
             return () => clearTimeout(timeout);
         }, 1000);
@@ -37,14 +33,14 @@ export const initWebSocket = (callbacks: CallbackProps) => {
         callbacks.onClose();
     };
 
-    socket.onmessage = (event) => {
+    socket.onmessage = (event: MessageEvent) => {
         callbacks.onMessage(event);
     };
 
     socket.onerror = (event: Event) => {
         callbacks.onError(event);
     };
-}
+};
 
 function closeWebSocket() {
     socket.close();
@@ -55,7 +51,7 @@ function closeWebSocket() {
  * @param message - The message to send.
  */
 function sendClientMessageToWebsocket(message: string): void {
-    console.log("sending message to websocket" + message);
+    console.log("sending message to websocket: " + message);
     socket.send(JSON.stringify({ type: "message", message: message }));
 }
 

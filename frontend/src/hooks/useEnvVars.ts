@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { EnvVars } from "../utils/types";
+import { EnvVars } from "../utils/customTypes";
 import { GetLocalChatEnvVars } from "../../wailsjs/go/main/App";
 
 function useEnvVars() {
@@ -7,7 +7,6 @@ function useEnvVars() {
         const clientEnvVars = await GetLocalChatEnvVars();
         return JSON.parse(clientEnvVars);
     }
-    console.log("ENVVVVV3");
     const [envVars, setEnvVars] = useState<EnvVars>({
         username: "",
         ip: "",
@@ -16,13 +15,7 @@ function useEnvVars() {
     });
 
     const checkIfAllEnvVarsAreSet = (envVars: EnvVars) => {
-        console.log("ENVVVVV2");
-        if (
-            envVars.username !== "" &&
-            envVars.ip !== "" &&
-            envVars.port !== "" &&
-            envVars.os !== ""
-        ) {
+        if (envVars.username !== "" && envVars.ip !== "" && envVars.port !== "" && envVars.os !== "") {
             return true;
         }
         return false;
@@ -33,7 +26,6 @@ function useEnvVars() {
     };
 
     useEffect(() => {
-        console.log("ENVVVVV1");
         const checkForEnvData = async () => {
             await retrieveLocalClientEnvVariables().then((data: EnvVars) => {
                 const envs = {
