@@ -40,9 +40,7 @@ export async function addMessageIfUniqueId(
                     });
             }
         }
-
-        console.log(`added message with id ${id} to map.`);
     } else {
-        console.log(`rejected message with id ${id}since it already exists.`);
+        throw new Error(`rejected message with id ${id} since it already exists.`);
     }
 }

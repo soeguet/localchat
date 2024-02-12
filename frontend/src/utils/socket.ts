@@ -23,13 +23,11 @@ export const initWebSocket = (callbacks: CallbackProps) => {
             return () => clearTimeout(timeout);
         }, 1000);
 
-        console.log("WebSocket verbunden");
         callbacks.onOpen();
     };
 
     socket.onclose = () => {
         Notification("localchat", "Connection closed");
-        console.log("WebSocket getrennt");
         callbacks.onClose();
     };
 
@@ -51,7 +49,6 @@ function closeWebSocket() {
  * @param message - The message to send.
  */
 function sendClientMessageToWebsocket(message: string): void {
-    console.log("sending message to websocket: " + message);
     socket.send(JSON.stringify({ type: "message", message: message }));
 }
 

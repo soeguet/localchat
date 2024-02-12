@@ -8,7 +8,7 @@ type messageProps = {
     profilePhoto: string;
 };
 
-const ChatBubble = (props: messageProps) => {
+function ChatBubble(props: messageProps) {
     const [showMenu, setShowMenu] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
     const [currentTime] = useState(formatTime(new Date()));
@@ -78,6 +78,6 @@ const ChatBubble = (props: messageProps) => {
             </div>
         </div>
     );
-};
+}
 
 export default ChatBubble;

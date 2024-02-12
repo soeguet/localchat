@@ -8,7 +8,6 @@ type EmojiProps = {
 
 function Emoji(props: EmojiProps) {
     const [emojiVisible, setEmojiVisible] = useState("hidden");
-    const [showMenu, setShowMenu] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
 
     /**
@@ -21,20 +20,21 @@ function Emoji(props: EmojiProps) {
             const { clientX, clientY } = event;
 
             if (clientX < left || clientX > right || clientY < top || clientY > bottom) {
-                setShowMenu(false);
+                setEmojiVisible("hidden");
             }
         }
     };
 
     useEffect(() => {
-        if (showMenu) {
+        if (emojiVisible === "") {
             document.addEventListener("mousedown", handleClickOutside);
         }
 
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [showMenu]);
+    }, [emojiVisible]);
+
     function toggleEmojiWindow() {
         if (emojiVisible === "hidden") {
             setEmojiVisible("");

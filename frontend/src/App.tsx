@@ -19,7 +19,6 @@ function App() {
      */
     function checkIfEnvVarsAllSet(envVars: EnvVars) {
         if (envVars.username !== "" && envVars.ip !== "" && envVars.port !== "") {
-            console.log("!!!" + envVars.ip + envVars.os + envVars.port + envVars.username);
             setIsEnvVarsLoaded(true);
         }
     }
