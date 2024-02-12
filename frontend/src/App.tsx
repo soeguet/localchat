@@ -10,6 +10,7 @@ import Form from "./components/Form";
  * Renders all interfaces.
  */
 function App() {
+    const [startup, setStartup] = useState<boolean>(true);
     const [isEnvVarsLoaded, setIsEnvVarsLoaded] = useState(false);
 
     /**
@@ -18,6 +19,7 @@ function App() {
      */
     function checkIfEnvVarsAllSet(envVars: EnvVars) {
         if (envVars.username !== "" && envVars.ip !== "" && envVars.port !== "") {
+            console.log("!!!" + envVars.ip + envVars.os + envVars.port + envVars.username);
             setIsEnvVarsLoaded(true);
         }
     }
@@ -27,14 +29,19 @@ function App() {
             const clientEnvVars = await GetLocalChatEnvVars();
             const envVars: EnvVars = JSON.parse(clientEnvVars);
             useEnvVarsStore.getState().setEnvVars(envVars);
-            console.log(useEnvVarsStore.getState().zustandVar);
         }
         async function startEnvs() {
             await initializeEnvVars();
+            await new Promise((resolve) => setTimeout(resolve, 500));
+            checkIfEnvVarsAllSet(useEnvVarsStore.getState().zustandVar);
+            setStartup(false);
         }
         startEnvs();
     }, []);
 
+    if (startup) {
+        return <div className="flex justify-center items-center h-screen">loading...</div>;
+    }
     return <>{isEnvVarsLoaded ? <Chat /> : <Form checkIfEnvVarsAllSet={checkIfEnvVarsAllSet} />}</>;
 }
 

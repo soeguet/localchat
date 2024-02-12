@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Emoji from "./Emoji";
 
 type InputProps = {
     sendClientMessageToWebsocket: (message: string) => void;
@@ -20,18 +21,9 @@ function ChatInputSection(inputProps: InputProps) {
         }
     }
 
-    async function sendNotification() {
-        console.log("sendtestnotification1");
-    }
-
     return (
         <div className="flex items-end gap-2 border-t border-gray-200 bg-white p-4">
-            <button
-                onClick={sendNotification}
-                className="mx-1 my-auto text-gray-500 hover:text-gray-700 focus:outline-none"
-            >
-                <i className="far fa-smile">😊</i>
-            </button>
+            <Emoji message={message} setMessage={setMessage}/>
             <button className="mx-1 my-auto text-gray-500 hover:text-gray-700 focus:outline-none">
                 <i className="far fa-paperclip">📎</i>
             </button>
