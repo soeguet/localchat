@@ -1,5 +1,5 @@
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type EmojiProps = {
     message: string;
@@ -8,7 +8,33 @@ type EmojiProps = {
 
 function Emoji(props: EmojiProps) {
     const [emojiVisible, setEmojiVisible] = useState("hidden");
+    const [showMenu, setShowMenu] = useState(false);
+    const menuRef = useRef<HTMLDivElement>(null);
 
+    /**
+     * Handles the click outside of the menu.
+     * @param event - The mouse event object.
+     */
+    const handleClickOutside = (event: MouseEvent) => {
+        if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+            const { left, top, right, bottom } = menuRef.current.getBoundingClientRect();
+            const { clientX, clientY } = event;
+
+            if (clientX < left || clientX > right || clientY < top || clientY > bottom) {
+                setShowMenu(false);
+            }
+        }
+    };
+
+    useEffect(() => {
+        if (showMenu) {
+            document.addEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [showMenu]);
     function toggleEmojiWindow() {
         if (emojiVisible === "hidden") {
             setEmojiVisible("");
@@ -30,7 +56,7 @@ function Emoji(props: EmojiProps) {
             >
                 <i className="far fa-smile">😊</i>
             </button>
-            <div className={`absolute z-20 mb-20 ${emojiVisible}`}>
+            <div ref={menuRef} className={`absolute z-20 mb-20 ${emojiVisible}`}>
                 <EmojiPicker onEmojiClick={handleEmojiClick} />
             </div>
         </>

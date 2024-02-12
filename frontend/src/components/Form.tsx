@@ -9,6 +9,7 @@ function Form(props: FormProps) {
     const [clientName, setClientName] = useState<string>("");
     const [socketIp, setSocketIp] = useState<string>("");
     const [socketPort, setSocketPort] = useState<string>("");
+    const [isClickable, setIsClickable] = useState(true);
 
     useEffect(() => {
         setTimeout(() => {
@@ -25,6 +26,7 @@ function Form(props: FormProps) {
      */
     function saveEnvVars(e: React.FormEvent<HTMLButtonElement>) {
         e.preventDefault();
+        setIsClickable(false);
         useEnvVarsStore.getState().setEnvVars({
             username: clientName,
             ip: socketIp,
@@ -34,6 +36,9 @@ function Form(props: FormProps) {
 
         //revalidate the env vars
         props.checkIfEnvVarsAllSet(useEnvVarsStore.getState().zustandVar);
+        setTimeout(() => {
+            setIsClickable(true);
+        }, 1000);
     }
 
     return (
@@ -117,9 +122,9 @@ function Form(props: FormProps) {
                         <button
                             type="submit"
                             onClick={(e) => saveEnvVars(e)}
-                            className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            className={`rounded-md px-3 py-2 text-sm font-semibold shadow-sm ${!isClickable ? "bg-indigo-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-500"} text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
                         >
-                            Save
+                            {isClickable ? "Save" : "Saving..."}
                         </button>
                     </div>
                 </div>
