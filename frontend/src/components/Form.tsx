@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useEnvVarsStore } from "../stores/useEnvVarsStore";
 import { EnvVars } from "../utils/customTypes";
 
@@ -6,10 +6,18 @@ type FormProps = {
     checkIfEnvVarsAllSet: (envVars: EnvVars) => void;
 };
 function Form(props: FormProps) {
-    const envZustand: EnvVars = useEnvVarsStore.getState().zustandVar;
-    const [clientName, setClientName] = useState(envZustand.username);
-    const [socketIp, setSocketIp] = useState(envZustand.ip);
-    const [socketPort, setSocketPort] = useState(envZustand.port);
+    const [clientName, setClientName] = useState<string>("");
+    const [socketIp, setSocketIp] = useState<string>("");
+    const [socketPort, setSocketPort] = useState<string>("");
+
+    useEffect(() => {
+        setTimeout(() => {
+            const envZustand: EnvVars = useEnvVarsStore.getState().zustandVar;
+            setClientName(envZustand.username);
+            setSocketIp(envZustand.ip);
+            setSocketPort(envZustand.port);
+        }, 1000);
+    }, []);
 
     /**
      * Saves the environment variables.
@@ -21,7 +29,7 @@ function Form(props: FormProps) {
             username: clientName,
             ip: socketIp,
             port: socketPort,
-            os: envZustand.os,
+            os: useEnvVarsStore.getState().zustandVar.os,
         });
 
         //revalidate the env vars
@@ -42,7 +50,7 @@ function Form(props: FormProps) {
                                         htmlFor="client-name"
                                         className="block text-sm font-medium leading-6 text-gray-900"
                                     >
-                                        client name
+                                        <i>client name:</i>
                                     </label>
                                     <div className="mt-2">
                                         <input
@@ -54,8 +62,9 @@ function Form(props: FormProps) {
                                                 }
                                             }}
                                             name="client-name"
+                                            placeholder="e.g. Workstation"
                                             onChange={(e) => setClientName(e.target.value)}
-                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            className="block w-full rounded-md border-0 py-3 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
                                 </div>
@@ -65,15 +74,16 @@ function Form(props: FormProps) {
                                         htmlFor="socket-ip"
                                         className="block text-sm font-medium leading-6 text-gray-900"
                                     >
-                                        socket ip
+                                        <i>socket ip:</i>
                                     </label>
                                     <div className="mt-2">
                                         <input
                                             type="text"
                                             value={socketIp}
                                             name="socket-ip"
+                                            placeholder="e.g. 127.0.0.1"
                                             onChange={(e) => setSocketIp(e.target.value)}
-                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            className="block w-full rounded-md border-0 py-3 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
                                 </div>
@@ -83,15 +93,16 @@ function Form(props: FormProps) {
                                         htmlFor="socket-port"
                                         className="block text-sm font-medium leading-6 text-gray-900"
                                     >
-                                        socket port
+                                        <i>socket port:</i>
                                     </label>
                                     <div className="mt-2">
                                         <input
                                             type="text"
                                             value={socketPort}
                                             name="socket-port"
+                                            placeholder="e.g. 8080"
                                             onChange={(e) => setSocketPort(e.target.value)}
-                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            className="block w-full rounded-md border-0 py-3 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
                                 </div>

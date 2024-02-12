@@ -27,6 +27,7 @@ function App() {
             const clientEnvVars = await GetLocalChatEnvVars();
             const envVars: EnvVars = JSON.parse(clientEnvVars);
             useEnvVarsStore.getState().setEnvVars(envVars);
+            console.log(useEnvVarsStore.getState().zustandVar);
         }
         async function startEnvs() {
             await initializeEnvVars();
