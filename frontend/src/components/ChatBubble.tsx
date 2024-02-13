@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { formatTime } from "../utils/time";
 import useReplyStore from "../stores/replyStore";
-import { messageProps } from "../utils/customTypes";
+import { MessageProps } from "../utils/customTypes";
+import QuoteBubble from "./QuoteBubble";
 
-
-
-function ChatBubble(props: messageProps) {
+function ChatBubble(props: MessageProps) {
     const [showMenu, setShowMenu] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
     const [currentTime] = useState(formatTime(new Date()));
@@ -28,9 +27,9 @@ function ChatBubble(props: messageProps) {
     function activateReplyMessage() {
         useReplyStore.getState().setReplyTo({
             id: props.id,
-            username: props.username,
+            username: props.messagePayload.user.username,
             time: currentTime,
-            message: props.message,
+            message: props.messagePayload.message.message,
         });
     }
 
@@ -75,6 +74,7 @@ function ChatBubble(props: messageProps) {
                     </div>
                 )}
             </div>
+
             <div className={`flex flex-col ${props.isUser ? "items-end" : "items-start"}`}>
                 <div className="text-xs">
                     <span className="font-semibold">{props.username}</span>{" "}
@@ -83,6 +83,15 @@ function ChatBubble(props: messageProps) {
                 <div
                     className={`mt-1 max-w-md rounded-lg px-4 py-2 md:max-w-2xl lg:max-w-4xl ${props.isUser ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"}`}
                 >
+                    {props.messagePayload.quote && (
+                        <div className="p-2 bg-gray-50 rounded-t-md border-b border-gray-200">
+                            <QuoteBubble
+                                message={props.messagePayload.quote.message}
+                                time={props.messagePayload.quote.time}
+                                sender={props.messagePayload.quote.sender}
+                            />
+                        </div>
+                    )}
                     {props.message}
                 </div>
             </div>

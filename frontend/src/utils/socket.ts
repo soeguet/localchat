@@ -1,6 +1,7 @@
 import { Notification } from "../../wailsjs/go/main/App";
-import { Reply } from "../stores/replyStore";
-import { CallbackProps } from "./customTypes";
+import useEnvVarsStore from "../stores/envVarsStore";
+import useReplyStore from "../stores/replyStore";
+import { CallbackProps, MessagePayload, PayloadSubType } from "./customTypes";
 
 let socket: WebSocket;
 
@@ -44,15 +45,33 @@ function closeWebSocket() {
  * Sends a client message to the websocket.
  * @param message - The message to send.
  */
-function sendClientMessageToWebsocket(message: string, replyObject?: Reply): void {
-    if (replyObject !== undefined) {
-        // with reply object
-        socket.send(JSON.stringify({ type: "message", message: message, replyObject: replyObject }));
-        return;
-    } else {
-        //simple message
-        socket.send(JSON.stringify({ type: "message", message: message }));
+function sendClientMessageToWebsocket(message: string): void {
+    const replyTo = useReplyStore.getState().replyTo;
+    const username = useEnvVarsStore.getState().zustandVar?.username;
+
+    const payload: MessagePayload = {
+        type: PayloadSubType.message,
+        user: {
+            username: username ? username : "unknown",
+            isUser: true,
+            profilePhoto: "",
+        },
+        message: {
+            message: message,
+            time: new Date().toLocaleTimeString(),
+        },
+    };
+
+    // if there is a replyTo message, add it to the payload
+    if (replyTo) {
+        payload.quote = {
+            message: replyTo.message,
+            time: replyTo.time,
+            sender: replyTo.username,
+        };
     }
+
+    socket.send(JSON.stringify(payload));
 }
 
 export { closeWebSocket, sendClientMessageToWebsocket, socket };

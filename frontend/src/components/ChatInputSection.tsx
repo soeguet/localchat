@@ -9,12 +9,14 @@ function ChatInputSection(inputProps: InputProps) {
 
     function handleSendMessage(message: string) {
         if (message.trim()) {
-            const replyState = useReplyStore.getState().replyTo;
+            const { replyTo, setReplyTo } = useReplyStore.getState();
 
-            if (replyState !== null) {
-                useReplyStore.getState().setReplyTo(null);
-            }
             inputProps.sendClientMessageToWebsocket(message);
+
+            // reset replyTo state AFTER sending the message. we need that state for the message payload
+            if (replyTo !== null) {
+                setReplyTo(null);
+            }
             setMessage("");
         }
     }

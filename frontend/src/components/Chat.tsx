@@ -1,13 +1,13 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import ChatBubble from "./ChatBubble";
 import ChatInputSection from "./ChatInputSection";
-import { EnvVars, MessageBackToClients, MessageType, UserType } from "./../utils/customTypes";
 import { scrollToBottom } from "./../utils/functionality";
 import { addMessageIfUniqueId } from "./../utils/storage";
 import Header from "./Header";
 import { WindowReloadApp } from "./../../wailsjs/runtime/runtime";
 import { initWebSocket, sendClientMessageToWebsocket } from "../utils/socket";
 import useEnvVarsStore from "../stores/envVarsStore";
+import { MessagePayload, EnvVars } from "../utils/customTypes";
 
 /**
  * The main component of the application.
@@ -18,7 +18,7 @@ function App() {
     const [isConnected, setIsConnected] = useState(false);
     const [guiHasFocus, setGuiHasFocus] = useState(true);
     const endOfListRef = useRef<HTMLDivElement | null>(null);
-    const [messagesMap, setMessagesMap] = useState<Map<string, UserType & MessageType>>(new Map());
+    const [messagesMap, setMessagesMap] = useState<Map<string, MessagePayload>>(new Map());
     const zustandVar = useEnvVarsStore.getState().zustandVar;
 
     if (zustandVar === null) {
@@ -53,9 +53,10 @@ function App() {
                         <ChatBubble
                             key={entry[0]}
                             id={entry[0]}
-                            username={entry[1].name}
-                            message={entry[1].message}
-                            isUser={entry[1].name === zustandVar.username}
+                            username={entry[1].user.username}
+                            message={entry[1].message.message}
+                            isUser={entry[1].user.username === zustandVar.username}
+                            messagePayload={entry[1]}
                             profilePhoto={"https://avatars.githubusercontent.com/u/117000423?v=4"}
                         />
                     ))}
@@ -85,11 +86,11 @@ function setNewConnectionStatus(
 
 function handleIncomingMessages(
     event: MessageEvent,
-    messagesMap: Map<string, UserType & MessageType>,
-    setMessagesMap: React.Dispatch<React.SetStateAction<Map<string, UserType & MessageType>>>,
+    messagesMap: Map<string, MessagePayload>,
+    setMessagesMap: React.Dispatch<React.SetStateAction<Map<string, MessagePayload>>>,
     envVars: EnvVars | null
 ) {
-    const dataAsObject: MessageBackToClients = JSON.parse(event.data);
+    const dataAsObject: MessagePayload = JSON.parse(event.data);
     addMessageIfUniqueId(messagesMap, setMessagesMap, dataAsObject, envVars);
 }
 
@@ -100,7 +101,7 @@ function handleIncomingMessages(
  */
 function useUpdatePanelView(
     endOfListRef: React.RefObject<HTMLDivElement>,
-    messagesMap: Map<string, UserType & MessageType>,
+    messagesMap: Map<string, MessagePayload>,
     unreadMessages: number,
     setUnreadMessages: React.Dispatch<React.SetStateAction<number>>,
     guiHasFocus: boolean

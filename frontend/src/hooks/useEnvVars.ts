@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { GetLocalChatEnvVars } from "../../wailsjs/go/main/App";
-import type { EnvVars } from "../stores/envVarsStore";
+import { EnvVars } from "../utils/customTypes";
 
 function useEnvVars() {
     async function retrieveLocalClientEnvVariables(): Promise<EnvVars> {

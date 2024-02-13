@@ -7,14 +7,22 @@ export type MessageBackToClients = {
     message: string;
 };
 
+export enum PayloadSubType{
+    auth,
+    message,
+}
+
 /**
  * Represents a user.
  */
 export type UserType = {
-    name: string;
+    username: string;
     isUser: boolean;
     profilePhoto: string;
 };
+export type PayloadType = {
+    type: PayloadSubType;
+}
 
 /**
  * Represents a message with its content and timestamp.
@@ -24,6 +32,20 @@ export type MessageType = {
     time: string;
 };
 
+export type QuoteType = {
+    message: string;
+    time: string;
+    sender: string;
+};
+
+export type MessagePayload = {
+    id?: string;
+    type: PayloadSubType;
+    user: UserType;
+    message: MessageType;
+    quote?: QuoteType;
+}
+
 export type CallbackProps = {
     onOpen: () => void;
     onClose: () => void;
@@ -32,11 +54,12 @@ export type CallbackProps = {
     envVars: EnvVars | null;
 };
 
-export type messageProps = {
+export type MessageProps = {
     id: string;
     message: string;
     isUser: boolean;
     username: string;
+    messagePayload: MessagePayload;
     profilePhoto: string;
 };
 

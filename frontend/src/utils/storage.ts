@@ -1,5 +1,5 @@
 import { formatTime } from "./time";
-import { UserType, MessageType, MessageBackToClients, EnvVars} from "./customTypes";
+import { EnvVars, MessagePayload } from "./customTypes";
 import { MakeWindowsTaskIconFlash, Notification } from "./../../wailsjs/go/main/App";
 
 /**
@@ -7,33 +7,29 @@ import { MakeWindowsTaskIconFlash, Notification } from "./../../wailsjs/go/main/
  * @param newMessage The new message to be added.
  */
 export async function addMessageIfUniqueId(
-    messagesMap: Map<string, UserType & MessageType>,
-    setMessagesMap: React.Dispatch<React.SetStateAction<Map<string, UserType & MessageType>>>,
-    newMessage: MessageBackToClients,
+    messagesMap: Map<string, MessagePayload>,
+    setMessagesMap: React.Dispatch<React.SetStateAction<Map<string, MessagePayload>>>,
+    newMessage: MessagePayload,
     envVars: EnvVars | null
 ) {
-    const { id } = newMessage;
+    const id: string | undefined = newMessage.id;
 
-    if (envVars === null) {
-        return;
+    if (id === undefined) {
+        throw new Error("message has no id!");
     }
 
+    if (envVars === null) {
+        throw new Error("envVars is null! how is this possible?");
+    }
+
+    // check if message id is unique
     if (!messagesMap.has(id)) {
-        /**
-         * Represents a new entry in the map.
-         */
-        const newMapEntry = {
-            name: newMessage.sender,
-            isUser: newMessage.sender === envVars.username,
-            profilePhoto: "",
-            message: newMessage.message,
-            time: formatTime(new Date()),
-        };
-        setMessagesMap((prev) => new Map(prev).set(newMessage.id, newMapEntry));
+        // add to map
+        setMessagesMap((prev) => new Map(prev).set(id, newMessage));
 
         // TODO put this somewhere else
-        if (newMessage.sender !== envVars.username) {
-            Notification(newMessage.sender, newMessage.message);
+        if (newMessage.user.username !== envVars.username) {
+            Notification(formatTime(new Date()) + " - " + newMessage.user.username, newMessage.message.message);
             if (envVars.os === "windows") {
                 MakeWindowsTaskIconFlash("localchat")
                     .then((bool: void) => {
