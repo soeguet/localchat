@@ -9,12 +9,12 @@ export type Reply = {
 
 export type ReplyStore = {
     replyTo: Reply | null;
-    setReplyTo: (reply: Reply) => void;
+    setReplyTo: (reply: Reply | null) => void;
 };
 
 const useReplyStore = create<ReplyStore>((set) => ({
     replyTo: null,
-    setReplyTo: (reply: Reply) => set(() => ({ replyTo: reply })),
+    setReplyTo: (replyTo) => set(() => ({ replyTo: replyTo })),
 }));
 
 export default useReplyStore;

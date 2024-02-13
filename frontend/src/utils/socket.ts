@@ -1,5 +1,5 @@
 import { Notification } from "../../wailsjs/go/main/App";
-import { EnvVars } from "./../utils/customTypes";
+import type { EnvVars } from "../stores/useEnvVarsStore";
 
 type CallbackProps = {
     onOpen: () => void;

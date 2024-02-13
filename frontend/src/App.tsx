@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { GetLocalChatEnvVars } from "../wailsjs/go/main/App";
 import Chat from "./components/Chat";
-import { useEnvVarsStore } from "./stores/useEnvVarsStore";
-import { EnvVars } from "./utils/customTypes";
+import { useEnvVarsStore, type EnvVars } from "./stores/useEnvVarsStore";
 import Form from "./components/Form";
 
 /**

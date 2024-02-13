@@ -7,8 +7,7 @@ import { addMessageIfUniqueId } from "./../utils/storage";
 import Header from "./Header";
 import { WindowReloadApp } from "./../../wailsjs/runtime/runtime";
 import { initWebSocket, sendClientMessageToWebsocket } from "./../utils/socket";
-import { useEnvVarsStore } from "../stores/useEnvVarsStore";
-import { EnvVars } from "../utils/customTypes";
+import { useEnvVarsStore, type EnvVars } from "../stores/useEnvVarsStore";
 
 /**
  * The main component of the application.
@@ -49,7 +48,8 @@ function App() {
                     {Array.from(messagesMap.entries()).map((entry) => (
                         <ChatBubble
                             key={entry[0]}
-                            name={entry[1].name}
+                            id={entry[0]}
+                            username={entry[1].name}
                             message={entry[1].message}
                             isUser={entry[1].name === envVars.username}
                             profilePhoto={"https://avatars.githubusercontent.com/u/117000423?v=4"}

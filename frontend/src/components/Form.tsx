@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { useEnvVarsStore } from "../stores/useEnvVarsStore";
-import { EnvVars } from "../utils/customTypes";
+import { useEnvVarsStore, type EnvVars } from "../stores/useEnvVarsStore";
 
 type FormProps = {
     checkIfEnvVarsAllSet: (envVars: EnvVars) => void;

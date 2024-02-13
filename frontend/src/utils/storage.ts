@@ -1,6 +1,7 @@
 import { formatTime } from "./time";
-import { UserType, MessageType, MessageBackToClients, EnvVars } from "./customTypes";
+import { UserType, MessageType, MessageBackToClients} from "./customTypes";
 import { MakeWindowsTaskIconFlash, Notification } from "./../../wailsjs/go/main/App";
+import type { EnvVars } from "../stores/useEnvVarsStore";
 
 /**
  * Adds a message to the messages map if it has a unique ID.
