@@ -1,14 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { formatTime } from "../utils/time";
 import useReplyStore from "../stores/replyStore";
+import { messageProps } from "../utils/customTypes";
 
-type messageProps = {
-    id: string;
-    message: string;
-    isUser: boolean;
-    username: string;
-    profilePhoto: string;
-};
+
 
 function ChatBubble(props: messageProps) {
     const [showMenu, setShowMenu] = useState(false);

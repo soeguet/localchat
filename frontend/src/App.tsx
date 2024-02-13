@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { GetLocalChatEnvVars } from "../wailsjs/go/main/App";
 import Chat from "./components/Chat";
-import { useEnvVarsStore, type EnvVars } from "./stores/useEnvVarsStore";
 import Form from "./components/Form";
+import useEnvVarsStore from "./stores/envVarsStore";
+import { EnvVars } from "./utils/customTypes";
 
 /**
  * The main component of the application.
@@ -16,7 +17,10 @@ function App() {
      * Checks if all environment variables are set.
      * @param envVars - The environment variables object.
      */
-    function checkIfEnvVarsAllSet(envVars: EnvVars) {
+    function checkIfEnvVarsAllSet(envVars: EnvVars | null) {
+        if (envVars === null) {
+            return;
+        }
         if (envVars.username !== "" && envVars.ip !== "" && envVars.port !== "") {
             setIsEnvVarsLoaded(true);
         }
@@ -29,9 +33,19 @@ function App() {
             useEnvVarsStore.getState().setEnvVars(envVars);
         }
         async function startEnvs() {
+            // Wait for the environment variables to be set
             await initializeEnvVars();
+            // timeout to allow the env vars to be set
             await new Promise((resolve) => setTimeout(resolve, 500));
-            checkIfEnvVarsAllSet(useEnvVarsStore.getState().zustandVar);
+
+            // fetch live values, null check, and check if all env vars are set
+            const store = useEnvVarsStore.getState().zustandVar;
+            if (store === null) {
+                return;
+            }
+            checkIfEnvVarsAllSet(store);
+
+            // set startup to false so the actual chat can start rendering
             setStartup(false);
         }
         startEnvs();

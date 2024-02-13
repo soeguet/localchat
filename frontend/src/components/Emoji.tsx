@@ -1,10 +1,6 @@
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import { useEffect, useRef, useState } from "react";
-
-type EmojiProps = {
-    message: string;
-    setMessage: React.Dispatch<React.SetStateAction<string>>;
-};
+import { EmojiProps } from "../utils/customTypes";
 
 function Emoji(props: EmojiProps) {
     const [emojiVisible, setEmojiVisible] = useState("hidden");

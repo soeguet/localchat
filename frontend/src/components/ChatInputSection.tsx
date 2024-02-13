@@ -1,16 +1,19 @@
 import { useState } from "react";
 import Emoji from "./Emoji";
 import Reply from "./Reply";
-
-type InputProps = {
-    sendClientMessageToWebsocket: (message: string) => void;
-};
+import useReplyStore from "../stores/replyStore";
+import { InputProps } from "../utils/customTypes";
 
 function ChatInputSection(inputProps: InputProps) {
     const [message, setMessage] = useState("");
 
     function handleSendMessage(message: string) {
         if (message.trim()) {
+            const replyState = useReplyStore.getState().replyTo;
+
+            if (replyState !== null) {
+                useReplyStore.getState().setReplyTo(null);
+            }
             inputProps.sendClientMessageToWebsocket(message);
             setMessage("");
         }

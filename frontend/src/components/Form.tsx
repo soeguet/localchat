@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import { useEnvVarsStore, type EnvVars } from "../stores/useEnvVarsStore";
+import { EnvVars, FormProps } from "../utils/customTypes";
+import useEnvVarsStore from "../stores/envVarsStore";
 
-type FormProps = {
-    checkIfEnvVarsAllSet: (envVars: EnvVars) => void;
-};
 function Form(props: FormProps) {
     const [clientName, setClientName] = useState<string>("");
     const [socketIp, setSocketIp] = useState<string>("");
@@ -12,7 +10,10 @@ function Form(props: FormProps) {
 
     useEffect(() => {
         setTimeout(() => {
-            const envZustand: EnvVars = useEnvVarsStore.getState().zustandVar;
+            const envZustand: EnvVars|null = useEnvVarsStore.getState().zustandVar;
+            if (envZustand === null) {
+                return;
+            }
             setClientName(envZustand.username);
             setSocketIp(envZustand.ip);
             setSocketPort(envZustand.port);
@@ -30,7 +31,7 @@ function Form(props: FormProps) {
             username: clientName,
             ip: socketIp,
             port: socketPort,
-            os: useEnvVarsStore.getState().zustandVar.os,
+            os: useEnvVarsStore.getState().zustandVar!.os,
         });
 
         //revalidate the env vars

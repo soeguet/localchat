@@ -1,13 +1,13 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import ChatBubble from "./ChatBubble";
 import ChatInputSection from "./ChatInputSection";
-import { MessageBackToClients, MessageType, UserType } from "./../utils/customTypes";
+import { EnvVars, MessageBackToClients, MessageType, UserType } from "./../utils/customTypes";
 import { scrollToBottom } from "./../utils/functionality";
 import { addMessageIfUniqueId } from "./../utils/storage";
 import Header from "./Header";
 import { WindowReloadApp } from "./../../wailsjs/runtime/runtime";
-import { initWebSocket, sendClientMessageToWebsocket } from "./../utils/socket";
-import { useEnvVarsStore, type EnvVars } from "../stores/useEnvVarsStore";
+import { initWebSocket, sendClientMessageToWebsocket } from "../utils/socket";
+import useEnvVarsStore from "../stores/envVarsStore";
 
 /**
  * The main component of the application.
@@ -19,7 +19,11 @@ function App() {
     const [guiHasFocus, setGuiHasFocus] = useState(true);
     const endOfListRef = useRef<HTMLDivElement | null>(null);
     const [messagesMap, setMessagesMap] = useState<Map<string, UserType & MessageType>>(new Map());
-    const { zustandVar: envVars } = useEnvVarsStore();
+    const zustandVar = useEnvVarsStore.getState().zustandVar;
+
+    if (zustandVar === null) {
+        return <div>loading...</div>;
+    }
 
     useAddWindowFocusListener(setGuiHasFocus);
     useUpdatePanelView(endOfListRef, messagesMap, unreadMessages, setUnreadMessages, guiHasFocus);
@@ -28,9 +32,9 @@ function App() {
         initWebSocket({
             onOpen: () => setNewConnectionStatus(true, setIsConnected),
             onClose: () => setNewConnectionStatus(false, setIsConnected),
-            onMessage: (event) => handleIncomingMessages(event, messagesMap, setMessagesMap, envVars),
+            onMessage: (event) => handleIncomingMessages(event, messagesMap, setMessagesMap, zustandVar),
             onError: (event) => console.error(event),
-            envVars: envVars,
+            envVars: zustandVar,
         });
     }, []);
 
@@ -39,7 +43,7 @@ function App() {
             <div className="flex h-screen flex-col justify-evenly">
                 <Header
                     profileImageUrl="https://avatars.githubusercontent.com/u/117000423?v=4"
-                    chatName={envVars.username}
+                    chatName={zustandVar.username}
                     isConnected={isConnected}
                     unreadMessages={unreadMessages}
                     onReconnect={() => reconnectToWebsocket()}
@@ -51,7 +55,7 @@ function App() {
                             id={entry[0]}
                             username={entry[1].name}
                             message={entry[1].message}
-                            isUser={entry[1].name === envVars.username}
+                            isUser={entry[1].name === zustandVar.username}
                             profilePhoto={"https://avatars.githubusercontent.com/u/117000423?v=4"}
                         />
                     ))}
@@ -83,7 +87,7 @@ function handleIncomingMessages(
     event: MessageEvent,
     messagesMap: Map<string, UserType & MessageType>,
     setMessagesMap: React.Dispatch<React.SetStateAction<Map<string, UserType & MessageType>>>,
-    envVars: EnvVars
+    envVars: EnvVars | null
 ) {
     const dataAsObject: MessageBackToClients = JSON.parse(event.data);
     addMessageIfUniqueId(messagesMap, setMessagesMap, dataAsObject, envVars);

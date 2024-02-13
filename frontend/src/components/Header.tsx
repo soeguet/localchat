@@ -1,12 +1,5 @@
+import { HeaderProps } from "../utils/customTypes";
 import { socket } from "../utils/socket";
-
-type HeaderProps = {
-    profileImageUrl: string;
-    chatName: string;
-    isConnected: boolean;
-    unreadMessages: number;
-    onReconnect: (socket: WebSocket) => void; // Funktion zum Wiederverbinden
-};
 
 function Header({ profileImageUrl, chatName, isConnected, unreadMessages, onReconnect }: HeaderProps) {
     return (
