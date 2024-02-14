@@ -84,7 +84,7 @@ function ChatBubble(props: MessageProps) {
                     className={`mt-1 max-w-md rounded-lg px-4 py-2 md:max-w-2xl lg:max-w-4xl ${props.isUser ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"}`}
                 >
                     {props.messagePayload.quote && (
-                        <div className="p-2 bg-gray-50 rounded-t-md border-b border-gray-200">
+                        <div className="">
                             <QuoteBubble
                                 message={props.messagePayload.quote.message}
                                 time={props.messagePayload.quote.time}

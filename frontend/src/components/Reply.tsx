@@ -14,6 +14,8 @@ function Reply() {
         <>
             {replyStore.replyTo && (
                 <div className="flex items-center justify-between p-2 bg-gray-100 rounded-md">
+
+
                     <div className="flex flex-1 flex-col">
                         <div className="flex items-center">
                             <p className="text-xs text-gray-600 pr-2">{replyStore.replyTo.time} -</p>
