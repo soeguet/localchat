@@ -13,6 +13,21 @@ export const initWebSocket = (callbacks: CallbackProps) => {
     socket.onopen = () => {
         Notification("localchat", "Connection opened");
 
+        fetch(`http://${callbacks.envVars?.ip}:${callbacks.envVars?.port}/register-user`, {
+            method: "POST",
+            body: JSON.stringify({
+                type: "auth",
+                username: callbacks.envVars?.username,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("Success:", data);
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+
         // one second timeout to give the socket some breathing room :D
         const timeout = setTimeout(() => {
             socket.send(JSON.stringify({ type: "auth", username: callbacks.envVars?.username }));
