@@ -11,6 +11,16 @@ export enum PayloadSubType{
     auth,
     message,
 }
+/**
+ * Represents a registered user.
+ */
+export type RegisteredUser = {
+    id: string;
+    username: string;
+    clientColor: string;
+    profilePhotoUrl: string;
+};
+
 
 /**
  * Represents a user.
@@ -94,12 +104,3 @@ export type EnvVars = {
     os: string;
 };
 
-/**
- * Represents the state of environment variables in Zustand.
- */
-export type EnvVarsState = {
-    zustandVar: EnvVars | null;
-    setEnvVars: (newEnvVars: EnvVars | null) => void;
-    checkIfAllEnvVarsAreSet: () => boolean;
-    saveVarsLocally: () => void;
-};

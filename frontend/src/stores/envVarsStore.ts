@@ -1,6 +1,15 @@
 import { UseBoundStore, StoreApi, create } from "zustand";
-import { EnvVarsState, EnvVars } from "../utils/customTypes";
+import { EnvVars } from "../utils/customTypes";
 
+/**
+ * Represents the state of environment variables in Zustand.
+ */
+type EnvVarsState = {
+    zustandVar: EnvVars | null;
+    setEnvVars: (newEnvVars: EnvVars | null) => void;
+    checkIfAllEnvVarsAreSet: () => boolean;
+    saveVarsLocally: () => void;
+};
 
 /**
  * A custom hook that creates a Zustand store for managing environment variables.

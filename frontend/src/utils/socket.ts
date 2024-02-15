@@ -1,13 +1,14 @@
 import { Notification } from "../../wailsjs/go/main/App";
 import useEnvVarsStore from "../stores/envVarsStore";
 import useReplyStore from "../stores/replyStore";
-import { CallbackProps, MessagePayload, PayloadSubType } from "./customTypes";
+import userStore from "../stores/userStore";
+import { CallbackProps, MessagePayload, PayloadSubType, RegisteredUser } from "./customTypes";
 
 let socket: WebSocket;
 
 export const initWebSocket = (callbacks: CallbackProps) => {
     if (callbacks.envVars === null) {
-        return;
+        throw new Error("envVars is null - 1");
     }
     socket = new WebSocket(`ws://${callbacks.envVars.ip}:${callbacks.envVars.port}`);
     socket.onopen = () => {
@@ -29,8 +30,32 @@ export const initWebSocket = (callbacks: CallbackProps) => {
             });
 
         // one second timeout to give the socket some breathing room :D
-        const timeout = setTimeout(() => {
+        const timeout = setTimeout(async () => {
+            console.log(callbacks.envVars);
+            if (callbacks.envVars === null) {
+                throw new Error("envVars is null -2 ");
+            }
             socket.send(JSON.stringify({ type: "auth", username: callbacks.envVars?.username }));
+            console.log("FETCH!");
+
+            await fetch(`http://${callbacks.envVars.ip}:${callbacks.envVars.port}/register-user`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ username: callbacks.envVars?.username }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    const usersMap: Map<string, RegisteredUser> = new Map(data);
+                    userStore.getState().setUserMap(usersMap);
+
+                    console.log("debug");
+                    console.log(userStore.getState().userMap);
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
 
             return () => clearTimeout(timeout);
         }, 1000);
