@@ -11,6 +11,7 @@ export enum PayloadSubType{
     auth,
     message,
 }
+
 /**
  * Represents a registered user.
  */

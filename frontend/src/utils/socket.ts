@@ -6,6 +6,11 @@ import { CallbackProps, MessagePayload, PayloadSubType, RegisteredUser } from ".
 
 let socket: WebSocket;
 
+type UserFromSocket = {
+    id: string;
+    user: string;
+};
+
 export const initWebSocket = (callbacks: CallbackProps) => {
     if (callbacks.envVars === null) {
         throw new Error("envVars is null - 1");
@@ -46,12 +51,22 @@ export const initWebSocket = (callbacks: CallbackProps) => {
                 body: JSON.stringify({ username: callbacks.envVars?.username }),
             })
                 .then((response) => response.json())
-                .then((data) => {
-                    const usersMap: Map<string, RegisteredUser> = new Map(data);
-                    userStore.getState().setUserMap(usersMap);
+                .then((data: UserFromSocket[]) => {
+                    // override and persist existing list of users
+                    const userMap: Map<string, RegisteredUser> = new Map();
+                    data.forEach((user) => {
+                        const userAsObject:RegisteredUser = JSON.parse(user.user);
 
-                    console.log("debug");
-                    console.log(userStore.getState().userMap);
+                        userMap.set(user.id, userAsObject);
+
+                        if (userAsObject.username === callbacks.envVars?.username) {
+                            userStore.getState().setMyId(user.id);
+                            userStore.getState().setMyUsername(userAsObject.username);
+                            userStore.getState().setMyColor(userAsObject.clientColor);
+                            userStore.getState().setMyProfilePhoto(userAsObject.profilePhotoUrl);
+                        }
+                    });
+                    userStore.getState().setUserMap(userMap);
                 })
                 .catch((error) => {
                     console.error("Error:", error);
