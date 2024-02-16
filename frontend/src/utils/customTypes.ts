@@ -99,6 +99,7 @@ export type HeaderProps = {
  * Represents the environment variables required for the application.
  */
 export type EnvVars = {
+    id: string;
     username: string;
     ip: string;
     port: string;

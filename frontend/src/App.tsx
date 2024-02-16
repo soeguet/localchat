@@ -31,6 +31,7 @@ function App() {
             const clientEnvVars = await GetLocalChatEnvVars();
             const envVars: EnvVars = JSON.parse(clientEnvVars);
             useEnvVarsStore.getState().setEnvVars(envVars);
+            useEnvVarsStore.getState().setClientId(envVars.id);
         }
         async function startEnvs() {
             // Wait for the environment variables to be set

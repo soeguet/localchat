@@ -5,6 +5,8 @@ import { EnvVars } from "../utils/customTypes";
  * Represents the state of environment variables in Zustand.
  */
 type EnvVarsState = {
+    clientId: string;
+    setClientId: (newClientId: string) => void;
     zustandVar: EnvVars | null;
     setEnvVars: (newEnvVars: EnvVars | null) => void;
     checkIfAllEnvVarsAreSet: () => boolean;
@@ -17,6 +19,8 @@ type EnvVarsState = {
  * @returns The state and actions of the environment variables store.
  */
 const useEnvVarsStore:UseBoundStore<StoreApi<EnvVarsState>> = create<EnvVarsState>((set) => ({
+    clientId: "",
+    setClientId: (newClientId: string) => set(() => ({ clientId: newClientId })),
     zustandVar: null,
     setEnvVars: (newEnvVars: EnvVars|null) => set(() => ({ zustandVar: newEnvVars })),
     checkIfAllEnvVarsAreSet: () => {

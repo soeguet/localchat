@@ -8,6 +8,7 @@ function useEnvVars() {
         return JSON.parse(clientEnvVars);
     }
     const [envVars, setEnvVars] = useState<EnvVars>({
+        id: "",
         username: "",
         ip: "",
         port: "",
@@ -29,6 +30,7 @@ function useEnvVars() {
         const checkForEnvData = async () => {
             await retrieveLocalClientEnvVariables().then((data: EnvVars) => {
                 const envs = {
+                    id: data.id,
                     username: data.username,
                     ip: data.ip,
                     port: data.port,

@@ -4,10 +4,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
 	"os"
+	"path/filepath"
 	"runtime"
 
 	"github.com/gen2brain/beeep"
+	"github.com/google/uuid"
 )
 
 type EnvVars struct {
@@ -15,25 +18,61 @@ type EnvVars struct {
 	IP       string `json:"ip"`
 	Port     string `json:"port"`
 	Os       string `json:"os"`
+	Id       string `json:"id"`
 }
 
-// GetLocalChatEnvVars gibt die Werte einiger Umgebungsvariablen als JSON-String zurück.
+func SetClientId() string {
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		log.Fatalf("error retrieving home path: %v", err)
+	}
+
+	idFilePath := filepath.Join(homeDir, ".localchat", "id", "id.txt")
+
+	if err := os.MkdirAll(filepath.Dir(idFilePath), 0700); err != nil {
+		log.Fatalf("error creating folder: %v", err)
+	}
+
+	if _, err := os.Stat(idFilePath); os.IsNotExist(err) {
+		// id file missing -> generate new id
+		newID := uuid.New().String()
+
+		// save id in file
+		if err := os.WriteFile(idFilePath, []byte(newID), 0600); err != nil {
+			log.Fatalf("error saving the id: %v", err)
+		}
+
+		log.Printf("new id generated and saved: %s", newID)
+		return newID
+	} else {
+		// id exists -> read id from file
+		id, err := os.ReadFile(idFilePath)
+		if err != nil {
+			log.Fatalf("error reading id: %v", err)
+		}
+
+		log.Printf("id was read from file: %s", string(id))
+		return string(id)
+	}
+}
+
 func GetLocalChatEnvVars() (string, error) {
+
+	clientId := SetClientId()
+
 	envVars := EnvVars{
 		Username: os.Getenv("LOCALCHAT_USERNAME"),
 		IP:       os.Getenv("LOCALCHAT_IP"),
 		Port:     os.Getenv("LOCALCHAT_PORT"),
 		Os:       runtime.GOOS,
+		Id:       clientId,
 	}
 
-	// Konvertierung der EnvVars-Instanz in JSON
 	envVarsJSON, err := json.Marshal(envVars)
 	if err != nil {
-		// Fehler beim Konvertieren in JSON
 		return "", err
 	}
 
-	// Konvertiertes JSON als String zurückgeben
 	return string(envVarsJSON), nil
 }
 

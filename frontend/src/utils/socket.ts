@@ -15,7 +15,8 @@ export const initWebSocket = (callbacks: CallbackProps) => {
     if (callbacks.envVars === null) {
         throw new Error("envVars is null - 1");
     }
-    socket = new WebSocket(`ws://${callbacks.envVars.ip}:${callbacks.envVars.port}`);
+    socket = new WebSocket(`ws://${callbacks.envVars.ip}:${callbacks.envVars.port}/chat`);
+
     socket.onopen = () => {
         Notification("localchat", "Connection opened");
 
@@ -24,6 +25,7 @@ export const initWebSocket = (callbacks: CallbackProps) => {
             body: JSON.stringify({
                 type: "auth",
                 username: callbacks.envVars?.username,
+                id: callbacks.envVars?.id,
             }),
         })
             .then((response) => response.json())
@@ -35,45 +37,43 @@ export const initWebSocket = (callbacks: CallbackProps) => {
             });
 
         // one second timeout to give the socket some breathing room :D
-        const timeout = setTimeout(async () => {
-            console.log(callbacks.envVars);
-            if (callbacks.envVars === null) {
-                throw new Error("envVars is null -2 ");
-            }
-            socket.send(JSON.stringify({ type: "auth", username: callbacks.envVars?.username }));
-            console.log("FETCH!");
+        // const timeout = setTimeout(async () => {
+        //     if (callbacks.envVars === null) {
+        //         throw new Error("envVars is null -2 ");
+        //     }
+        //     socket.send(JSON.stringify({ type: "auth", username: callbacks.envVars?.username, id: callbacks.envVars?.id}));
 
-            await fetch(`http://${callbacks.envVars.ip}:${callbacks.envVars.port}/register-user`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ username: callbacks.envVars?.username }),
-            })
-                .then((response) => response.json())
-                .then((data: UserFromSocket[]) => {
-                    // override and persist existing list of users
-                    const userMap: Map<string, RegisteredUser> = new Map();
-                    data.forEach((user) => {
-                        const userAsObject:RegisteredUser = JSON.parse(user.user);
+        //     await fetch(`http://${callbacks.envVars.ip}:${callbacks.envVars.port}/register-user`, {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify({ id: callbacks.envVars?.id ,username: callbacks.envVars?.username }),
+        //     })
+        //         .then((response) => response.json())
+        //         .then((data: UserFromSocket[]) => {
+        //             // override and persist existing list of users
+        //             const userMap: Map<string, RegisteredUser> = new Map();
+        //             data.forEach((user) => {
+        //                 const userAsObject:RegisteredUser = JSON.parse(user.user);
 
-                        userMap.set(user.id, userAsObject);
+        //                 userMap.set(user.id, userAsObject);
 
-                        if (userAsObject.username === callbacks.envVars?.username) {
-                            userStore.getState().setMyId(user.id);
-                            userStore.getState().setMyUsername(userAsObject.username);
-                            userStore.getState().setMyColor(userAsObject.clientColor);
-                            userStore.getState().setMyProfilePhoto(userAsObject.profilePhotoUrl);
-                        }
-                    });
-                    userStore.getState().setUserMap(userMap);
-                })
-                .catch((error) => {
-                    console.error("Error:", error);
-                });
+        //                 if (userAsObject.username === callbacks.envVars?.username) {
+        //                     userStore.getState().setMyId(user.id);
+        //                     userStore.getState().setMyUsername(userAsObject.username);
+        //                     userStore.getState().setMyColor(userAsObject.clientColor);
+        //                     userStore.getState().setMyProfilePhoto(userAsObject.profilePhotoUrl);
+        //                 }
+        //             });
+        //             userStore.getState().setUserMap(userMap);
+        //         })
+        //         .catch((error) => {
+        //             console.error("Error:", error);
+        //         });
 
-            return () => clearTimeout(timeout);
-        }, 1000);
+        //     return () => clearTimeout(timeout);
+        // }, 1000);
 
         callbacks.onOpen();
     };

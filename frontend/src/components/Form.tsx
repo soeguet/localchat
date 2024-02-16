@@ -28,6 +28,7 @@ function Form(props: FormProps) {
         e.preventDefault();
         setIsClickable(false);
         useEnvVarsStore.getState().setEnvVars({
+            id: useEnvVarsStore.getState().clientId,
             username: clientName,
             ip: socketIp,
             port: socketPort,
