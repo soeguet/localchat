@@ -4,6 +4,7 @@ import Chat from "./components/Chat";
 import Form from "./components/Form";
 import useEnvVarsStore from "./stores/envVarsStore";
 import { EnvVars } from "./utils/customTypes";
+import userStore from "./stores/userStore";
 
 /**
  * The main component of the application.
@@ -21,6 +22,21 @@ function App() {
         if (envVars === null) {
             throw new Error("envVars is null");
         }
+        if (envVars.username === "") {
+            throw new Error("username is empty");
+        }
+        if (envVars.ip === "") {
+            throw new Error("ip is empty");
+        }
+        if (envVars.port === "") {
+            throw new Error("port is empty");
+        }
+        if (envVars.id === "") {
+            throw new Error("id is empty");
+        }
+        if (envVars.os === "") {
+            throw new Error("os is empty");
+        }
         if (envVars.username !== "" && envVars.ip !== "" && envVars.port !== "") {
             setIsEnvVarsLoaded(true);
         }
@@ -32,6 +48,8 @@ function App() {
             const envVars: EnvVars = JSON.parse(clientEnvVars);
             useEnvVarsStore.getState().setEnvVars(envVars);
             useEnvVarsStore.getState().setClientId(envVars.id);
+            userStore.getState().setMyUsername(envVars.username);
+            userStore.getState().setMyId(envVars.id);
         }
         async function startEnvs() {
             // Wait for the environment variables to be set

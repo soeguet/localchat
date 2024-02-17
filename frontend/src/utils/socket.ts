@@ -13,7 +13,17 @@ export const initWebSocket = (callbacks: CallbackProps) => {
 
     socket.onopen = () => {
         Notification("localchat", "Connection opened");
-        console.log("socket");
+
+        // just to be safe for now
+        if (callbacks.envVars === null) {
+            throw new Error("envVars is null");
+        }
+        if (callbacks.envVars.username === null || callbacks.envVars.id === null) {
+            throw new Error("username or id is null");
+        }
+        if (callbacks.envVars.username === "" || callbacks.envVars.id === "") {
+            throw new Error("username or id is empty");
+        }
 
         // register user with the server
         const authPayload = {
@@ -22,7 +32,9 @@ export const initWebSocket = (callbacks: CallbackProps) => {
             id: callbacks.envVars?.id,
         };
 
-        socket.send(JSON.stringify(authPayload));
+        setTimeout(() => {
+            socket.send(JSON.stringify(authPayload));
+        }, 1000);
 
         callbacks.onOpen();
     };
@@ -51,12 +63,21 @@ function closeWebSocket() {
  */
 function sendClientMessageToWebsocket(message: string): void {
     const replyTo = useReplyStore.getState().replyTo;
+    const username = userStore.getState().myUsername;
+    const id = userStore.getState().myId;
+
+    console.log("username", username);
+    console.log("id", id);
+
+    if (username === null || id === null || username === "" || id === "") {
+        throw new Error("username or id is null" + username + id);
+    }
 
     const payload: MessagePayload = {
         type: PayloadSubType.message,
         user: {
-            id: userStore.getState().myId,
-            username: userStore.getState().myUsername,
+            id: id,
+            username: username,
             isUser: true,
             profilePhoto: userStore.getState().myProfilePhoto,
         },
@@ -65,6 +86,7 @@ function sendClientMessageToWebsocket(message: string): void {
             time: new Date().toLocaleTimeString(),
         },
     };
+    console.log("payload", payload);
 
     // if there is a replyTo message, add it to the payload
     if (replyTo) {

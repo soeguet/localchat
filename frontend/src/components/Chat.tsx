@@ -7,7 +7,7 @@ import Header from "./Header";
 import { WindowReloadApp } from "./../../wailsjs/runtime/runtime";
 import { initWebSocket, sendClientMessageToWebsocket } from "../utils/socket";
 import useEnvVarsStore from "../stores/envVarsStore";
-import { MessagePayload, EnvVars } from "../utils/customTypes";
+import { MessagePayload, EnvVars, PayloadSubType, ClientListPayload, RegisteredUser } from "../utils/customTypes";
 
 /**
  * The main component of the application.
@@ -78,9 +78,29 @@ function handleIncomingMessages(
     setMessagesMap: React.Dispatch<React.SetStateAction<Map<string, MessagePayload>>>,
     envVars: EnvVars | null
 ) {
-    const dataAsObject: MessagePayload = JSON.parse(event.data);
-    addMessageIfUniqueId(messagesMap, setMessagesMap, dataAsObject, envVars);
+    const dataAsObject: { type: PayloadSubType; clients: string } = JSON.parse(event.data);
+    switch (dataAsObject.type) {
+        // update the client list with new data
+        case PayloadSubType.clientList:
+            if (dataAsObject.clients === undefined || dataAsObject.clients === null || dataAsObject.clients === "") {
+                throw new Error("Client list is empty");
+            }
+            handleClientListPayload(JSON.parse(dataAsObject.clients) as RegisteredUser[]);
+
+            break;
+
+        // normal chat messages
+        case PayloadSubType.message:
+            addMessageIfUniqueId(messagesMap, setMessagesMap, JSON.parse(event.data) as MessagePayload, envVars);
+            break;
+
+        // unknown payload type
+        default:
+            throw new Error("Unknown payload type");
+    }
 }
+
+function handleClientListPayload(payload: RegisteredUser[]) {}
 
 /**
  * Updates the panel view by scrolling to the bottom of the list.

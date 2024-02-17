@@ -7,10 +7,16 @@ export type MessageBackToClients = {
     message: string;
 };
 
-export enum PayloadSubType{
+export enum PayloadSubType {
     auth,
     message,
+    clientList,
 }
+
+export type ClientListPayload = {
+    type: PayloadSubType.clientList;
+    clients: string;
+};
 
 /**
  * Represents a registered user.
@@ -21,7 +27,6 @@ export type RegisteredUser = {
     clientColor: string;
     profilePhotoUrl: string;
 };
-
 
 /**
  * Represents a user.
@@ -34,7 +39,7 @@ export type UserType = {
 };
 export type PayloadType = {
     type: PayloadSubType;
-}
+};
 
 /**
  * Represents a message with its content and timestamp.
@@ -56,7 +61,7 @@ export type MessagePayload = {
     user: UserType;
     message: MessageType;
     quote?: QuoteType;
-}
+};
 
 export type CallbackProps = {
     onOpen: () => void;
@@ -85,7 +90,7 @@ export type EmojiProps = {
 };
 
 export type FormProps = {
-    checkIfEnvVarsAllSet: (envVars: EnvVars|null) => void;
+    checkIfEnvVarsAllSet: (envVars: EnvVars | null) => void;
 };
 
 export type HeaderProps = {
@@ -106,4 +111,3 @@ export type EnvVars = {
     port: string;
     os: string;
 };
-
