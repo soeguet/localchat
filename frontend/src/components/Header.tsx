@@ -7,8 +7,6 @@ function Header({ chatName, isConnected, unreadMessages, onReconnect }: HeaderPr
     const [profileImageUrl, setProfileImageUrl] = useState<string>("");
 
     useEffect(() => {
-        console.log("first useEffect");
-        console.log(userStore.getState().myProfilePhoto);
         setProfileImageUrl(userStore.getState().myProfilePhoto);
     }, [userStore.getState().myProfilePhoto]);
 

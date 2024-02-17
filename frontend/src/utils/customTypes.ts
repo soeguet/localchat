@@ -27,6 +27,7 @@ export type RegisteredUser = {
  * Represents a user.
  */
 export type UserType = {
+    id: string;
     username: string;
     isUser: boolean;
     profilePhoto: string;

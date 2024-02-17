@@ -19,7 +19,7 @@ function App() {
      */
     function checkIfEnvVarsAllSet(envVars: EnvVars | null) {
         if (envVars === null) {
-            return;
+            throw new Error("envVars is null");
         }
         if (envVars.username !== "" && envVars.ip !== "" && envVars.port !== "") {
             setIsEnvVarsLoaded(true);

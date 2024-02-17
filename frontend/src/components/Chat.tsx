@@ -30,8 +30,8 @@ function App() {
 
     useEffect(() => {
         initWebSocket({
-            onOpen: () => setNewConnectionStatus(true, setIsConnected),
-            onClose: () => setNewConnectionStatus(false, setIsConnected),
+            onOpen: () => setIsConnected(true),
+            onClose: () => setIsConnected(false),
             onMessage: (event) => handleIncomingMessages(event, messagesMap, setMessagesMap, zustandVar),
             onError: (event) => console.error(event),
             envVars: zustandVar,
@@ -71,18 +71,6 @@ function App() {
 }
 
 export default App;
-
-/**
- * Sets the new connection status.
- * @param newStatus - The new connection status.
- * @param setIsConnected - The state setter function for the connection status.
- */
-function setNewConnectionStatus(
-    newStatus: boolean,
-    setIsConnected: React.Dispatch<React.SetStateAction<boolean>>
-): void {
-    setIsConnected(newStatus);
-}
 
 function handleIncomingMessages(
     event: MessageEvent,

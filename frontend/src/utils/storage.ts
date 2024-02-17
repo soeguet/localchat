@@ -1,6 +1,7 @@
 import { formatTime } from "./time";
 import { EnvVars, MessagePayload } from "./customTypes";
 import { MakeWindowsTaskIconFlash, Notification } from "./../../wailsjs/go/main/App";
+import userStore from "../stores/userStore";
 
 /**
  * Adds a message to the messages map if it has a unique ID.
@@ -28,7 +29,7 @@ export async function addMessageIfUniqueId(
         setMessagesMap((prev) => new Map(prev).set(id, newMessage));
 
         // TODO put this somewhere else
-        if (newMessage.user.username !== envVars.username) {
+        if (newMessage.user.username !== userStore.getState().myUsername) {
             Notification(formatTime(new Date()) + " - " + newMessage.user.username, newMessage.message.message);
             if (envVars.os === "windows") {
                 MakeWindowsTaskIconFlash("localchat")

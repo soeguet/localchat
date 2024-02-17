@@ -1,15 +1,9 @@
 import { Notification } from "../../wailsjs/go/main/App";
-import useEnvVarsStore from "../stores/envVarsStore";
 import useReplyStore from "../stores/replyStore";
 import userStore from "../stores/userStore";
-import { CallbackProps, MessagePayload, PayloadSubType, RegisteredUser } from "./customTypes";
+import { CallbackProps, MessagePayload, PayloadSubType } from "./customTypes";
 
 let socket: WebSocket;
-
-type UserFromSocket = {
-    id: string;
-    user: string;
-};
 
 export const initWebSocket = (callbacks: CallbackProps) => {
     if (callbacks.envVars === null) {
@@ -19,61 +13,16 @@ export const initWebSocket = (callbacks: CallbackProps) => {
 
     socket.onopen = () => {
         Notification("localchat", "Connection opened");
+        console.log("socket");
 
-        fetch(`http://${callbacks.envVars?.ip}:${callbacks.envVars?.port}/register-user`, {
-            method: "POST",
-            body: JSON.stringify({
-                type: "auth",
-                username: callbacks.envVars?.username,
-                id: callbacks.envVars?.id,
-            }),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log("Success:", data);
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
+        // register user with the server
+        const authPayload = {
+            type: PayloadSubType.auth,
+            username: callbacks.envVars?.username,
+            id: callbacks.envVars?.id,
+        };
 
-        // one second timeout to give the socket some breathing room :D
-        // const timeout = setTimeout(async () => {
-        //     if (callbacks.envVars === null) {
-        //         throw new Error("envVars is null -2 ");
-        //     }
-        //     socket.send(JSON.stringify({ type: "auth", username: callbacks.envVars?.username, id: callbacks.envVars?.id}));
-
-        //     await fetch(`http://${callbacks.envVars.ip}:${callbacks.envVars.port}/register-user`, {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //         body: JSON.stringify({ id: callbacks.envVars?.id ,username: callbacks.envVars?.username }),
-        //     })
-        //         .then((response) => response.json())
-        //         .then((data: UserFromSocket[]) => {
-        //             // override and persist existing list of users
-        //             const userMap: Map<string, RegisteredUser> = new Map();
-        //             data.forEach((user) => {
-        //                 const userAsObject:RegisteredUser = JSON.parse(user.user);
-
-        //                 userMap.set(user.id, userAsObject);
-
-        //                 if (userAsObject.username === callbacks.envVars?.username) {
-        //                     userStore.getState().setMyId(user.id);
-        //                     userStore.getState().setMyUsername(userAsObject.username);
-        //                     userStore.getState().setMyColor(userAsObject.clientColor);
-        //                     userStore.getState().setMyProfilePhoto(userAsObject.profilePhotoUrl);
-        //                 }
-        //             });
-        //             userStore.getState().setUserMap(userMap);
-        //         })
-        //         .catch((error) => {
-        //             console.error("Error:", error);
-        //         });
-
-        //     return () => clearTimeout(timeout);
-        // }, 1000);
+        socket.send(JSON.stringify(authPayload));
 
         callbacks.onOpen();
     };
@@ -102,14 +51,14 @@ function closeWebSocket() {
  */
 function sendClientMessageToWebsocket(message: string): void {
     const replyTo = useReplyStore.getState().replyTo;
-    const username = useEnvVarsStore.getState().zustandVar?.username;
 
     const payload: MessagePayload = {
         type: PayloadSubType.message,
         user: {
-            username: username ? username : "unknown",
+            id: userStore.getState().myId,
+            username: userStore.getState().myUsername,
             isUser: true,
-            profilePhoto: "",
+            profilePhoto: userStore.getState().myProfilePhoto,
         },
         message: {
             message: message,
