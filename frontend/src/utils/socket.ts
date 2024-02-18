@@ -1,35 +1,24 @@
 import { Notification } from "../../wailsjs/go/main/App";
+import useEnvironmentStore from "../stores/environmentStore";
 import useReplyStore from "../stores/replyStore";
-import userStore from "../stores/userStore";
+import useUserStore from "../stores/userStore";
 import { CallbackProps, MessagePayload, PayloadSubType } from "./customTypes";
 
 let socket: WebSocket;
 
 export const initWebSocket = (callbacks: CallbackProps) => {
-    if (callbacks.envVars === null) {
-        throw new Error("envVars is null - 1");
-    }
-    socket = new WebSocket(`ws://${callbacks.envVars.ip}:${callbacks.envVars.port}/chat`);
+    socket = new WebSocket(
+        `ws://${useEnvironmentStore.getState().socketIp}:${useEnvironmentStore.getState().socketPort}/chat`
+    );
 
     socket.onopen = () => {
         Notification("localchat", "Connection opened");
 
-        // just to be safe for now
-        if (callbacks.envVars === null) {
-            throw new Error("envVars is null");
-        }
-        if (callbacks.envVars.username === null || callbacks.envVars.id === null) {
-            throw new Error("username or id is null");
-        }
-        if (callbacks.envVars.username === "" || callbacks.envVars.id === "") {
-            throw new Error("username or id is empty");
-        }
-
         // register user with the server
         const authPayload = {
             type: PayloadSubType.auth,
-            username: callbacks.envVars?.username,
-            id: callbacks.envVars?.id,
+            username: useUserStore.getState().myUsername,
+            id: useUserStore.getState().myId,
         };
 
         setTimeout(() => {
@@ -63,8 +52,8 @@ function closeWebSocket() {
  */
 function sendClientMessageToWebsocket(message: string): void {
     const replyTo = useReplyStore.getState().replyTo;
-    const username = userStore.getState().myUsername;
-    const id = userStore.getState().myId;
+    const username = useUserStore.getState().myUsername;
+    const id = useUserStore.getState().myId;
 
     console.log("username", username);
     console.log("id", id);
@@ -79,7 +68,7 @@ function sendClientMessageToWebsocket(message: string): void {
             id: id,
             username: username,
             isUser: true,
-            profilePhoto: userStore.getState().myProfilePhoto,
+            profilePhoto: useUserStore.getState().myProfilePhoto,
         },
         message: {
             message: message,

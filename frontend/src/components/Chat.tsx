@@ -6,8 +6,8 @@ import { addMessageIfUniqueId } from "./../utils/storage";
 import Header from "./Header";
 import { WindowReloadApp } from "./../../wailsjs/runtime/runtime";
 import { initWebSocket, sendClientMessageToWebsocket } from "../utils/socket";
-import useEnvVarsStore from "../stores/envVarsStore";
-import { MessagePayload, EnvVars, PayloadSubType, ClientListPayload, RegisteredUser } from "../utils/customTypes";
+import { MessagePayload, PayloadSubType, RegisteredUser } from "../utils/customTypes";
+import useUserStore from "../stores/userStore";
 
 /**
  * The main component of the application.
@@ -19,11 +19,6 @@ function App() {
     const [guiHasFocus, setGuiHasFocus] = useState(true);
     const endOfListRef = useRef<HTMLDivElement | null>(null);
     const [messagesMap, setMessagesMap] = useState<Map<string, MessagePayload>>(new Map());
-    const zustandVar = useEnvVarsStore.getState().zustandVar;
-
-    if (zustandVar === null) {
-        return <div>loading...</div>;
-    }
 
     useAddWindowFocusListener(setGuiHasFocus);
     useUpdatePanelView(endOfListRef, messagesMap, unreadMessages, setUnreadMessages, guiHasFocus);
@@ -32,9 +27,8 @@ function App() {
         initWebSocket({
             onOpen: () => setIsConnected(true),
             onClose: () => setIsConnected(false),
-            onMessage: (event) => handleIncomingMessages(event, messagesMap, setMessagesMap, zustandVar),
+            onMessage: (event) => handleIncomingMessages(event, messagesMap, setMessagesMap),
             onError: (event) => console.error(event),
-            envVars: zustandVar,
         });
     }, []);
 
@@ -43,7 +37,7 @@ function App() {
             <div className="flex h-screen flex-col justify-evenly">
                 <Header
                     profileImageUrl="https://avatars.githubusercontent.com/u/117000423?v=4"
-                    chatName={zustandVar.username}
+                    chatName={useUserStore.getState().myUsername}
                     isConnected={isConnected}
                     unreadMessages={unreadMessages}
                     onReconnect={() => reconnectToWebsocket()}
@@ -55,7 +49,7 @@ function App() {
                             id={entry[0]}
                             username={entry[1].user.username}
                             message={entry[1].message.message}
-                            isUser={entry[1].user.username === zustandVar.username}
+                            isUser={entry[1].user.username === useUserStore.getState().myUsername}
                             messagePayload={entry[1]}
                             profilePhoto={"https://avatars.githubusercontent.com/u/117000423?v=4"}
                         />
@@ -75,8 +69,7 @@ export default App;
 function handleIncomingMessages(
     event: MessageEvent,
     messagesMap: Map<string, MessagePayload>,
-    setMessagesMap: React.Dispatch<React.SetStateAction<Map<string, MessagePayload>>>,
-    envVars: EnvVars | null
+    setMessagesMap: React.Dispatch<React.SetStateAction<Map<string, MessagePayload>>>
 ) {
     const dataAsObject: { type: PayloadSubType; clients: string } = JSON.parse(event.data);
     switch (dataAsObject.type) {
@@ -91,7 +84,7 @@ function handleIncomingMessages(
 
         // normal chat messages
         case PayloadSubType.message:
-            addMessageIfUniqueId(messagesMap, setMessagesMap, JSON.parse(event.data) as MessagePayload, envVars);
+            addMessageIfUniqueId(messagesMap, setMessagesMap, JSON.parse(event.data) as MessagePayload);
             break;
 
         // unknown payload type
@@ -100,7 +93,9 @@ function handleIncomingMessages(
     }
 }
 
-function handleClientListPayload(payload: RegisteredUser[]) {}
+function handleClientListPayload(payload: RegisteredUser[]) {
+    console.log(payload);
+}
 
 /**
  * Updates the panel view by scrolling to the bottom of the list.

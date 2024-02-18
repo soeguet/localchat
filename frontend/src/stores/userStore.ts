@@ -12,19 +12,19 @@ export type UserStore = {
     setMyProfilePhoto: (photo: string) => void;
     userMap: Map<string, RegisteredUser>;
     setUserMap: (userMap: Map<string, RegisteredUser>) => void;
-}
+};
 
-const userStore:UseBoundStore<StoreApi<UserStore>> = create((set) => ({
+const useUserStore: UseBoundStore<StoreApi<UserStore>> = create((set) => ({
     myId: "",
-    setMyId: (id: string) => set( {myId: id} ),
+    setMyId: (id: string) => set({ myId: id }),
     myUsername: "",
-    setMyUsername: (username: string) => set( {myUsername: username} ),
+    setMyUsername: (username: string) => set({ myUsername: username }),
     myColor: "",
-    setMyColor: (color: string) => set( {myColor: color} ),
+    setMyColor: (color: string) => set({ myColor: color }),
     myProfilePhoto: "",
-    setMyProfilePhoto: (photo: string) => set( {myProfilePhoto: photo} ),
+    setMyProfilePhoto: (photo: string) => set({ myProfilePhoto: photo }),
     userMap: new Map<string, RegisteredUser>(),
     setUserMap: (users: Map<string, RegisteredUser>) => set({ userMap: users }),
 }));
 
-export default userStore;
+export default useUserStore;

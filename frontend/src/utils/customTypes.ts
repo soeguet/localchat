@@ -68,7 +68,6 @@ export type CallbackProps = {
     onClose: () => void;
     onMessage: (event: MessageEvent) => void;
     onError: (event: Event) => void;
-    envVars: EnvVars | null;
 };
 
 export type MessageProps = {
@@ -87,10 +86,6 @@ export type InputProps = {
 export type EmojiProps = {
     message: string;
     setMessage: React.Dispatch<React.SetStateAction<string>>;
-};
-
-export type FormProps = {
-    checkIfEnvVarsAllSet: (envVars: EnvVars | null) => void;
 };
 
 export type HeaderProps = {

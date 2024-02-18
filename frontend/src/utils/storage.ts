@@ -1,7 +1,8 @@
 import { formatTime } from "./time";
 import { EnvVars, MessagePayload } from "./customTypes";
 import { MakeWindowsTaskIconFlash, Notification } from "./../../wailsjs/go/main/App";
-import userStore from "../stores/userStore";
+import useUserStore from "../stores/userStore";
+import useEnvironmentStore from "../stores/environmentStore";
 
 /**
  * Adds a message to the messages map if it has a unique ID.
@@ -10,17 +11,12 @@ import userStore from "../stores/userStore";
 export async function addMessageIfUniqueId(
     messagesMap: Map<string, MessagePayload>,
     setMessagesMap: React.Dispatch<React.SetStateAction<Map<string, MessagePayload>>>,
-    newMessage: MessagePayload,
-    envVars: EnvVars | null
+    newMessage: MessagePayload
 ) {
     const id: string | undefined = newMessage.id;
 
     if (id === undefined) {
         throw new Error("message has no id!");
-    }
-
-    if (envVars === null) {
-        throw new Error("envVars is null! how is this possible?");
     }
 
     // check if message id is unique
@@ -29,9 +25,9 @@ export async function addMessageIfUniqueId(
         setMessagesMap((prev) => new Map(prev).set(id, newMessage));
 
         // TODO put this somewhere else
-        if (newMessage.user.username !== userStore.getState().myUsername) {
+        if (newMessage.user.username !== useUserStore.getState().myUsername) {
             Notification(formatTime(new Date()) + " - " + newMessage.user.username, newMessage.message.message);
-            if (envVars.os === "windows") {
+            if (useEnvironmentStore.getState().clientOs === "windows") {
                 MakeWindowsTaskIconFlash("localchat")
                     .then((bool: void) => {
                         console.log("flashed window: " + bool);

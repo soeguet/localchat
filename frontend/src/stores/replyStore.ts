@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { StoreApi, UseBoundStore, create } from "zustand";
 
 /**
  * Represents a reply in the chat.
@@ -22,7 +22,7 @@ export type ReplyStore = {
  * Custom hook for managing the reply store.
  * @returns An object containing the replyTo state and a function to set the replyTo value.
  */
-const useReplyStore = create<ReplyStore>((set) => ({
+const useReplyStore: UseBoundStore<StoreApi<ReplyStore>> = create<ReplyStore>((set) => ({
     replyTo: null,
     setReplyTo: (replyTo) => set(() => ({ replyTo: replyTo })),
 }));

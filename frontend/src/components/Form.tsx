@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
-import { EnvVars, FormProps } from "../utils/customTypes";
-import useEnvVarsStore from "../stores/envVarsStore";
+import useUserStore from "../stores/userStore";
+import useEnvironmentStore from "../stores/environmentStore";
+
+type FormProps = {
+    setStartup: (value: boolean) => void;
+};
 
 function Form(props: FormProps) {
     const [clientName, setClientName] = useState<string>("");
@@ -10,15 +14,18 @@ function Form(props: FormProps) {
 
     useEffect(() => {
         setTimeout(() => {
-            const envZustand: EnvVars|null = useEnvVarsStore.getState().zustandVar;
-            if (envZustand === null) {
-                return;
-            }
-            setClientName(envZustand.username);
-            setSocketIp(envZustand.ip);
-            setSocketPort(envZustand.port);
-        }, 1000);
+            setClientName(useUserStore.getState().myUsername);
+            setSocketIp(useEnvironmentStore.getState().socketIp);
+            setSocketPort(useEnvironmentStore.getState().socketPort);
+        }, 100);
     }, []);
+
+    useEffect(() => {
+        // TODO validation for the inputs needed
+        if (clientName !== "" && socketIp !== "" && socketPort !== "") {
+            props.setStartup(false);
+        }
+    }, [clientName, socketIp, socketPort]);
 
     /**
      * Saves the environment variables.
@@ -27,16 +34,10 @@ function Form(props: FormProps) {
     function saveEnvVars(e: React.FormEvent<HTMLButtonElement>) {
         e.preventDefault();
         setIsClickable(false);
-        useEnvVarsStore.getState().setEnvVars({
-            id: useEnvVarsStore.getState().clientId,
-            username: clientName,
-            ip: socketIp,
-            port: socketPort,
-            os: useEnvVarsStore.getState().zustandVar!.os,
-        });
+        useEnvironmentStore.getState().setSocketIp(socketIp);
+        useEnvironmentStore.getState().setSocketPort(socketPort);
+        useUserStore.getState().setMyUsername(clientName);
 
-        //revalidate the env vars
-        props.checkIfEnvVarsAllSet(useEnvVarsStore.getState().zustandVar);
         setTimeout(() => {
             setIsClickable(true);
         }, 1000);

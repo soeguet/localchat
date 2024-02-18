@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react";
 import { HeaderProps } from "../utils/customTypes";
 import { socket } from "../utils/socket";
-import userStore from "../stores/userStore";
+import useUserStore from "../stores/userStore";
 
 function Header({ chatName, isConnected, unreadMessages, onReconnect }: HeaderProps) {
     const [profileImageUrl, setProfileImageUrl] = useState<string>("");
 
     useEffect(() => {
-        setProfileImageUrl(userStore.getState().myProfilePhoto);
-    }, [userStore.getState().myProfilePhoto]);
+        setProfileImageUrl(useUserStore.getState().myProfilePhoto);
+    }, [useUserStore.getState().myProfilePhoto]);
 
     return (
         <div className="bg-gray-800 text-white p-4 flex justify-between items-center">
             <div className="flex items-center">
                 <img
                     src={profileImageUrl}
-                    onClick={() => console.log(userStore.getState().myProfilePhoto)}
+                    onClick={() => console.log(useUserStore.getState().myProfilePhoto)}
                     alt="Profile"
                     className="h-10 w-10 rounded-full mr-3"
                 />
