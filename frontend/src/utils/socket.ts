@@ -2,6 +2,7 @@ import { Notification } from "../../wailsjs/go/main/App";
 import useEnvironmentStore from "../stores/environmentStore";
 import useReplyStore from "../stores/replyStore";
 import useUserStore from "../stores/userStore";
+import useWebsocketStore from "../stores/websocketStore";
 import { CallbackProps, MessagePayload, PayloadSubType } from "./customTypes";
 
 let socket: WebSocket;
@@ -40,10 +41,13 @@ export const initWebSocket = (callbacks: CallbackProps) => {
     socket.onerror = (event: Event) => {
         callbacks.onError(event);
     };
+
+    useWebsocketStore.getState().setWs(socket);
 };
 
 function closeWebSocket() {
     socket.close();
+    useWebsocketStore.getState().setWs(null);
 }
 
 /**

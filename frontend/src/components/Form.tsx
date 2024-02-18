@@ -3,7 +3,7 @@ import useUserStore from "../stores/userStore";
 import useEnvironmentStore from "../stores/environmentStore";
 
 type FormProps = {
-    setStartup: (value: boolean) => void;
+    setAllVarsSet: (value: boolean) => void;
 };
 
 function Form(props: FormProps) {
@@ -22,10 +22,12 @@ function Form(props: FormProps) {
 
     useEffect(() => {
         // TODO validation for the inputs needed
+        console.log("REVALIDATING");
         if (clientName !== "" && socketIp !== "" && socketPort !== "") {
-            props.setStartup(false);
+            console.log("ALL SET");
+            props.setAllVarsSet(true);
         }
-    }, [clientName, socketIp, socketPort]);
+    }, [useEnvironmentStore().socketIp, useEnvironmentStore().socketPort, useUserStore().myUsername]);
 
     /**
      * Saves the environment variables.

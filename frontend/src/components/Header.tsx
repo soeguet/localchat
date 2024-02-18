@@ -2,23 +2,35 @@ import { useEffect, useState } from "react";
 import { HeaderProps } from "../utils/customTypes";
 import { socket } from "../utils/socket";
 import useUserStore from "../stores/userStore";
+import ProfileMenu from "./ProfileMenu";
+import ProfileModal from "./ProfileModal";
 
 function Header({ chatName, isConnected, unreadMessages, onReconnect }: HeaderProps) {
     const [profileImageUrl, setProfileImageUrl] = useState<string>("");
+    const [showProfileMenu, setShowProfileMenu] = useState<boolean>(false);
+    const [showProfileModal, setShowProfileModal] = useState<boolean>(false);
 
     useEffect(() => {
         setProfileImageUrl(useUserStore.getState().myProfilePhoto);
-    }, [useUserStore.getState().myProfilePhoto]);
+    }, [useUserStore().myProfilePhoto]);
 
     return (
         <div className="bg-gray-800 text-white p-4 flex justify-between items-center">
             <div className="flex items-center">
                 <img
                     src={profileImageUrl}
-                    onClick={() => console.log(useUserStore.getState().myProfilePhoto)}
+                    onClick={() => setShowProfileMenu(!showProfileMenu)}
                     alt="Profile"
                     className="h-10 w-10 rounded-full mr-3"
                 />
+                {showProfileMenu && (
+                    <ProfileMenu
+                        showMenu={showProfileMenu}
+                        setShowMenu={setShowProfileMenu}
+                        setShowProfileModal={setShowProfileModal}
+                    />
+                )}
+                {showProfileModal && <ProfileModal isOpen={showProfileModal} setIsOpen={setShowProfileModal} />}
                 <span className="font-medium">{chatName}</span>
             </div>
             <div>

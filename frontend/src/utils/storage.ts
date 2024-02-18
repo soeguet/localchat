@@ -1,5 +1,5 @@
 import { formatTime } from "./time";
-import { EnvVars, MessagePayload } from "./customTypes";
+import { MessagePayload } from "./customTypes";
 import { MakeWindowsTaskIconFlash, Notification } from "./../../wailsjs/go/main/App";
 import useUserStore from "../stores/userStore";
 import useEnvironmentStore from "../stores/environmentStore";

@@ -3,6 +3,7 @@ import { formatTime } from "../utils/time";
 import useReplyStore from "../stores/replyStore";
 import { MessageProps } from "../utils/customTypes";
 import QuoteBubble from "./QuoteBubble";
+import ProfilePicture from "./ProfilePicture";
 
 function ChatBubble(props: MessageProps) {
     const [showMenu, setShowMenu] = useState(false);
@@ -46,11 +47,7 @@ function ChatBubble(props: MessageProps) {
     return (
         <div className={`flex items-start ${props.isUser ? "flex-row-reverse" : ""} mb-4`}>
             <div className="relative mx-2 flex flex-col items-center">
-                <img
-                    src={props.profilePhoto}
-                    alt={`${props.username}'s profile`}
-                    className="mb-1 h-10 w-10 rounded-full"
-                />
+                <ProfilePicture />
                 <button onClick={() => setShowMenu(!showMenu)} className="mt-2 text-gray-500 focus:outline-none">
                     •••
                 </button>

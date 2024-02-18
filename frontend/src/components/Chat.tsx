@@ -37,7 +37,7 @@ function App() {
             <div className="flex h-screen flex-col justify-evenly">
                 <Header
                     profileImageUrl="https://avatars.githubusercontent.com/u/117000423?v=4"
-                    chatName={useUserStore.getState().myUsername}
+                    chatName={useUserStore().myUsername}
                     isConnected={isConnected}
                     unreadMessages={unreadMessages}
                     onReconnect={() => reconnectToWebsocket()}

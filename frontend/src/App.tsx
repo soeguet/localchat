@@ -40,6 +40,10 @@ function App() {
     }, []);
 
     useEffect(() => {
+        console.log("Startup TESTTTTTTTTTTTTTTT");
+    }, [startup]);
+
+    useEffect(() => {
         async function checkIfVarsAreAllSet() {
             console.log("checking if vars are all set");
             const socketIp = useEnvironmentStore.getState().socketIp;
@@ -51,7 +55,7 @@ function App() {
             if (socketPort === "" || socketIp === "" || clientOs === "" || myUsername === "" || myId === "") {
                 setAllVarsSet(false);
                 setStartup(false);
-                throw new Error("Not all environment variables are set");
+                console.log("NOT ALL SET");
             } else {
                 setAllVarsSet(true);
                 setStartup(false);
@@ -61,12 +65,12 @@ function App() {
             await checkIfVarsAreAllSet();
         }
         check();
-    }, [useEnvironmentStore.getState().socketIp, useEnvironmentStore.getState().socketPort]);
+    }, [useEnvironmentStore().socketIp, useEnvironmentStore().socketPort]);
 
     if (startup) {
         return <div className="flex justify-center items-center h-screen">loading...</div>;
     } else if (!allVarsSet) {
-        return <Form setStartup={setStartup} />;
+        return <Form setAllVarsSet={setAllVarsSet} />;
     }
     return <Chat />;
 }

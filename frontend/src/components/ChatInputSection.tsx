@@ -3,6 +3,7 @@ import Emoji from "./Emoji";
 import Reply from "./Reply";
 import useReplyStore from "../stores/replyStore";
 import { InputProps } from "../utils/customTypes";
+import useUserStore from "../stores/userStore";
 
 function ChatInputSection(inputProps: InputProps) {
     const [message, setMessage] = useState("");
@@ -30,9 +31,7 @@ function ChatInputSection(inputProps: InputProps) {
 
     function httpRequest() {
         console.log("http request");
-        fetch("http://localhost:5555/register-user").catch((error) => {
-            console.error("Error:", error);
-        });
+        useUserStore.getState().setMyProfilePhoto("https://www.w3schools.com/w3images/avatar2.png");
     }
 
     return (
