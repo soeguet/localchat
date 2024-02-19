@@ -8,6 +8,7 @@ import { WindowReloadApp } from "./../../wailsjs/runtime/runtime";
 import { initWebSocket, sendClientMessageToWebsocket } from "../utils/socket";
 import { MessagePayload, PayloadSubType, RegisteredUser } from "../utils/customTypes";
 import useUserStore from "../stores/userStore";
+import useClientsStore from "../stores/clientsStore";
 
 /**
  * The main component of the application.
@@ -47,6 +48,7 @@ function App() {
                         <ChatBubble
                             key={entry[0]}
                             id={entry[0]}
+                            clientId={entry[1].user.id}
                             username={entry[1].user.username}
                             message={entry[1].message.message}
                             isUser={entry[1].user.username === useUserStore.getState().myUsername}
@@ -74,7 +76,7 @@ function handleIncomingMessages(
     const dataAsObject: { type: PayloadSubType; clients: string } = JSON.parse(event.data);
     switch (dataAsObject.type) {
         // update the client list with new data
-        case PayloadSubType.clientList:
+        case PayloadSubType.clientList || PayloadSubType.profileUpdate:
             if (dataAsObject.clients === undefined || dataAsObject.clients === null || dataAsObject.clients === "") {
                 throw new Error("Client list is empty");
             }
@@ -94,6 +96,11 @@ function handleIncomingMessages(
 }
 
 function handleClientListPayload(payload: RegisteredUser[]) {
+    console.log("profilePhotoUrls!");
+    payload.forEach((client) => {
+        console.log(client.profilePhotoUrl);
+    });
+    useClientsStore.getState().setClients(payload);
     console.log(payload);
 }
 

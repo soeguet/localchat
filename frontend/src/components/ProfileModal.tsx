@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import ProfilePicture from "./ProfilePicture";
 import useUserStore from "../stores/userStore";
 import useEnvironmentStore from "../stores/environmentStore";
+import useWebsocketStore from "../stores/websocketStore";
+import { PayloadSubType, ProfileUpdatePayload } from "../utils/customTypes";
+import useClientsStore from "../stores/clientsStore";
 
 type ProfileModalProps = {
     isOpen: boolean;
@@ -68,23 +71,41 @@ function ProfileModal(props: ProfileModalProps) {
 
         useUserStore.getState().setMyColor(profileColor);
 
-        if (!preferPictureUrl && profilePicture) {
-            const base64String = arrayBufferToBase64(profilePicture);
-            const dataUrl = `data:image/jpeg;base64,${base64String}`; // Ändern Sie den MIME-Typ entsprechend.
-            useUserStore.getState().setMyProfilePhoto(dataUrl);
-        } else if (preferPictureUrl) {
-            useUserStore.getState().setMyProfilePhoto(profilePictureUrl);
+        const websocket = useWebsocketStore.getState().ws;
+
+        if (!websocket) {
+            throw new Error("Websocket not initialized");
         }
+
+        let pictureUrl = "";
+
+        if (!preferPictureUrl && profilePicture) {
+            // convert ArrayBuffer to base64 string
+            const base64String = arrayBufferToBase64(profilePicture);
+            pictureUrl = `data:image/jpeg;base64,${base64String}`; // Ändern Sie den MIME-Typ entsprechend.
+        } else if (preferPictureUrl) {
+            pictureUrl = profilePictureUrl;
+        }
+        useUserStore.getState().setMyProfilePhoto(pictureUrl);
+
+        const profileUpdatePayload: ProfileUpdatePayload = {
+            type: PayloadSubType.profileUpdate,
+            clientId: useUserStore.getState().myId,
+            pictureUrl: pictureUrl,
+        };
+
+        // send profile update to socket
+        websocket.send(JSON.stringify(profileUpdatePayload));
     };
 
     return (
         <>
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+            <div className="fixed z-20 inset-0 bg-black bg-opacity-50 flex justify-center items-center">
                 <div className="bg-white p-4 rounded-lg text-black w-full sm:w-3/4 md:w-3/4 lg:w-1/2 xl:w-1/2">
                     <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
                         <div className="col-span-2 grid grid-cols-8">
                             <div className="col-span-1 my-auto ml-1.5">
-                                <ProfilePicture />
+                                <ProfilePicture clientId={useUserStore.getState().myId} />
                             </div>
                             <div className="col-span-7">
                                 <label htmlFor="profilePicture">

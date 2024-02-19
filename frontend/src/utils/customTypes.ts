@@ -11,8 +11,13 @@ export enum PayloadSubType {
     auth,
     message,
     clientList,
+    profileUpdate,
 }
-
+export type ProfileUpdatePayload = {
+    type: PayloadSubType.profileUpdate;
+    clientId: string;
+    pictureUrl: string;
+};
 export type ClientListPayload = {
     type: PayloadSubType.clientList;
     clients: string;
@@ -72,6 +77,7 @@ export type CallbackProps = {
 
 export type MessageProps = {
     id: string;
+    clientId: string;
     message: string;
     isUser: boolean;
     username: string;

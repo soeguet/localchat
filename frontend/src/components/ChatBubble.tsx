@@ -47,7 +47,7 @@ function ChatBubble(props: MessageProps) {
     return (
         <div className={`flex items-start ${props.isUser ? "flex-row-reverse" : ""} mb-4`}>
             <div className="relative mx-2 flex flex-col items-center">
-                <ProfilePicture />
+                <ProfilePicture clientId={props.clientId} />
                 <button onClick={() => setShowMenu(!showMenu)} className="mt-2 text-gray-500 focus:outline-none">
                     •••
                 </button>

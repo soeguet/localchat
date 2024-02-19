@@ -1,21 +1,15 @@
 import { useEffect, useState } from "react";
-import useUserStore from "../stores/userStore";
+import useClientsStore from "../stores/clientsStore";
 
-function ProfilePicture() {
-    const [profilePicture, setProfilePicture] = useState("");
-
-    useEffect(() => {
-        async function getProfilePicture() {
-            const profilePicture = useUserStore.getState().myProfilePhoto;
-            setProfilePicture(profilePicture);
-        }
-        getProfilePicture();
-    }, []);
+function ProfilePicture({ clientId }: { clientId: string }) {
+    const [profilePicture, setProfilePicture] = useState(
+        useClientsStore.getState().getClientById(clientId)?.profilePhotoUrl
+    );
 
     useEffect(() => {
-        console.log("Profile Picture update");
-        setProfilePicture(useUserStore.getState().myProfilePhoto);
-    }, [useUserStore().myProfilePhoto]);
+        const client = useClientsStore.getState().getClientById(clientId);
+        setProfilePicture(client.profilePhotoUrl);
+    }, [useClientsStore().clients]);
 
     return (
         <>
