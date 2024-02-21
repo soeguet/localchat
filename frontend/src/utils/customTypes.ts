@@ -7,6 +7,21 @@ export type MessageBackToClients = {
     message: string;
 };
 
+export type UserDatabaseRow = {
+    id: string;
+    user: RegisteredUser;
+};
+
+export type ClientListPayload = {
+    type: PayloadSubType;
+    clients: UserDatabaseRow[];
+};
+
+export type ClientType = {
+    id: string;
+    user: RegisteredUser;
+};
+
 export enum PayloadSubType {
     auth,
     message,
@@ -17,10 +32,6 @@ export type ProfileUpdatePayload = {
     type: PayloadSubType.profileUpdate;
     clientId: string;
     pictureUrl: string;
-};
-export type ClientListPayload = {
-    type: PayloadSubType.clientList;
-    clients: string;
 };
 
 /**

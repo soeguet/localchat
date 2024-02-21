@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ChatBubble from "./ChatBubble";
 import ChatInputSection from "./ChatInputSection";
 import { scrollToBottom } from "./../utils/functionality";
@@ -6,7 +6,7 @@ import { addMessageIfUniqueId } from "./../utils/storage";
 import Header from "./Header";
 import { WindowReloadApp } from "./../../wailsjs/runtime/runtime";
 import { initWebSocket, sendClientMessageToWebsocket } from "../utils/socket";
-import { MessagePayload, PayloadSubType, RegisteredUser } from "../utils/customTypes";
+import { ClientListPayload, ClientType, MessagePayload, PayloadSubType, RegisteredUser } from "../utils/customTypes";
 import useUserStore from "../stores/userStore";
 import useClientsStore from "../stores/clientsStore";
 
@@ -22,6 +22,7 @@ function App() {
     const [messagesMap, setMessagesMap] = useState<Map<string, MessagePayload>>(new Map());
 
     const clientUsername = useUserStore((state) => state.myUsername);
+    const setClients = useClientsStore((state) => state.setClients);
 
     useEffect(() => {
         window.addEventListener("focus", () => {
@@ -53,7 +54,7 @@ function App() {
     }, [messagesMap]);
 
     function handleIncomingMessages(event: MessageEvent) {
-        const dataAsObject: { type: PayloadSubType; clients: string } = JSON.parse(event.data);
+        const dataAsObject = JSON.parse(event.data);
         switch (dataAsObject.type) {
             // update the client list with new data
             case PayloadSubType.clientList || PayloadSubType.profileUpdate:
@@ -61,11 +62,11 @@ function App() {
                 if (
                     dataAsObject.clients === undefined ||
                     dataAsObject.clients === null ||
-                    dataAsObject.clients === ""
+                    dataAsObject.clients.length === 0
                 ) {
                     throw new Error("Client list is empty");
                 }
-                handleClientListPayload(JSON.parse(dataAsObject.clients) as RegisteredUser[]);
+                handleClientListPayload(dataAsObject as ClientListPayload);
 
                 break;
 
@@ -85,9 +86,22 @@ function App() {
      * @param payload The new client list.
      * @returns void
      */
-    function handleClientListPayload(payload: RegisteredUser[]) {
-        useClientsStore.getState().setClients(payload);
-        console.log(payload);
+    function handleClientListPayload(payload: ClientListPayload) {
+        console.log("payload: ", payload);
+
+        const clients: RegisteredUser[] = payload.clients.map((c) => {
+            const clientColor: RegisteredUser = JSON.parse(c.user) as RegisteredUser;
+            console.log("c: ", clientColor);
+            console.log("c: ", c.user.profilePhotoUrl.length);
+            return {
+                id: c.user.id,
+                username: c.user.username,
+                profilePhotoUrl: c.user.profilePhotoUrl,
+                clientColor: c.user.clientColor,
+            } as RegisteredUser;
+        });
+
+        setClients(clients);
     }
 
     /**
