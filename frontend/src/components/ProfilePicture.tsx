@@ -1,19 +1,21 @@
-import { useEffect, useState } from "react";
 import useClientsStore from "../stores/clientsStore";
+import { RegisteredUser } from "../utils/customTypes";
 
 function ProfilePicture({ clientId }: { clientId: string }) {
-    const [profilePicture, setProfilePicture] = useState(
-        useClientsStore.getState().getClientById(clientId)?.profilePhotoUrl
-    );
+    const client = useClientsStore((state) => state.clients.find((client) => client.id === clientId));
+    console.log("_____________________________________");
+    console.log(client.user);
+    console.log("_____________________________________");
+    const abc: RegisteredUser = JSON.parse(client.user);
 
-    useEffect(() => {
-        const client = useClientsStore.getState().getClientById(clientId);
-        setProfilePicture(client.profilePhotoUrl);
-    }, [useClientsStore().clients]);
+    if (!client) {
+        return <div>Client nicht gefunden.</div>;
+    }
 
     return (
         <>
-            <img className="mb-1 h-10 w-10 rounded-full" src={profilePicture} alt="Profile picture" />
+            <p>123{client.username}</p>
+            <img className="mb-1 h-10 w-10 rounded-full" src={abc.profilePhotoUrl} alt={abc.username} />
         </>
     );
 }

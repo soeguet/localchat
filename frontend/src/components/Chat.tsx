@@ -21,17 +21,81 @@ function App() {
     const endOfListRef = useRef<HTMLDivElement | null>(null);
     const [messagesMap, setMessagesMap] = useState<Map<string, MessagePayload>>(new Map());
 
-    useAddWindowFocusListener(setGuiHasFocus);
-    useUpdatePanelView(endOfListRef, messagesMap, unreadMessages, setUnreadMessages, guiHasFocus);
+    const clientUsername = useUserStore((state) => state.myUsername);
 
     useEffect(() => {
+        window.addEventListener("focus", () => {
+            setGuiHasFocus(true);
+        });
+
+        window.addEventListener("blur", () => {
+            setGuiHasFocus(false);
+        });
+
         initWebSocket({
             onOpen: () => setIsConnected(true),
             onClose: () => setIsConnected(false),
-            onMessage: (event) => handleIncomingMessages(event, messagesMap, setMessagesMap),
+            onMessage: (event) => handleIncomingMessages(event),
             onError: (event) => console.error(event),
         });
     }, []);
+
+    useEffect(() => {
+        if (endOfListRef.current) {
+            endOfListRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+        //only scroll if client is "up to date"
+        if (guiHasFocus && unreadMessages === 0) {
+            scrollToBottom(endOfListRef);
+        } else {
+            setUnreadMessages((prev) => prev + 1);
+        }
+    }, [messagesMap]);
+
+    function handleIncomingMessages(event: MessageEvent) {
+        const dataAsObject: { type: PayloadSubType; clients: string } = JSON.parse(event.data);
+        switch (dataAsObject.type) {
+            // update the client list with new data
+            case PayloadSubType.clientList || PayloadSubType.profileUpdate:
+                console.log("PROFILE UPDATE triggered");
+                if (
+                    dataAsObject.clients === undefined ||
+                    dataAsObject.clients === null ||
+                    dataAsObject.clients === ""
+                ) {
+                    throw new Error("Client list is empty");
+                }
+                handleClientListPayload(JSON.parse(dataAsObject.clients) as RegisteredUser[]);
+
+                break;
+
+            // normal chat messages
+            case PayloadSubType.message:
+                addMessageIfUniqueId(messagesMap, setMessagesMap, JSON.parse(event.data) as MessagePayload);
+                break;
+
+            // unknown payload type
+            default:
+                throw new Error("Unknown payload type");
+        }
+    }
+
+    /**
+     * Updates the client list with the new data.
+     * @param payload The new client list.
+     * @returns void
+     */
+    function handleClientListPayload(payload: RegisteredUser[]) {
+        useClientsStore.getState().setClients(payload);
+        console.log(payload);
+    }
+
+    /**
+     * Reconnects to the WebSocket by restarting the frontend.
+     */
+    function reconnectToWebsocket() {
+        WindowReloadApp();
+    }
 
     return (
         <>
@@ -51,7 +115,7 @@ function App() {
                             clientId={entry[1].user.id}
                             username={entry[1].user.username}
                             message={entry[1].message.message}
-                            isUser={entry[1].user.username === useUserStore.getState().myUsername}
+                            isUser={entry[1].user.username === clientUsername}
                             messagePayload={entry[1]}
                             profilePhoto={"https://avatars.githubusercontent.com/u/117000423?v=4"}
                         />
@@ -67,87 +131,3 @@ function App() {
 }
 
 export default App;
-
-function handleIncomingMessages(
-    event: MessageEvent,
-    messagesMap: Map<string, MessagePayload>,
-    setMessagesMap: React.Dispatch<React.SetStateAction<Map<string, MessagePayload>>>
-) {
-    const dataAsObject: { type: PayloadSubType; clients: string } = JSON.parse(event.data);
-    switch (dataAsObject.type) {
-        // update the client list with new data
-        case PayloadSubType.clientList || PayloadSubType.profileUpdate:
-            if (dataAsObject.clients === undefined || dataAsObject.clients === null || dataAsObject.clients === "") {
-                throw new Error("Client list is empty");
-            }
-            handleClientListPayload(JSON.parse(dataAsObject.clients) as RegisteredUser[]);
-
-            break;
-
-        // normal chat messages
-        case PayloadSubType.message:
-            addMessageIfUniqueId(messagesMap, setMessagesMap, JSON.parse(event.data) as MessagePayload);
-            break;
-
-        // unknown payload type
-        default:
-            throw new Error("Unknown payload type");
-    }
-}
-
-function handleClientListPayload(payload: RegisteredUser[]) {
-    console.log("profilePhotoUrls!");
-    payload.forEach((client) => {
-        console.log(client.profilePhotoUrl);
-    });
-    useClientsStore.getState().setClients(payload);
-    console.log(payload);
-}
-
-/**
- * Updates the panel view by scrolling to the bottom of the list.
- * @param endOfListRef - The reference to the HTMLDivElement at the end of the list.
- * @param messagesMap - The map containing the messages.
- */
-function useUpdatePanelView(
-    endOfListRef: React.RefObject<HTMLDivElement>,
-    messagesMap: Map<string, MessagePayload>,
-    unreadMessages: number,
-    setUnreadMessages: React.Dispatch<React.SetStateAction<number>>,
-    guiHasFocus: boolean
-) {
-    if (endOfListRef.current) {
-        endOfListRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-    useEffect(() => {
-        //only scroll if client is "up to date"
-        if (guiHasFocus && unreadMessages === 0) {
-            scrollToBottom(endOfListRef);
-        } else {
-            setUnreadMessages((prev) => prev + 1);
-        }
-    }, [messagesMap]);
-}
-
-/**
- * Reconnects to the WebSocket by restarting the frontend.
- */
-function reconnectToWebsocket() {
-    WindowReloadApp();
-}
-
-/**
- * Adds a window focus listener to track the focus state of the GUI.
- * @param setGuiHasFocus - A state setter function to update the GUI focus state.
- */
-function useAddWindowFocusListener(setGuiHasFocus: Dispatch<SetStateAction<boolean>>) {
-    useEffect(() => {
-        window.addEventListener("focus", () => {
-            setGuiHasFocus(true);
-        });
-
-        window.addEventListener("blur", () => {
-            setGuiHasFocus(false);
-        });
-    }, []);
-}

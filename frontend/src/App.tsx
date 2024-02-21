@@ -14,23 +14,34 @@ function App() {
     const [startup, setStartup] = useState<boolean>(true);
     const [allVarsSet, setAllVarsSet] = useState<boolean>(false);
 
+    // grab state variables from store
+    const socketIp = useEnvironmentStore((state) => state.socketIp);
+    const socketPort = useEnvironmentStore((state) => state.socketPort);
+    const clientOs = useEnvironmentStore((state) => state.clientOs);
+    const myUsername = useUserStore((state) => state.myUsername);
+    const myId = useUserStore((state) => state.myId);
+
+    const setSocketIp = useEnvironmentStore((state) => state.setSocketIp);
+    const setSocketPort = useEnvironmentStore((state) => state.setSocketPort);
+    const setClientOs = useEnvironmentStore((state) => state.setClientOs);
+    const setMyUsername = useUserStore((state) => state.setMyUsername);
+    const setMyId = useUserStore((state) => state.setMyId);
+
     useEffect(() => {
         async function initializeEnvVars() {
             const clientEnvVars: string = await GetLocalChatEnvVars();
             const envVars: EnvVars = JSON.parse(clientEnvVars);
-            useEnvironmentStore.getState().setSocketIp(envVars.ip);
-            useEnvironmentStore.getState().setSocketPort(envVars.port);
-            useEnvironmentStore.getState().setClientOs(envVars.os);
-            useUserStore.getState().setMyUsername(envVars.username);
-            useUserStore.getState().setMyId(envVars.id);
+            setSocketIp(envVars.ip);
+            setSocketPort(envVars.port);
+            setClientOs(envVars.os);
+            setMyUsername(envVars.username);
+            setMyId(envVars.id);
         }
         async function startEnvs() {
             // Wait for the environment variables to be set
             await initializeEnvVars();
             // timeout to allow the env vars to be set
             await new Promise((resolve) => setTimeout(resolve, 500));
-
-            console.log("FINISHED");
         }
         async function startup() {
             await initializeEnvVars();
@@ -40,32 +51,14 @@ function App() {
     }, []);
 
     useEffect(() => {
-        console.log("Startup TESTTTTTTTTTTTTTTT");
-    }, [startup]);
-
-    useEffect(() => {
-        async function checkIfVarsAreAllSet() {
-            console.log("checking if vars are all set");
-            const socketIp = useEnvironmentStore.getState().socketIp;
-            const socketPort = useEnvironmentStore.getState().socketPort;
-            const clientOs = useEnvironmentStore.getState().clientOs;
-            const myUsername = useUserStore.getState().myUsername;
-            const myId = useUserStore.getState().myId;
-
-            if (socketPort === "" || socketIp === "" || clientOs === "" || myUsername === "" || myId === "") {
-                setAllVarsSet(false);
-                setStartup(false);
-                console.log("NOT ALL SET");
-            } else {
-                setAllVarsSet(true);
-                setStartup(false);
-            }
+        if (socketPort === "" || socketIp === "" || clientOs === "" || myUsername === "" || myId === "") {
+            setAllVarsSet(false);
+            setStartup(false);
+        } else {
+            setAllVarsSet(true);
+            setStartup(false);
         }
-        async function check() {
-            await checkIfVarsAreAllSet();
-        }
-        check();
-    }, [useEnvironmentStore().socketIp, useEnvironmentStore().socketPort]);
+    }, [socketIp, socketPort]);
 
     if (startup) {
         return <div className="flex justify-center items-center h-screen">loading...</div>;

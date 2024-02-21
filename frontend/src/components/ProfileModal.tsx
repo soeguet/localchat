@@ -4,7 +4,6 @@ import useUserStore from "../stores/userStore";
 import useEnvironmentStore from "../stores/environmentStore";
 import useWebsocketStore from "../stores/websocketStore";
 import { PayloadSubType, ProfileUpdatePayload } from "../utils/customTypes";
-import useClientsStore from "../stores/clientsStore";
 
 type ProfileModalProps = {
     isOpen: boolean;
@@ -12,15 +11,35 @@ type ProfileModalProps = {
 };
 
 function ProfileModal(props: ProfileModalProps) {
-    const [profilePicture, setProfilePicture] = useState<ArrayBuffer>(new ArrayBuffer(0));
-    const [profilePictureUrl, setProfilePictureUrl] = useState("");
-    const [name, setName] = useState(useUserStore.getState().myUsername);
-    const [socketIp, setSocketIp] = useState(useEnvironmentStore.getState().socketIp);
-    const [socketPort, setSocketPort] = useState<string>(useEnvironmentStore.getState().socketPort);
-    const [profileColor, setProfileColor] = useState("");
-    const [preferPictureUrl, setPreferPictureUrl] = useState(false);
-
+    // just in case
     if (!props.isOpen) return null;
+
+    const [preferPictureUrl, setPreferPictureUrl] = useState(false);
+    const clientId = useUserStore((state) => state.myId);
+
+    // name
+    const name = useUserStore((state) => state.myUsername);
+    const setName = useUserStore((state) => state.setMyUsername);
+    const [localName, setLocalName] = useState(name);
+    // socketIp
+    const socketIp = useEnvironmentStore((state) => state.socketIp);
+    const setSocketIp = useEnvironmentStore((state) => state.setSocketIp);
+    const [localIp, setLocalIp] = useState(socketIp);
+    // socketPort
+    const socketPort = useEnvironmentStore((state) => state.socketPort);
+    const setSocketPort = useEnvironmentStore((state) => state.setSocketPort);
+    const [localPort, setLocalPort] = useState(socketPort);
+    // profileColor
+    const profileColor = useUserStore((state) => state.myColor);
+    const setProfileColor = useUserStore((state) => state.setMyColor);
+    const [localColor, setLocalColor] = useState(profileColor);
+    // profilePicture
+    const profilePhotoUrl = useUserStore((state) => state.myProfilePhoto);
+    const setProfilePhotoUrl = useUserStore((state) => state.setMyProfilePhoto);
+    const [localProfilePicture, setLocalProfilePicture] = useState(profilePhotoUrl);
+    const [localProfilePictureBuffer, setLocalProfilePictureBuffer] = useState<ArrayBuffer | null>(null);
+    // websocket
+    const websocket = useWebsocketStore((state) => state.ws);
 
     async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
         const file = event.target.files?.[0] || null;
@@ -31,8 +50,7 @@ function ProfileModal(props: ProfileModalProps) {
 
         try {
             const arrayBuffer = await readFileAsArrayBuffer(file);
-            console.log(arrayBuffer);
-            setProfilePicture(arrayBuffer);
+            setLocalProfilePictureBuffer(arrayBuffer);
         } catch (error) {
             console.error("Error reading the file.", error);
         }
@@ -65,36 +83,32 @@ function ProfileModal(props: ProfileModalProps) {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        useEnvironmentStore.getState().setSocketIp(socketIp);
-        useEnvironmentStore.getState().setSocketPort(socketPort);
-        useUserStore.getState().setMyUsername(name);
+        // set env vars
+        setSocketIp(localIp);
+        setSocketPort(localPort);
+        setName(localName);
+        setProfileColor(localColor);
 
-        useUserStore.getState().setMyColor(profileColor);
+        // set profile picture
+        let pictureUrl = "";
+        if (!preferPictureUrl && localProfilePictureBuffer) {
+            // convert ArrayBuffer to base64 string
+            const base64String = arrayBufferToBase64(localProfilePictureBuffer);
+            pictureUrl = `data:image/jpeg;base64,${base64String}`; // Ändern Sie den MIME-Typ entsprechend.
+        } else if (preferPictureUrl) {
+            pictureUrl = localProfilePicture;
+        }
+        setProfilePhotoUrl(pictureUrl);
 
-        const websocket = useWebsocketStore.getState().ws;
-
+        // send profile update to socket
+        const profileUpdatePayload: ProfileUpdatePayload = {
+            type: PayloadSubType.profileUpdate,
+            clientId: clientId,
+            pictureUrl: pictureUrl,
+        };
         if (!websocket) {
             throw new Error("Websocket not initialized");
         }
-
-        let pictureUrl = "";
-
-        if (!preferPictureUrl && profilePicture) {
-            // convert ArrayBuffer to base64 string
-            const base64String = arrayBufferToBase64(profilePicture);
-            pictureUrl = `data:image/jpeg;base64,${base64String}`; // Ändern Sie den MIME-Typ entsprechend.
-        } else if (preferPictureUrl) {
-            pictureUrl = profilePictureUrl;
-        }
-        useUserStore.getState().setMyProfilePhoto(pictureUrl);
-
-        const profileUpdatePayload: ProfileUpdatePayload = {
-            type: PayloadSubType.profileUpdate,
-            clientId: useUserStore.getState().myId,
-            pictureUrl: pictureUrl,
-        };
-
-        // send profile update to socket
         websocket.send(JSON.stringify(profileUpdatePayload));
     };
 
@@ -105,7 +119,7 @@ function ProfileModal(props: ProfileModalProps) {
                     <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
                         <div className="col-span-2 grid grid-cols-8">
                             <div className="col-span-1 my-auto ml-1.5">
-                                <ProfilePicture clientId={useUserStore.getState().myId} />
+                                <ProfilePicture clientId={clientId} />
                             </div>
                             <div className="col-span-7">
                                 <label htmlFor="profilePicture">
@@ -126,11 +140,11 @@ function ProfileModal(props: ProfileModalProps) {
                                         </div>
                                     </div>
                                 </label>
-                                {preferPictureUrl ? (
+                                {localProfilePicture ? (
                                     <input
                                         type="text"
                                         id="profilePicture"
-                                        onChange={(e) => setProfilePictureUrl(e.target.value)}
+                                        onChange={(e) => setLocalProfilePicture(e.target.value)}
                                         className="mt-1 border border-gray-300 rounded-md p-2 w-full"
                                     />
                                 ) : (
@@ -149,8 +163,8 @@ function ProfileModal(props: ProfileModalProps) {
                             <input
                                 type="text"
                                 id="name"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
+                                value={localName}
+                                onChange={(e) => setLocalName(e.target.value)}
                                 className="mt-1 border border-gray-300 rounded-md p-2 w-full"
                             />
                         </div>
@@ -159,8 +173,8 @@ function ProfileModal(props: ProfileModalProps) {
                             <input
                                 type="text"
                                 id="socketIp"
-                                value={socketIp}
-                                onChange={(e) => setSocketIp(e.target.value)}
+                                value={localIp}
+                                onChange={(e) => setLocalIp(e.target.value)}
                                 className="mt-1 border border-gray-300 rounded-md p-2 w-full"
                             />
                         </div>
@@ -169,8 +183,8 @@ function ProfileModal(props: ProfileModalProps) {
                             <input
                                 type="text"
                                 id="socketPort"
-                                value={socketPort}
-                                onChange={(e) => setSocketPort(e.target.value)}
+                                value={localPort}
+                                onChange={(e) => setLocalPort(e.target.value)}
                                 className="mt-1 border border-gray-300 rounded-md p-2 w-full"
                             />
                         </div>
@@ -179,8 +193,8 @@ function ProfileModal(props: ProfileModalProps) {
                             <input
                                 type="color"
                                 id="profileColor"
-                                value={profileColor}
-                                onChange={(e) => setProfileColor(e.target.value)}
+                                value={localColor}
+                                onChange={(e) => setLocalColor(e.target.value)}
                                 className="mt-1 ml-2 border border-gray-300 rounded-md p-2"
                             />
                         </div>

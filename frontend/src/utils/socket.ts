@@ -55,12 +55,9 @@ function closeWebSocket() {
  * @param message - The message to send.
  */
 function sendClientMessageToWebsocket(message: string): void {
-    const replyTo = useReplyStore.getState().replyTo;
+    const replyMessage = useReplyStore.getState().replyMessage;
     const username = useUserStore.getState().myUsername;
     const id = useUserStore.getState().myId;
-
-    console.log("username", username);
-    console.log("id", id);
 
     if (username === null || id === null || username === "" || id === "") {
         throw new Error("username or id is null" + username + id);
@@ -79,14 +76,13 @@ function sendClientMessageToWebsocket(message: string): void {
             time: new Date().toLocaleTimeString(),
         },
     };
-    console.log("payload", payload);
 
-    // if there is a replyTo message, add it to the payload
-    if (replyTo) {
+    // if there is a replyMessage message, add it to the payload
+    if (replyMessage) {
         payload.quote = {
-            message: replyTo.message,
-            time: replyTo.time,
-            sender: replyTo.username,
+            message: replyMessage.message,
+            time: replyMessage.time,
+            sender: replyMessage.username,
         };
     }
 

@@ -7,27 +7,40 @@ type FormProps = {
 };
 
 function Form(props: FormProps) {
-    const [clientName, setClientName] = useState<string>("");
-    const [socketIp, setSocketIp] = useState<string>("");
-    const [socketPort, setSocketPort] = useState<string>("");
+    const setClientName = useUserStore((state) => state.setMyUsername);
+    const setSocketIp = useEnvironmentStore((state) => state.setSocketIp);
+    const setSocketPort = useEnvironmentStore((state) => state.setSocketPort);
+
+    const clientName = useUserStore((state) => state.myUsername);
+    const socketIp = useEnvironmentStore((state) => state.socketIp);
+    const socketPort = useEnvironmentStore((state) => state.socketPort);
+
     const [isClickable, setIsClickable] = useState(true);
+    const [localClientName, setLocalClientName] = useState<string>("");
+    const [localSocketIp, setLocalSocketIp] = useState<string>("");
+    const [localSocketPort, setLocalSocketPort] = useState<string>("");
 
     useEffect(() => {
         setTimeout(() => {
-            setClientName(useUserStore.getState().myUsername);
-            setSocketIp(useEnvironmentStore.getState().socketIp);
-            setSocketPort(useEnvironmentStore.getState().socketPort);
+            setLocalClientName(clientName);
+            setLocalSocketIp(socketIp);
+            setLocalSocketPort(socketPort);
         }, 100);
     }, []);
 
-    useEffect(() => {
-        // TODO validation for the inputs needed
-        console.log("REVALIDATING");
-        if (clientName !== "" && socketIp !== "" && socketPort !== "") {
-            console.log("ALL SET");
+    /**
+     * Revalidates if all environment variables are set.
+     * If not, it sets the state to false.
+     * If all are set, it sets the state to true.
+     * @returns void
+     */
+    function revalidateIfAllVarsSet() {
+        if (localClientName === "" || localSocketIp === "" || localSocketPort === "") {
+            props.setAllVarsSet(false);
+        } else {
             props.setAllVarsSet(true);
         }
-    }, [useEnvironmentStore().socketIp, useEnvironmentStore().socketPort, useUserStore().myUsername]);
+    }
 
     /**
      * Saves the environment variables.
@@ -36,9 +49,19 @@ function Form(props: FormProps) {
     function saveEnvVars(e: React.FormEvent<HTMLButtonElement>) {
         e.preventDefault();
         setIsClickable(false);
-        useEnvironmentStore.getState().setSocketIp(socketIp);
-        useEnvironmentStore.getState().setSocketPort(socketPort);
-        useUserStore.getState().setMyUsername(clientName);
+
+        // TODO validation for the inputs needed
+        if (localClientName === "" || localSocketIp === "" || localSocketPort === "") {
+            setIsClickable(true);
+            return;
+        }
+
+        // set the environment variables
+        setClientName(localClientName);
+        setSocketIp(localSocketIp);
+        setSocketPort(localSocketPort);
+
+        revalidateIfAllVarsSet();
 
         setTimeout(() => {
             setIsClickable(true);
@@ -64,7 +87,7 @@ function Form(props: FormProps) {
                                     <div className="mt-2">
                                         <input
                                             type="text"
-                                            value={clientName}
+                                            value={localClientName}
                                             onBlur={(e) => {
                                                 if (e.target.value === "") {
                                                     //TODO add validation
@@ -72,7 +95,7 @@ function Form(props: FormProps) {
                                             }}
                                             name="client-name"
                                             placeholder="e.g. Workstation"
-                                            onChange={(e) => setClientName(e.target.value)}
+                                            onChange={(e) => setLocalClientName(e.target.value)}
                                             className="block w-full rounded-md border-0 py-3 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
@@ -88,10 +111,10 @@ function Form(props: FormProps) {
                                     <div className="mt-2">
                                         <input
                                             type="text"
-                                            value={socketIp}
+                                            value={localSocketIp}
                                             name="socket-ip"
                                             placeholder="e.g. 127.0.0.1"
-                                            onChange={(e) => setSocketIp(e.target.value)}
+                                            onChange={(e) => setLocalSocketIp(e.target.value)}
                                             className="block w-full rounded-md border-0 py-3 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
@@ -107,10 +130,10 @@ function Form(props: FormProps) {
                                     <div className="mt-2">
                                         <input
                                             type="text"
-                                            value={socketPort}
+                                            value={localSocketPort}
                                             name="socket-port"
                                             placeholder="e.g. 8080"
-                                            onChange={(e) => setSocketPort(e.target.value)}
+                                            onChange={(e) => setLocalSocketPort(e.target.value)}
                                             className="block w-full rounded-md border-0 py-3 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>

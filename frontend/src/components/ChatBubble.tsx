@@ -26,7 +26,7 @@ function ChatBubble(props: MessageProps) {
     };
 
     function activateReplyMessage() {
-        useReplyStore.getState().setReplyTo({
+        useReplyStore.getState().setReplyMessage({
             id: props.id,
             username: props.messagePayload.user.username,
             time: currentTime,
