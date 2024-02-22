@@ -3,7 +3,6 @@ import Emoji from "./Emoji";
 import Reply from "./Reply";
 import useReplyStore from "../stores/replyStore";
 import { InputProps } from "../utils/customTypes";
-import useUserStore from "../stores/userStore";
 
 function ChatInputSection(inputProps: InputProps) {
     const [message, setMessage] = useState("");
@@ -29,15 +28,10 @@ function ChatInputSection(inputProps: InputProps) {
         }
     }
 
-    function httpRequest() {
-        console.log("http request");
-        useUserStore.getState().setMyProfilePhoto("https://www.w3schools.com/w3images/avatar2.png");
-    }
-
     return (
         <div className="flex items-end gap-2 border-t border-gray-200 bg-white p-4">
             <Emoji message={message} setMessage={setMessage} />
-            <button onClick={httpRequest} className="mx-1 my-auto text-gray-500 hover:text-gray-700 focus:outline-none">
+            <button className="mx-1 my-auto text-gray-500 hover:text-gray-700 focus:outline-none">
                 <i className="far fa-paperclip">📎</i>
             </button>
             <div className="flex-1 mx-2 my-auto flex flex-col gap-2">

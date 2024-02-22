@@ -17,22 +17,39 @@ import useClientsStore from "../stores/clientsStore";
 function App() {
     const [unreadMessages, setUnreadMessages] = useState(0);
     const [isConnected, setIsConnected] = useState(false);
-    const [guiHasFocus, setGuiHasFocus] = useState(true);
+    // const [guiHasFocus, setGuiHasFocus] = useState(true);
     const endOfListRef = useRef<HTMLDivElement | null>(null);
     const [messagesMap, setMessagesMap] = useState<Map<string, MessagePayload>>(new Map());
+    const clientId = useUserStore((state) => state.myId);
 
-    const clientUsername = useUserStore((state) => state.myUsername);
+    const thisClient: RegisteredUser | undefined = useClientsStore((state) =>
+        state.clients.find((c) => c.id === clientId)
+    );
+    console.log("clientUsername", thisClient);
+
     const setClients = useClientsStore((state) => state.setClients);
 
+    // window focus state
+    const guiHasFocus = useRef(true);
     useEffect(() => {
-        window.addEventListener("focus", () => {
-            setGuiHasFocus(true);
-        });
+        const handleFocus = () => {
+            guiHasFocus.current = true;
+        };
 
-        window.addEventListener("blur", () => {
-            setGuiHasFocus(false);
-        });
+        const handleBlur = () => {
+            guiHasFocus.current = false;
+        };
 
+        window.addEventListener("focus", handleFocus);
+        window.addEventListener("blur", handleBlur);
+
+        return () => {
+            window.removeEventListener("focus", handleFocus);
+            window.removeEventListener("blur", handleBlur);
+        };
+    }, []);
+
+    useEffect(() => {
         initWebSocket({
             onOpen: () => setIsConnected(true),
             onClose: () => setIsConnected(false),
@@ -101,12 +118,14 @@ function App() {
         WindowReloadApp();
     }
 
+    if (thisClient === undefined) {
+        return <div>Client not found</div>;
+    }
     return (
         <>
             <div className="flex h-screen flex-col justify-evenly">
                 <Header
                     profileImageUrl="https://avatars.githubusercontent.com/u/117000423?v=4"
-                    chatName={useUserStore().myUsername}
                     isConnected={isConnected}
                     unreadMessages={unreadMessages}
                     onReconnect={() => reconnectToWebsocket()}
@@ -117,9 +136,9 @@ function App() {
                             key={entry[0]}
                             id={entry[0]}
                             clientId={entry[1].user.id}
-                            username={entry[1].user.username}
+                            username={entry[1].user.id === clientId ? thisClient?.username : entry[1].user.username}
                             message={entry[1].message.message}
-                            isUser={entry[1].user.username === clientUsername}
+                            isUser={entry[1].user.id === clientId}
                             messagePayload={entry[1]}
                             profilePhoto={"https://avatars.githubusercontent.com/u/117000423?v=4"}
                         />

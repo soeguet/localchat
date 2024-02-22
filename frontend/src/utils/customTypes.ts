@@ -31,6 +31,8 @@ export enum PayloadSubType {
 export type ProfileUpdatePayload = {
     type: PayloadSubType.profileUpdate;
     clientId: string;
+    username: string;
+    color: string;
     pictureUrl: string;
 };
 
@@ -113,7 +115,6 @@ export type EmojiProps = {
 
 export type HeaderProps = {
     profileImageUrl: string;
-    chatName: string;
     isConnected: boolean;
     unreadMessages: number;
     onReconnect: (socket: WebSocket) => void; // Funktion zum Wiederverbinden

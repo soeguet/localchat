@@ -34,9 +34,8 @@ function ProfileModal(props: ProfileModalProps) {
     const setProfileColor = useUserStore((state) => state.setMyColor);
     const [localColor, setLocalColor] = useState(profileColor);
     // profilePicture
-    const profilePhotoUrl = useUserStore((state) => state.myProfilePhoto);
     const setProfilePhotoUrl = useUserStore((state) => state.setMyProfilePhoto);
-    const [localProfilePicture, setLocalProfilePicture] = useState(profilePhotoUrl);
+    const [localProfilePicture, setLocalProfilePicture] = useState("");
     const [localProfilePictureBuffer, setLocalProfilePictureBuffer] = useState<ArrayBuffer | null>(null);
     // websocket
     const websocket = useWebsocketStore((state) => state.ws);
@@ -104,6 +103,8 @@ function ProfileModal(props: ProfileModalProps) {
         const profileUpdatePayload: ProfileUpdatePayload = {
             type: PayloadSubType.profileUpdate,
             clientId: clientId,
+            username: localName,
+            color: localColor,
             pictureUrl: pictureUrl,
         };
         if (!websocket) {

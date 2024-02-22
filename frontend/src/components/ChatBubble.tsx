@@ -4,16 +4,20 @@ import useReplyStore from "../stores/replyStore";
 import { MessageProps } from "../utils/customTypes";
 import QuoteBubble from "./QuoteBubble";
 import ProfilePicture from "./ProfilePicture";
+import React from "react";
+import useClientsStore from "../stores/clientsStore";
 
 function ChatBubble(props: MessageProps) {
     const [showMenu, setShowMenu] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
-    const [currentTime] = useState(formatTime(new Date()));
+    const currentTime = formatTime(new Date());
+    const client = useClientsStore((state) => state.clients.find((c) => c.id === props.clientId));
+    const clientUsername = client?.username;
 
-    /**
-     * Handles the click outside of the menu.
-     * @param event - The mouse event object.
-     */
+    // /**
+    //  * Handles the click outside of the menu.
+    //  * @param event - The mouse event object.
+    //  */
     const handleClickOutside = (event: MouseEvent) => {
         if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
             const { left, top, right, bottom } = menuRef.current.getBoundingClientRect();
@@ -74,7 +78,7 @@ function ChatBubble(props: MessageProps) {
 
             <div className={`flex flex-col ${props.isUser ? "items-end" : "items-start"}`}>
                 <div className="text-xs">
-                    <span className="font-semibold">{props.username}</span>{" "}
+                    <span className="font-semibold">{clientUsername}</span>{" "}
                     <span className="text-gray-500">{currentTime}</span>
                 </div>
                 <div
@@ -96,4 +100,4 @@ function ChatBubble(props: MessageProps) {
     );
 }
 
-export default ChatBubble;
+export default React.memo(ChatBubble);

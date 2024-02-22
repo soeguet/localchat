@@ -1,28 +1,23 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { HeaderProps } from "../utils/customTypes";
 import { socket } from "../utils/socket";
 import useUserStore from "../stores/userStore";
 import ProfileMenu from "./ProfileMenu";
 import ProfileModal from "./ProfileModal";
+import ProfilePicture from "./ProfilePicture";
 
-function Header({ chatName, isConnected, unreadMessages, onReconnect }: HeaderProps) {
-    const [profileImageUrl, setProfileImageUrl] = useState<string>("");
+function Header({ isConnected, unreadMessages, onReconnect }: HeaderProps) {
     const [showProfileMenu, setShowProfileMenu] = useState<boolean>(false);
     const [showProfileModal, setShowProfileModal] = useState<boolean>(false);
-
-    useEffect(() => {
-        setProfileImageUrl(useUserStore.getState().myProfilePhoto);
-    }, [useUserStore().myProfilePhoto]);
+    const clientId = useUserStore((state) => state.myId);
+    const username = useUserStore((state) => state.myUsername);
 
     return (
         <div className="bg-gray-800 text-white p-4 flex justify-between items-center">
             <div className="flex items-center">
-                <img
-                    src={profileImageUrl}
-                    onClick={() => setShowProfileMenu(!showProfileMenu)}
-                    alt="Profile"
-                    className="h-10 w-10 rounded-full mr-3"
-                />
+                <div onClick={() => setShowProfileMenu(!showProfileMenu)}>
+                    <ProfilePicture clientId={clientId} />
+                </div>
                 {showProfileMenu && (
                     <ProfileMenu
                         showMenu={showProfileMenu}
@@ -31,7 +26,7 @@ function Header({ chatName, isConnected, unreadMessages, onReconnect }: HeaderPr
                     />
                 )}
                 {showProfileModal && <ProfileModal isOpen={showProfileModal} setIsOpen={setShowProfileModal} />}
-                <span className="font-medium">{chatName}</span>
+                <span className="font-medium ml-3">{username}</span>
             </div>
             <div>
                 <span

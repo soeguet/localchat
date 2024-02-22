@@ -1,4 +1,5 @@
 import { Notification } from "../../wailsjs/go/main/App";
+import { getClientById } from "../stores/clientsStore";
 import useEnvironmentStore from "../stores/environmentStore";
 import useReplyStore from "../stores/replyStore";
 import useUserStore from "../stores/userStore";
@@ -56,10 +57,10 @@ function closeWebSocket() {
  */
 function sendClientMessageToWebsocket(message: string): void {
     const replyMessage = useReplyStore.getState().replyMessage;
-    const username = useUserStore.getState().myUsername;
     const id = useUserStore.getState().myId;
+    const username = getClientById(id)?.username;
 
-    if (username === null || id === null || username === "" || id === "") {
+    if (username === null || username === undefined || id === null || username === "" || id === "") {
         throw new Error("username or id is null" + username + id);
     }
 
