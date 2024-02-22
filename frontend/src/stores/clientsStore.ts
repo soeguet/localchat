@@ -1,4 +1,5 @@
 import { StoreApi, UseBoundStore, create } from "zustand";
+import { UserDatabaseRow } from "../utils/customTypes";
 
 /**
  * Represents a registered user.
@@ -10,9 +11,9 @@ export type RegisteredUser = {
     profilePhotoUrl: string;
 };
 export type ClientStore = {
-    clients: RegisteredUser[];
-    setClients: (clients: RegisteredUser[]) => void;
-    getClientById: (id: string) => RegisteredUser;
+    clients: UserDatabaseRow[];
+    setClients: (clients: UserDatabaseRow[]) => void;
+    getClientById: (id: string) => UserDatabaseRow;
 };
 
 const useClientsStore: UseBoundStore<StoreApi<ClientStore>> = create<ClientStore>((set) => ({

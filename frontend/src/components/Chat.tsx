@@ -6,7 +6,14 @@ import { addMessageIfUniqueId } from "./../utils/storage";
 import Header from "./Header";
 import { WindowReloadApp } from "./../../wailsjs/runtime/runtime";
 import { initWebSocket, sendClientMessageToWebsocket } from "../utils/socket";
-import { ClientListPayload, ClientType, MessagePayload, PayloadSubType, RegisteredUser } from "../utils/customTypes";
+import {
+    ClientListPayload,
+    ClientType,
+    MessagePayload,
+    PayloadSubType,
+    RegisteredUser,
+    UserDatabaseRow,
+} from "../utils/customTypes";
 import useUserStore from "../stores/userStore";
 import useClientsStore from "../stores/clientsStore";
 
@@ -88,20 +95,8 @@ function App() {
      */
     function handleClientListPayload(payload: ClientListPayload) {
         console.log("payload: ", payload);
-
-        const clients: RegisteredUser[] = payload.clients.map((c) => {
-            const clientColor: RegisteredUser = JSON.parse(c.user) as RegisteredUser;
-            console.log("c: ", clientColor);
-            console.log("c: ", c.user.profilePhotoUrl.length);
-            return {
-                id: c.user.id,
-                username: c.user.username,
-                profilePhotoUrl: c.user.profilePhotoUrl,
-                clientColor: c.user.clientColor,
-            } as RegisteredUser;
-        });
-
-        setClients(clients);
+        const userDatabaseRows: UserDatabaseRow[] = payload.clients;
+        setClients(userDatabaseRows);
     }
 
     /**
