@@ -3,7 +3,7 @@ import useEnvironmentStore from "../stores/environmentStore";
 import useReplyStore from "../stores/replyStore";
 import useUserStore from "../stores/userStore";
 import useWebsocketStore from "../stores/websocketStore";
-import { CallbackProps, MessagePayload, PayloadSubType } from "./customTypes";
+import { CallbackProps, MessagePayload, PayloadSubType, AuthenticatedPayload } from "./customTypes";
 
 let socket: WebSocket;
 
@@ -16,10 +16,10 @@ export const initWebSocket = (callbacks: CallbackProps) => {
         Notification("localchat", "Connection opened");
 
         // register user with the server
-        const authPayload = {
+        const authPayload: AuthenticatedPayload = {
             type: PayloadSubType.auth,
             username: useUserStore.getState().myUsername,
-            id: useUserStore.getState().myId,
+            clientId: useUserStore.getState().myId,
         };
 
         setTimeout(() => {

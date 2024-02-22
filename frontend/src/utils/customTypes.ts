@@ -1,4 +1,4 @@
-/**
+/**custom
  * Represents a message sent back to clients.
  */
 export type MessageBackToClients = {
@@ -14,7 +14,7 @@ export type UserDatabaseRow = {
 
 export type ClientListPayload = {
     type: PayloadSubType;
-    clients: UserDatabaseRow[];
+    clients: RegisteredUser[];
 };
 
 export type ClientType = {
@@ -32,6 +32,12 @@ export type ProfileUpdatePayload = {
     type: PayloadSubType.profileUpdate;
     clientId: string;
     pictureUrl: string;
+};
+
+export type AuthenticatedPayload = {
+    type: PayloadSubType.auth;
+    username: string;
+    clientId: string;
 };
 
 /**

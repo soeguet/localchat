@@ -6,14 +6,7 @@ import { addMessageIfUniqueId } from "./../utils/storage";
 import Header from "./Header";
 import { WindowReloadApp } from "./../../wailsjs/runtime/runtime";
 import { initWebSocket, sendClientMessageToWebsocket } from "../utils/socket";
-import {
-    ClientListPayload,
-    ClientType,
-    MessagePayload,
-    PayloadSubType,
-    RegisteredUser,
-    UserDatabaseRow,
-} from "../utils/customTypes";
+import { ClientListPayload, MessagePayload, PayloadSubType, RegisteredUser } from "../utils/customTypes";
 import useUserStore from "../stores/userStore";
 import useClientsStore from "../stores/clientsStore";
 
@@ -66,6 +59,7 @@ function App() {
             // update the client list with new data
             case PayloadSubType.clientList || PayloadSubType.profileUpdate:
                 console.log("PROFILE UPDATE triggered");
+                console.log(dataAsObject);
                 if (
                     dataAsObject.clients === undefined ||
                     dataAsObject.clients === null ||
@@ -73,7 +67,7 @@ function App() {
                 ) {
                     throw new Error("Client list is empty");
                 }
-                handleClientListPayload(dataAsObject as ClientListPayload);
+                handleClientListPayload(event.data);
 
                 break;
 
@@ -93,10 +87,11 @@ function App() {
      * @param payload The new client list.
      * @returns void
      */
-    function handleClientListPayload(payload: ClientListPayload) {
-        console.log("payload: ", payload);
-        const userDatabaseRows: UserDatabaseRow[] = payload.clients;
-        setClients(userDatabaseRows);
+    function handleClientListPayload(payloadAsString: string) {
+        console.log("handleClientListPayload triggered");
+        const payloadAsObject: ClientListPayload = JSON.parse(payloadAsString);
+        const clients: RegisteredUser[] = payloadAsObject.clients;
+        setClients(clients);
     }
 
     /**
