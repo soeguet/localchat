@@ -2,6 +2,7 @@ import { useState } from "react";
 import { HeaderProps } from "../utils/customTypes";
 import { socket } from "../utils/socket";
 import useUserStore from "../stores/userStore";
+import useClientsStore from "../stores/clientsStore";
 import ProfileMenu from "./ProfileMenu";
 import ProfileModal from "./ProfileModal";
 import ProfilePicture from "./ProfilePicture";
@@ -10,7 +11,7 @@ function Header({ isConnected, unreadMessages, onReconnect }: HeaderProps) {
     const [showProfileMenu, setShowProfileMenu] = useState<boolean>(false);
     const [showProfileModal, setShowProfileModal] = useState<boolean>(false);
     const clientId = useUserStore((state) => state.myId);
-    const username = useUserStore((state) => state.myUsername);
+    const username = useClientsStore((state) => state.clients.find((c) => c.id === clientId)?.username);
 
     return (
         <div className="bg-gray-800 text-white p-4 flex justify-between items-center">

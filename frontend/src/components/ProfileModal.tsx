@@ -4,6 +4,7 @@ import useUserStore from "../stores/userStore";
 import useEnvironmentStore from "../stores/environmentStore";
 import useWebsocketStore from "../stores/websocketStore";
 import { PayloadSubType, ProfileUpdatePayload } from "../utils/customTypes";
+import useClientsStore from "../stores/clientsStore";
 
 type ProfileModalProps = {
     isOpen: boolean;
@@ -18,7 +19,7 @@ function ProfileModal(props: ProfileModalProps) {
     const clientId = useUserStore((state) => state.myId);
 
     // name
-    const name = useUserStore((state) => state.myUsername);
+    const name = useClientsStore((state) => state.clients.find((c) => c.id === clientId)?.username);
     const setName = useUserStore((state) => state.setMyUsername);
     const [localName, setLocalName] = useState(name);
     // socketIp
@@ -85,7 +86,7 @@ function ProfileModal(props: ProfileModalProps) {
         // set env vars
         setSocketIp(localIp);
         setSocketPort(localPort);
-        setName(localName);
+        setName(localName || "");
         setProfileColor(localColor);
 
         // set profile picture
@@ -101,9 +102,9 @@ function ProfileModal(props: ProfileModalProps) {
 
         // send profile update to socket
         const profileUpdatePayload: ProfileUpdatePayload = {
-            type: PayloadSubType.profileUpdate,
+            payloadType: PayloadSubType.profileUpdate,
             clientId: clientId,
-            username: localName,
+            username: localName || "",
             color: localColor,
             pictureUrl: pictureUrl,
         };
@@ -111,6 +112,9 @@ function ProfileModal(props: ProfileModalProps) {
             throw new Error("Websocket not initialized");
         }
         websocket.send(JSON.stringify(profileUpdatePayload));
+
+        // close modal
+        props.setIsOpen(false);
     };
 
     return (

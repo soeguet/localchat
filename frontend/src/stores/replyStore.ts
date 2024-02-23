@@ -5,6 +5,7 @@ import { StoreApi, UseBoundStore, create } from "zustand";
  */
 export type Reply = {
     id: string;
+    senderId: string;
     username: string;
     time: string;
     message: string;

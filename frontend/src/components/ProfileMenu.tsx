@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { WindowReload } from "../../wailsjs/runtime/runtime";
 
 type ProfileMenuPropsType = {
     showMenu: boolean;
@@ -51,9 +52,9 @@ function ProfileMenu(props: ProfileMenuPropsType) {
                 </button>
                 <button
                     className="block w-full px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
-                    onClick={() => console.log("???")}
+                    onClick={() => WindowReload()}
                 >
-                    ???
+                    Reload App
                 </button>
             </div>
         </>

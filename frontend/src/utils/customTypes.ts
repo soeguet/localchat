@@ -13,7 +13,7 @@ export type UserDatabaseRow = {
 };
 
 export type ClientListPayload = {
-    type: PayloadSubType;
+    payloadType: PayloadSubType;
     clients: RegisteredUser[];
 };
 
@@ -22,14 +22,8 @@ export type ClientType = {
     user: RegisteredUser;
 };
 
-export enum PayloadSubType {
-    auth,
-    message,
-    clientList,
-    profileUpdate,
-}
 export type ProfileUpdatePayload = {
-    type: PayloadSubType.profileUpdate;
+    payloadType: PayloadSubType.profileUpdate;
     clientId: string;
     username: string;
     color: string;
@@ -37,8 +31,8 @@ export type ProfileUpdatePayload = {
 };
 
 export type AuthenticatedPayload = {
-    type: PayloadSubType.auth;
-    username: string;
+    payloadType: PayloadSubType.auth;
+    clientUsername: string;
     clientId: string;
 };
 
@@ -51,40 +45,39 @@ export type RegisteredUser = {
     clientColor: string;
     profilePhotoUrl: string;
 };
-
-/**
- * Represents a user.
- */
-export type UserType = {
-    id: string;
-    username: string;
-    isUser: boolean;
-    profilePhoto: string;
-};
 export type PayloadType = {
-    type: PayloadSubType;
+    payloadType: PayloadSubType;
 };
 
-/**
- * Represents a message with its content and timestamp.
- */
+export enum PayloadSubType {
+    auth,
+    message,
+    clientList,
+    profileUpdate,
+    messageList,
+}
+export type UserType = {
+    clientId: string;
+    clientUsername: string;
+    clientProfilePhoto: string;
+};
 export type MessageType = {
-    message: string;
+    messageId: string;
+    messageSenderId: string;
     time: string;
+    message: string;
 };
-
 export type QuoteType = {
-    message: string;
-    time: string;
-    sender: string;
+    quoteId: string;
+    quoteSenderId: string;
+    quoteMessage: string;
+    quoteTime: string;
 };
-
 export type MessagePayload = {
-    id?: string;
-    type: PayloadSubType;
-    user: UserType;
-    message: MessageType;
-    quote?: QuoteType;
+    payloadType: PayloadSubType;
+    userType: UserType;
+    messageType: MessageType;
+    quoteType?: QuoteType;
 };
 
 export type CallbackProps = {

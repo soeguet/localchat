@@ -1,10 +1,11 @@
 import { Notification } from "../../wailsjs/go/main/App";
 import { getClientById } from "../stores/clientsStore";
 import useEnvironmentStore from "../stores/environmentStore";
-import useReplyStore from "../stores/replyStore";
+import useReplyStore, { Reply } from "../stores/replyStore";
 import useUserStore from "../stores/userStore";
 import useWebsocketStore from "../stores/websocketStore";
 import { CallbackProps, MessagePayload, PayloadSubType, AuthenticatedPayload } from "./customTypes";
+import { generateSimpleId } from "./functionality";
 
 let socket: WebSocket;
 
@@ -18,8 +19,8 @@ export const initWebSocket = (callbacks: CallbackProps) => {
 
         // register user with the server
         const authPayload: AuthenticatedPayload = {
-            type: PayloadSubType.auth,
-            username: useUserStore.getState().myUsername,
+            payloadType: PayloadSubType.auth,
+            clientUsername: useUserStore.getState().myUsername,
             clientId: useUserStore.getState().myId,
         };
 
@@ -56,7 +57,7 @@ function closeWebSocket() {
  * @param message - The message to send.
  */
 function sendClientMessageToWebsocket(message: string): void {
-    const replyMessage = useReplyStore.getState().replyMessage;
+    const replyMessage: Reply | null = useReplyStore.getState().replyMessage;
     const id = useUserStore.getState().myId;
     const username = getClientById(id)?.username;
 
@@ -65,25 +66,27 @@ function sendClientMessageToWebsocket(message: string): void {
     }
 
     const payload: MessagePayload = {
-        type: PayloadSubType.message,
-        user: {
-            id: id,
-            username: username,
-            isUser: true,
-            profilePhoto: useUserStore.getState().myProfilePhoto,
+        payloadType: PayloadSubType.message,
+        userType: {
+            clientId: id,
+            clientUsername: username,
+            clientProfilePhoto: useUserStore.getState().myProfilePhoto,
         },
-        message: {
+        messageType: {
             message: message,
             time: new Date().toLocaleTimeString(),
+            messageId: generateSimpleId(),
+            messageSenderId: id,
         },
     };
 
     // if there is a replyMessage message, add it to the payload
     if (replyMessage) {
-        payload.quote = {
-            message: replyMessage.message,
-            time: replyMessage.time,
-            sender: replyMessage.username,
+        payload.quoteType = {
+            quoteId: replyMessage.id,
+            quoteMessage: replyMessage.message,
+            quoteTime: replyMessage.time,
+            quoteSenderId: replyMessage.senderId,
         };
     }
 

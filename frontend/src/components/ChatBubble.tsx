@@ -5,7 +5,7 @@ import { MessageProps } from "../utils/customTypes";
 import QuoteBubble from "./QuoteBubble";
 import ProfilePicture from "./ProfilePicture";
 import React from "react";
-import useClientsStore from "../stores/clientsStore";
+import useClientsStore, { getClientById } from "../stores/clientsStore";
 
 function ChatBubble(props: MessageProps) {
     const [showMenu, setShowMenu] = useState(false);
@@ -32,9 +32,10 @@ function ChatBubble(props: MessageProps) {
     function activateReplyMessage() {
         useReplyStore.getState().setReplyMessage({
             id: props.id,
-            username: props.messagePayload.user.username,
+            senderId: props.clientId,
+            username: props.messagePayload.userType.clientUsername,
             time: currentTime,
-            message: props.messagePayload.message.message,
+            message: props.messagePayload.messageType.message,
         });
     }
 
@@ -84,12 +85,14 @@ function ChatBubble(props: MessageProps) {
                 <div
                     className={`mt-1 max-w-md rounded-lg px-4 py-2 md:max-w-2xl lg:max-w-4xl ${props.isUser ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"}`}
                 >
-                    {props.messagePayload.quote && (
+                    {props.messagePayload.quoteType && (
                         <div className="">
                             <QuoteBubble
-                                message={props.messagePayload.quote.message}
-                                time={props.messagePayload.quote.time}
-                                sender={props.messagePayload.quote.sender}
+                                message={props.messagePayload.quoteType.quoteMessage}
+                                time={props.messagePayload.quoteType.quoteTime}
+                                sender={
+                                    getClientById(props.messagePayload.quoteType.quoteSenderId)?.username || "Unknown"
+                                }
                             />
                         </div>
                     )}
