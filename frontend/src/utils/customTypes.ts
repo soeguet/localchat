@@ -55,6 +55,7 @@ export enum PayloadSubType {
     clientList,
     profileUpdate,
     messageList,
+    typing,
 }
 export type UserType = {
     clientId: string;

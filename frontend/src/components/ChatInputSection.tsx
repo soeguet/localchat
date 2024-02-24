@@ -1,13 +1,34 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Emoji from "./Emoji";
 import Reply from "./Reply";
 import useReplyStore from "../stores/replyStore";
-import { InputProps } from "../utils/customTypes";
+import useUserStore from "../stores/userStore";
+import { InputProps, PayloadSubType } from "../utils/customTypes";
+import useWebsocketStore from "../stores/websocketStore";
 
 function ChatInputSection(inputProps: InputProps) {
     const [message, setMessage] = useState("");
 
-    function handleSendMessage(message: string) {
+    const clientId = useUserStore((state) => state.myId);
+    const websocket: WebSocket | null = useWebsocketStore((state) => state.ws);
+
+    const [typingTimeoutId, setTypingTimeoutId] = useState<number | null>(null);
+
+    const sendTypingStatus = useCallback((isTyping: boolean) => {
+        if (websocket !== null) {
+            websocket.send(
+                JSON.stringify({
+                    payloadType: PayloadSubType.typing,
+                    clientId: clientId,
+                    isTyping: isTyping,
+                })
+            );
+        }
+    }, []);
+
+    const handleSendMessage = useCallback((message: string) => {
+        // Nachricht senden Logik hier
+        console.log("Message sent:", message); // Implementierung hier einfügen
         if (message.trim()) {
             const { replyMessage, setReplyMessage } = useReplyStore.getState();
 
@@ -19,14 +40,39 @@ function ChatInputSection(inputProps: InputProps) {
             }
             setMessage("");
         }
-    }
+    }, []);
 
-    function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
-        if (e.key === "Enter" && !e.shiftKey) {
-            e.preventDefault();
-            handleSendMessage(message);
-        }
-    }
+    const handleKeyDown = useCallback(
+        (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                handleSendMessage(message);
+                sendTypingStatus(false);
+                if (typingTimeoutId) {
+                    clearTimeout(typingTimeoutId);
+                    setTypingTimeoutId(null);
+                }
+            } else {
+                // sends status
+                if (message.length === 0 || !typingTimeoutId) {
+                    sendTypingStatus(true);
+                }
+
+                // reset timer if one is present
+                if (typingTimeoutId) {
+                    clearTimeout(typingTimeoutId);
+                }
+
+                // start a new timer
+                const id = window.setTimeout(() => {
+                    sendTypingStatus(false);
+                    setTypingTimeoutId(null);
+                }, 2500);
+                setTypingTimeoutId(id);
+            }
+        },
+        [message, typingTimeoutId, handleSendMessage, sendTypingStatus]
+    );
 
     return (
         <div className="flex items-end gap-2 border-t border-gray-200 bg-white p-4">

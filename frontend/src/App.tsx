@@ -3,6 +3,7 @@ import { GetLocalChatEnvVars } from "../wailsjs/go/main/App";
 import Chat from "./components/Chat";
 import { EnvVars } from "./utils/customTypes";
 import useUserStore from "./stores/userStore";
+import useTypingStore from "./stores/typingStore";
 import useEnvironmentStore from "./stores/environmentStore";
 import Form from "./components/Form";
 

@@ -1,8 +1,13 @@
+import { getClientById } from "../stores/clientsStore";
 import "./TypingIndicator.css";
 
-const TypingIndicator = ({ typingUsers }) => {
-    const names = typingUsers.join(", ");
-    const text = typingUsers.length > 1 ? "are typing" : "is typing";
+const TypingIndicator = ({ typingUsers }: { typingUsers: string[] }) => {
+    const typingUserNames = typingUsers.map((id) => {
+        return getClientById(id)?.username || "Unknown";
+    });
+
+    const names = typingUserNames.join(", ");
+    const text = typingUserNames.length > 1 ? "are typing" : "is typing";
 
     return (
         <div className="text-small mb-1 p-2 bg-gray-200 mx-auto rounded-lg shadow max-w-xs whitespace-nowrap overflow-hidden">

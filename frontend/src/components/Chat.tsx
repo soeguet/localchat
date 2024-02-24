@@ -11,24 +11,30 @@ import { ClientListPayload, MessagePayload, PayloadSubType, RegisteredUser } fro
 import useUserStore from "../stores/userStore";
 import useClientsStore, { getClientById } from "../stores/clientsStore";
 import useEnvironmentStore from "../stores/environmentStore";
+import useTypingStore from "../stores/typingStore";
 
 /**
  * The main component of the application.
  * Renders the chat interface and handles message handling and sending.
  */
 function App() {
+    // message state && refs
     const [unreadMessages, setUnreadMessages] = useState(0);
-    const [isConnected, setIsConnected] = useState(false);
-    // const [guiHasFocus, setGuiHasFocus] = useState(true);
-    const endOfListRef = useRef<HTMLDivElement | null>(null);
     const [messagesMap, setMessagesMap] = useState<Map<string, MessagePayload>>(new Map());
-    const clientId = useUserStore((state) => state.myId);
+    const endOfListRef = useRef<HTMLDivElement | null>(null);
 
+    // socket state
+    const [isConnected, setIsConnected] = useState(false);
     const socketIp = useEnvironmentStore((state) => state.socketIp);
     const socketPort = useEnvironmentStore((state) => state.socketPort);
 
-    const [typingUsers, setTypingUsers] = useState(["OSMAN", "JAKOB", "JONAS", "OSMAN", "JAKOB", "JONAS"]);
+    // typing state
+    const addTypingClientId = useTypingStore((state) => state.addTypingClientId);
+    const removeTypingClientId = useTypingStore((state) => state.removeTypingClientId);
+    const typingClientIds = useTypingStore((state) => state.typingClientIds);
 
+    // this client state
+    const clientId = useUserStore((state) => state.myId);
     const thisClient: RegisteredUser | undefined = useClientsStore((state) =>
         state.clients.find((c) => c.id === clientId)
     );
@@ -95,6 +101,8 @@ function App() {
     function handleIncomingMessages(event: MessageEvent) {
         const dataAsObject = JSON.parse(event.data);
         //
+        console.log("dataAsObject", dataAsObject);
+
         switch (dataAsObject.payloadType) {
             // update the client list with new data
             case PayloadSubType.clientList || PayloadSubType.profileUpdate:
@@ -116,6 +124,18 @@ function App() {
 
             case PayloadSubType.messageList:
                 handeMessageListPayload(event.data);
+                break;
+
+            case PayloadSubType.typing:
+                if (dataAsObject.clientId === undefined || dataAsObject.isTyping === undefined) {
+                    throw new Error("Typing payload is missing client ID or typing status");
+                }
+                if (dataAsObject.isTyping) {
+                    addTypingClientId(dataAsObject.clientId);
+                } else {
+                    removeTypingClientId(dataAsObject.clientId);
+                }
+                console.log("typingUsers", typingClientIds);
                 break;
 
             // unknown payload type
@@ -185,7 +205,7 @@ function App() {
                     ))}
                     <div ref={endOfListRef} />
                 </div>
-                <TypingIndicator typingUsers={typingUsers} />
+                {typingClientIds.length !== 0 && <TypingIndicator typingUsers={typingClientIds} />}
                 <div className="grow-0">
                     <ChatInputSection sendClientMessageToWebsocket={sendClientMessageToWebsocket} />
                 </div>
