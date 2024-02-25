@@ -8,10 +8,10 @@ i18n.use(HttpBackend)
     .use(initReactI18next)
     .init({
         backend: {
-            loadPath: "/src/locales/{{lng}}/{{ns}}.json",
+            loadPath: "/locale/{{lng}}/{{ns}}.json",
         },
         fallbackLng: language,
-        debug: false,
+        debug: true,
 
         interpolation: {
             escapeValue: false,

@@ -19,5 +19,8 @@
     "button_send": "Send",
     "chat_input_placeholder": "Type a message..",
     "button_unread": "Unread Messages",
-    "button_reconnect": "Reconnect"
+    "button_reconnect": "Reconnect",
+    "profile_modal_title": "Edit Profile",
+    "menu_item_profile": "👤 Edit Profil",
+    "menu_item_reload": "🔄 Reload Application"
 }

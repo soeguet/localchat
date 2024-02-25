@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { WindowReload } from "../../wailsjs/runtime/runtime";
+import { useTranslation } from "react-i18next";
 
 type ProfileMenuPropsType = {
     showMenu: boolean;
@@ -8,6 +9,7 @@ type ProfileMenuPropsType = {
 };
 
 function ProfileMenu(props: ProfileMenuPropsType) {
+    const { t } = useTranslation();
     const menuRef = useRef<HTMLDivElement>(null);
 
     /**
@@ -39,7 +41,7 @@ function ProfileMenu(props: ProfileMenuPropsType) {
         <>
             <div
                 ref={menuRef}
-                className={"absolute left-2 top-16 mr-12 z-20 mt-2 w-48 rounded-md border-2 bg-white py-1 shadow-xl"}
+                className={"absolute left-2 top-16 mr-12 z-20 mt-2 w-56 rounded-md border-2 bg-white py-1 shadow-xl"}
             >
                 <button
                     className="block w-full px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
@@ -48,13 +50,13 @@ function ProfileMenu(props: ProfileMenuPropsType) {
                         props.setShowMenu(false);
                     }}
                 >
-                    Edit
+                    {t("menu_item_profile")}
                 </button>
                 <button
                     className="block w-full px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
                     onClick={() => WindowReload()}
                 >
-                    Reload App
+                    {t("menu_item_reload")}
                 </button>
             </div>
         </>

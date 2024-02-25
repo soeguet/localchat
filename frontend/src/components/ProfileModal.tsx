@@ -36,11 +36,12 @@ function ProfileModal(props: ProfileModalProps) {
     // profileColor
     const profileColor = useUserStore((state) => state.myColor);
     const setProfileColor = useUserStore((state) => state.setMyColor);
-    const [localColor, setLocalColor] = useState(profileColor);
+    const [localColor, setLocalColor] = useState("");
+
     // profilePicture
     const setProfilePhotoUrl = useUserStore((state) => state.setMyProfilePhoto);
     const [localProfilePicture, setLocalProfilePicture] = useState("");
-    const [localProfilePictureBuffer, setLocalProfilePictureBuffer] = useState<ArrayBuffer | null>(null);
+    // const [localProfilePictureBuffer, setLocalProfilePictureBuffer] = useState<ArrayBuffer | null>(null);
     // websocket
     const websocket = useWebsocketStore((state) => state.ws);
     //language
@@ -55,7 +56,12 @@ function ProfileModal(props: ProfileModalProps) {
 
         try {
             const arrayBuffer = await readFileAsArrayBuffer(file);
-            setLocalProfilePictureBuffer(arrayBuffer);
+            // set profile picture
+            let pictureUrl = "";
+            // convert ArrayBuffer to base64 string
+            const base64String = arrayBufferToBase64(arrayBuffer);
+            pictureUrl = `data:image/jpeg;base64,${base64String}`;
+            setLocalProfilePicture(pictureUrl);
         } catch (error) {
             console.error("Error reading the file.", error);
         }
@@ -99,16 +105,7 @@ function ProfileModal(props: ProfileModalProps) {
         setName(localName || "");
         setProfileColor(localColor);
 
-        // set profile picture
-        let pictureUrl = "";
-        if (!preferPictureUrl && localProfilePictureBuffer) {
-            // convert ArrayBuffer to base64 string
-            const base64String = arrayBufferToBase64(localProfilePictureBuffer);
-            pictureUrl = `data:image/jpeg;base64,${base64String}`; // Ändern Sie den MIME-Typ entsprechend.
-        } else if (preferPictureUrl) {
-            pictureUrl = localProfilePicture;
-        }
-        setProfilePhotoUrl(pictureUrl);
+        setProfilePhotoUrl(localProfilePicture);
 
         // send profile update to socket
         const profileUpdatePayload: ProfileUpdatePayload = {
@@ -116,7 +113,7 @@ function ProfileModal(props: ProfileModalProps) {
             clientId: clientId,
             username: localName || "",
             color: localColor,
-            pictureUrl: pictureUrl,
+            pictureUrl: localProfilePicture,
         };
         if (!websocket) {
             throw new Error("Websocket not initialized");
@@ -131,31 +128,45 @@ function ProfileModal(props: ProfileModalProps) {
         <>
             <div className="fixed z-20 inset-0 bg-black bg-opacity-50 flex justify-center items-center">
                 <div className="bg-white p-4 rounded-lg text-black w-full sm:w-3/4 md:w-3/4 lg:w-1/2 xl:w-1/2">
-                    <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
-                        <div className="col-span-2 grid grid-cols-8">
-                            <div className="col-span-1 my-auto ml-1.5">
-                                <ProfilePicture clientId={clientId} />
-                            </div>
-                            <div className="col-span-7">
-                                <label htmlFor="profilePicture">
-                                    Profile Picture
-                                    <div>
-                                        <div className="flex h-6 items-center">
-                                            <input
-                                                id="comments"
-                                                aria-describedby="comments-description"
-                                                onChange={(e) => setPreferPictureUrl(e.target.checked)}
-                                                name="comments"
-                                                type="checkbox"
-                                                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                                            />
-                                            <label htmlFor="comments" className="font-medium ml-3 text-gray-500">
-                                                {t("prefer_pic_url")}
-                                            </label>
-                                        </div>
-                                    </div>
-                                </label>
+                    <form onSubmit={handleSubmit} className="grid grid-cols-3 gap-4">
+                        <div className="col-span-3 grid grid-cols-8">
+                            <div className="col-span-2 my-auto mx-auto">
                                 {localProfilePicture ? (
+                                    <div className="grid">
+                                        <ProfilePicture
+                                            clientId={clientId}
+                                            pictureUrl={localProfilePicture}
+                                            properties={"h-20 w-20 border-2 border-gray-500"}
+                                        />
+                                        <span className="text-xs bg-red-200 text-center rounded text-gray-600 p-1">
+                                            preview
+                                        </span>
+                                    </div>
+                                ) : (
+                                    <ProfilePicture
+                                        clientId={clientId}
+                                        properties="h-20 w-20 border-2 border-gray-500"
+                                    />
+                                )}
+                            </div>
+                            <div className="col-span-6">
+                                <div>
+                                    <label htmlFor="profilePicture">{t("profile_modal_title")}</label>
+                                    <div className="flex h-6 items-center">
+                                        <input
+                                            id="comments"
+                                            aria-describedby="comments-description"
+                                            onChange={(e) => setPreferPictureUrl(e.target.checked)}
+                                            name="comments"
+                                            type="checkbox"
+                                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                                        />
+                                        <label htmlFor="comments" className="font-medium ml-3 text-gray-500">
+                                            {t("prefer_pic_url")}
+                                        </label>
+                                    </div>
+                                </div>
+                                {preferPictureUrl ? (
                                     <input
                                         type="text"
                                         id="profilePicture"
@@ -211,19 +222,31 @@ function ProfileModal(props: ProfileModalProps) {
                                 onChange={(e) => setLanguage(e.target.value)}
                                 className="mt-1 border border-gray-300 rounded-md p-2 w-full"
                             >
-                                <option value="de">Deutsch</option>
-                                <option value="en">Englisch</option>
+                                <option value="de">🇩🇪 Deutsch</option>
+                                <option value="en">🇺🇸 Englisch</option>
                             </select>
                         </div>
                         <div className="col-span-2">
-                            <label htmlFor="profileColor">Profile Color</label>
-                            <input
-                                type="color"
-                                id="profileColor"
-                                value={localColor}
-                                onChange={(e) => setLocalColor(e.target.value)}
-                                className="mt-1 ml-2 border border-gray-300 rounded-md p-2"
-                            />
+                            <div className="grid">
+                                <div>
+                                    <label htmlFor="profileColor">Profile Color</label>
+                                </div>
+                                <div className="grow">
+                                    <input
+                                        size={20}
+                                        type="color"
+                                        id="profileColor"
+                                        value={"red"}
+                                        onChange={(e) => {
+                                            setLocalColor(e.target.value);
+                                            console.log("FARBE");
+                                            console.log(e.target.value);
+                                        }}
+                                        className="mt-1 ml-2 border border-gray-300 rounded-md p-5 w-32"
+                                        style={{ backgroundColor: localColor }}
+                                    />
+                                </div>
+                            </div>
                         </div>
                         <div className="col-span-2 flex justify-end items-center">
                             <button type="submit" className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg">

@@ -19,5 +19,8 @@
     "button_send": "Senden",
     "chat_input_placeholder": "Nachricht eingeben..",
     "button_unread": "Ungelesene Nachrichten",
-    "button_reconnect": "Erneut verbinden"
+    "button_reconnect": "Erneut verbinden",
+    "profile_modal_title": "Bearbeite das Nutzerprofil",
+    "menu_item_profile": "👤 Profil Bearbeiten",
+    "menu_item_reload": "🔄 Applikation neu laden"
 }
