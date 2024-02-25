@@ -16,6 +16,6 @@ i18n.use(HttpBackend)
         interpolation: {
             escapeValue: false,
         },
-    });
+    }).then(r => console.log("i18n initialized!", r));
 
 export default i18n;

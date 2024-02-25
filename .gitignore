@@ -11,3 +11,5 @@ frontend/bun.lockb
 go.work.sum
 go.work
 package-lock.json
+.idea/checkstyle-idea.xml
+.idea

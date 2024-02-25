@@ -30,6 +30,7 @@ function App() {
     const [isConnected, setIsConnected] = useState(false);
     const socketIp = useEnvironmentStore((state) => state.socketIp);
     const socketPort = useEnvironmentStore((state) => state.socketPort);
+    const [disableClickable, setDisableClickable] = useState(false);
 
     // typing state
     const addTypingClientId = useTypingStore((state) => state.addTypingClientId);
@@ -166,15 +167,25 @@ function App() {
     }
 
     if (thisClient === undefined) {
+        const timeout = setTimeout(() => {
+            setDisableClickable(true);
+
+            return () => {
+                clearTimeout(timeout);
+                setDisableClickable(false);
+            };
+        }, 2000);
+
         return (
             <>
                 <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-                    <div className="text-lg font-semibold text-gray-800 mb-4">Client not found</div>
+                    <div className="text-lg font-semibold text-gray-800 mb-4">{t("client_not_found")}</div>
                     <button
                         onClick={() => reconnectToWebsocket()}
-                        className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+                        className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 disabled:border-black"
+                        disabled={!disableClickable}
                     >
-                        Reconnect
+                        {t("button_reconnect")}
                     </button>
                 </div>
             </>

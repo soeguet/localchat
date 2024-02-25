@@ -22,5 +22,6 @@
     "button_reconnect": "Reconnect",
     "profile_modal_title": "Edit Profile",
     "menu_item_profile": "👤 Edit Profil",
-    "menu_item_reload": "🔄 Reload Application"
+    "menu_item_reload": "🔄 Reload Application",
+    "client_not_found": "Client not found, please wait.."
 }
