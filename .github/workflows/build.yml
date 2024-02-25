@@ -27,7 +27,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: linux-executable
-          path: ./build/localchat
+          path: ./build/bin/localchat
 
   setup-go-windows:
     needs: setup-go
@@ -46,4 +46,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: windows-executable
-          path: ./build/localchat.exe
+          path: ./build/bin/localchat.exe
