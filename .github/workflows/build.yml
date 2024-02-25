@@ -12,9 +12,9 @@ jobs:
   setup-go:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set up Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v5
         with:
           go-version: "1.21.6"
       - name: Install Wails
@@ -22,7 +22,7 @@ jobs:
       - name: Build Linux Binary
         run: wails build -f
       - name: Upload Linux Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: linux-executable
           path: ./build/localchat
@@ -31,9 +31,9 @@ jobs:
     needs: setup-go
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set up Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v5
         with:
           go-version: "1.21.6"
       - name: Install Wails
@@ -41,7 +41,7 @@ jobs:
       - name: Build Windows Binary
         run: wails build -f
       - name: Upload Windows Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: windows-executable
           path: ./build/localchat.exe
