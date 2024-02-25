@@ -1,0 +1,7 @@
+{
+    "welcome_message": "Willkommen bei React",
+    "status_connected": "Verbunden",
+    "status_disconnected": "Getrennt",
+    "prefer_pic_url": "Bevorzuge Bild-URL",
+    "language_selection": "Wählen Sie eine Sprache"
+}

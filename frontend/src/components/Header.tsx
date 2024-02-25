@@ -6,6 +6,7 @@ import useClientsStore from "../stores/clientsStore";
 import ProfileMenu from "./ProfileMenu";
 import ProfileModal from "./ProfileModal";
 import ProfilePicture from "./ProfilePicture";
+import { t } from "i18next";
 
 function Header({ isConnected, unreadMessages, onReconnect }: HeaderProps) {
     const [showProfileMenu, setShowProfileMenu] = useState<boolean>(false);
@@ -33,7 +34,7 @@ function Header({ isConnected, unreadMessages, onReconnect }: HeaderProps) {
                 <span
                     className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${isConnected ? "bg-green-500 text-white" : "bg-red-500 text-white"}`}
                 >
-                    {isConnected ? "Connected" : "Disconnected"}
+                    {isConnected ? t("status_connected") : t("status_disconnected")}
                 </span>
                 {!isConnected && (
                     <button

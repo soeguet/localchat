@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProfilePicture from "./ProfilePicture";
 import useUserStore from "../stores/userStore";
 import useEnvironmentStore from "../stores/environmentStore";
 import useWebsocketStore from "../stores/websocketStore";
 import { PayloadSubType, ProfileUpdatePayload } from "../utils/customTypes";
 import useClientsStore from "../stores/clientsStore";
+import { useTranslation } from "react-i18next";
+import i18n from "../config/i18n";
 
 type ProfileModalProps = {
     isOpen: boolean;
@@ -12,6 +14,7 @@ type ProfileModalProps = {
 };
 
 function ProfileModal(props: ProfileModalProps) {
+    const { t } = useTranslation();
     // just in case
     if (!props.isOpen) return null;
 
@@ -40,6 +43,8 @@ function ProfileModal(props: ProfileModalProps) {
     const [localProfilePictureBuffer, setLocalProfilePictureBuffer] = useState<ArrayBuffer | null>(null);
     // websocket
     const websocket = useWebsocketStore((state) => state.ws);
+    //language
+    const [language, setLanguage] = useState(localStorage.getItem("language") || "en");
 
     async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
         const file = event.target.files?.[0] || null;
@@ -55,6 +60,11 @@ function ProfileModal(props: ProfileModalProps) {
             console.error("Error reading the file.", error);
         }
     }
+
+    useEffect(() => {
+        i18n.changeLanguage(language);
+        localStorage.setItem("language", language);
+    }, [language]);
 
     function readFileAsArrayBuffer(file: File): Promise<ArrayBuffer> {
         return new Promise((resolve, reject) => {
@@ -140,7 +150,7 @@ function ProfileModal(props: ProfileModalProps) {
                                                 className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                                             />
                                             <label htmlFor="comments" className="font-medium ml-3 text-gray-500">
-                                                Prefer Picture URL
+                                                {t("prefer_pic_url")}
                                             </label>
                                         </div>
                                     </div>
@@ -192,6 +202,18 @@ function ProfileModal(props: ProfileModalProps) {
                                 onChange={(e) => setLocalPort(e.target.value)}
                                 className="mt-1 border border-gray-300 rounded-md p-2 w-full"
                             />
+                        </div>
+                        <div>
+                            <label htmlFor="languageSelection">{t("language_selection")}</label>
+                            <select
+                                id="languageSelection"
+                                value={language}
+                                onChange={(e) => setLanguage(e.target.value)}
+                                className="mt-1 border border-gray-300 rounded-md p-2 w-full"
+                            >
+                                <option value="de">Deutsch</option>
+                                <option value="en">Englisch</option>
+                            </select>
                         </div>
                         <div className="col-span-2">
                             <label htmlFor="profileColor">Profile Color</label>

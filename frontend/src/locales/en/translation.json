@@ -1,0 +1,7 @@
+{
+    "welcome_message": "Welcome to React",
+    "status_connected": "Connected",
+    "status_disconnected": "Disconnected",
+    "prefer_pic_url": "Prefer Picture URL",
+    "language_selection": "Select App Language"
+}

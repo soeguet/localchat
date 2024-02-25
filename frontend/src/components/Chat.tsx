@@ -12,12 +12,15 @@ import useUserStore from "../stores/userStore";
 import useClientsStore, { getClientById } from "../stores/clientsStore";
 import useEnvironmentStore from "../stores/environmentStore";
 import useTypingStore from "../stores/typingStore";
+import { useTranslation } from "react-i18next";
 
 /**
  * The main component of the application.
  * Renders the chat interface and handles message handling and sending.
  */
 function App() {
+    const { t } = useTranslation();
+
     // message state && refs
     const [unreadMessages, setUnreadMessages] = useState(0);
     const [messagesMap, setMessagesMap] = useState<Map<string, MessagePayload>>(new Map());
@@ -187,6 +190,7 @@ function App() {
                     onReconnect={() => reconnectToWebsocket()}
                 />
                 <div className="grow overflow-y-scroll px-2 pt-2 hover:overflow-scroll">
+                    <h1>{t("welcome_message")}</h1>
                     {Array.from(messagesMap.entries()).map((entry) => (
                         <ChatBubble
                             key={entry[0]}

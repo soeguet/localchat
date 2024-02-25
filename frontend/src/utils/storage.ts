@@ -3,8 +3,6 @@ import { MessagePayload } from "./customTypes";
 import { MakeWindowsTaskIconFlash, Notification } from "./../../wailsjs/go/main/App";
 import useUserStore from "../stores/userStore";
 import useEnvironmentStore from "../stores/environmentStore";
-import { getClientById } from "../stores/clientsStore";
-
 /**
  * Adds a message to the messages map if it has a unique ID.
  * @param newMessage The new message to be added.
@@ -15,6 +13,8 @@ export async function addMessageIfUniqueId(
     newMessage: MessagePayload
 ) {
     const id: string | undefined = newMessage.messageType.messageId;
+    const userId: string | undefined = newMessage.userType.clientId;
+    const thisClientId = useUserStore.getState().myId;
 
     if (id === undefined) {
         throw new Error("message has no id!");
@@ -26,7 +26,7 @@ export async function addMessageIfUniqueId(
         setMessagesMap((prev) => new Map(prev).set(id, newMessage));
 
         // TODO put this somewhere else
-        if (getClientById(id)?.username !== useUserStore.getState().myUsername) {
+        if (userId !== thisClientId) {
             Notification(
                 formatTime(new Date()) + " - " + newMessage.userType.clientUsername,
                 newMessage.messageType.message
