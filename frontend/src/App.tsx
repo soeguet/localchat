@@ -3,15 +3,16 @@ import { GetLocalChatEnvVars } from "../wailsjs/go/main/App";
 import Chat from "./components/Chat";
 import { EnvVars } from "./utils/customTypes";
 import useUserStore from "./stores/userStore";
-import useTypingStore from "./stores/typingStore";
 import useEnvironmentStore from "./stores/environmentStore";
 import Form from "./components/Form";
+import { useTranslation } from "react-i18next";
 
 /**
  * The main component of the application.
  * Renders all interfaces.
  */
 function App() {
+    const { t } = useTranslation();
     const [startup, setStartup] = useState<boolean>(true);
     const [allVarsSet, setAllVarsSet] = useState<boolean>(false);
 
@@ -62,7 +63,7 @@ function App() {
     }, [socketIp, socketPort]);
 
     if (startup) {
-        return <div className="flex justify-center items-center h-screen">loading...</div>;
+        return <div className="flex justify-center items-center h-screen">{t("loading_app")}</div>;
     } else if (!allVarsSet) {
         return <Form setAllVarsSet={setAllVarsSet} />;
     }

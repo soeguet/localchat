@@ -7,12 +7,24 @@ import ProfileMenu from "./ProfileMenu";
 import ProfileModal from "./ProfileModal";
 import ProfilePicture from "./ProfilePicture";
 import { t } from "i18next";
+import i18n from "../config/i18n";
 
 function Header({ isConnected, unreadMessages, onReconnect }: HeaderProps) {
     const [showProfileMenu, setShowProfileMenu] = useState<boolean>(false);
     const [showProfileModal, setShowProfileModal] = useState<boolean>(false);
     const clientId = useUserStore((state) => state.myId);
     const username = useClientsStore((state) => state.clients.find((c) => c.id === clientId)?.username);
+
+    function switchLanguage() {
+        const language_selected = localStorage.getItem("language");
+        if (language_selected === "en") {
+            i18n.changeLanguage("de");
+            localStorage.setItem("language", "de");
+        } else {
+            i18n.changeLanguage("en");
+            localStorage.setItem("language", "en");
+        }
+    }
 
     return (
         <div className="bg-gray-800 text-white p-4 flex justify-between items-center">
@@ -41,16 +53,25 @@ function Header({ isConnected, unreadMessages, onReconnect }: HeaderProps) {
                         onClick={() => onReconnect(socket)}
                         className="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-xs"
                     >
-                        Reconnect
+                        {t("button_reconnect")}
                     </button>
                 )}
             </div>
-            <div>
-                <span
-                    className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${unreadMessages > 0 ? "bg-blue-500 text-white" : "bg-gray-500 text-white"}`}
+            <div className="flex">
+                <div>
+                    <span
+                        className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${unreadMessages > 0 ? "bg-blue-500 text-white" : "bg-gray-500 text-white"}`}
+                    >
+                        {t("button_unread") + ": "}
+                        {unreadMessages}
+                    </span>
+                </div>
+                <div
+                    onClick={() => switchLanguage()}
+                    className="mx-2 px-2 cursor-pointer rounded-full hover:bg-cyan-50 transition"
                 >
-                    Unread: {unreadMessages}
-                </span>
+                    {t("selected_language")}
+                </div>
             </div>
         </div>
     );

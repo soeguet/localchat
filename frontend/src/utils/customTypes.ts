@@ -95,7 +95,6 @@ export type MessageProps = {
     isUser: boolean;
     username: string;
     messagePayload: MessagePayload;
-    profilePhoto: string;
 };
 
 export type InputProps = {
@@ -108,10 +107,9 @@ export type EmojiProps = {
 };
 
 export type HeaderProps = {
-    profileImageUrl: string;
     isConnected: boolean;
     unreadMessages: number;
-    onReconnect: (socket: WebSocket) => void; // Funktion zum Wiederverbinden
+    onReconnect: (socket: WebSocket) => void;
 };
 
 /**

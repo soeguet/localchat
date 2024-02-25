@@ -6,8 +6,11 @@ import QuoteBubble from "./QuoteBubble";
 import ProfilePicture from "./ProfilePicture";
 import React from "react";
 import useClientsStore, { getClientById } from "../stores/clientsStore";
+import { useTranslation } from "react-i18next";
+import LinkifyText from "./LinkifiedText";
 
 function ChatBubble(props: MessageProps) {
+    const { t } = useTranslation();
     const [showMenu, setShowMenu] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
     const currentTime = formatTime(new Date());
@@ -65,13 +68,13 @@ function ChatBubble(props: MessageProps) {
                             className="block w-full px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
                             onClick={activateReplyMessage}
                         >
-                            Reply
+                            {t("menu_item_reply")}
                         </button>
                         <button
                             className="block w-full px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
                             onClick={() => console.log("Editing")}
                         >
-                            Edit
+                            {t("menu_item_edit")}
                         </button>
                     </div>
                 )}
@@ -83,7 +86,7 @@ function ChatBubble(props: MessageProps) {
                     <span className="text-gray-500">{currentTime}</span>
                 </div>
                 <div
-                    className={`mt-1 max-w-md rounded-lg px-4 py-2 md:max-w-2xl lg:max-w-4xl ${props.isUser ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"}`}
+                    className={`mt-1 break-words max-w-md rounded-lg px-4 py-2 md:max-w-2xl lg:max-w-4xl ${props.isUser ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"}`}
                 >
                     {props.messagePayload.quoteType && (
                         <div className="">
@@ -96,7 +99,7 @@ function ChatBubble(props: MessageProps) {
                             />
                         </div>
                     )}
-                    {props.message}
+                    <LinkifyText text={props.message} />
                 </div>
             </div>
         </div>

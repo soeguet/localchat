@@ -1,7 +1,23 @@
 {
-    "welcome_message": "Willkommen bei React",
+    "selected_language": "🇩🇪",
     "status_connected": "Verbunden",
     "status_disconnected": "Getrennt",
     "prefer_pic_url": "Bevorzuge Bild-URL",
-    "language_selection": "Wählen Sie eine Sprache"
+    "language_selection": "Wählen Sie eine Sprache",
+    "loading_app": "Lade Applikation..",
+    "missing_env_vars": "Fehlende Umgebungsvariablen",
+    "client_name": "Client Name",
+    "client_name_placeholder": "z.B. Workstation",
+    "socket_ip": "Socket IP",
+    "socket_port": "Socket Port",
+    "cancel": "Abbrechen",
+    "save_env_vars": "Speichern",
+    "saving_env_vars": "Speichere..",
+    "unknown": "Unbekannt",
+    "menu_item_reply": "Antworten",
+    "menu_item_edit": "Bearbeiten",
+    "button_send": "Senden",
+    "chat_input_placeholder": "Nachricht eingeben..",
+    "button_unread": "Ungelesene Nachrichten",
+    "button_reconnect": "Erneut verbinden"
 }

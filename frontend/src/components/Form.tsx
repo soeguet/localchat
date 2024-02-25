@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import useUserStore from "../stores/userStore";
 import useEnvironmentStore from "../stores/environmentStore";
+import { useTranslation } from "react-i18next";
 
 type FormProps = {
     setAllVarsSet: (value: boolean) => void;
 };
 
 function Form(props: FormProps) {
+    const { t } = useTranslation();
     const setClientName = useUserStore((state) => state.setMyUsername);
     const setSocketIp = useEnvironmentStore((state) => state.setSocketIp);
     const setSocketPort = useEnvironmentStore((state) => state.setSocketPort);
@@ -74,7 +76,7 @@ function Form(props: FormProps) {
                 <div className="p-10">
                     <div className="space-y-4">
                         <div className="border-b border-gray-900/10 pb-12">
-                            <h2 className="text-base font-semibold leading-7 text-gray-900">missing env variables</h2>
+                            <h2 className="text-base font-semibold leading-7 text-gray-900">{t("missing_env_vars")}</h2>
 
                             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                 <div className="col-span-full">
@@ -82,7 +84,7 @@ function Form(props: FormProps) {
                                         htmlFor="client-name"
                                         className="block text-sm font-medium leading-6 text-gray-900"
                                     >
-                                        <i>client name:</i>
+                                        <i>{t("client_name")}</i>
                                     </label>
                                     <div className="mt-2">
                                         <input
@@ -94,7 +96,7 @@ function Form(props: FormProps) {
                                                 }
                                             }}
                                             name="client-name"
-                                            placeholder="e.g. Workstation"
+                                            placeholder={t("client_name_placeholder")}
                                             onChange={(e) => setLocalClientName(e.target.value)}
                                             className="block w-full rounded-md border-0 py-3 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
@@ -106,7 +108,7 @@ function Form(props: FormProps) {
                                         htmlFor="socket-ip"
                                         className="block text-sm font-medium leading-6 text-gray-900"
                                     >
-                                        <i>socket ip:</i>
+                                        <i>{t("socket_ip")}</i>
                                     </label>
                                     <div className="mt-2">
                                         <input
@@ -125,7 +127,7 @@ function Form(props: FormProps) {
                                         htmlFor="socket-port"
                                         className="block text-sm font-medium leading-6 text-gray-900"
                                     >
-                                        <i>socket port:</i>
+                                        <i>{t("socket_port")}</i>
                                     </label>
                                     <div className="mt-2">
                                         <input
@@ -144,14 +146,14 @@ function Form(props: FormProps) {
 
                     <div className="mt-6 flex items-center justify-end gap-x-6">
                         <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
-                            Cancel
+                            {t("cancel")}
                         </button>
                         <button
                             type="submit"
                             onClick={(e) => saveEnvVars(e)}
                             className={`rounded-md px-3 py-2 text-sm font-semibold shadow-sm ${!isClickable ? "bg-indigo-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-500"} text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
                         >
-                            {isClickable ? "Save" : "Saving..."}
+                            {isClickable ? t("save_env_vars") : t("saving_env_vars")}
                         </button>
                     </div>
                 </div>

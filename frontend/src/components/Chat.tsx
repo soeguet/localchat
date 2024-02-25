@@ -184,13 +184,11 @@ function App() {
         <>
             <div className="flex h-screen flex-col justify-evenly">
                 <Header
-                    profileImageUrl="https://avatars.githubusercontent.com/u/117000423?v=4"
                     isConnected={isConnected}
                     unreadMessages={unreadMessages}
                     onReconnect={() => reconnectToWebsocket()}
                 />
                 <div className="grow overflow-y-scroll px-2 pt-2 hover:overflow-scroll">
-                    <h1>{t("welcome_message")}</h1>
                     {Array.from(messagesMap.entries()).map((entry) => (
                         <ChatBubble
                             key={entry[0]}
@@ -199,12 +197,11 @@ function App() {
                             username={
                                 entry[1].userType.clientId === clientId
                                     ? thisClient?.username
-                                    : getClientById(entry[1].userType.clientId)?.username || "Unknown"
+                                    : getClientById(entry[1].userType.clientId)?.username || t("unknown")
                             }
                             message={entry[1].messageType.message}
                             isUser={entry[1].userType.clientId === clientId}
                             messagePayload={entry[1]}
-                            profilePhoto={"https://avatars.githubusercontent.com/u/117000423?v=4"}
                         />
                     ))}
                     <div ref={endOfListRef} />

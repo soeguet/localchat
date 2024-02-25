@@ -5,8 +5,10 @@ import useReplyStore from "../stores/replyStore";
 import useUserStore from "../stores/userStore";
 import { InputProps, PayloadSubType } from "../utils/customTypes";
 import useWebsocketStore from "../stores/websocketStore";
+import { useTranslation } from "react-i18next";
 
 function ChatInputSection(inputProps: InputProps) {
+    const { t } = useTranslation();
     const [message, setMessage] = useState("");
 
     const clientId = useUserStore((state) => state.myId);
@@ -27,8 +29,7 @@ function ChatInputSection(inputProps: InputProps) {
     }, []);
 
     const handleSendMessage = useCallback((message: string) => {
-        // Nachricht senden Logik hier
-        console.log("Message sent:", message); // Implementierung hier einfügen
+        console.log("Message sent:", message);
         if (message.trim()) {
             const { replyMessage, setReplyMessage } = useReplyStore.getState();
 
@@ -84,7 +85,7 @@ function ChatInputSection(inputProps: InputProps) {
                 <Reply />
                 <textarea
                     className="flex-1 rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Type a message..."
+                    placeholder={t("chat_input_placeholder")}
                     rows={2}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
@@ -95,7 +96,7 @@ function ChatInputSection(inputProps: InputProps) {
                 className="my-auto rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none"
                 onClick={() => handleSendMessage(message)}
             >
-                Send
+                {t("button_send")}
             </button>
         </div>
     );
