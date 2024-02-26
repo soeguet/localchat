@@ -7,6 +7,8 @@ import {InputProps, PayloadSubType} from "../utils/customTypes";
 import useWebsocketStore from "../stores/websocketStore";
 import {useTranslation} from "react-i18next";
 import useClientsStore from "../stores/clientsStore";
+import { MakeWindowsTaskIconFlash } from "../../wailsjs/go/main/App";
+import { WindowMinimise, WindowShow, WindowUnminimise } from "../../wailsjs/runtime/runtime";
 
 function ChatInputSection(inputProps: InputProps) {
     const {t} = useTranslation();
@@ -78,11 +80,14 @@ function ChatInputSection(inputProps: InputProps) {
 
     function handleClipClick() {
         console.log("Clip clicked");
-        const clientIds = useClientsStore.getState().clients.map((client) => {
-            console.log(client.id);
-            return {id:client.id, name:client.username};
-        });
-        console.log(clientIds);
+        setTimeout(()=> {
+            //MakeWindowsTaskIconFlash("localchat");
+            setTimeout(()=> {
+                WindowUnminimise();
+            },1000);
+            WindowMinimise();
+            WindowShow();
+        },3000);
     }
 
     return (

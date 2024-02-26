@@ -28,7 +28,7 @@ function Header({isConnected, unreadMessages, onReconnect}: HeaderProps) {
     }
 
     return (
-        <div className="bg-gray-800 text-white p-4 flex justify-between items-center">
+        <div className="bg-gray-700 text-white pt-1 pb-2 px-4 flex justify-between items-center">
             <div className="flex items-center">
                 <div onClick={() => setShowProfileMenu(!showProfileMenu)}>
                     <ProfilePicture clientId={clientId} pictureSizeFactor={1.5} />

@@ -10,7 +10,7 @@ const TypingIndicator = ({ typingUsers }: { typingUsers: string[] }) => {
     const text = typingUserNames.length > 1 ? "are typing" : "is typing";
 
     return (
-        <div className="text-small mb-1 p-2 bg-gray-200 mx-auto rounded-lg shadow max-w-xs whitespace-nowrap overflow-hidden">
+        <div className="text-small z-50 mb-1 p-2 fixed bottom-24 left-1/2 transform -translate-x-1/2 bg-gray-200 rounded-lg shadow max-w-xs ">
             <div className="flex items-center">
                 <div className="text-ellipsis flex overflow-hidden">
                     {names} {text}

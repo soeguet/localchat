@@ -3,6 +3,7 @@ import {useTranslation} from "react-i18next";
 import useClientsStore from "../stores/clientsStore";
 import useWebsocketStore from "../stores/websocketStore";
 import {PayloadSubType} from "../utils/customTypes";
+import useUserStore from "../stores/userStore";
 
 function ForceModal() {
     const {t} = useTranslation();
@@ -11,6 +12,8 @@ function ForceModal() {
 
     const clientsList = useClientsStore((state) => state.clients);
     const websocket = useWebsocketStore((state) => state.ws);
+
+    const clientId = useUserStore((state) => state.myId);
 
     function forceClient(clientId: string) {
         if (websocket !== null) {
@@ -63,11 +66,12 @@ function ForceModal() {
             {isOpen && <div
                 className="fixed z-20 inset-0 bg-black bg-opacity-50 flex justify-center items-center">
                 <div ref={forceModalRef}
-                     className="bg-white p-4 rounded-lg text-black w-full sm:w-3/4 md:w-3/4 lg:w-1/2 xl:w-1/2">
+                     className="bg-white p-4 rounded-lg text-black w-full sm:w-3/4 md:w-3/4 lg:w-1/2 xl:w-1/2 divide-y-2 divide-gray-400 border-2 border-blue-300">
                     {
                         clientsList.map((client) => {
+                            if (client.id === clientId) return
                             return (
-                                <div key={client.id} className="flex justify-between items-center">
+                                <div key={client.id} className="flex justify-between items-center ">
                                     <span>{client.username}</span>
                                     <button
                                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"

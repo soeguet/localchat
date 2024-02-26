@@ -5,7 +5,7 @@ import TypingIndicator from "./TypingIndicator";
 import {scrollToBottom} from "../utils/functionality";
 import {addMessageIfUniqueId} from "../utils/storage";
 import Header from "./Header";
-import {WindowReloadApp, WindowShow, WindowUnminimise} from "../../wailsjs/runtime";
+import {WindowMinimise, WindowReloadApp, WindowShow, WindowUnminimise} from "../../wailsjs/runtime";
 import {initWebSocket, sendClientMessageToWebsocket} from "../utils/socket";
 import {ClientListPayload, MessagePayload, PayloadSubType, RegisteredUser} from "../utils/customTypes";
 import useUserStore from "../stores/userStore";
@@ -99,7 +99,7 @@ function App() {
         }
 
         messageListPayload.messageList.forEach((messagePayload) => {
-            addMessageIfUniqueId(messagesMap, setMessagesMap, messagePayload);
+            addMessageIfUniqueId(messagesMap, setMessagesMap, messagePayload, false);
         });
     }
 
@@ -124,7 +124,7 @@ function App() {
 
             // normal chat messages
             case PayloadSubType.message:
-                addMessageIfUniqueId(messagesMap, setMessagesMap, JSON.parse(event.data) as MessagePayload);
+                addMessageIfUniqueId(messagesMap, setMessagesMap, JSON.parse(event.data) as MessagePayload, true);
                 break;
 
             case PayloadSubType.messageList:
@@ -147,7 +147,10 @@ function App() {
 
                 if (dataAsObject.clientId === clientId) {
                     Notification("ALARM", "PLEASE CHECK THE CHAT");
-                    WindowUnminimise();
+                    setTimeout(()=> {
+                        WindowUnminimise();
+                    },1000);
+                    WindowMinimise();
                     WindowShow();
                 }
                 break;
@@ -204,7 +207,7 @@ function App() {
                     unreadMessages={unreadMessages}
                     onReconnect={() => reconnectToWebsocket()}
                 />
-                <div className="grow overflow-y-auto px-5 pt-2 hover:overflow-scroll">
+                <div className="grow overflow-y-auto px-5 pt-2">
                     {Array.from(messagesMap.entries()).map((entry) => (
                         <ChatBubble
                             key={entry[0]}

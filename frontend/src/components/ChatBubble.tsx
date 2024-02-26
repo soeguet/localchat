@@ -56,14 +56,10 @@ function ChatBubble(props: MessageProps) {
 
     return (
         <div className={`flex items-start ${props.isUser ? "flex-row-reverse" : ""} mb-4`}>
-            <div className="relative mx-2 flex flex-col items-center">
+            <div onClick={() => setShowMenu(!showMenu)} className="relative mx-2 flex flex-col items-center">
                 <ProfilePicture clientId={props.clientId} />
-                <button onClick={() => setShowMenu(!showMenu)} className="mt-2 text-gray-500 focus:outline-none">
-                    •••
-                </button>
-                {showMenu && (
-                    <div
-                        className={`absolute ${props.isUser ? "right-0 mr-12" : "left-0 ml-12"} z-20 mt-2 w-48 rounded-md border-2 bg-white py-1 shadow-xl`}
+                {showMenu && <div
+                        className={`absolute ${props.isUser ? "right-0 mr-20" : "left-0 ml-20"} z-20 mt-2 w-48 rounded-md border-2 bg-white py-1 shadow-xl`}
                         ref={menuRef}
                     >
                         <button
@@ -78,8 +74,7 @@ function ChatBubble(props: MessageProps) {
                         >
                             {t("menu_item_edit")}
                         </button>
-                    </div>
-                )}
+                    </div>}
             </div>
 
             <div className={`flex flex-col ${props.isUser ? "items-end" : "items-start"}`}>

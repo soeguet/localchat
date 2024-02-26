@@ -16,7 +16,6 @@ function App() {
     const {t} = useTranslation();
     const [startup, setStartup] = useState<boolean>(true);
     const [allVarsSet, setAllVarsSet] = useState<boolean>(false);
-
     // grab state variables from store
     const socketIp = useEnvironmentStore((state) => state.socketIp);
     const socketPort = useEnvironmentStore((state) => state.socketPort);

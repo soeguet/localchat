@@ -3,6 +3,7 @@ import { MessagePayload } from "./customTypes";
 import { MakeWindowsTaskIconFlash, Notification } from "./../../wailsjs/go/main/App";
 import useUserStore from "../stores/userStore";
 import useEnvironmentStore from "../stores/environmentStore";
+import { WindowShow } from "../../wailsjs/runtime/runtime";
 /**
  * Adds a message to the messages map if it has a unique ID.
  * @param newMessage The new message to be added.
@@ -10,7 +11,8 @@ import useEnvironmentStore from "../stores/environmentStore";
 export async function addMessageIfUniqueId(
     messagesMap: Map<string, MessagePayload>,
     setMessagesMap: React.Dispatch<React.SetStateAction<Map<string, MessagePayload>>>,
-    newMessage: MessagePayload
+    newMessage: MessagePayload,
+    notificationRequest: boolean
 ) {
     const id: string | undefined = newMessage.messageType.messageId;
     const userId: string | undefined = newMessage.userType.clientId;
@@ -27,19 +29,24 @@ export async function addMessageIfUniqueId(
 
         // TODO put this somewhere else
         if (userId !== thisClientId) {
-            Notification(
-                formatTime(new Date()) + " - " + newMessage.userType.clientUsername,
-                newMessage.messageType.message
-            );
-            if (useEnvironmentStore.getState().clientOs === "windows") {
-                MakeWindowsTaskIconFlash("localchat")
-                    .then((bool: void) => {
-                        console.log("flashed window: " + bool);
-                    })
-                    .catch((err: void) => {
-                        console.error("error flashing window: " + err);
-                    });
+
+            if (notificationRequest) {
+                Notification(
+                    formatTime(new Date()) + " - " + newMessage.userType.clientUsername,
+                    newMessage.messageType.message
+                );
+                WindowShow();
             }
+
+            // if (useEnvironmentStore.getState().clientOs === "windows") {
+            //     MakeWindowsTaskIconFlash("localchat")
+            //         .then((bool: void) => {
+            //             console.log("flashed window: " + bool);
+            //         })
+            //         .catch((err: void) => {
+            //             console.error("error flashing window: " + err);
+            //         });
+            // }
         }
     }
 }

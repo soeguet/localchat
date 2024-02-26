@@ -16,16 +16,16 @@ function ProfilePicture({
     const client = useClientsStore((state) => state.clients.find((c) => c.id === clientId));
     const profilePicture = client?.profilePhotoUrl;
 
-    const fontsize = useFontSizeStore((state) => state.fontSize);
-    const picturesize = useMemo(() => fontsize * pictureSizeFactor + 50, [fontsize, pictureSizeFactor]);
+    const fontSize = useFontSizeStore((state) => state.fontSize);
+    const pictureSize = useMemo(() => fontSize * pictureSizeFactor + 50, [fontSize, pictureSizeFactor]);
 
     return (
         <>
             <img
                 className={`mb-1 rounded-full border-2 border-gray-500 ${properties}`}
                 style={{
-                    width: `${picturesize}px`,
-                    height: `${picturesize}px`,
+                    width: `${pictureSize}px`,
+                    height: `${pictureSize}px`,
                 }}
                 src={pictureUrl ? pictureUrl : profilePicture}
                 alt={""}
