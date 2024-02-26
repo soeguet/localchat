@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import ProfilePicture from "./ProfilePicture";
 import useUserStore from "../stores/userStore";
 import useEnvironmentStore from "../stores/environmentStore";
 import useWebsocketStore from "../stores/websocketStore";
-import { PayloadSubType, ProfileUpdatePayload } from "../utils/customTypes";
+import {PayloadSubType, ProfileUpdatePayload} from "../utils/customTypes";
 import useClientsStore from "../stores/clientsStore";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 import i18n from "../config/i18n";
+import useFontSizeStore from "../stores/fontSizeStore";
 
 type ProfileModalProps = {
     isOpen: boolean;
@@ -14,7 +15,7 @@ type ProfileModalProps = {
 };
 
 function ProfileModal(props: ProfileModalProps) {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     // just in case
     if (!props.isOpen) return null;
 
@@ -44,8 +45,12 @@ function ProfileModal(props: ProfileModalProps) {
     // const [localProfilePictureBuffer, setLocalProfilePictureBuffer] = useState<ArrayBuffer | null>(null);
     // websocket
     const websocket = useWebsocketStore((state) => state.ws);
-    //language
+    // language
     const [language, setLanguage] = useState(localStorage.getItem("language") || "en");
+
+    // font size
+    const {fontSize, setFontSize} = useFontSizeStore();
+
 
     async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
         const file = event.target.files?.[0] || null;
@@ -87,6 +92,7 @@ function ProfileModal(props: ProfileModalProps) {
             reader.readAsArrayBuffer(file);
         });
     }
+
     function arrayBufferToBase64(buffer: ArrayBuffer): string {
         let binary = "";
         const bytes = new Uint8Array(buffer);
@@ -226,7 +232,7 @@ function ProfileModal(props: ProfileModalProps) {
                                 <option value="en">🇺🇸 Englisch</option>
                             </select>
                         </div>
-                        <div className="col-span-2">
+                        <div className="col-span-1">
                             <div className="grid">
                                 <div>
                                     <label htmlFor="profileColor">Profile Color</label>
@@ -243,10 +249,20 @@ function ProfileModal(props: ProfileModalProps) {
                                             console.log(e.target.value);
                                         }}
                                         className="mt-1 ml-2 border border-gray-300 rounded-md p-5 w-32"
-                                        style={{ backgroundColor: localColor }}
+                                        style={{backgroundColor: localColor}}
                                     />
                                 </div>
                             </div>
+                        </div>
+                        <div className="grid">
+                            <label htmlFor="fontSize">Font Size</label>
+                            <input
+                                type="range"
+                                min="12"
+                                max="24"
+                                value={fontSize}
+                                onChange={(e) => setFontSize(Number(e.target.value))}
+                            />
                         </div>
                         <div className="col-span-2 flex justify-end items-center">
                             <button type="submit" className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg">

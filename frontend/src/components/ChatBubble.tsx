@@ -8,6 +8,7 @@ import React from "react";
 import useClientsStore, { getClientById } from "../stores/clientsStore";
 import { useTranslation } from "react-i18next";
 import LinkifyText from "./LinkifiedText";
+import useFontSizeStore from "../stores/fontSizeStore";
 
 function ChatBubble(props: MessageProps) {
     const { t } = useTranslation();
@@ -16,6 +17,7 @@ function ChatBubble(props: MessageProps) {
     const currentTime = formatTime(new Date());
     const client = useClientsStore((state) => state.clients.find((c) => c.id === props.clientId));
     const clientUsername = client?.username;
+    const fontSize = useFontSizeStore((state) => state.fontSize);
 
     // /**
     //  * Handles the click outside of the menu.
@@ -65,13 +67,13 @@ function ChatBubble(props: MessageProps) {
                         ref={menuRef}
                     >
                         <button
-                            className="block w-full px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
+                            className="block w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-100"
                             onClick={activateReplyMessage}
                         >
                             {t("menu_item_reply")}
                         </button>
                         <button
-                            className="block w-full px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
+                            className="block w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-100"
                             onClick={() => console.log("Editing")}
                         >
                             {t("menu_item_edit")}
@@ -81,7 +83,9 @@ function ChatBubble(props: MessageProps) {
             </div>
 
             <div className={`flex flex-col ${props.isUser ? "items-end" : "items-start"}`}>
-                <div className="text-xs">
+                <div style={{
+                    fontSize: `${fontSize-5}px`,
+                }}>
                     <span className="font-semibold">{clientUsername}</span>{" "}
                     <span className="text-gray-500">{currentTime}</span>
                 </div>

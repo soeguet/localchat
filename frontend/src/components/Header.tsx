@@ -1,15 +1,16 @@
-import { useState } from "react";
-import { HeaderProps } from "../utils/customTypes";
-import { socket } from "../utils/socket";
+import {useState} from "react";
+import {HeaderProps} from "../utils/customTypes";
+import {socket} from "../utils/socket";
 import useUserStore from "../stores/userStore";
 import useClientsStore from "../stores/clientsStore";
 import ProfileMenu from "./ProfileMenu";
 import ProfileModal from "./ProfileModal";
 import ProfilePicture from "./ProfilePicture";
-import { t } from "i18next";
+import {t} from "i18next";
 import i18n from "../config/i18n";
+import FontSizePopup from "./FontSizePopup";
 
-function Header({ isConnected, unreadMessages, onReconnect }: HeaderProps) {
+function Header({isConnected, unreadMessages, onReconnect}: HeaderProps) {
     const [showProfileMenu, setShowProfileMenu] = useState<boolean>(false);
     const [showProfileModal, setShowProfileModal] = useState<boolean>(false);
     const clientId = useUserStore((state) => state.myId);
@@ -30,7 +31,7 @@ function Header({ isConnected, unreadMessages, onReconnect }: HeaderProps) {
         <div className="bg-gray-800 text-white p-4 flex justify-between items-center">
             <div className="flex items-center">
                 <div onClick={() => setShowProfileMenu(!showProfileMenu)}>
-                    <ProfilePicture clientId={clientId} />
+                    <ProfilePicture clientId={clientId} pictureSizeFactor={1.5} />
                 </div>
                 {showProfileMenu && (
                     <ProfileMenu
@@ -44,14 +45,14 @@ function Header({ isConnected, unreadMessages, onReconnect }: HeaderProps) {
             </div>
             <div>
                 <span
-                    className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${isConnected ? "bg-green-500 text-white" : "bg-red-500 text-white"}`}
+                    className={`px-3 py-1 inline-flex leading-5 font-semibold rounded-full ${isConnected ? "bg-green-500 text-white" : "bg-red-500 text-white"}`}
                 >
                     {isConnected ? t("status_connected") : t("status_disconnected")}
                 </span>
                 {!isConnected && (
                     <button
                         onClick={() => onReconnect(socket)}
-                        className="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-xs"
+                        className="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
                     >
                         {t("button_reconnect")}
                     </button>
@@ -60,11 +61,14 @@ function Header({ isConnected, unreadMessages, onReconnect }: HeaderProps) {
             <div className="flex">
                 <div>
                     <span
-                        className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${unreadMessages > 0 ? "bg-blue-500 text-white" : "bg-gray-500 text-white"}`}
+                        className={`px-3 py-1 inline-flex leading-5 rounded-full ${unreadMessages > 0 ? "bg-blue-500 text-white" : "bg-gray-500 text-white"}`}
                     >
                         {t("button_unread") + ": "}
                         {unreadMessages}
                     </span>
+                </div>
+                <div className="ml-4">
+                    <FontSizePopup />
                 </div>
                 <div
                     onClick={() => switchLanguage()}

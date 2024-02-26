@@ -1,18 +1,19 @@
-import { useEffect, useState } from "react";
-import { GetLocalChatEnvVars } from "../wailsjs/go/main/App";
+import React, {useEffect, useState} from "react";
+import {GetLocalChatEnvVars} from "../wailsjs/go/main/App";
 import Chat from "./components/Chat";
-import { EnvVars } from "./utils/customTypes";
+import {EnvVars} from "./utils/customTypes";
 import useUserStore from "./stores/userStore";
 import useEnvironmentStore from "./stores/environmentStore";
 import Form from "./components/Form";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
+import useFontSizeStore from "./stores/fontSizeStore";
 
 /**
  * The main component of the application.
  * Renders all interfaces.
  */
 function App() {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const [startup, setStartup] = useState<boolean>(true);
     const [allVarsSet, setAllVarsSet] = useState<boolean>(false);
 
@@ -29,6 +30,12 @@ function App() {
     const setMyUsername = useUserStore((state) => state.setMyUsername);
     const setMyId = useUserStore((state) => state.setMyId);
 
+    const fontSize = useFontSizeStore((state) => state.fontSize);
+
+    useEffect(() => {
+        document.documentElement.style.setProperty("--user-font-size", `${fontSize}px`);
+    }, [fontSize]);
+
     useEffect(() => {
         async function initializeEnvVars() {
             const clientEnvVars: string = await GetLocalChatEnvVars();
@@ -39,16 +46,19 @@ function App() {
             setMyUsername(envVars.username);
             setMyId(envVars.id);
         }
+
         async function startEnvs() {
             // Wait for the environment variables to be set
             await initializeEnvVars();
             // timeout to allow the env vars to be set
             await new Promise((resolve) => setTimeout(resolve, 500));
         }
+
         async function startup() {
             await initializeEnvVars();
             await startEnvs();
         }
+
         startup();
     }, []);
 

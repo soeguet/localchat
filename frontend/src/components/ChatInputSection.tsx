@@ -1,14 +1,15 @@
-import { useCallback, useState } from "react";
+import {useCallback, useState} from "react";
 import Emoji from "./Emoji";
 import Reply from "./Reply";
 import useReplyStore from "../stores/replyStore";
 import useUserStore from "../stores/userStore";
-import { InputProps, PayloadSubType } from "../utils/customTypes";
+import {InputProps, PayloadSubType} from "../utils/customTypes";
 import useWebsocketStore from "../stores/websocketStore";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
+import useClientsStore from "../stores/clientsStore";
 
 function ChatInputSection(inputProps: InputProps) {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const [message, setMessage] = useState("");
 
     const clientId = useUserStore((state) => state.myId);
@@ -31,7 +32,7 @@ function ChatInputSection(inputProps: InputProps) {
     const handleSendMessage = useCallback((message: string) => {
         console.log("Message sent:", message);
         if (message.trim()) {
-            const { replyMessage, setReplyMessage } = useReplyStore.getState();
+            const {replyMessage, setReplyMessage} = useReplyStore.getState();
 
             inputProps.sendClientMessageToWebsocket(message);
 
@@ -75,10 +76,20 @@ function ChatInputSection(inputProps: InputProps) {
         [message, typingTimeoutId, handleSendMessage, sendTypingStatus]
     );
 
+    function handleClipClick() {
+        console.log("Clip clicked");
+        const clientIds = useClientsStore.getState().clients.map((client) => {
+            console.log(client.id);
+            return {id:client.id, name:client.username};
+        });
+        console.log(clientIds);
+    }
+
     return (
         <div className="flex items-end gap-2 border-t border-gray-200 bg-white p-4">
             <Emoji message={message} setMessage={setMessage} />
-            <button className="mx-1 my-auto text-gray-500 hover:text-gray-700 focus:outline-none">
+            <button onClick={handleClipClick}
+                    className="mx-1 my-auto text-gray-500 hover:text-gray-700 focus:outline-none">
                 <i className="far fa-paperclip">📎</i>
             </button>
             <div className="flex-1 mx-2 my-auto flex flex-col gap-2">

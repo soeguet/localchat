@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --user-font-size: 1rem;
+}
+
+body {
+    font-size: var(--user-font-size);
+}

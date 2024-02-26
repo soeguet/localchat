@@ -22,5 +22,7 @@
     "button_reconnect": "Erneut verbinden",
     "profile_modal_title": "Bearbeite das Nutzerprofil",
     "menu_item_profile": "👤 Profil Bearbeiten",
-    "menu_item_reload": "🔄 Applikation neu laden"
+    "menu_item_reload": "🔄 Applikation neu laden",
+    "menu_item_force": "⚠\uFE0F Warnung erzwingen",
+    "adjust_font_size": "Schriftgröße anpassen"
 }

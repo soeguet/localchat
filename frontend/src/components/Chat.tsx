@@ -1,25 +1,26 @@
-import { useEffect, useRef, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import ChatBubble from "./ChatBubble";
 import ChatInputSection from "./ChatInputSection";
 import TypingIndicator from "./TypingIndicator";
-import { scrollToBottom } from "./../utils/functionality";
-import { addMessageIfUniqueId } from "./../utils/storage";
+import {scrollToBottom} from "../utils/functionality";
+import {addMessageIfUniqueId} from "../utils/storage";
 import Header from "./Header";
-import { WindowReloadApp } from "./../../wailsjs/runtime/runtime";
-import { initWebSocket, sendClientMessageToWebsocket } from "../utils/socket";
-import { ClientListPayload, MessagePayload, PayloadSubType, RegisteredUser } from "../utils/customTypes";
+import {WindowReloadApp, WindowShow, WindowUnminimise} from "../../wailsjs/runtime";
+import {initWebSocket, sendClientMessageToWebsocket} from "../utils/socket";
+import {ClientListPayload, MessagePayload, PayloadSubType, RegisteredUser} from "../utils/customTypes";
 import useUserStore from "../stores/userStore";
-import useClientsStore, { getClientById } from "../stores/clientsStore";
+import useClientsStore, {getClientById} from "../stores/clientsStore";
 import useEnvironmentStore from "../stores/environmentStore";
 import useTypingStore from "../stores/typingStore";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
+import {Notification} from "../../wailsjs/go/main/App";
 
 /**
- * The main component of the application.
+ * The main part of the application.
  * Renders the chat interface and handles message handling and sending.
  */
 function App() {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     // message state && refs
     const [unreadMessages, setUnreadMessages] = useState(0);
@@ -76,7 +77,7 @@ function App() {
 
     useEffect(() => {
         if (endOfListRef.current) {
-            endOfListRef.current.scrollIntoView({ behavior: "smooth" });
+            endOfListRef.current.scrollIntoView({behavior: "smooth"});
         }
         //only scroll if client is "up to date"
         if (guiHasFocus && unreadMessages === 0) {
@@ -141,17 +142,21 @@ function App() {
                 console.log("typingUsers", typingClientIds);
                 break;
 
+            case PayloadSubType.force:
+
+                if (dataAsObject.clientId === clientId) {
+                    Notification("ALARM", "PLEASE CHECK THE CHAT");
+                    WindowUnminimise();
+                    WindowShow();
+                }
+                break;
             // unknown payload type
             default:
+                console.log("Unknown payload type", dataAsObject);
                 throw new Error("Unknown payload type");
         }
     }
 
-    /**
-     * Updates the client list with the new data.
-     * @param payload The new client list.
-     * @returns void
-     */
     function handleClientListPayload(payloadAsString: string) {
         const payloadAsObject: ClientListPayload = JSON.parse(payloadAsString);
         const clients: RegisteredUser[] = payloadAsObject.clients;
@@ -188,7 +193,7 @@ function App() {
                     unreadMessages={unreadMessages}
                     onReconnect={() => reconnectToWebsocket()}
                 />
-                <div className="grow overflow-y-scroll px-2 pt-2 hover:overflow-scroll">
+                <div className="grow overflow-y-auto px-5 pt-2 hover:overflow-scroll">
                     {Array.from(messagesMap.entries()).map((entry) => (
                         <ChatBubble
                             key={entry[0]}

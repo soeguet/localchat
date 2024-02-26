@@ -22,5 +22,7 @@
     "button_reconnect": "Reconnect",
     "profile_modal_title": "Edit Profile",
     "menu_item_profile": "👤 Edit Profil",
-    "menu_item_reload": "🔄 Reload Application"
+    "menu_item_force": "⚠\uFE0F Force Warning",
+    "menu_item_reload": "🔄 Reload Application",
+    "adjust_font_size": "Adjust Font Size"
 }

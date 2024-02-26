@@ -1,6 +1,7 @@
-import { useEffect, useRef } from "react";
-import { WindowReload } from "../../wailsjs/runtime/runtime";
-import { useTranslation } from "react-i18next";
+import {useEffect, useRef} from "react";
+import {WindowReload} from "../../wailsjs/runtime/runtime";
+import {useTranslation} from "react-i18next";
+import ForceModal from "./ForceModal";
 
 type ProfileMenuPropsType = {
     showMenu: boolean;
@@ -9,7 +10,7 @@ type ProfileMenuPropsType = {
 };
 
 function ProfileMenu(props: ProfileMenuPropsType) {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const menuRef = useRef<HTMLDivElement>(null);
 
     /**
@@ -18,8 +19,8 @@ function ProfileMenu(props: ProfileMenuPropsType) {
      */
     const handleClickOutside = (event: MouseEvent) => {
         if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-            const { left, top, right, bottom } = menuRef.current.getBoundingClientRect();
-            const { clientX, clientY } = event;
+            const {left, top, right, bottom} = menuRef.current.getBoundingClientRect();
+            const {clientX, clientY} = event;
 
             if (clientX < left || clientX > right || clientY < top || clientY > bottom) {
                 props.setShowMenu(false);
@@ -52,6 +53,8 @@ function ProfileMenu(props: ProfileMenuPropsType) {
                 >
                     {t("menu_item_profile")}
                 </button>
+                <ForceModal/>
+
                 <button
                     className="block w-full px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
                     onClick={() => WindowReload()}
