@@ -10,6 +10,10 @@ import { generateSimpleId } from "./functionality";
 let socket: WebSocket;
 
 export const initWebSocket = (callbacks: CallbackProps) => {
+
+    console.log("Connecting to WebSocket");
+    console.log("useEnvironmentStore.getState().socketIp", useEnvironmentStore.getState().socketIp);
+    console.log("useEnvironmentStore.getState().socketPort", useEnvironmentStore.getState().socketPort);
     socket = new WebSocket(
         `ws://${useEnvironmentStore.getState().socketIp}:${useEnvironmentStore.getState().socketPort}/chat`
     );

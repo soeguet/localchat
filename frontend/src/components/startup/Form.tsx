@@ -1,14 +1,10 @@
-import { useEffect, useState } from "react";
-import useUserStore from "../stores/userStore";
-import useEnvironmentStore from "../stores/environmentStore";
-import { useTranslation } from "react-i18next";
+import {FormEvent, useEffect, useState} from "react";
+import useUserStore from "../../stores/userStore";
+import useEnvironmentStore from "../../stores/environmentStore";
+import {useTranslation} from "react-i18next";
 
-type FormProps = {
-    setAllVarsSet: (value: boolean) => void;
-};
-
-function Form(props: FormProps) {
-    const { t } = useTranslation();
+function Form() {
+    const {t} = useTranslation();
     const setClientName = useUserStore((state) => state.setMyUsername);
     const setSocketIp = useEnvironmentStore((state) => state.setSocketIp);
     const setSocketPort = useEnvironmentStore((state) => state.setSocketPort);
@@ -23,32 +19,16 @@ function Form(props: FormProps) {
     const [localSocketPort, setLocalSocketPort] = useState<string>("");
 
     useEffect(() => {
-        setTimeout(() => {
-            setLocalClientName(clientName);
-            setLocalSocketIp(socketIp);
-            setLocalSocketPort(socketPort);
-        }, 100);
-    }, []);
-
-    /**
-     * Revalidates if all environment variables are set.
-     * If not, it sets the state to false.
-     * If all are set, it sets the state to true.
-     * @returns void
-     */
-    function revalidateIfAllVarsSet() {
-        if (localClientName === "" || localSocketIp === "" || localSocketPort === "") {
-            props.setAllVarsSet(false);
-        } else {
-            props.setAllVarsSet(true);
-        }
-    }
+        setLocalClientName(clientName);
+        setLocalSocketIp(socketIp);
+        setLocalSocketPort(socketPort);
+    }, [clientName,socketIp,socketPort]);
 
     /**
      * Saves the environment variables.
      * @param e - The form event.
      */
-    function saveEnvVars(e: React.FormEvent<HTMLButtonElement>) {
+    function saveEnvVars(e: FormEvent<HTMLButtonElement>) {
         e.preventDefault();
         setIsClickable(false);
 
@@ -62,8 +42,6 @@ function Form(props: FormProps) {
         setClientName(localClientName);
         setSocketIp(localSocketIp);
         setSocketPort(localSocketPort);
-
-        revalidateIfAllVarsSet();
 
         setTimeout(() => {
             setIsClickable(true);

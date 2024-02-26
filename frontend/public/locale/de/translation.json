@@ -24,5 +24,6 @@
     "menu_item_profile": "👤 Profil Bearbeiten",
     "menu_item_reload": "🔄 Applikation neu laden",
     "menu_item_force": "⚠\uFE0F Warnung erzwingen",
-    "adjust_font_size": "Schriftgröße anpassen"
+    "adjust_font_size": "Schriftgröße anpassen",
+    "client_not_found": "Der Nutzer konnte nicht gefunden werden, bitte warten.."
 }

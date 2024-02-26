@@ -1,19 +1,20 @@
 import {useEffect, useRef, useState} from "react";
-import ChatBubble from "./ChatBubble";
-import ChatInputSection from "./ChatInputSection";
-import TypingIndicator from "./TypingIndicator";
-import {scrollToBottom} from "../utils/functionality";
-import {addMessageIfUniqueId} from "../utils/storage";
-import Header from "./Header";
-import {WindowMinimise, WindowReloadApp, WindowShow, WindowUnminimise} from "../../wailsjs/runtime";
-import {initWebSocket, sendClientMessageToWebsocket} from "../utils/socket";
-import {ClientListPayload, MessagePayload, PayloadSubType, RegisteredUser} from "../utils/customTypes";
-import useUserStore from "../stores/userStore";
-import useClientsStore, {getClientById} from "../stores/clientsStore";
-import useEnvironmentStore from "../stores/environmentStore";
-import useTypingStore from "../stores/typingStore";
+import ChatBubble from "../ChatBubble";
+import ChatInputSection from "../ChatInputSection";
+import TypingIndicator from "../TypingIndicator";
+import {scrollToBottom} from "../../utils/functionality";
+import Header from "../Header";
+import {WindowMinimise, WindowReloadApp, WindowShow, WindowUnminimise} from "../../../wailsjs/runtime";
+import {initWebSocket, sendClientMessageToWebsocket} from "../../utils/socket";
+import {ClientListPayload, MessagePayload, PayloadSubType, RegisteredUser} from "../../utils/customTypes";
+import useUserStore from "../../stores/userStore";
+import useClientStore, {getClientById} from "../../stores/clientsStore";
+import useEnvironmentStore from "../../stores/environmentStore";
+import useTypingStore from "../../stores/typingStore";
 import {useTranslation} from "react-i18next";
-import {Notification} from "../../wailsjs/go/main/App";
+import {Notification} from "../../../wailsjs/go/main/App";
+import {useWindowFocussedListener} from "../../hooks/body/useWindowFocussedListener";
+import useMessageMapStore from "../../stores/messageMapStore";
 
 /**
  * The main part of the application.
@@ -21,12 +22,14 @@ import {Notification} from "../../wailsjs/go/main/App";
  */
 function App() {
     const {t} = useTranslation();
+    const endOfListRef = useRef<HTMLDivElement | null>(null);
+    const guiHasFocus = useWindowFocussedListener();
 
     // message state && refs
     const [unreadMessages, setUnreadMessages] = useState(0);
-    const [messagesMap, setMessagesMap] = useState<Map<string, MessagePayload>>(new Map());
-    const endOfListRef = useRef<HTMLDivElement | null>(null);
+    // const [messagesMap, setMessagesMap] = useState<Map<string, MessagePayload>>(new Map());
 
+    const {messageMap, onMessage} = useMessageMapStore();
     // socket state
     const [isConnected, setIsConnected] = useState(false);
     const socketIp = useEnvironmentStore((state) => state.socketIp);
@@ -40,31 +43,12 @@ function App() {
 
     // this client state
     const clientId = useUserStore((state) => state.myId);
-    const thisClient: RegisteredUser | undefined = useClientsStore((state) =>
+    const thisClient: RegisteredUser | undefined = useClientStore((state) =>
         state.clients.find((c) => c.id === clientId)
     );
 
-    const setClients = useClientsStore((state) => state.setClients);
+    const setClients = useClientStore((state) => state.setClients);
 
-    // window focus state
-    const guiHasFocus = useRef(true);
-    useEffect(() => {
-        const handleFocus = () => {
-            guiHasFocus.current = true;
-        };
-
-        const handleBlur = () => {
-            guiHasFocus.current = false;
-        };
-
-        window.addEventListener("focus", handleFocus);
-        window.addEventListener("blur", handleBlur);
-
-        return () => {
-            window.removeEventListener("focus", handleFocus);
-            window.removeEventListener("blur", handleBlur);
-        };
-    }, []);
 
     useEffect(() => {
         console.log("Connecting to WebSocket");
@@ -86,7 +70,7 @@ function App() {
         } else {
             setUnreadMessages((prev) => prev + 1);
         }
-    }, [messagesMap]);
+    }, [messageMap]);
 
     function handeMessageListPayload(data: string) {
         const messageListPayload = JSON.parse(data) as {
@@ -99,7 +83,8 @@ function App() {
         }
 
         messageListPayload.messageList.forEach((messagePayload) => {
-            addMessageIfUniqueId(messagesMap, setMessagesMap, messagePayload, false);
+            // addMessageIfUniqueId(messageMap, setMessageMap, messagePayload, false);
+            onMessage(messagePayload);
         });
     }
 
@@ -124,7 +109,8 @@ function App() {
 
             // normal chat messages
             case PayloadSubType.message:
-                addMessageIfUniqueId(messagesMap, setMessagesMap, JSON.parse(event.data) as MessagePayload, true);
+                // addMessageIfUniqueId(messageMap, setMessageMap, JSON.parse(event.data) as MessagePayload, true);
+                onMessage(JSON.parse(event.data) as MessagePayload);
                 break;
 
             case PayloadSubType.messageList:
@@ -147,9 +133,9 @@ function App() {
 
                 if (dataAsObject.clientId === clientId) {
                     Notification("ALARM", "PLEASE CHECK THE CHAT");
-                    setTimeout(()=> {
+                    setTimeout(() => {
                         WindowUnminimise();
-                    },1000);
+                    }, 1000);
                     WindowMinimise();
                     WindowShow();
                 }
@@ -208,7 +194,7 @@ function App() {
                     onReconnect={() => reconnectToWebsocket()}
                 />
                 <div className="grow overflow-y-auto px-5 pt-2">
-                    {Array.from(messagesMap.entries()).map((entry) => (
+                    {Array.from(messageMap.entries()).map((entry) => (
                         <ChatBubble
                             key={entry[0]}
                             id={entry[0]}
