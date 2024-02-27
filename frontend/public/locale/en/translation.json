@@ -25,5 +25,6 @@
     "menu_item_force": "⚠\uFE0F Force Warning",
     "menu_item_reload": "🔄 Reload Application",
     "adjust_font_size": "Adjust Font Size",
-    "client_not_found": "Client not found, please wait or try again.."
+    "client_not_found": "Client not found, please wait or try again..",
+    "menu_item_do_not_disturb": "🛑 Do not disturb!"
 }

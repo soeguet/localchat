@@ -15,6 +15,7 @@ import {Notification} from "../../../wailsjs/go/main/App";
 import {useWindowFocussedListener} from "../../hooks/body/useWindowFocussedListener";
 import useMessageMapStore from "../../stores/messageMapStore";
 import {useScrollToBottom} from "../../hooks/body/useScrollToBottom";
+import useDoNotDisturbStore from "../../stores/doNotDisturbStore";
 
 /**
  * The main part of the application.
@@ -122,12 +123,16 @@ function App() {
             case PayloadSubType.force:
 
                 if (dataAsObject.clientId === clientId) {
-                    Notification("ALARM", "PLEASE CHECK THE CHAT");
-                    setTimeout(() => {
-                        WindowUnminimise();
-                    }, 1000);
-                    WindowMinimise();
-                    WindowShow();
+                    // just to be safe, if the client does not want to get notifications!
+                    if (!useDoNotDisturbStore.getState().doNotDisturb) {
+                        Notification("ALARM", "PLEASE CHECK THE CHAT");
+
+                        setTimeout(() => {
+                            WindowUnminimise();
+                        }, 1000);
+                        WindowMinimise();
+                        WindowShow();
+                    }
                 }
                 break;
             // unknown payload type

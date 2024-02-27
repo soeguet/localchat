@@ -1,11 +1,12 @@
-import { Notification } from "../../wailsjs/go/main/App";
-import { getClientById } from "../stores/clientsStore";
+import {Notification} from "../../wailsjs/go/main/App";
+import {getClientById} from "../stores/clientsStore";
 import useEnvironmentStore from "../stores/environmentStore";
-import useReplyStore, { Reply } from "../stores/replyStore";
+import useReplyStore, {Reply} from "../stores/replyStore";
 import useUserStore from "../stores/userStore";
 import useWebsocketStore from "../stores/websocketStore";
-import { CallbackProps, MessagePayload, PayloadSubType, AuthenticatedPayload } from "./customTypes";
-import { generateSimpleId } from "./functionality";
+import {AuthenticatedPayload, CallbackProps, MessagePayload, PayloadSubType} from "./customTypes";
+import {generateSimpleId} from "./functionality";
+import useDoNotDisturbStore from "../stores/doNotDisturbStore";
 
 let socket: WebSocket;
 
@@ -19,7 +20,9 @@ export const initWebSocket = (callbacks: CallbackProps) => {
     );
 
     socket.onopen = () => {
-        Notification("localchat", "Connection opened");
+        if (!useDoNotDisturbStore.getState().doNotDisturb) {
+            Notification("localchat", "Connection opened");
+        }
 
         // register user with the server
         const authPayload: AuthenticatedPayload = {
@@ -36,7 +39,9 @@ export const initWebSocket = (callbacks: CallbackProps) => {
     };
 
     socket.onclose = () => {
-        Notification("localchat", "Connection closed");
+        if (!useDoNotDisturbStore.getState().doNotDisturb) {
+            Notification("localchat", "Connection closed");
+        }
         callbacks.onClose();
     };
 
@@ -97,4 +102,4 @@ function sendClientMessageToWebsocket(message: string): void {
     socket.send(JSON.stringify(payload));
 }
 
-export { closeWebSocket, sendClientMessageToWebsocket, socket };
+export {closeWebSocket, sendClientMessageToWebsocket, socket};

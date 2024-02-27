@@ -1,16 +1,19 @@
 import { formatTime } from "./time";
 import { MessagePayload } from "./customTypes";
-import { MakeWindowsTaskIconFlash, Notification } from "./../../wailsjs/go/main/App";
+import { Notification } from "../../wailsjs/go/main/App";
 import useUserStore from "../stores/userStore";
-import useEnvironmentStore from "../stores/environmentStore";
-import { WindowShow } from "../../wailsjs/runtime/runtime";
+import { WindowShow } from "../../wailsjs/runtime";
+import React, {Dispatch} from "react";
 /**
- * Adds a message to the messages map if it has a unique ID.
+ * Adds a message to the message map if it has a unique ID.
+ * @param messagesMap
+ * @param setMessagesMap
  * @param newMessage The new message to be added.
+ * @param notificationRequest
  */
 export async function addMessageIfUniqueId(
     messagesMap: Map<string, MessagePayload>,
-    setMessagesMap: React.Dispatch<React.SetStateAction<Map<string, MessagePayload>>>,
+    setMessagesMap: Dispatch<React.SetStateAction<Map<string, MessagePayload>>>,
     newMessage: MessagePayload,
     notificationRequest: boolean
 ) {
@@ -31,22 +34,12 @@ export async function addMessageIfUniqueId(
         if (userId !== thisClientId) {
 
             if (notificationRequest) {
-                Notification(
+                await Notification(
                     formatTime(new Date()) + " - " + newMessage.userType.clientUsername,
                     newMessage.messageType.message
                 );
                 WindowShow();
             }
-
-            // if (useEnvironmentStore.getState().clientOs === "windows") {
-            //     MakeWindowsTaskIconFlash("localchat")
-            //         .then((bool: void) => {
-            //             console.log("flashed window: " + bool);
-            //         })
-            //         .catch((err: void) => {
-            //             console.error("error flashing window: " + err);
-            //         });
-            // }
         }
     }
 }

@@ -2,6 +2,7 @@ import {useEffect, useRef} from "react";
 import {WindowReload} from "../../wailsjs/runtime/runtime";
 import {useTranslation} from "react-i18next";
 import ForceModal from "./ForceModal";
+import useDoNotDisturbStore from "../stores/doNotDisturbStore";
 
 type ProfileMenuPropsType = {
     showMenu: boolean;
@@ -12,6 +13,7 @@ type ProfileMenuPropsType = {
 function ProfileMenu(props: ProfileMenuPropsType) {
     const {t} = useTranslation();
     const menuRef = useRef<HTMLDivElement>(null);
+    const setDoNotDisturb = useDoNotDisturbStore((state) => state.setDoNotDisturb);
 
     /**
      * Handles the click outside of the menu.
@@ -42,7 +44,7 @@ function ProfileMenu(props: ProfileMenuPropsType) {
         <>
             <div
                 ref={menuRef}
-                className={"absolute left-2 top-16 mr-12 z-20 mt-2 w-56 rounded-md border-2 bg-white py-1 shadow-xl"}
+                className={"absolute left-2 top-20 mr-12 z-20 mt-2 w-56 rounded-md border-2 bg-white py-1 shadow-xl"}
             >
                 <button
                     className="block w-full px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
@@ -53,10 +55,18 @@ function ProfileMenu(props: ProfileMenuPropsType) {
                 >
                     {t("menu_item_profile")}
                 </button>
-                <ForceModal/>
 
                 <button
-                    className="block w-full px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
+                    className="block border-t-2 w-full px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
+                    onClick={() => setDoNotDisturb(!useDoNotDisturbStore.getState().doNotDisturb)}
+                >
+                    {t("menu_item_do_not_disturb")}
+                </button>
+
+                <ForceModal />
+
+                <button
+                    className="block border-t-2 w-full px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
                     onClick={() => WindowReload()}
                 >
                     {t("menu_item_reload")}
