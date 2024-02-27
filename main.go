@@ -2,6 +2,7 @@ package main
 
 import (
 	"embed"
+	"github.com/wailsapp/wails/v2/pkg/options/windows"
 
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
@@ -11,6 +12,9 @@ import (
 
 //go:embed all:frontend/dist
 var assets embed.FS
+
+//go:embed frontend/public/logo.png
+var icon []byte
 
 // main is the entry point of the application.
 func main() {
@@ -30,6 +34,7 @@ func main() {
 		Bind: []interface{}{
 			app,
 		},
+		Windows: &windows.Options{},
 		Linux: &linux.Options{
 			WindowIsTranslucent: false,
 			WebviewGpuPolicy:    linux.WebviewGpuPolicyAlways,

@@ -21,6 +21,7 @@ function Header({isConnected, unreadMessages, onReconnect}: HeaderProps) {
     const [showProfileMenu, setShowProfileMenu] = useState<boolean>(false);
     const [showProfileModal, setShowProfileModal] = useState<boolean>(false);
     const clientId = useUserStore((state) => state.myId);
+    const clientColor = useClientsStore((state) => state.clients.find((c) => c.id === clientId)?.clientColor);
     const username = useClientsStore((state) => state.clients.find((c) => c.id === clientId)?.username);
     const doNotDisturb = useDoNotDisturbStore((state) => state.doNotDisturb);
 
@@ -45,7 +46,13 @@ function Header({isConnected, unreadMessages, onReconnect}: HeaderProps) {
                             <DoNotDisturb />
                         </div>
                         :
-                        <ProfilePicture clientId={clientId} pictureSizeFactor={1.5} />
+                        <ProfilePicture clientId={clientId}
+                                        style={{
+                                            width: "70px",
+                                            height: "70px",
+                                            borderColor: clientColor || "lightgrey"
+                                        }}
+                        />
                     }
 
                 </div>
@@ -78,7 +85,7 @@ function Header({isConnected, unreadMessages, onReconnect}: HeaderProps) {
                 <div>
                     {unreadMessages > 0 &&
                         <button
-                            className="bg-gray-700 hover:bg-gray-500 text-white py-1 px-2 rounded "
+                            className="hover:bg-gray-500 text-white py-1 px-2 rounded "
                         >
                             <UnreadMessages />
                         </button>
@@ -90,7 +97,7 @@ function Header({isConnected, unreadMessages, onReconnect}: HeaderProps) {
                 <div>
                     <button
                         onClick={() => switchLanguage()}
-                        className="bg-gray-700 hover:bg-gray-500 text-white py-1 px-2 rounded "
+                        className="hover:bg-gray-500 text-white py-1 px-2 rounded "
                     >
                         {i18n.language === "en" ?
                             <AmericanFlag />

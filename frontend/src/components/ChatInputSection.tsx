@@ -1,4 +1,4 @@
-import {useCallback, useState} from "react";
+import React, {useCallback, useState} from "react";
 import Emoji from "./Emoji";
 import Reply from "./Reply";
 import useReplyStore from "../stores/replyStore";
@@ -6,9 +6,7 @@ import useUserStore from "../stores/userStore";
 import {InputProps, PayloadSubType} from "../utils/customTypes";
 import useWebsocketStore from "../stores/websocketStore";
 import {useTranslation} from "react-i18next";
-import useClientsStore from "../stores/clientsStore";
-import { MakeWindowsTaskIconFlash } from "../../wailsjs/go/main/App";
-import { WindowMinimise, WindowShow, WindowUnminimise } from "../../wailsjs/runtime/runtime";
+import {WindowMinimise, WindowShow, WindowUnminimise} from "../../wailsjs/runtime";
 
 function ChatInputSection(inputProps: InputProps) {
     const {t} = useTranslation();
@@ -80,14 +78,14 @@ function ChatInputSection(inputProps: InputProps) {
 
     function handleClipClick() {
         console.log("Clip clicked");
-        setTimeout(()=> {
+        setTimeout(() => {
             //MakeWindowsTaskIconFlash("localchat");
-            setTimeout(()=> {
+            setTimeout(() => {
                 WindowUnminimise();
-            },1000);
+            }, 1000);
             WindowMinimise();
             WindowShow();
-        },3000);
+        }, 3000);
     }
 
     return (
@@ -105,7 +103,7 @@ function ChatInputSection(inputProps: InputProps) {
                     rows={2}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    onKeyDown={handleKeyDown}
+                    onKeyDown={(e) => handleKeyDown(e)}
                 ></textarea>
             </div>
             <button

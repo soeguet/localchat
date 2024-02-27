@@ -52,7 +52,7 @@ function Emoji(props: EmojiProps) {
             >
                 <i className="far fa-smile">😊</i>
             </button>
-            <div ref={menuRef} className={`absolute z-20 mb-20 ${emojiVisible}`}>
+            <div ref={menuRef} className={`absolute z-20 mb-24 ${emojiVisible}`}>
                 <EmojiPicker onEmojiClick={handleEmojiClick} />
             </div>
         </>

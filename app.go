@@ -100,7 +100,10 @@ func (a *App) Greet(name string) string {
 // Notification sends a notification with the given sender and message.
 // It uses the beeep package to display the notification and requires the path to an app icon image.
 func (a *App) Notification(sender string, message string) {
-	beeep.Notify(sender, message, "./build/appicon.png")
+	err := beeep.Notify(sender, message, "./public/logo.png")
+	if err != nil {
+		return
+	}
 }
 
 // GetLocalChatEnvVars retrieves the environment variables for the local chat application.

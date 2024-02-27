@@ -35,9 +35,9 @@ function ProfileModal(props: ProfileModalProps) {
     const setSocketPort = useEnvironmentStore((state) => state.setSocketPort);
     const [localPort, setLocalPort] = useState(socketPort);
     // profileColor
-    const profileColor = useUserStore((state) => state.myColor);
+    const profileColor = useClientsStore((state) => state.clients.find((c) => c.id === clientId)?.clientColor);
     const setProfileColor = useUserStore((state) => state.setMyColor);
-    const [localColor, setLocalColor] = useState("");
+    const [localColor, setLocalColor] = useState(profileColor);
 
     // profilePicture
     const setProfilePhotoUrl = useUserStore((state) => state.setMyProfilePhoto);
@@ -62,7 +62,7 @@ function ProfileModal(props: ProfileModalProps) {
         try {
             const arrayBuffer = await readFileAsArrayBuffer(file);
             // set profile picture
-            let pictureUrl = "";
+            let pictureUrl: string;
             // convert ArrayBuffer to base64 string
             const base64String = arrayBufferToBase64(arrayBuffer);
             pictureUrl = `data:image/jpeg;base64,${base64String}`;
@@ -73,8 +73,11 @@ function ProfileModal(props: ProfileModalProps) {
     }
 
     useEffect(() => {
-        i18n.changeLanguage(language);
-        localStorage.setItem("language", language);
+        i18n.changeLanguage(language).then(() => {
+            localStorage.setItem("language", language);
+        }).catch((e) => {
+            console.error("Error changing language", e);
+        })
     }, [language]);
 
     function readFileAsArrayBuffer(file: File): Promise<ArrayBuffer> {
@@ -109,7 +112,7 @@ function ProfileModal(props: ProfileModalProps) {
         setSocketIp(localIp);
         setSocketPort(localPort);
         setName(localName || "");
-        setProfileColor(localColor);
+        setProfileColor(localColor || "");
 
         setProfilePhotoUrl(localProfilePicture);
 
@@ -118,7 +121,7 @@ function ProfileModal(props: ProfileModalProps) {
             payloadType: PayloadSubType.profileUpdate,
             clientId: clientId,
             username: localName || "",
-            color: localColor,
+            color: localColor || "",
             pictureUrl: localProfilePicture,
         };
         if (!websocket) {
@@ -142,7 +145,11 @@ function ProfileModal(props: ProfileModalProps) {
                                         <ProfilePicture
                                             clientId={clientId}
                                             pictureUrl={localProfilePicture}
-                                            properties={"h-20 w-20 border-2 border-gray-500"}
+                                            style={{
+                                                width: "70px",
+                                                height: "70px",
+                                                borderColor: localColor || "lightgrey",
+                                            }}
                                         />
                                         <span className="text-xs bg-red-200 text-center rounded text-gray-600 p-1">
                                             preview
@@ -151,7 +158,11 @@ function ProfileModal(props: ProfileModalProps) {
                                 ) : (
                                     <ProfilePicture
                                         clientId={clientId}
-                                        properties="h-20 w-20 border-2 border-gray-500"
+                                        style={{
+                                            width: "70px",
+                                            height: "70px",
+                                            borderColor: localColor || "lightgrey",
+                                        }}
                                     />
                                 )}
                             </div>
@@ -239,17 +250,16 @@ function ProfileModal(props: ProfileModalProps) {
                                 </div>
                                 <div className="grow">
                                     <input
-                                        size={20}
                                         type="color"
                                         id="profileColor"
-                                        value={"red"}
                                         onChange={(e) => {
                                             setLocalColor(e.target.value);
-                                            console.log("FARBE");
-                                            console.log(e.target.value);
                                         }}
                                         className="mt-1 ml-2 border border-gray-300 rounded-md p-5 w-32"
-                                        style={{backgroundColor: localColor}}
+                                        style={{
+                                            backgroundColor: localColor,
+                                            color: localColor
+                                        }}
                                     />
                                 </div>
                             </div>
