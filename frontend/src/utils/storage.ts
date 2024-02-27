@@ -1,4 +1,4 @@
-import { formatTime } from "./time";
+import { getTimeWithHHmmFormat } from "./time";
 import { MessagePayload } from "./customTypes";
 import { Notification } from "../../wailsjs/go/main/App";
 import useUserStore from "../stores/userStore";
@@ -35,7 +35,7 @@ export async function addMessageIfUniqueId(
 
             if (notificationRequest) {
                 await Notification(
-                    formatTime(new Date()) + " - " + newMessage.userType.clientUsername,
+                    getTimeWithHHmmFormat(new Date()) + " - " + newMessage.userType.clientUsername,
                     newMessage.messageType.message
                 );
                 WindowShow();

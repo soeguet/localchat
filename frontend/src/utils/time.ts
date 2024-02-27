@@ -3,7 +3,7 @@
  * @param date - The date to format.
  * @returns The formatted time string.
  */
-export function formatTime(date: Date): string {
+export function getTimeWithHHmmFormat(date: Date): string {
     let hours: string | number = date.getHours();
     let minutes: string | number = date.getMinutes();
 

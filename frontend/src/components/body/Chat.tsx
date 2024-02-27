@@ -123,7 +123,7 @@ function App() {
             case PayloadSubType.force:
 
                 if (dataAsObject.clientId === clientId) {
-                    // just to be safe, if the client does not want to get notifications!
+                    // just to be safe if the client does not want to get notifications!
                     if (!useDoNotDisturbStore.getState().doNotDisturb) {
                         Notification("ALARM", "PLEASE CHECK THE CHAT");
 
