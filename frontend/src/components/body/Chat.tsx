@@ -2,7 +2,6 @@ import {useEffect, useRef, useState} from "react";
 import ChatBubble from "../ChatBubble";
 import ChatInputSection from "../ChatInputSection";
 import TypingIndicator from "../TypingIndicator";
-import {scrollToBottom} from "../../utils/functionality";
 import Header from "../Header";
 import {WindowMinimise, WindowReloadApp, WindowShow, WindowUnminimise} from "../../../wailsjs/runtime";
 import {initWebSocket, sendClientMessageToWebsocket} from "../../utils/socket";
@@ -15,6 +14,7 @@ import {useTranslation} from "react-i18next";
 import {Notification} from "../../../wailsjs/go/main/App";
 import {useWindowFocussedListener} from "../../hooks/body/useWindowFocussedListener";
 import useMessageMapStore from "../../stores/messageMapStore";
+import {useScrollToBottom} from "../../hooks/body/useScrollToBottom";
 
 /**
  * The main part of the application.
@@ -60,18 +60,6 @@ function App() {
         });
     }, [socketIp, socketPort]);
 
-    useEffect(() => {
-        if (endOfListRef.current) {
-            endOfListRef.current.scrollIntoView({behavior: "smooth"});
-        }
-        //only scroll if client is "up to date"
-        if (guiHasFocus && unreadMessages === 0) {
-            scrollToBottom(endOfListRef);
-        } else {
-            setUnreadMessages((prev) => prev + 1);
-        }
-    }, [messageMap]);
-
     function handeMessageListPayload(data: string) {
         const messageListPayload = JSON.parse(data) as {
             payloadType: PayloadSubType.messageList;
@@ -87,6 +75,8 @@ function App() {
             onMessage(messagePayload);
         });
     }
+
+    useScrollToBottom(endOfListRef);
 
     function handleIncomingMessages(event: MessageEvent) {
         const dataAsObject = JSON.parse(event.data);

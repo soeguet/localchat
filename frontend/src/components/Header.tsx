@@ -9,6 +9,8 @@ import ProfilePicture from "./ProfilePicture";
 import {t} from "i18next";
 import i18n from "../config/i18n";
 import FontSizePopup from "./FontSizePopup";
+import GermanFlag from "./flags/GermanFlag";
+import AmericanFlag from "./flags/AmericanFlag";
 
 function Header({isConnected, unreadMessages, onReconnect}: HeaderProps) {
     const [showProfileMenu, setShowProfileMenu] = useState<boolean>(false);
@@ -74,7 +76,13 @@ function Header({isConnected, unreadMessages, onReconnect}: HeaderProps) {
                     onClick={() => switchLanguage()}
                     className="mx-2 px-2 cursor-pointer rounded-full hover:bg-cyan-50 transition"
                 >
-                    {t("selected_language")}
+                    <div>
+                        {i18n.language === "en" ?
+                            <AmericanFlag />
+                            :
+                            <GermanFlag />
+                        }
+                    </div>
                 </div>
             </div>
         </div>
