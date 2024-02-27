@@ -43,7 +43,7 @@ const FontSizePopup = () => {
             <div>
                 <button
                     onClick={() => setShowPopup(true)}
-                    className="hover:bg-gray-500 text-white py-1 px-2 rounded "
+                    className="text-white rounded-full hover:border-cyan-500 transition ease-in-out duration-300 border-2 border-black"
                 >
                     <FontSize />
                 </button>

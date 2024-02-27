@@ -90,12 +90,9 @@ export type CallbackProps = {
 };
 
 export type MessageProps = {
-    id: string;
-    clientId: string;
-    message: string;
-    isUser: boolean;
-    username: string;
     messagePayload: MessagePayload;
+    lastMessageFromThisClientId: boolean;
+    lastMessageTimestampSameAsThisOne: boolean;
 };
 
 export type InputProps = {

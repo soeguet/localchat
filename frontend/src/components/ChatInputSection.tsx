@@ -1,15 +1,15 @@
-import React, {useCallback, useState} from "react";
+import React, { useCallback, useState } from "react";
 import Emoji from "./Emoji";
 import Reply from "./Reply";
 import useReplyStore from "../stores/replyStore";
 import useUserStore from "../stores/userStore";
-import {InputProps, PayloadSubType} from "../utils/customTypes";
+import { InputProps, PayloadSubType } from "../utils/customTypes";
 import useWebsocketStore from "../stores/websocketStore";
-import {useTranslation} from "react-i18next";
-import {WindowMinimise, WindowShow, WindowUnminimise} from "../../wailsjs/runtime";
+import { useTranslation } from "react-i18next";
+import { WindowMinimise, WindowShow, WindowUnminimise } from "../../wailsjs/runtime";
 
 function ChatInputSection(inputProps: InputProps) {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const [message, setMessage] = useState("");
 
     const clientId = useUserStore((state) => state.myId);
@@ -32,7 +32,7 @@ function ChatInputSection(inputProps: InputProps) {
     const handleSendMessage = useCallback((message: string) => {
         console.log("Message sent:", message);
         if (message.trim()) {
-            const {replyMessage, setReplyMessage} = useReplyStore.getState();
+            const { replyMessage, setReplyMessage } = useReplyStore.getState();
 
             inputProps.sendClientMessageToWebsocket(message);
 
@@ -89,10 +89,12 @@ function ChatInputSection(inputProps: InputProps) {
     }
 
     return (
-        <div className="flex items-end gap-2 border-t border-gray-200 bg-white p-4">
+        <div className="flex items-end gap-2 bg-white p-4 border-t-2 border-t-black">
             <Emoji message={message} setMessage={setMessage} />
-            <button onClick={handleClipClick}
-                    className="mx-1 my-auto text-gray-500 hover:text-gray-700 focus:outline-none">
+            <button
+                onClick={handleClipClick}
+                className="mx-1 my-auto text-gray-500 hover:text-gray-700 focus:outline-none"
+            >
                 <i className="far fa-paperclip">📎</i>
             </button>
             <div className="flex-1 mx-2 my-auto flex flex-col gap-2">

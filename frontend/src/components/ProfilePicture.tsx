@@ -1,19 +1,20 @@
 import useClientsStore from "../stores/clientsStore";
 
 function ProfilePicture({
-                            clientId,
-                            pictureUrl,
-                            properties,
-                            style = {width: "40px", height: "40px"}
-                        }: {
+    clientId,
+    pictureUrl,
+    properties,
+    style = { width: "40px", height: "40px" },
+}: {
     clientId: string;
     pictureSizeFactor?: number;
     pictureUrl?: string;
     properties?: string;
     style?: {
-        width: string
-        height: string
-        borderColor?: string
+        width: string;
+        height: string;
+        borderColor?: string;
+        opacity?: string;
     };
 }) {
     const client = useClientsStore((state) => state.clients.find((c) => c.id === clientId));
@@ -23,7 +24,7 @@ function ProfilePicture({
         <>
             <img
                 style={style}
-                className={`rounded-full border-2 border-gray-500 ${properties}`}
+                className={`rounded-full border-2 ${properties} transition ease-in-out duration-300`}
                 src={pictureUrl ? pictureUrl : profilePicture}
                 alt={""}
             />

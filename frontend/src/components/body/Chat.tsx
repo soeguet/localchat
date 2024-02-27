@@ -1,28 +1,29 @@
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 import ChatBubble from "../ChatBubble";
 import ChatInputSection from "../ChatInputSection";
 import TypingIndicator from "../TypingIndicator";
 import Header from "../Header";
-import {WindowMinimise, WindowReloadApp, WindowShow, WindowUnminimise} from "../../../wailsjs/runtime";
-import {initWebSocket, sendClientMessageToWebsocket} from "../../utils/socket";
-import {ClientListPayload, MessagePayload, PayloadSubType, RegisteredUser} from "../../utils/customTypes";
+import { WindowMinimise, WindowReloadApp, WindowShow, WindowUnminimise } from "../../../wailsjs/runtime";
+import { initWebSocket, sendClientMessageToWebsocket } from "../../utils/socket";
+import { ClientListPayload, MessagePayload, PayloadSubType, RegisteredUser } from "../../utils/customTypes";
 import useUserStore from "../../stores/userStore";
-import useClientStore, {getClientById} from "../../stores/clientsStore";
+import useClientStore from "../../stores/clientsStore";
 import useEnvironmentStore from "../../stores/environmentStore";
 import useTypingStore from "../../stores/typingStore";
-import {useTranslation} from "react-i18next";
-import {Notification} from "../../../wailsjs/go/main/App";
-import {useWindowFocussedListener} from "../../hooks/body/useWindowFocussedListener";
+import { useTranslation } from "react-i18next";
+import { Notification } from "../../../wailsjs/go/main/App";
+import { useWindowFocussedListener } from "../../hooks/body/useWindowFocussedListener";
 import useMessageMapStore from "../../stores/messageMapStore";
-import {useScrollToBottom} from "../../hooks/body/useScrollToBottom";
+import { useScrollToBottom } from "../../hooks/body/useScrollToBottom";
 import useDoNotDisturbStore from "../../stores/doNotDisturbStore";
+import useLastMessageStore from "../../stores/lastMessageStore";
 
 /**
  * The main part of the application.
  * Renders the chat interface and handles message handling and sending.
  */
 function App() {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const endOfListRef = useRef<HTMLDivElement | null>(null);
     const guiHasFocus = useWindowFocussedListener();
 
@@ -30,7 +31,7 @@ function App() {
     const [unreadMessages, setUnreadMessages] = useState(0);
     // const [messagesMap, setMessagesMap] = useState<Map<string, MessagePayload>>(new Map());
 
-    const {messageMap, onMessage} = useMessageMapStore();
+    const { messageMap, onMessage } = useMessageMapStore();
     // socket state
     const [isConnected, setIsConnected] = useState(false);
     const socketIp = useEnvironmentStore((state) => state.socketIp);
@@ -48,8 +49,12 @@ function App() {
         state.clients.find((c) => c.id === clientId)
     );
 
-    const setClients = useClientStore((state) => state.setClients);
+    // last message state
+    const lastMessageId = useLastMessageStore((state) => state.lastMessageId);
+    const lastMessageTime = useLastMessageStore((state) => state.lastMessageTime);
+    const setLastMessage = useLastMessageStore((state) => state.setLastMessage);
 
+    const setClients = useClientStore((state) => state.setClients);
 
     useEffect(() => {
         console.log("Connecting to WebSocket");
@@ -121,7 +126,6 @@ function App() {
                 break;
 
             case PayloadSubType.force:
-
                 if (dataAsObject.clientId === clientId) {
                     // just to be safe if the client does not want to get notifications!
                     if (!useDoNotDisturbStore.getState().doNotDisturb) {
@@ -189,21 +193,32 @@ function App() {
                     onReconnect={() => reconnectToWebsocket()}
                 />
                 <div className="grow overflow-y-auto px-5 pt-2">
-                    {Array.from(messageMap.entries()).map((entry) => (
-                        <ChatBubble
-                            key={entry[0]}
-                            id={entry[0]}
-                            clientId={entry[1].userType.clientId}
-                            username={
-                                entry[1].userType.clientId === clientId
-                                    ? thisClient?.username
-                                    : getClientById(entry[1].userType.clientId)?.username || t("unknown")
+                    {Array.from(messageMap.entries()).map((value, index, array) => {
+                        let lastMessageFromThisClientId = false;
+                        let lastMessageTimestampSameAsThisOne = false;
+
+                        console.log("value", value);
+                        console.log("array", array);
+
+                        if (array.length > 1 && index > 0) {
+                            const lastMessage: [string, MessagePayload] = array[index - 1];
+                            console.log("lastMessage", lastMessage);
+                            if (lastMessage[1].userType.clientId === value[1].userType.clientId) {
+                                lastMessageFromThisClientId = true;
                             }
-                            message={entry[1].messageType.message}
-                            isUser={entry[1].userType.clientId === clientId}
-                            messagePayload={entry[1]}
-                        />
-                    ))}
+                            if (lastMessage[1].messageType.time === value[1].messageType.time) {
+                                lastMessageTimestampSameAsThisOne = true;
+                            }
+                        }
+                        return (
+                            <ChatBubble
+                                key={value[0]}
+                                messagePayload={value[1]}
+                                lastMessageFromThisClientId={lastMessageFromThisClientId}
+                                lastMessageTimestampSameAsThisOne={lastMessageTimestampSameAsThisOne}
+                            />
+                        );
+                    })}
                     <div ref={endOfListRef} />
                 </div>
                 {typingClientIds.length !== 0 && <TypingIndicator typingUsers={typingClientIds} />}
