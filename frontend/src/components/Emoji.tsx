@@ -1,6 +1,7 @@
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import { useEffect, useRef, useState } from "react";
 import { EmojiProps } from "../utils/customTypes";
+import React from "react";
 
 function Emoji(props: EmojiProps) {
     const [emojiVisible, setEmojiVisible] = useState("hidden");
@@ -59,4 +60,4 @@ function Emoji(props: EmojiProps) {
     );
 }
 
-export default Emoji;
+export default React.memo(Emoji);

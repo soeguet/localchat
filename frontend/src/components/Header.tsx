@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { HeaderProps } from "../utils/customTypes";
 import useUserStore from "../stores/userStore";
 import useClientsStore from "../stores/clientsStore";
 import ProfileMenu from "./ProfileMenu";
@@ -16,8 +15,10 @@ import DoNotDisturb from "./svgs/disturb/DoNotDisturb";
 import Connected from "./svgs/status/Connected";
 import Disconnected from "./svgs/status/Disconnected";
 import { socket } from "../utils/socket";
+import useWebsocketStore from "../stores/websocketStore";
+import { WindowReloadApp } from "../../wailsjs/runtime/runtime";
 
-function Header({ isConnected, unreadMessages, onReconnect }: HeaderProps) {
+function Header() {
     const [showProfileMenu, setShowProfileMenu] = useState<boolean>(false);
     const [showProfileModal, setShowProfileModal] = useState<boolean>(false);
     const clientId = useUserStore((state) => state.myId);
@@ -25,6 +26,7 @@ function Header({ isConnected, unreadMessages, onReconnect }: HeaderProps) {
     const username = useClientsStore((state) => state.clients.find((c) => c.id === clientId)?.username);
     const doNotDisturb = useDoNotDisturbStore((state) => state.doNotDisturb);
     const [profilePictureHovered, setProfilePictureHovered] = useState<boolean>(false);
+    const ws = useWebsocketStore((state) => state.ws);
 
     function switchLanguage() {
         const language_selected = localStorage.getItem("language");
@@ -73,7 +75,7 @@ function Header({ isConnected, unreadMessages, onReconnect }: HeaderProps) {
                 <span className="font-medium ml-3">{username}</span>
             </div>
             <div>
-                {isConnected ? (
+                {ws?.readyState === ws?.OPEN ? (
                     <div className="border-2 border-black rounded-full">
                         <Connected />
                     </div>
@@ -81,7 +83,7 @@ function Header({ isConnected, unreadMessages, onReconnect }: HeaderProps) {
                     <div className="flex">
                         <Disconnected />
                         <button
-                            onClick={() => onReconnect(socket)}
+                            onClick={() => WindowReloadApp()}
                             className="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
                         >
                             {t("button_reconnect")}
@@ -91,7 +93,7 @@ function Header({ isConnected, unreadMessages, onReconnect }: HeaderProps) {
             </div>
             <div className="flex justify-between items-center">
                 <div>
-                    {unreadMessages > 0 && (
+                    {0 > 0 && (
                         <button className=" border-2 border-black hover:bg-gray-500 text-white py-1 px-2 rounded-full ">
                             <UnreadMessages />
                         </button>
