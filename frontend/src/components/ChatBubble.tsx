@@ -1,5 +1,4 @@
 import React, {useEffect, useRef, useState} from "react";
-import {formatTime} from "../utils/time";
 import useReplyStore from "../stores/replyStore";
 import {MessageProps} from "../utils/customTypes";
 import QuoteBubble from "./QuoteBubble";
@@ -8,12 +7,13 @@ import useClientsStore, {getClientById} from "../stores/clientsStore";
 import {useTranslation} from "react-i18next";
 import LinkifyText from "./LinkifiedText";
 import useFontSizeStore from "../stores/fontSizeStore";
+import {getTimeWithHHmmFormat} from "../utils/time";
 
 function ChatBubble(props: MessageProps) {
     const {t} = useTranslation();
     const [showMenu, setShowMenu] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
-    const currentTime = formatTime(new Date());
+    const currentTime = getTimeWithHHmmFormat(new Date());
     const client = useClientsStore((state) => state.clients.find((c) => c.id === props.clientId));
     const clientUsername = client?.username;
     const fontSize = useFontSizeStore((state) => state.fontSize);

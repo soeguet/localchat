@@ -101,7 +101,17 @@ function App() {
             // normal chat messages
             case PayloadSubType.message:
                 // addMessageIfUniqueId(messageMap, setMessageMap, JSON.parse(event.data) as MessagePayload, true);
-                onMessage(JSON.parse(event.data) as MessagePayload);
+
+                const messagePayload = JSON.parse(event.data) as MessagePayload;
+                const messageSenderName = getClientById(messagePayload.userType.clientId)?.username || t("unknown");
+                onMessage(messagePayload);
+                console.log("messagePayload", messagePayload);
+                if (!useDoNotDisturbStore.getState().doNotDisturb && messagePayload.userType.clientId !== clientId && !guiHasFocus.current) {
+                    Notification(messagePayload.messageType.time.slice(0, 5) + " - " + messageSenderName, messagePayload.messageType.message).then(() => {
+                            WindowShow();
+                        }
+                    );
+                }
                 break;
 
             case PayloadSubType.messageList:
