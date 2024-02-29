@@ -76,7 +76,7 @@ function Form() {
                                             name="client-name"
                                             placeholder={t("client_name_placeholder")}
                                             onChange={(e) => setLocalClientName(e.target.value)}
-                                            className="block w-full rounded-md border-0 py-3 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            className="block w-full rounded-md border-0 px-3 py-3 placeholder:text-gray-400 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
                                 </div>
@@ -95,7 +95,7 @@ function Form() {
                                             name="socket-ip"
                                             placeholder="e.g. 127.0.0.1"
                                             onChange={(e) => setLocalSocketIp(e.target.value)}
-                                            className="block w-full rounded-md border-0 py-3 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            className="block w-full rounded-md border-0 px-3 py-3 placeholder:text-gray-400 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
                                 </div>
@@ -114,7 +114,7 @@ function Form() {
                                             name="socket-port"
                                             placeholder="e.g. 8080"
                                             onChange={(e) => setLocalSocketPort(e.target.value)}
-                                            className="block w-full rounded-md border-0 py-3 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            className="block w-full rounded-md border-0 px-3 py-3 placeholder:text-gray-400 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
                                 </div>

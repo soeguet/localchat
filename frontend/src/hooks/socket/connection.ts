@@ -1,17 +1,20 @@
-import { useEffect } from "react";
+import {useEffect} from "react";
 import useEnvironmentStore from "../../stores/environmentStore";
 import useWebsocketStore from "../../stores/websocketStore";
-import { initWebSocket } from "../../utils/socket";
-import { ClientListPayload, MessagePayload, PayloadSubType, RegisteredUser } from "../../utils/customTypes";
-import useClientsStore from "../../stores/clientsStore";
+import {initWebSocket} from "../../utils/socket";
+import {ClientListPayload, MessagePayload, PayloadSubType, RegisteredUser} from "../../utils/customTypes";
+import useClientsStore, {getClientById} from "../../stores/clientsStore";
 import useMessageMapStore from "../../stores/messageMapStore";
 import useTypingStore from "../../stores/typingStore";
 import useUserStore from "../../stores/userStore";
 import useDoNotDisturbStore from "../../stores/doNotDisturbStore";
-import { Notification } from "../../../wailsjs/go/main/App";
-import { WindowMinimise, WindowShow, WindowUnminimise } from "../../../wailsjs/runtime/runtime";
+import {MakeWindowsTaskIconFlash, Notification} from "../../../wailsjs/go/main/App";
+import {WindowIsMinimised, WindowMinimise, WindowShow, WindowUnminimise} from "../../../wailsjs/runtime";
+import {useTranslation} from "react-i18next";
 
 function useConnection() {
+
+    const {t} = useTranslation();
     const socketIp = useEnvironmentStore((state) => state.socketIp);
     const socketPort = useEnvironmentStore((state) => state.socketPort);
     const setIsConnected = useWebsocketStore((state) => state.setIsConnected);
@@ -50,7 +53,6 @@ function useConnection() {
         }
 
         messageListPayload.messageList.forEach((messagePayload) => {
-            // addMessageIfUniqueId(messageMap, setMessageMap, messagePayload, false);
             onMessage(messagePayload);
         });
     }
@@ -58,16 +60,14 @@ function useConnection() {
     function handleIncomingMessages(event: MessageEvent) {
         const dataAsObject = JSON.parse(event.data);
         //
-        console.log("dataAsObject", dataAsObject);
+        // console.log("dataAsObject", dataAsObject);
 
         switch (dataAsObject.payloadType) {
             // update the client list with new data
             case PayloadSubType.clientList || PayloadSubType.profileUpdate:
-                if (
-                    dataAsObject.clients === undefined ||
-                    dataAsObject.clients === null ||
-                    dataAsObject.clients.length === 0
-                ) {
+
+                if (dataAsObject.clients === undefined || dataAsObject.clients === null || dataAsObject.clients.length === 0) {
+
                     throw new Error("Client list is empty");
                 }
                 handleClientListPayload(event.data);
@@ -75,10 +75,31 @@ function useConnection() {
                 break;
 
             // normal chat messages
-            case PayloadSubType.message:
-                // addMessageIfUniqueId(messageMap, setMessageMap, JSON.parse(event.data) as MessagePayload, true);
-                onMessage(JSON.parse(event.data) as MessagePayload);
+            case PayloadSubType.message: {
+                const messagePayload = JSON.parse(event.data) as MessagePayload;
+                const messageSenderName = getClientById(messagePayload.userType.clientId)?.username || t("unknown_user");
+                onMessage(messagePayload);
+                // console.log("messagePayload", messagePayload);
+                if (useDoNotDisturbStore.getState().doNotDisturb) {
+                    return;
+                }
+                if (messagePayload.userType.clientId === clientId) {
+                    return;
+                }
+                // if (guiHasFocus) {}
+
+                const titleNotification = messagePayload.messageType.time.slice(0, 5) + " - " + messageSenderName;
+                Notification(titleNotification, messagePayload.messageType.message).then(() => {
+                    WindowIsMinimised().then((isMinimised) => {
+                        if (isMinimised) {
+                            MakeWindowsTaskIconFlash("localchat");
+                        } else {
+                            WindowShow();
+                        }
+                    });
+                });
                 break;
+            }
 
             case PayloadSubType.messageList:
                 handeMessageListPayload(event.data);

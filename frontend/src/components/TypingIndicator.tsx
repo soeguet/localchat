@@ -15,9 +15,9 @@ const TypingIndicator = () => {
     return (
         <>
             {typingUserNames.length > 0 && (
-                <div className="text-small z-50 mb-1 p-2 fixed bottom-24 left-1/2 transform -translate-x-1/2 bg-gray-200 rounded-lg shadow max-w-xs ">
+                <div className="fixed bottom-24 left-1/2 z-50 mb-1 max-w-xs -translate-x-1/2 transform rounded-lg bg-gray-200 p-2 shadow text-small">
                     <div className="flex items-center">
-                        <div className="text-ellipsis flex overflow-hidden">
+                        <div className="flex overflow-hidden text-ellipsis">
                             {names} {text}
                             <div className="ml-1">
                                 <span className="dots dot1">.</span>

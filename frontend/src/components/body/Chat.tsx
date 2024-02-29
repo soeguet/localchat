@@ -1,11 +1,10 @@
 import ChatInputSection from "../ChatInputSection";
 import TypingIndicator from "../TypingIndicator";
 import Header from "../Header";
-import { sendClientMessageToWebsocket } from "../../utils/socket";
-import { RegisteredUser } from "../../utils/customTypes";
+import {RegisteredUser} from "../../utils/customTypes";
 import useUserStore from "../../stores/userStore";
 import useClientStore from "../../stores/clientsStore";
-import { useWindowFocussedListener } from "../../hooks/body/useWindowFocussedListener";
+import {useWindowFocussedListener} from "../../hooks/body/useWindowFocussedListener";
 import ChatPanel from "./panel/ChatPanel";
 import ClientNotFoundPage from "./ClientNotFoundPage";
 import useConnection from "../../hooks/socket/connection";
@@ -29,7 +28,9 @@ function App() {
     );
 
     if (thisClient === undefined) {
-        <ClientNotFoundPage />;
+        return (
+            <ClientNotFoundPage />
+        );
     }
 
     return (
@@ -38,9 +39,7 @@ function App() {
                 <Header />
                 <ChatPanel />
                 <TypingIndicator />
-                <div className="grow-0">
-                    <ChatInputSection sendClientMessageToWebsocket={sendClientMessageToWebsocket} />
-                </div>
+                <ChatInputSection />
             </div>
         </>
     );

@@ -64,17 +64,17 @@ function ForceModal() {
                 {t("menu_item_force")}
             </button>
             {isOpen && <div
-                className="fixed z-20 inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+                className="fixed inset-0 z-20 flex items-center justify-center bg-black bg-opacity-50">
                 <div ref={forceModalRef}
-                     className="bg-white p-4 rounded-lg text-black w-full sm:w-3/4 md:w-3/4 lg:w-1/2 xl:w-1/2 divide-y-2 divide-gray-400 border-2 border-blue-300">
+                     className="w-full rounded-lg border-2 border-blue-300 bg-white p-4 text-black divide-y-2 divide-gray-400 sm:w-3/4 md:w-3/4 lg:w-1/2 xl:w-1/2">
                     {
                         clientsList.map((client) => {
                             if (client.id === clientId) return
                             return (
-                                <div key={client.id} className="flex justify-between items-center ">
+                                <div key={client.id} className="flex items-center justify-between">
                                     <span>{client.username}</span>
                                     <button
-                                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+                                        className="rounded bg-blue-500 px-2 py-1 font-bold text-white hover:bg-blue-700"
                                         onClick={() => forceClient(client.id)}
                                     >
                                         {t("menu_item_force")}

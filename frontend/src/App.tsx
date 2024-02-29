@@ -10,7 +10,7 @@ import { useFontSizeInitializer } from "./hooks/setup/useFontSizeInitializer";
 function App() {
     // Load environment variables and check if all set
     const { allEnvVariableSet } = useEnvironmentVariablesLoader();
-    console.log("allEnvVariableSet", allEnvVariableSet);
+    // console.log("allEnvVariableSet", allEnvVariableSet);
 
     // Load font size and set it globally
     useFontSizeInitializer();

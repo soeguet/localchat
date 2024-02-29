@@ -135,11 +135,11 @@ function ProfileModal(props: ProfileModalProps) {
 
     return (
         <>
-            <div className="fixed z-20 inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-                <div className="bg-white p-4 rounded-lg text-black w-full sm:w-3/4 md:w-3/4 lg:w-1/2 xl:w-1/2">
+            <div className="fixed inset-0 z-20 flex items-center justify-center bg-black bg-opacity-50">
+                <div className="w-full rounded-lg bg-white p-4 text-black sm:w-3/4 md:w-3/4 lg:w-1/2 xl:w-1/2">
                     <form onSubmit={handleSubmit} className="grid grid-cols-3 gap-4">
                         <div className="col-span-3 grid grid-cols-8">
-                            <div className="col-span-2 my-auto mx-auto">
+                            <div className="col-span-2 mx-auto my-auto">
                                 {localProfilePicture ? (
                                     <div className="grid">
                                         <ProfilePicture
@@ -151,7 +151,7 @@ function ProfileModal(props: ProfileModalProps) {
                                                 borderColor: localColor || "lightgrey",
                                             }}
                                         />
-                                        <span className="text-xs bg-red-200 text-center rounded text-gray-600 p-1">
+                                        <span className="rounded bg-red-200 p-1 text-center text-xs text-gray-600">
                                             preview
                                         </span>
                                     </div>
@@ -178,7 +178,7 @@ function ProfileModal(props: ProfileModalProps) {
                                             type="checkbox"
                                             className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                                         />
-                                        <label htmlFor="comments" className="font-medium ml-3 text-gray-500">
+                                        <label htmlFor="comments" className="ml-3 font-medium text-gray-500">
                                             {t("prefer_pic_url")}
                                         </label>
                                     </div>
@@ -188,7 +188,7 @@ function ProfileModal(props: ProfileModalProps) {
                                         type="text"
                                         id="profilePicture"
                                         onChange={(e) => setLocalProfilePicture(e.target.value)}
-                                        className="mt-1 border border-gray-300 rounded-md p-2 w-full"
+                                        className="mt-1 w-full rounded-md border border-gray-300 p-2"
                                     />
                                 ) : (
                                     <input
@@ -196,7 +196,7 @@ function ProfileModal(props: ProfileModalProps) {
                                         id="profilePicture"
                                         accept=".png, .jpg, .jpeg"
                                         onChange={handleFileChange}
-                                        className="mt-1 border border-gray-300 rounded-md p-2 w-full"
+                                        className="mt-1 w-full rounded-md border border-gray-300 p-2"
                                     />
                                 )}
                             </div>
@@ -208,7 +208,7 @@ function ProfileModal(props: ProfileModalProps) {
                                 id="name"
                                 value={localName}
                                 onChange={(e) => setLocalName(e.target.value)}
-                                className="mt-1 border border-gray-300 rounded-md p-2 w-full"
+                                className="mt-1 w-full rounded-md border border-gray-300 p-2"
                             />
                         </div>
                         <div>
@@ -218,7 +218,7 @@ function ProfileModal(props: ProfileModalProps) {
                                 id="socketIp"
                                 value={localIp}
                                 onChange={(e) => setLocalIp(e.target.value)}
-                                className="mt-1 border border-gray-300 rounded-md p-2 w-full"
+                                className="mt-1 w-full rounded-md border border-gray-300 p-2"
                             />
                         </div>
                         <div>
@@ -228,7 +228,7 @@ function ProfileModal(props: ProfileModalProps) {
                                 id="socketPort"
                                 value={localPort}
                                 onChange={(e) => setLocalPort(e.target.value)}
-                                className="mt-1 border border-gray-300 rounded-md p-2 w-full"
+                                className="mt-1 w-full rounded-md border border-gray-300 p-2"
                             />
                         </div>
                         <div>
@@ -237,7 +237,7 @@ function ProfileModal(props: ProfileModalProps) {
                                 id="languageSelection"
                                 value={language}
                                 onChange={(e) => setLanguage(e.target.value)}
-                                className="mt-1 border border-gray-300 rounded-md p-2 w-full"
+                                className="mt-1 w-full rounded-md border border-gray-300 p-2"
                             >
                                 <option value="de">🇩🇪 Deutsch</option>
                                 <option value="en">🇺🇸 Englisch</option>
@@ -255,7 +255,7 @@ function ProfileModal(props: ProfileModalProps) {
                                         onChange={(e) => {
                                             setLocalColor(e.target.value);
                                         }}
-                                        className="mt-1 ml-2 border border-gray-300 rounded-md p-5 w-32"
+                                        className="mt-1 ml-2 w-32 rounded-md border border-gray-300 p-5"
                                         style={{
                                             backgroundColor: localColor,
                                             color: localColor
@@ -274,14 +274,14 @@ function ProfileModal(props: ProfileModalProps) {
                                 onChange={(e) => setFontSize(Number(e.target.value))}
                             />
                         </div>
-                        <div className="col-span-2 flex justify-end items-center">
-                            <button type="submit" className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg">
+                        <div className="col-span-2 flex items-center justify-end">
+                            <button type="submit" className="mt-2 rounded-lg bg-blue-500 px-4 py-2 text-white">
                                 Save Changes
                             </button>
                             <button
                                 onClick={() => props.setIsOpen(false)}
                                 type="button"
-                                className="ml-2 mt-2 px-4 py-2 bg-gray-500 text-white rounded-lg"
+                                className="mt-2 ml-2 rounded-lg bg-gray-500 px-4 py-2 text-white"
                             >
                                 Cancel
                             </button>

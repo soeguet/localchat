@@ -6,6 +6,8 @@ import FontSize from "./svgs/font/FontSize";
 const FontSizePopup = () => {
     const {t} = useTranslation();
 
+
+
     const {fontSize, setFontSize} = useFontSizeStore();
     const [showPopup, setShowPopup] = useState(false);
     const fontSizeRef = useRef<HTMLDivElement>(null);
@@ -43,22 +45,22 @@ const FontSizePopup = () => {
             <div>
                 <button
                     onClick={() => setShowPopup(true)}
-                    className="text-white rounded-full hover:border-cyan-500 transition ease-in-out duration-300 border-2 border-black"
+                    className="rounded-full border-2 border-black text-white transition duration-300 ease-in-out hover:border-cyan-500"
                 >
                     <FontSize />
                 </button>
             </div>
             {showPopup && (
                 <div ref={fontSizeRef}
-                        className="absolute top-24 right-10 bg-white p-4 border-2 shadow-xl -mt-2 rounded-lg z-20 py-1">
+                        className="absolute top-24 right-10 z-20 -mt-2 rounded-lg border-2 bg-white p-4 py-1 shadow-xl">
                     <div className="grid grid-rows-2 gap-4 text-black">
-                        <div className="flex justify-between items-center">
+                        <div className="flex items-center justify-between">
                             <h2>{t("adjust_font_size")}</h2>
                         </div>
                         <div className="flex items-center justify-start gap-2">
                             <button
                                 onClick={() => setFontSize(fontSize - 1 < 12 ? 12 : fontSize - 1)}
-                                className="bg-gray-200 text-lg px-2 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
+                                className="rounded bg-gray-200 px-2 text-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
                             >
                                 -
                             </button>
@@ -68,17 +70,17 @@ const FontSizePopup = () => {
                                 max="24"
                                 value={fontSize}
                                 onChange={(e) => setFontSize(Number(e.target.value))}
-                                className="cursor-pointer w-full"
+                                className="w-full cursor-pointer"
                             />
                             <button
                                 onClick={() => setFontSize(fontSize + 1 > 24 ? 24 : fontSize + 1)}
-                                className="bg-gray-200 text-lg px-2 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
+                                className="rounded bg-gray-200 px-2 text-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
                             >
                                 +
                             </button>
                             <button
                                 onClick={() => setShowPopup(false)}
-                                className="bg-gray-200 rounded-full px-3 ml-3 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
+                                className="ml-3 rounded-full bg-gray-200 px-3 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
                             >
                                 <span className="sr-only">Close</span>
                                 🗙

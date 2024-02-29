@@ -1,38 +1,41 @@
-import { useCallback, useRef } from "react";
-import { useTranslation } from "react-i18next";
-import { useTypingHook } from "../../../hooks/input/useTypingHook";
+import {forwardRef, useCallback, LegacyRef} from "react";
+import {useTranslation} from "react-i18next";
+import {useTypingHook} from "../../../hooks/input/useTypingHook";
 
-function TextArea({
-    setMessage,
-    handleSendMessage,
-}: {
+type TextAreaProps = {
     setMessage: (message: string) => void;
     handleSendMessage: () => void;
-}) {
-    const { t } = useTranslation();
-    const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+};
+
+const TextArea = forwardRef((props:TextAreaProps, ref: LegacyRef<HTMLTextAreaElement>)=> {
+    const {t} = useTranslation();
+
 
     const {typingTimeoutId, setTypingTimeoutId, sendTypingStatus} = useTypingHook();
 
     const handleKeyDown = useCallback(
         (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-            if (textAreaRef === null || textAreaRef === undefined) {
-                throw new Error("textAreaRef is null or undefined");
+            if (ref === null || ref === undefined) {
+                throw new Error("ref is null or undefined");
             }
 
             if (e.key === "Enter" && !e.shiftKey) {
                 e.preventDefault();
-                handleSendMessage();
+                props.handleSendMessage();
                 sendTypingStatus(false);
                 if (typingTimeoutId) {
                     clearTimeout(typingTimeoutId);
                     setTypingTimeoutId(null);
                 }
+
+                // ref.current!.value = "";
+
+
             } else {
                 // sends status
-                if (textAreaRef.current?.value.length === 0 || !typingTimeoutId) {
-                    sendTypingStatus(true);
-                }
+                // if (ref.current!.value.length === 0 || !typingTimeoutId) {
+                //     sendTypingStatus(true);
+                // }
 
                 // reset timer if one is present
                 if (typingTimeoutId) {
@@ -47,20 +50,24 @@ function TextArea({
                 setTypingTimeoutId(id);
             }
         },
-        [typingTimeoutId, handleSendMessage, sendTypingStatus]
+        [typingTimeoutId, props.handleSendMessage, sendTypingStatus]
     );
     return (
         <>
             <textarea
-                ref={textAreaRef}
+                ref={ref}
                 className="flex-1 rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder={t("chat_input_placeholder")}
                 rows={2}
-                onChange={(e) => setMessage(e.target.value)}
+                onChange={(e) => {
+                    props.setMessage(e.target.value);
+                }}
                 onKeyDown={(e) => handleKeyDown(e)}
             ></textarea>
         </>
     );
-}
+});
+
+TextArea.displayName = "TextArea";
 
 export default TextArea;

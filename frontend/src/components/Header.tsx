@@ -14,9 +14,8 @@ import useDoNotDisturbStore from "../stores/doNotDisturbStore";
 import DoNotDisturb from "./svgs/disturb/DoNotDisturb";
 import Connected from "./svgs/status/Connected";
 import Disconnected from "./svgs/status/Disconnected";
-import { socket } from "../utils/socket";
 import useWebsocketStore from "../stores/websocketStore";
-import { WindowReloadApp } from "../../wailsjs/runtime/runtime";
+import { WindowReloadApp } from "../../wailsjs/runtime";
 
 function Header() {
     const [showProfileMenu, setShowProfileMenu] = useState<boolean>(false);
@@ -50,7 +49,7 @@ function Header() {
                     onMouseLeave={() => setProfilePictureHovered(false)}
                 >
                     {doNotDisturb ? (
-                        <div className="bg-white rounded-full border-2 border-black hover:border-cyan-500 transition ease-in-out duration-300 ">
+                        <div className="rounded-full border-2 border-black bg-white transition duration-300 ease-in-out hover:border-cyan-500">
                             <DoNotDisturb />
                         </div>
                     ) : (
@@ -72,11 +71,11 @@ function Header() {
                     />
                 )}
                 {showProfileModal && <ProfileModal isOpen={showProfileModal} setIsOpen={setShowProfileModal} />}
-                <span className="font-medium ml-3">{username}</span>
+                <span className="ml-3 font-medium">{username}</span>
             </div>
             <div>
                 {ws?.readyState === ws?.OPEN ? (
-                    <div className="border-2 border-black rounded-full">
+                    <div className="rounded-full border-2 border-black">
                         <Connected />
                     </div>
                 ) : (
@@ -84,17 +83,17 @@ function Header() {
                         <Disconnected />
                         <button
                             onClick={() => WindowReloadApp()}
-                            className="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+                            className="ml-2 rounded bg-blue-500 px-2 py-1 font-bold text-white hover:bg-blue-700"
                         >
                             {t("button_reconnect")}
                         </button>
                     </div>
                 )}
             </div>
-            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-between">
                 <div>
                     {0 > 0 && (
-                        <button className=" border-2 border-black hover:bg-gray-500 text-white py-1 px-2 rounded-full ">
+                        <button className="rounded-full border-2 border-black px-2 py-1 text-white hover:bg-gray-500">
                             <UnreadMessages />
                         </button>
                     )}
@@ -105,7 +104,7 @@ function Header() {
                 <div>
                     <button
                         onClick={() => switchLanguage()}
-                        className="hover:border-cyan-500 transition ease-in-out duration-300 text-white rounded-full border-2 border-black "
+                        className="rounded-full border-2 border-black text-white transition duration-300 ease-in-out hover:border-cyan-500"
                     >
                         {i18n.language === "en" ? <AmericanFlag /> : <GermanFlag />}
                     </button>

@@ -10,7 +10,7 @@ type QuoteBubbleProps = {
 function QuoteBubble({ message, sender, time }: QuoteBubbleProps) {
     const fontSize = useFontSizeStore((state) => state.fontSize);
     return (
-        <div className="my-1 p-2 bg-gray-100 bg-opacity-70 rounded-md border-l-4 border-blue-300" style={{
+        <div className="my-1 rounded-md border-l-4 border-blue-300 bg-gray-100 bg-opacity-70 p-2" style={{
             fontSize: `${fontSize-3}px`,
         }}>
             <div className="text-gray-800">

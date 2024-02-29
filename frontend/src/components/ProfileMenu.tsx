@@ -57,7 +57,7 @@ function ProfileMenu(props: ProfileMenuPropsType) {
                 </button>
 
                 <button
-                    className="block border-t-2 w-full px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
+                    className="block w-full border-t-2 px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
                     onClick={() => setDoNotDisturb(!useDoNotDisturbStore.getState().doNotDisturb)}
                 >
                     {t("menu_item_do_not_disturb")}
@@ -66,7 +66,7 @@ function ProfileMenu(props: ProfileMenuPropsType) {
                 <ForceModal />
 
                 <button
-                    className="block border-t-2 w-full px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
+                    className="block w-full border-t-2 px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
                     onClick={() => WindowReload()}
                 >
                     {t("menu_item_reload")}
