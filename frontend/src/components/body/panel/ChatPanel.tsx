@@ -14,7 +14,7 @@ function ChatPanel() {
 
     return (
         <>
-            <div className="grow overflow-y-auto px-5 pt-2">
+            <div className="px-5 pt-2 pb-2 overflow-y-auto grow">
                 {Array.from(messageMap.entries()).map((value, index, array) => {
                     let lastMessageFromThisClientId = false;
                     let lastMessageTimestampSameAsThisOne = false;

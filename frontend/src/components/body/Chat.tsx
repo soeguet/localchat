@@ -35,7 +35,7 @@ function App() {
 
     return (
         <>
-            <div className="flex h-screen flex-col justify-evenly">
+            <div className="flex flex-col h-screen justify-evenly">
                 <Header />
                 <ChatPanel />
                 <TypingIndicator />

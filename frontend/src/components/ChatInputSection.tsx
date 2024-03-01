@@ -1,22 +1,21 @@
-import {useCallback, useRef, useState} from "react";
+import { useCallback, useRef, useState } from "react";
 import Emoji from "./Emoji";
 import Reply from "./Reply";
 import useReplyStore from "../stores/replyStore";
-import {useTranslation} from "react-i18next";
-import {WindowMinimise, WindowShow, WindowUnminimise} from "../../wailsjs/runtime";
+import { useTranslation } from "react-i18next";
+import { WindowMinimise, WindowShow, WindowUnminimise } from "../../wailsjs/runtime";
 import TextArea from "./body/input/TextArea";
-import {sendClientMessageToWebsocket} from "../utils/socket";
+import { sendClientMessageToWebsocket } from "../utils/socket";
 
 function ChatInputSection() {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const [message, setMessage] = useState("");
     const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const { replyMessage, setReplyMessage } = useReplyStore.getState();
 
     const handleSendMessage = useCallback(() => {
         // console.log("Message sent:", message);
         if (message.trim()) {
-            const {replyMessage, setReplyMessage} = useReplyStore.getState();
-
             sendClientMessageToWebsocket(message);
 
             // reset replyMessage state AFTER sending the message. we need that state for the message payload
@@ -43,7 +42,7 @@ function ChatInputSection() {
     return (
         <>
             <div className="grow-0">
-                <div className="flex items-end gap-2 border-t-2 border-t-black bg-white p-4">
+                <div className="flex items-end gap-2 p-4 bg-white border-t-2 border-t-black">
                     <Emoji message={message} setMessage={setMessage} />
                     <button
                         onClick={handleClipClick}
@@ -51,13 +50,13 @@ function ChatInputSection() {
                     >
                         <i className="far fa-paperclip">📎</i>
                     </button>
-                    <div className="mx-2 my-auto flex flex-1 flex-col gap-2">
+                    <div className="flex flex-col flex-1 gap-2 mx-2 my-auto">
                         <Reply />
                         <TextArea setMessage={setMessage} handleSendMessage={handleSendMessage} ref={textareaRef} />
                     </div>
                     <button
-                        className="my-auto rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none"
-                        onClick={() => handleSendMessage()}
+                        className="px-4 py-2 my-auto text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none"
+                        onClick={handleSendMessage}
                     >
                         {t("button_send")}
                     </button>
