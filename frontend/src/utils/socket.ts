@@ -100,6 +100,7 @@ function sendClientMessageToWebsocket(message: string): void {
         };
     }
 
+    console.log("payload", payload);
     socket.send(JSON.stringify(payload));
 }
 

@@ -60,7 +60,7 @@ function useConnection() {
     function handleIncomingMessages(event: MessageEvent) {
         const dataAsObject = JSON.parse(event.data);
         //
-        // console.log("dataAsObject", dataAsObject);
+        console.log("dataAsObject", dataAsObject);
 
         switch (dataAsObject.payloadType) {
             // update the client list with new data

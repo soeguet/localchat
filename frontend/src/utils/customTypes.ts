@@ -99,11 +99,6 @@ export type InputProps = {
     sendClientMessageToWebsocket: (message: string) => void;
 };
 
-export type EmojiProps = {
-    message: string;
-    setMessage: React.Dispatch<React.SetStateAction<string>>;
-};
-
 export type HeaderProps = {
     isConnected: boolean;
     unreadMessages: number;

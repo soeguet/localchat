@@ -50,13 +50,13 @@ function Form() {
 
     return (
         <>
-            <div className="m-20 overflow-hidden rounded-lg bg-gray-100 shadow">
+            <div className="m-20 overflow-hidden bg-gray-100 rounded-lg shadow">
                 <div className="p-10">
                     <div className="space-y-4">
-                        <div className="border-b border-gray-900/10 pb-12">
+                        <div className="pb-12 border-b border-gray-900/10">
                             <h2 className="text-base font-semibold leading-7 text-gray-900">{t("missing_env_vars")}</h2>
 
-                            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                            <div className="grid grid-cols-1 mt-10 gap-x-6 gap-y-8 sm:grid-cols-6">
                                 <div className="col-span-full">
                                     <label
                                         htmlFor="client-name"
@@ -76,7 +76,7 @@ function Form() {
                                             name="client-name"
                                             placeholder={t("client_name_placeholder")}
                                             onChange={(e) => setLocalClientName(e.target.value)}
-                                            className="block w-full rounded-md border-0 px-3 py-3 placeholder:text-gray-400 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            className="block w-full px-3 py-3 text-gray-900 border-0 rounded-md shadow-sm placeholder:text-gray-400 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
                                 </div>
@@ -95,7 +95,7 @@ function Form() {
                                             name="socket-ip"
                                             placeholder="e.g. 127.0.0.1"
                                             onChange={(e) => setLocalSocketIp(e.target.value)}
-                                            className="block w-full rounded-md border-0 px-3 py-3 placeholder:text-gray-400 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            className="block w-full px-3 py-3 text-gray-900 border-0 rounded-md shadow-sm placeholder:text-gray-400 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
                                 </div>
@@ -114,7 +114,7 @@ function Form() {
                                             name="socket-port"
                                             placeholder="e.g. 8080"
                                             onChange={(e) => setLocalSocketPort(e.target.value)}
-                                            className="block w-full rounded-md border-0 px-3 py-3 placeholder:text-gray-400 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            className="block w-full px-3 py-3 text-gray-900 border-0 rounded-md shadow-sm placeholder:text-gray-400 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
                                 </div>
@@ -122,7 +122,7 @@ function Form() {
                         </div>
                     </div>
 
-                    <div className="mt-6 flex items-center justify-end gap-x-6">
+                    <div className="flex items-center justify-end mt-6 gap-x-6">
                         <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
                             {t("cancel")}
                         </button>

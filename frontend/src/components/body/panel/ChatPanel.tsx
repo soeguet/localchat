@@ -7,6 +7,7 @@ import { scrollToBottom } from "../../../utils/functionality";
 function ChatPanel() {
     // socket state
     const messageMap = useMessageMapStore((state) => state.messageMap);
+    console.log("RERENDERS THES OANELS!!!!!!");
 
     const endOfListRef = useRef<HTMLDivElement | null>(null);
 

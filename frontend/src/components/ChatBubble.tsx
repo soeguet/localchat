@@ -59,13 +59,13 @@ function ChatBubble(props: MessageProps) {
     }, [showMenu]);
 
     return (
-        <div className={`flex items-end ${thisMessageFromThisClient ? "flex-row-reverse" : ""} ${!props.lastMessageFromThisClientId && !props.lastMessageTimestampSameAsThisOne ? "mt-3" : ""}`}>
+        <div className={`flex items-end ${thisMessageFromThisClient ? "flex-row-reverse" : ""} ${!props.lastMessageFromThisClientId && !props.lastMessageTimestampSameAsThisOne ? "mt-3" : "mt-1"}`}>
             <div onClick={() => setShowMenu(!showMenu)} className="relative flex flex-col items-center mx-2">
                 <ProfilePicture
                     clientId={props.messagePayload.userType.clientId}
                     style={{
-                        width: "50px",
-                        height: "50px",
+                        width: props.lastMessageFromThisClientId? "75px":"75px",
+                        height: props.lastMessageFromThisClientId? "50px":"75px",
                         borderColor: clientColor || "lightgrey",
                         opacity: props.lastMessageFromThisClientId ? "0" : "1",
                     }}

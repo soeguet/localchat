@@ -1,12 +1,16 @@
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import { useEffect, useRef, useState } from "react";
-import { EmojiProps } from "../utils/customTypes";
 import React from "react";
+
+type EmojiProps = {
+    setMessage: React.Dispatch<React.SetStateAction<string>>;
+};
 
 function Emoji(props: EmojiProps) {
     const [emojiVisible, setEmojiVisible] = useState("hidden");
     const menuRef = useRef<HTMLDivElement>(null);
 
+    console.log("EMOJI RERENDERED");
     /**
      * Handles the click outside of the menu.
      * @param event - The mouse event object.

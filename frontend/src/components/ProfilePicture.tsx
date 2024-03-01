@@ -1,4 +1,5 @@
 import useClientsStore from "../stores/clientsStore";
+import React from "react";
 
 function ProfilePicture({
     clientId,
@@ -32,4 +33,4 @@ function ProfilePicture({
     );
 }
 
-export default ProfilePicture;
+export default React.memo(ProfilePicture);
