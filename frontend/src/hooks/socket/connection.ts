@@ -1,23 +1,23 @@
-import {useEffect} from "react";
+import { useEffect } from "react";
 import useEnvironmentStore from "../../stores/environmentStore";
 import useWebsocketStore from "../../stores/websocketStore";
-import {initWebSocket} from "../../utils/socket";
-import {ClientListPayload, MessagePayload, PayloadSubType, RegisteredUser} from "../../utils/customTypes";
-import useClientsStore, {getClientById} from "../../stores/clientsStore";
+import { initWebSocket } from "../../utils/socket";
+import { ClientListPayload, MessagePayload, PayloadSubType, RegisteredUser } from "../../utils/customTypes";
+import useClientsStore, { getClientById } from "../../stores/clientsStore";
 import useMessageMapStore from "../../stores/messageMapStore";
 import useTypingStore from "../../stores/typingStore";
 import useUserStore from "../../stores/userStore";
 import useDoNotDisturbStore from "../../stores/doNotDisturbStore";
-import {MakeWindowsTaskIconFlash, Notification} from "../../../wailsjs/go/main/App";
-import {WindowIsMinimised, WindowMinimise, WindowShow, WindowUnminimise} from "../../../wailsjs/runtime";
-import {useTranslation} from "react-i18next";
+import { MakeWindowsTaskIconFlash, Notification } from "../../../wailsjs/go/main/App";
+import { WindowIsMinimised, WindowMinimise, WindowShow, WindowUnminimise } from "../../../wailsjs/runtime";
+import { useTranslation } from "react-i18next";
 import useChatBottomRefVisibleStore from "../../stores/chatBottomRefVisibleStore";
 import useGuiHasFocusStore from "../../stores/guiHasFocusStore";
 import useUnseenMessageCountStore from "../../stores/unseenMessageCountStore";
+import { scrollToBottom } from "../../utils/functionality";
 
 function useConnection() {
-
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const socketIp = useEnvironmentStore((state) => state.socketIp);
     const socketPort = useEnvironmentStore((state) => state.socketPort);
     const setIsConnected = useWebsocketStore((state) => state.setIsConnected);
@@ -38,6 +38,55 @@ function useConnection() {
             onError: (event) => console.error(event),
         });
     }, [socketIp, socketPort]);
+
+    async function checkIfScrollToBottomIsNeeded() {
+        // const guiHasFocus = useGuiHasFocusStore.getState().guiHasFocus;
+        // if (!guiHasFocus) {
+        //     return false;
+        // }
+
+        const chatBottomRefVisible = useChatBottomRefVisibleStore.getState().chatBottomRefVisible;
+        if (chatBottomRefVisible) {
+            return true;
+        }
+
+        return false;
+    }
+
+    function checkIfNotificationIsNeeded(messagePayload: MessagePayload, messageSenderName: string) {
+        // no message allowed if "do not disturb" is active
+        if (useDoNotDisturbStore.getState().doNotDisturb) {
+            return;
+        }
+        // no message needed if message from this client
+        if (messagePayload.userType.clientId === clientId) {
+            return;
+        }
+        // no message needed if already at chat bottom
+        if (useChatBottomRefVisibleStore.getState().chatBottomRefVisible) {
+            return;
+        }
+
+        // if bottom not in sight, do not disturb or gui not in focus -> increase unread messages count
+        if (
+            !useGuiHasFocusStore.getState().guiHasFocus ||
+            useDoNotDisturbStore.getState().doNotDisturb ||
+            !useChatBottomRefVisibleStore.getState().chatBottomRefVisible
+        ) {
+            useUnseenMessageCountStore.getState().incrementUnseenMessageCount();
+        }
+
+        const titleNotification = messagePayload.messageType.time.slice(0, 5) + " - " + messageSenderName;
+        Notification(titleNotification, messagePayload.messageType.message).then(() => {
+            WindowIsMinimised().then((isMinimised) => {
+                if (isMinimised) {
+                    MakeWindowsTaskIconFlash("localchat");
+                } else {
+                    WindowShow();
+                }
+            });
+        });
+    }
 
     function handleClientListPayload(payloadAsString: string) {
         const payloadAsObject: ClientListPayload = JSON.parse(payloadAsString);
@@ -68,9 +117,11 @@ function useConnection() {
         switch (dataAsObject.payloadType) {
             // update the client list with new data
             case PayloadSubType.clientList || PayloadSubType.profileUpdate:
-
-                if (dataAsObject.clients === undefined || dataAsObject.clients === null || dataAsObject.clients.length === 0) {
-
+                if (
+                    dataAsObject.clients === undefined ||
+                    dataAsObject.clients === null ||
+                    dataAsObject.clients.length === 0
+                ) {
                     throw new Error("Client list is empty");
                 }
                 handleClientListPayload(event.data);
@@ -80,39 +131,20 @@ function useConnection() {
             // normal chat messages
             case PayloadSubType.message: {
                 const messagePayload = JSON.parse(event.data) as MessagePayload;
-                const messageSenderName = getClientById(messagePayload.userType.clientId)?.username || t("unknown_user");
-                onMessage(messagePayload);
+                const messageSenderName =
+                    getClientById(messagePayload.userType.clientId)?.username || t("unknown_user");
                 // console.log("messagePayload", messagePayload);
 
-                // no message allowed if "do not disturb" is active
-                if (useDoNotDisturbStore.getState().doNotDisturb) {
-                    return;
-                }
-                // no message needed if message from this client
-                if (messagePayload.userType.clientId === clientId) {
-                    return;
-                }
-                // no message needed if already at chat bottom
-                if (useChatBottomRefVisibleStore.getState().chatBottomRefVisible) {
-                    return;
-                }
+                checkIfScrollToBottomIsNeeded().then((scroll: boolean) => {
 
-                // if bottom not in sight, do not disturb or gui not in focus -> increase unread messages count
-                if (!useGuiHasFocusStore.getState().guiHasFocus || useDoNotDisturbStore.getState().doNotDisturb || !useChatBottomRefVisibleStore.getState().chatBottomRefVisible) {
-
-                    useUnseenMessageCountStore.getState().incrementUnseenMessageCount();
-                }
-
-                const titleNotification = messagePayload.messageType.time.slice(0, 5) + " - " + messageSenderName;
-                Notification(titleNotification, messagePayload.messageType.message).then(() => {
-                    WindowIsMinimised().then((isMinimised) => {
-                        if (isMinimised) {
-                            MakeWindowsTaskIconFlash("localchat");
-                        } else {
-                            WindowShow();
-                        }
-                    });
+                    console.log("scroll", scroll);
+                    onMessage(messagePayload);
+                    if (scroll) {
+                        scrollToBottom();
+                    }
                 });
+                //display the message
+                checkIfNotificationIsNeeded(messagePayload, messageSenderName);
                 break;
             }
 

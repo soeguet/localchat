@@ -18,6 +18,9 @@ function ChatPanel() {
 
     // scrollToBottom(endOfListRef);
     useEffect(() => {
+
+        useChatBottomRefVisibleStore.getState().setChatBottomRef(chatBottomRef);
+
         const checkVisibility = () => {
             if (chatBottomRef.current && chatContainerRef.current) {
                 const visible = isVisibleInViewport(chatBottomRef.current, chatContainerRef.current, true);
@@ -25,14 +28,11 @@ function ChatPanel() {
             }
         };
 
-        // Überprüfung bei Initialisierung
         checkVisibility();
 
-        // Event Listener für Scroll-Events hinzufügen
         const container = chatContainerRef.current;
         container?.addEventListener("scroll", checkVisibility);
 
-        // Cleanup-Funktion, um Event Listener zu entfernen
         return () => {
             container?.removeEventListener("scroll", checkVisibility);
         };
@@ -70,7 +70,7 @@ function ChatPanel() {
                 {!chatBottomRefVisible && (
                     <button
                         onClick={() => {
-                            scrollToBottom(chatBottomRef);
+                            scrollToBottom();
                             useUnseenMessageCountStore.getState().resetUnseenMessageCount();
                         }}
                         className="fixed right-0 z-50 flex items-center justify-center max-w-xs mb-3 text-xs transition duration-300 ease-in-out transform -translate-x-1/2 bg-gray-200 border border-black mr-5 rounded-full shadow animate-bounce size-10 bottom-24 hover:border-cyan-500"

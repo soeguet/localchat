@@ -22,6 +22,12 @@ type EnvVars struct {
 }
 
 func SetClientId() string {
+
+	// if dev=true environment variable is set, use a random id
+	if os.Getenv("DEV") == "true" {
+		return uuid.New().String()
+	}
+
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		log.Fatalf("error retrieving home path: %v", err)
