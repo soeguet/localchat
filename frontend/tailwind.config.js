@@ -4,8 +4,11 @@ export default {
     theme: {
         extend: {
             fontSize: {
-                "custom": "1.5rem"
-            }
+                custom: "1.5rem",
+            },
+            animation: {
+                bounce: "bounce 1s infinite",
+            },
         },
     },
     plugins: [],

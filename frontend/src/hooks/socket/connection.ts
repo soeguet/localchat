@@ -11,6 +11,9 @@ import useDoNotDisturbStore from "../../stores/doNotDisturbStore";
 import {MakeWindowsTaskIconFlash, Notification} from "../../../wailsjs/go/main/App";
 import {WindowIsMinimised, WindowMinimise, WindowShow, WindowUnminimise} from "../../../wailsjs/runtime";
 import {useTranslation} from "react-i18next";
+import useChatBottomRefVisibleStore from "../../stores/chatBottomRefVisibleStore";
+import useGuiHasFocusStore from "../../stores/guiHasFocusStore";
+import useUnseenMessageCountStore from "../../stores/unseenMessageCountStore";
 
 function useConnection() {
 
@@ -80,13 +83,25 @@ function useConnection() {
                 const messageSenderName = getClientById(messagePayload.userType.clientId)?.username || t("unknown_user");
                 onMessage(messagePayload);
                 // console.log("messagePayload", messagePayload);
+
+                // no message allowed if "do not disturb" is active
                 if (useDoNotDisturbStore.getState().doNotDisturb) {
                     return;
                 }
+                // no message needed if message from this client
                 if (messagePayload.userType.clientId === clientId) {
                     return;
                 }
-                // if (guiHasFocus) {}
+                // no message needed if already at chat bottom
+                if (useChatBottomRefVisibleStore.getState().chatBottomRefVisible) {
+                    return;
+                }
+
+                // if bottom not in sight, do not disturb or gui not in focus -> increase unread messages count
+                if (!useGuiHasFocusStore.getState().guiHasFocus || useDoNotDisturbStore.getState().doNotDisturb || !useChatBottomRefVisibleStore.getState().chatBottomRefVisible) {
+
+                    useUnseenMessageCountStore.getState().incrementUnseenMessageCount();
+                }
 
                 const titleNotification = messagePayload.messageType.time.slice(0, 5) + " - " + messageSenderName;
                 Notification(titleNotification, messagePayload.messageType.message).then(() => {

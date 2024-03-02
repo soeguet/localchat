@@ -16,6 +16,7 @@ import Connected from "./svgs/status/Connected";
 import Disconnected from "./svgs/status/Disconnected";
 import useWebsocketStore from "../stores/websocketStore";
 import { WindowReloadApp } from "../../wailsjs/runtime";
+import useUnseenMessageCountStore from "../stores/unseenMessageCountStore";
 
 function Header() {
     const [showProfileMenu, setShowProfileMenu] = useState<boolean>(false);
@@ -26,6 +27,7 @@ function Header() {
     const doNotDisturb = useDoNotDisturbStore((state) => state.doNotDisturb);
     const [profilePictureHovered, setProfilePictureHovered] = useState<boolean>(false);
     const ws = useWebsocketStore((state) => state.ws);
+    const unseenMessageCount = useUnseenMessageCountStore((state) => state.unseenMessageCount);
 
     function switchLanguage() {
         const language_selected = localStorage.getItem("language");
@@ -92,8 +94,8 @@ function Header() {
             </div>
             <div className="flex items-center justify-between">
                 <div>
-                    {0 > 0 && (
-                        <button className="rounded-full border-2 border-black px-2 py-1 text-white hover:bg-gray-500">
+                    {unseenMessageCount > 0 && (
+                        <button className="rounded-full border-2 border-black text-white hover:bg-gray-500">
                             <UnreadMessages />
                         </button>
                     )}

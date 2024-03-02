@@ -65,7 +65,7 @@ function ChatBubble(props: MessageProps) {
                     clientId={props.messagePayload.userType.clientId}
                     style={{
                         width: props.lastMessageFromThisClientId? "75px":"75px",
-                        height: props.lastMessageFromThisClientId? "50px":"75px",
+                        height: props.lastMessageFromThisClientId? "40px":"75px",
                         borderColor: clientColor || "lightgrey",
                         opacity: props.lastMessageFromThisClientId ? "0" : "1",
                     }}
