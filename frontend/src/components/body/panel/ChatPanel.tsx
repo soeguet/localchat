@@ -1,47 +1,70 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useDeferredValue, useEffect, useRef } from "react";
 import useMessageMapStore from "../../../stores/messageMapStore";
 import { MessagePayload } from "../../../utils/customTypes";
 import ChatBubble from "../../ChatBubble";
 import { scrollToBottom } from "../../../utils/functionality";
-import { isVisibleInViewport } from "../../../utils/isVisibleInViewport";
 import ScrollSymbol from "../../svgs/scroll/ScrollSymbol";
 import useChatBottomRefVisibleStore from "../../../stores/chatBottomRefVisibleStore";
 import useUnseenMessageCountStore from "../../../stores/unseenMessageCountStore";
+
+function debounce<T extends (...args: unknown[]) => void>(func: T, wait: number): (...args: Parameters<T>) => void {
+    let timeout: ReturnType<typeof setTimeout> | null = null;
+
+    return function executedFunction(...args: Parameters<T>) {
+        const later = () => {
+            timeout = null;
+            func(...args);
+        };
+
+        if (timeout !== null) {
+            clearTimeout(timeout);
+        }
+
+        timeout = setTimeout(later, wait);
+    };
+}
 
 function ChatPanel() {
     // socket state
     const messageMap = useMessageMapStore((state) => state.messageMap);
     const { chatBottomRefVisible, setChatBottomRefVisible } = useChatBottomRefVisibleStore();
 
+    const newMap = useDeferredValue(messageMap);
+
+    console.log("CHATPANEL RENDER");
     const chatBottomRef = useRef<HTMLDivElement | null>(null);
     const chatContainerRef = useRef<HTMLDivElement>(null);
 
-    // scrollToBottom(endOfListRef);
-    useEffect(() => {
+    const handleScroll = useCallback(
+        debounce(() => {
+            if (!chatContainerRef.current) return;
 
-        useChatBottomRefVisibleStore.getState().setChatBottomRef(chatBottomRef);
-
-        const checkVisibility = () => {
-            if (chatBottomRef.current && chatContainerRef.current) {
-                const visible = isVisibleInViewport(chatBottomRef.current, chatContainerRef.current, true);
-                setChatBottomRefVisible(visible);
+            const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
+            if (scrollTop + clientHeight >= scrollHeight) {
+                console.log("Am unteren Rand");
+                setChatBottomRefVisible(true);
+            } else {
+                setChatBottomRefVisible(false);
             }
-        };
+        }, 250),
+        []
+    );
 
-        checkVisibility();
+    useEffect(() => {
+        const element = chatContainerRef.current;
+        if (element) {
+            element.addEventListener("scroll", handleScroll);
 
-        const container = chatContainerRef.current;
-        container?.addEventListener("scroll", checkVisibility);
-
-        return () => {
-            container?.removeEventListener("scroll", checkVisibility);
-        };
-    }, []);
+            return () => {
+                element.removeEventListener("scroll", handleScroll);
+            };
+        }
+    }, [handleScroll]);
 
     return (
         <>
             <div ref={chatContainerRef} className="px-5 pt-2 pb-2 overflow-y-auto grow">
-                {Array.from(messageMap.entries()).map((value, index, array) => {
+                {Array.from(newMap.entries()).map((value, index, array) => {
                     let lastMessageFromThisClientId = false;
                     let lastMessageTimestampSameAsThisOne = false;
 
