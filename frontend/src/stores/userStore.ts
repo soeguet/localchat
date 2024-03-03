@@ -12,6 +12,12 @@ export type UserStore = {
     setMyProfilePhoto: (photo: string) => void;
     userMap: Map<string, RegisteredUser>;
     setUserMap: (userMap: Map<string, RegisteredUser>) => void;
+    socketIp: string;
+    socketPort: string;
+    clientOs: string;
+    setSocketIp: (newIp: string) => void;
+    setSocketPort: (newPort: string) => void;
+    setClientOs: (newOs: string) => void;
 };
 
 const useUserStore: UseBoundStore<StoreApi<UserStore>> = create((set) => ({
@@ -25,6 +31,12 @@ const useUserStore: UseBoundStore<StoreApi<UserStore>> = create((set) => ({
     setMyProfilePhoto: (photo: string) => set({ myProfilePhoto: photo }),
     userMap: new Map<string, RegisteredUser>(),
     setUserMap: (users: Map<string, RegisteredUser>) => set({ userMap: users }),
+    socketIp: "",
+    socketPort: "",
+    clientOs: "",
+    setSocketIp: (newIp: string) => set({ socketIp: newIp }),
+    setSocketPort: (newPort: string) => set({ socketPort: newPort }),
+    setClientOs: (newOs: string) => set({ clientOs: newOs }),
 }));
 
 export default useUserStore;

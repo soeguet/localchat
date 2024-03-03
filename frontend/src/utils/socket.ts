@@ -1,6 +1,5 @@
 import { Notification } from "../../wailsjs/go/main/App";
 import { getClientById } from "../stores/clientsStore";
-import useEnvironmentStore from "../stores/environmentStore";
 import useReplyStore, { Reply } from "../stores/replyStore";
 import useUserStore from "../stores/userStore";
 import useWebsocketStore from "../stores/websocketStore";
@@ -16,7 +15,7 @@ export const initWebSocket = (callbacks: CallbackProps) => {
     //console.log("useEnvironmentStore.getState().socketIp", useEnvironmentStore.getState().socketIp);
     //console.log("useEnvironmentStore.getState().socketPort", useEnvironmentStore.getState().socketPort);
     socket = new WebSocket(
-        `ws://${useEnvironmentStore.getState().socketIp}:${useEnvironmentStore.getState().socketPort}/chat`
+        `ws://${useUserStore.getState().socketIp}:${useUserStore.getState().socketPort}/chat`
     );
 
     socket.onopen = () => {
@@ -61,10 +60,6 @@ function closeWebSocket() {
     useWebsocketStore.getState().setWs(null);
 }
 
-/**
- * Sends a client message to the websocket.
- * @param message - The message to send.
- */
 function sendClientMessageToWebsocket(message: string): void {
     const replyMessage: Reply | null = useReplyStore.getState().replyMessage;
     const id = useUserStore.getState().myId;

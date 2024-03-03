@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ProfilePicture from "./ProfilePicture";
 import useUserStore from "../stores/userStore";
-import useEnvironmentStore from "../stores/environmentStore";
 import useWebsocketStore from "../stores/websocketStore";
 import { PayloadSubType, ProfileUpdatePayload } from "../utils/customTypes";
 import useClientsStore from "../stores/clientsStore";
@@ -19,37 +18,28 @@ function ProfileModal(props: ProfileModalProps) {
     // just in case
     if (!props.isOpen) return null;
 
-    const [preferPictureUrl, setPreferPictureUrl] = useState(false);
-    const clientId = useUserStore((state) => state.myId);
-
-    // name
-    const name = useClientsStore((state) => state.clients.find((c) => c.id === clientId)?.username);
-    const setName = useUserStore((state) => state.setMyUsername);
-    const [localName, setLocalName] = useState(name);
-    // socketIp
-    const socketIp = useEnvironmentStore((state) => state.socketIp);
-    const setSocketIp = useEnvironmentStore((state) => state.setSocketIp);
-    const [localIp, setLocalIp] = useState(socketIp);
-    // socketPort
-    const socketPort = useEnvironmentStore((state) => state.socketPort);
-    const setSocketPort = useEnvironmentStore((state) => state.setSocketPort);
-    const [localPort, setLocalPort] = useState(socketPort);
-    // profileColor
-    const profileColor = useClientsStore((state) => state.clients.find((c) => c.id === clientId)?.clientColor);
-    const setProfileColor = useUserStore((state) => state.setMyColor);
-    const [localColor, setLocalColor] = useState(profileColor);
-
-    // profilePicture
-    const setProfilePhotoUrl = useUserStore((state) => state.setMyProfilePhoto);
-    const [localProfilePicture, setLocalProfilePicture] = useState("");
-    // const [localProfilePictureBuffer, setLocalProfilePictureBuffer] = useState<ArrayBuffer | null>(null);
-    // websocket
+    const {
+        myId,
+        myUsername,
+        socketIp,
+        socketPort,
+        setMyColor,
+        setSocketIp,
+        setSocketPort,
+        setMyUsername,
+        setMyProfilePhoto,
+    } = useUserStore();
+    const profileColor = useClientsStore((state) => state.clients.find((c) => c.id === myId)?.clientColor);
     const websocket = useWebsocketStore((state) => state.ws);
-    // language
-    const [language, setLanguage] = useState(localStorage.getItem("language") || "en");
-
-    // font size
     const { fontSize, setFontSize } = useFontSizeStore();
+
+    const [preferPictureUrl, setPreferPictureUrl] = useState(false);
+    const [localName, setLocalName] = useState(myUsername);
+    const [localIp, setLocalIp] = useState(socketIp);
+    const [localPort, setLocalPort] = useState(socketPort);
+    const [localColor, setLocalColor] = useState(profileColor);
+    const [localProfilePicture, setLocalProfilePicture] = useState("");
+    const [language, setLanguage] = useState(localStorage.getItem("language") || "en");
 
     async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
         const file = event.target.files?.[0] || null;
@@ -110,15 +100,14 @@ function ProfileModal(props: ProfileModalProps) {
         // set env vars
         setSocketIp(localIp);
         setSocketPort(localPort);
-        setName(localName || "");
-        setProfileColor(localColor || "");
-
-        setProfilePhotoUrl(localProfilePicture);
+        setMyUsername(localName || "");
+        setMyColor(localColor || "");
+        setMyProfilePhoto(localProfilePicture);
 
         // send profile update to socket
         const profileUpdatePayload: ProfileUpdatePayload = {
             payloadType: PayloadSubType.profileUpdate,
-            clientId: clientId,
+            clientId: myId,
             username: localName || "",
             color: localColor || "",
             pictureUrl: localProfilePicture,
@@ -142,7 +131,7 @@ function ProfileModal(props: ProfileModalProps) {
                                 {localProfilePicture ? (
                                     <div className="grid">
                                         <ProfilePicture
-                                            clientId={clientId}
+                                            clientId={myId}
                                             pictureUrl={localProfilePicture}
                                             style={{
                                                 width: "70px",
@@ -156,7 +145,7 @@ function ProfileModal(props: ProfileModalProps) {
                                     </div>
                                 ) : (
                                     <ProfilePicture
-                                        clientId={clientId}
+                                        clientId={myId}
                                         style={{
                                             width: "70px",
                                             height: "70px",

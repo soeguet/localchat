@@ -22,13 +22,15 @@ function ChatBubble(props: MessageProps) {
     const { t } = useTranslation();
     const [showMenu, setShowMenu] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
-    const clientId = useUserStore((state) => state.myId);
-    const clientUsername = useClientsStore((state) => state.clients.find((c) => c.id === clientId)?.username);
+    const thisMessageSenderClientId = props.messagePayload.userType.clientId;
+    const clientUsername = useClientsStore(
+        (state) => state.clients.find((c) => c.id === thisMessageSenderClientId)?.username
+    );
     const fontSize = useFontSizeStore((state) => state.fontSize);
     const clientColor = useClientsStore(
         (state) => state.clients.find((c) => c.id === props.messagePayload.userType.clientId)?.clientColor
     );
-    const thisMessageFromThisClient = props.messagePayload.messageType.messageSenderId === clientId;
+    const thisMessageFromThisClient = thisMessageSenderClientId === useUserStore.getState().myId;
 
     const thisMessageUnseen = useUnseenMessageCountStore((state) =>
         state.unseenMessagesIdList.includes(props.messagePayload.messageType.messageId)

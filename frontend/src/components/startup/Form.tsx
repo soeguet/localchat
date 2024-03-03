@@ -1,22 +1,21 @@
 import {FormEvent, useEffect, useState} from "react";
 import useUserStore from "../../stores/userStore";
-import useEnvironmentStore from "../../stores/environmentStore";
 import {useTranslation} from "react-i18next";
 
 function Form() {
     const {t} = useTranslation();
     const setClientName = useUserStore((state) => state.setMyUsername);
-    const setSocketIp = useEnvironmentStore((state) => state.setSocketIp);
-    const setSocketPort = useEnvironmentStore((state) => state.setSocketPort);
+    const setSocketIp = useUserStore((state) => state.setSocketIp);
+    const setSocketPort = useUserStore((state) => state.setSocketPort);
 
     const clientName = useUserStore((state) => state.myUsername);
-    const socketIp = useEnvironmentStore((state) => state.socketIp);
-    const socketPort = useEnvironmentStore((state) => state.socketPort);
+    const socketIp = useUserStore((state) => state.socketIp);
+    const socketPort = useUserStore((state) => state.socketPort);
 
     const [isClickable, setIsClickable] = useState(true);
-    const [localClientName, setLocalClientName] = useState<string>("");
-    const [localSocketIp, setLocalSocketIp] = useState<string>("");
-    const [localSocketPort, setLocalSocketPort] = useState<string>("");
+    const [localClientName, setLocalClientName] = useState("");
+    const [localSocketIp, setLocalSocketIp] = useState("");
+    const [localSocketPort, setLocalSocketPort] = useState("");
 
     useEffect(() => {
         setLocalClientName(clientName);
