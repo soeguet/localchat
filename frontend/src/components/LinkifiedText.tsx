@@ -33,8 +33,8 @@ function LinkifiedText({ text }: Props) {
         }
     }, []);
 
-    function linkify(inputText: string): string {
-        let replacedText;
+    function linkify(inputText: string) {
+        let replacedText: string;
 
         // URLs starting with http://, https://, or ftp://
         const replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\\/%?=~_|!:,.;]*[-A-Z0-9+&@#\\/%=~_|])/gim;
@@ -55,19 +55,34 @@ function LinkifiedText({ text }: Props) {
         const replacePattern3 = /(\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,6})/gim;
         replacedText = replacedText.replace(replacePattern3, "<a class='clickable-link'>$1</a>");
 
-        return replacedText;
+        if (replacedText === inputText) {
+            return { changed: false, newText: inputText };
+        }
+
+        return { changed: true, newText: replacedText };
     }
 
     function handleLinkClick(url: string) {
-        console.log("Opening URL:", url);
+        //console.log("Opening URL:", url);
         BrowserOpenURL(url);
     }
 
     const createMarkup = () => {
-        return { __html: linkify(text) };
+        const { changed, newText } = linkify(text);
+        if (changed) {
+            return { changed: true, __html: newText };
+        } else {
+            return { changed: false, text: text };
+        }
     };
 
-    return <div ref={textRef} dangerouslySetInnerHTML={createMarkup()} />;
+    const markup = createMarkup();
+
+    if (!markup.changed) {
+        return <>{text}</>;
+    } else if (markup.changed && markup.__html !== undefined){
+        return <div ref={textRef} dangerouslySetInnerHTML={{ __html: markup.__html }} />;
+    }
 }
 
 export default LinkifiedText;

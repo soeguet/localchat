@@ -12,9 +12,8 @@ import { MakeWindowsTaskIconFlash, Notification } from "../../../wailsjs/go/main
 import { WindowIsMinimised, WindowMinimise, WindowShow, WindowUnminimise } from "../../../wailsjs/runtime";
 import { useTranslation } from "react-i18next";
 import useChatBottomRefVisibleStore from "../../stores/chatBottomRefVisibleStore";
-import useGuiHasFocusStore from "../../stores/guiHasFocusStore";
+import { checkIfScrollToBottomIsNeeded } from "../../utils/scrollToBottomNeeded";
 import useUnseenMessageCountStore from "../../stores/unseenMessageCountStore";
-import { scrollToBottom } from "../../utils/functionality";
 
 function useConnection() {
     const { t } = useTranslation();
@@ -30,7 +29,7 @@ function useConnection() {
     const removeTypingClientId = useTypingStore((state) => state.removeTypingClientId);
 
     useEffect(() => {
-        console.log("Connecting to WebSocket");
+        //console.log("Connecting to WebSocket");
         initWebSocket({
             onOpen: () => setIsConnected(true),
             onClose: () => setIsConnected(false),
@@ -38,20 +37,6 @@ function useConnection() {
             onError: (event) => console.error(event),
         });
     }, [socketIp, socketPort]);
-
-    async function checkIfScrollToBottomIsNeeded() {
-        // const guiHasFocus = useGuiHasFocusStore.getState().guiHasFocus;
-        // if (!guiHasFocus) {
-        //     return false;
-        // }
-
-        const chatBottomRefVisible = useChatBottomRefVisibleStore.getState().chatBottomRefVisible;
-        if (chatBottomRefVisible) {
-            return true;
-        }
-
-        return false;
-    }
 
     function checkIfNotificationIsNeeded(messagePayload: MessagePayload, messageSenderName: string) {
         // no message allowed if "do not disturb" is active
@@ -67,15 +52,6 @@ function useConnection() {
             return;
         }
 
-        // if bottom not in sight, do not disturb or gui not in focus -> increase unread messages count
-        if (
-            !useGuiHasFocusStore.getState().guiHasFocus ||
-            useDoNotDisturbStore.getState().doNotDisturb ||
-            !useChatBottomRefVisibleStore.getState().chatBottomRefVisible
-        ) {
-            useUnseenMessageCountStore.getState().incrementUnseenMessageCount();
-        }
-
         const titleNotification = messagePayload.messageType.time.slice(0, 5) + " - " + messageSenderName;
         Notification(titleNotification, messagePayload.messageType.message).then(() => {
             WindowIsMinimised().then((isMinimised) => {
@@ -88,6 +64,18 @@ function useConnection() {
         });
     }
 
+    function checkIfMessageIsToBeAddedToTheUnseenMessagesList(messagePayload: MessagePayload) {
+        // if we don't need to scroll to the bottom, we need to add the message to the unseen messages list
+        const addIdToList = !checkIfScrollToBottomIsNeeded();
+
+        if (addIdToList) {
+            useUnseenMessageCountStore.getState().addMessageToUnseenMessagesList(messagePayload.messageType.messageId);
+        } else {
+            console.log("Scroll to bottom is needed");
+            useUnseenMessageCountStore.getState().resetUnseenMessageCount();
+            console.log(useUnseenMessageCountStore.getState().unseenMessageCount);
+        }
+    }
     function handleClientListPayload(payloadAsString: string) {
         const payloadAsObject: ClientListPayload = JSON.parse(payloadAsString);
         const clients: RegisteredUser[] = payloadAsObject.clients;
@@ -112,7 +100,7 @@ function useConnection() {
     function handleIncomingMessages(event: MessageEvent) {
         const dataAsObject = JSON.parse(event.data);
         //
-        console.log("dataAsObject", dataAsObject);
+        //console.log("dataAsObject", dataAsObject);
 
         switch (dataAsObject.payloadType) {
             // update the client list with new data
@@ -133,16 +121,12 @@ function useConnection() {
                 const messagePayload = JSON.parse(event.data) as MessagePayload;
                 const messageSenderName =
                     getClientById(messagePayload.userType.clientId)?.username || t("unknown_user");
-                // console.log("messagePayload", messagePayload);
+                // //console.log("messagePayload", messagePayload);
 
-                checkIfScrollToBottomIsNeeded().then((scroll: boolean) => {
+                onMessage(messagePayload);
 
-                    console.log("scroll", scroll);
-                    onMessage(messagePayload);
-                    if (scroll) {
-                        scrollToBottom();
-                    }
-                });
+                checkIfMessageIsToBeAddedToTheUnseenMessagesList(messagePayload);
+
                 //display the message
                 checkIfNotificationIsNeeded(messagePayload, messageSenderName);
                 break;
@@ -179,7 +163,7 @@ function useConnection() {
                 break;
             // unknown payload type
             default:
-                console.log("Unknown payload type", dataAsObject);
+                //console.log("Unknown payload type", dataAsObject);
                 throw new Error("Unknown payload type");
         }
     }

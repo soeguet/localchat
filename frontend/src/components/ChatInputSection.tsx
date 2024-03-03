@@ -13,8 +13,11 @@ function ChatInputSection() {
     const [message, setMessage] = useState("");
 
     const handleSendMessage = useCallback(() => {
-        console.log("Message sent:", message);
-        if (message.trim()) {
+        //console.log("Message sent:", message);
+        if(message.trim().length == 0) {
+            return;
+        }
+        if (message) {
             const { replyMessage, setReplyMessage } = useReplyStore.getState();
             sendClientMessageToWebsocket(message);
 

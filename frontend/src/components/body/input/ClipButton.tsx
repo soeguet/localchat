@@ -4,7 +4,7 @@ import { WindowUnminimise, WindowMinimise, WindowShow } from "../../../../wailsj
 function ClipButton() {
     
     function handleClipClick() {
-        console.log("Clip clicked");
+        //console.log("Clip clicked");
         setTimeout(() => {
             //MakeWindowsTaskIconFlash("localchat");
             setTimeout(() => {

@@ -89,11 +89,7 @@ export type CallbackProps = {
     onError: (event: Event) => void;
 };
 
-export type MessageProps = {
-    messagePayload: MessagePayload;
-    lastMessageFromThisClientId: boolean;
-    lastMessageTimestampSameAsThisOne: boolean;
-};
+
 
 export type InputProps = {
     sendClientMessageToWebsocket: (message: string) => void;

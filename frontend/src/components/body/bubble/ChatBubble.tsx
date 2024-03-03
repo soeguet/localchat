@@ -1,27 +1,38 @@
 import React, { useEffect, useRef, useState } from "react";
-import useReplyStore from "../stores/replyStore";
-import { MessageProps } from "../utils/customTypes";
-import QuoteBubble from "./QuoteBubble";
-import ProfilePicture from "./ProfilePicture";
-import useClientsStore, { getClientById } from "../stores/clientsStore";
+import useReplyStore from "../../../stores/replyStore";
+import QuoteBubble from "../../QuoteBubble";
+import ProfilePicture from "../../ProfilePicture";
+import useClientsStore, { getClientById } from "../../../stores/clientsStore";
 import { useTranslation } from "react-i18next";
-import LinkifyText from "./LinkifiedText";
-import useFontSizeStore from "../stores/fontSizeStore";
-import { getTimeWithHHmmFormat } from "../utils/time";
-import useUserStore from "../stores/userStore";
+import LinkifyText from "../../LinkifiedText";
+import useFontSizeStore from "../../../stores/fontSizeStore";
+import { getTimeWithHHmmFormat } from "../../../utils/time";
+import { MessagePayload } from "../../../utils/customTypes";
+import useUnseenMessageCountStore from "../../../stores/unseenMessageCountStore";
+import "./ChatBubble.css";
+import useUserStore from "../../../stores/userStore";
+
+type MessageProps = {
+    messagePayload: MessagePayload;
+    lastMessageFromThisClientId: boolean;
+    lastMessageTimestampSameAsThisOne: boolean;
+};
 
 function ChatBubble(props: MessageProps) {
     const { t } = useTranslation();
     const [showMenu, setShowMenu] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
-    const currentTime = props.messagePayload.messageType.time;
     const clientId = useUserStore((state) => state.myId);
-    const clientUsername = useUserStore((state) => state.myUsername);
+    const clientUsername = useClientsStore((state) => state.clients.find((c) => c.id === clientId)?.username);
     const fontSize = useFontSizeStore((state) => state.fontSize);
     const clientColor = useClientsStore(
         (state) => state.clients.find((c) => c.id === props.messagePayload.userType.clientId)?.clientColor
     );
-    const thisMessageFromThisClient = props.messagePayload.userType.clientId === clientId;
+    const thisMessageFromThisClient = props.messagePayload.messageType.messageSenderId === clientId;
+
+    const thisMessageUnseen = useUnseenMessageCountStore((state) =>
+        state.unseenMessagesIdList.includes(props.messagePayload.messageType.messageId)
+    );
 
     // /**
     //  * Handles the click outside of the menu.
@@ -59,13 +70,15 @@ function ChatBubble(props: MessageProps) {
     }, [showMenu]);
 
     return (
-        <div className={`flex items-end ${thisMessageFromThisClient ? "flex-row-reverse" : ""} ${!props.lastMessageFromThisClientId && !props.lastMessageTimestampSameAsThisOne ? "mt-3" : "mt-1"}`}>
+        <div
+            className={`flex items-end ${thisMessageFromThisClient ? "flex-row-reverse" : ""} ${!props.lastMessageFromThisClientId && !props.lastMessageTimestampSameAsThisOne ? "mt-3" : "mt-1"}`}
+        >
             <div onClick={() => setShowMenu(!showMenu)} className="relative flex flex-col items-center mx-2">
                 <ProfilePicture
                     clientId={props.messagePayload.userType.clientId}
                     style={{
-                        width: props.lastMessageFromThisClientId? "75px":"75px",
-                        height: props.lastMessageFromThisClientId? "40px":"75px",
+                        width: props.lastMessageFromThisClientId ? "75px" : "75px",
+                        height: props.lastMessageFromThisClientId ? "40px" : "75px",
                         borderColor: clientColor || "lightgrey",
                         opacity: props.lastMessageFromThisClientId ? "0" : "1",
                     }}
@@ -98,13 +111,17 @@ function ChatBubble(props: MessageProps) {
                     }}
                 >
                     {!props.lastMessageFromThisClientId && <span className="font-semibold">{clientUsername}</span>}{" "}
-                    {!props.lastMessageTimestampSameAsThisOne && <span className="text-gray-500">{currentTime}</span>}
+                    {!props.lastMessageTimestampSameAsThisOne && (
+                        <span className="text-gray-500">{props.messagePayload.messageType.time}</span>
+                    )}
                 </div>
-
                 <div
-                    className={`border border-black break-words max-w-md rounded-lg px-4 py-2 md:max-w-2xl lg:max-w-4xl ${thisMessageFromThisClient ? "bg-blue-500 text-white" : "bg-gray-500 text-white"}`}
+                    className={`relative border border-black break-words max-w-md rounded-lg px-4 py-2 md:max-w-2xl lg:max-w-4xl ${thisMessageFromThisClient ? "bg-blue-500 text-white" : "bg-gray-500 text-white"}`}
                     style={{
                         backgroundColor: clientColor,
+                        animation: thisMessageUnseen ? "pulse-border 3.5s infinite ease-in-out" : "",
+                        borderColor: thisMessageUnseen ? "orange" : "black",
+                        borderWidth: thisMessageUnseen ? "2px" : "1px",
                     }}
                 >
                     {props.messagePayload.quoteType && (

@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import ProfilePicture from "./ProfilePicture";
 import useUserStore from "../stores/userStore";
 import useEnvironmentStore from "../stores/environmentStore";
 import useWebsocketStore from "../stores/websocketStore";
-import {PayloadSubType, ProfileUpdatePayload} from "../utils/customTypes";
+import { PayloadSubType, ProfileUpdatePayload } from "../utils/customTypes";
 import useClientsStore from "../stores/clientsStore";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 import i18n from "../config/i18n";
 import useFontSizeStore from "../stores/fontSizeStore";
 
@@ -15,7 +15,7 @@ type ProfileModalProps = {
 };
 
 function ProfileModal(props: ProfileModalProps) {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     // just in case
     if (!props.isOpen) return null;
 
@@ -49,23 +49,20 @@ function ProfileModal(props: ProfileModalProps) {
     const [language, setLanguage] = useState(localStorage.getItem("language") || "en");
 
     // font size
-    const {fontSize, setFontSize} = useFontSizeStore();
-
+    const { fontSize, setFontSize } = useFontSizeStore();
 
     async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
         const file = event.target.files?.[0] || null;
         if (!file) {
-            console.log("No file selected.");
+            //console.log("No file selected.");
             return;
         }
 
         try {
             const arrayBuffer = await readFileAsArrayBuffer(file);
-            // set profile picture
-            let pictureUrl: string;
             // convert ArrayBuffer to base64 string
             const base64String = arrayBufferToBase64(arrayBuffer);
-            pictureUrl = `data:image/jpeg;base64,${base64String}`;
+            const pictureUrl = `data:image/jpeg;base64,${base64String}`;
             setLocalProfilePicture(pictureUrl);
         } catch (error) {
             console.error("Error reading the file.", error);
@@ -73,11 +70,13 @@ function ProfileModal(props: ProfileModalProps) {
     }
 
     useEffect(() => {
-        i18n.changeLanguage(language).then(() => {
-            localStorage.setItem("language", language);
-        }).catch((e) => {
-            console.error("Error changing language", e);
-        })
+        i18n.changeLanguage(language)
+            .then(() => {
+                localStorage.setItem("language", language);
+            })
+            .catch((e) => {
+                console.error("Error changing language", e);
+            });
     }, [language]);
 
     function readFileAsArrayBuffer(file: File): Promise<ArrayBuffer> {
@@ -258,7 +257,7 @@ function ProfileModal(props: ProfileModalProps) {
                                         className="mt-1 ml-2 w-32 rounded-md border border-gray-300 p-5"
                                         style={{
                                             backgroundColor: localColor,
-                                            color: localColor
+                                            color: localColor,
                                         }}
                                     />
                                 </div>

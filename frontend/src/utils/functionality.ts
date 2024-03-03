@@ -1,14 +1,8 @@
 import useChatBottomRefVisibleStore from "../stores/chatBottomRefVisibleStore";
 
-/**
- * Scrolls to the bottom of the list.
- * @returns A promise that resolves once the scrolling is complete.
- */
 export async function scrollToBottom(): Promise<void> {
     const chatBottomRef = useChatBottomRefVisibleStore.getState().chatBottomRef;
-    if (chatBottomRef?.current) {
-        chatBottomRef.current?.scrollIntoView({ behavior: "smooth" });
-    }
+    chatBottomRef?.current?.scrollIntoView({ behavior: "smooth" });
 }
 
 /**

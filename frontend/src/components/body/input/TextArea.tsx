@@ -9,7 +9,7 @@ type TextAreaProps = {
 const TextArea = (props: TextAreaProps) => {
     const { t } = useTranslation();
 
-    console.log("TextArea rendered");
+    //console.log("TextArea rendered");
     return (
         <>
             <textarea

@@ -10,7 +10,7 @@ function Emoji(props: EmojiProps) {
     const [emojiVisible, setEmojiVisible] = useState("hidden");
     const menuRef = useRef<HTMLDivElement>(null);
 
-    console.log("EMOJI RERENDERED");
+    //console.log("EMOJI RERENDERED");
     /**
      * Handles the click outside of the menu.
      * @param event - The mouse event object.

@@ -1,21 +1,20 @@
-import {Notification} from "../../wailsjs/go/main/App";
-import {getClientById} from "../stores/clientsStore";
+import { Notification } from "../../wailsjs/go/main/App";
+import { getClientById } from "../stores/clientsStore";
 import useEnvironmentStore from "../stores/environmentStore";
-import useReplyStore, {Reply} from "../stores/replyStore";
+import useReplyStore, { Reply } from "../stores/replyStore";
 import useUserStore from "../stores/userStore";
 import useWebsocketStore from "../stores/websocketStore";
-import {AuthenticatedPayload, CallbackProps, MessagePayload, PayloadSubType} from "./customTypes";
-import {generateSimpleId} from "./functionality";
+import { AuthenticatedPayload, CallbackProps, MessagePayload, PayloadSubType } from "./customTypes";
+import { generateSimpleId } from "./functionality";
 import useDoNotDisturbStore from "../stores/doNotDisturbStore";
-import {getTimeWithHHmmFormat} from "./time";
+import { getTimeWithHHmmFormat } from "./time";
 
 let socket: WebSocket;
 
 export const initWebSocket = (callbacks: CallbackProps) => {
-
-    console.log("Connecting to WebSocket");
-    console.log("useEnvironmentStore.getState().socketIp", useEnvironmentStore.getState().socketIp);
-    console.log("useEnvironmentStore.getState().socketPort", useEnvironmentStore.getState().socketPort);
+    //console.log("Connecting to WebSocket");
+    //console.log("useEnvironmentStore.getState().socketIp", useEnvironmentStore.getState().socketIp);
+    //console.log("useEnvironmentStore.getState().socketPort", useEnvironmentStore.getState().socketPort);
     socket = new WebSocket(
         `ws://${useEnvironmentStore.getState().socketIp}:${useEnvironmentStore.getState().socketPort}/chat`
     );
@@ -100,8 +99,8 @@ function sendClientMessageToWebsocket(message: string): void {
         };
     }
 
-    console.log("payload", payload);
+    //console.log("payload", payload);
     socket.send(JSON.stringify(payload));
 }
 
-export {closeWebSocket, sendClientMessageToWebsocket, socket};
+export { closeWebSocket, sendClientMessageToWebsocket, socket };
