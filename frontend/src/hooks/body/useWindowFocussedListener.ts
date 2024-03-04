@@ -25,6 +25,4 @@ export function useWindowFocussedListener() {
             window.removeEventListener("blur", handleBlur);
         };
     }, []);
-
-    // return guiHasFocus;
 }
