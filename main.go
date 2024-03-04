@@ -2,6 +2,7 @@ package main
 
 import (
 	"embed"
+
 	"github.com/wailsapp/wails/v2/pkg/options/windows"
 
 	"github.com/wailsapp/wails/v2"
@@ -15,6 +16,7 @@ var assets embed.FS
 
 //go:embed frontend/public/logo.png
 var icon []byte
+
 
 // main is the entry point of the application.
 func main() {
@@ -32,7 +34,6 @@ func main() {
 		HideWindowOnClose: true,
 		// BackgroundColour: &options.RGBA{R: 27, G: 38, B: 54, A: 1},
 		OnStartup: app.startup,
-		OnShutdown: nil,
 		Bind: []interface{}{
 			app,
 		},

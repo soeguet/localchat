@@ -2,18 +2,15 @@ import { useEffect } from "react";
 import useWebsocketStore from "../../stores/websocketStore";
 import { initWebSocket } from "../../utils/socket";
 import { MessagePayload, PayloadSubType } from "../../utils/customTypes";
-import { getClientById } from "../../stores/clientsStore";
 import useMessageMapStore from "../../stores/messageMapStore";
 import useTypingStore from "../../stores/typingStore";
 import useUserStore from "../../stores/userStore";
 import useDoNotDisturbStore from "../../stores/doNotDisturbStore";
 import { Notification } from "../../../wailsjs/go/main/App";
 import { WindowMinimise, WindowShow, WindowUnminimise } from "../../../wailsjs/runtime";
-import { useTranslation } from "react-i18next";
 import { handleClientListPayload, checkIfMessageIsToBeAddedToTheUnseenMessagesList, checkIfNotificationIsNeeded, handeMessageListPayload } from "./utils";
 
 function useConnection() {
-    const { t } = useTranslation();
     const { socketIp, socketPort, myId } = useUserStore();
     // typing state
     const { addTypingClientId, removeTypingClientId } = useTypingStore();
@@ -53,16 +50,16 @@ function useConnection() {
             // normal chat messages
             case PayloadSubType.message: {
                 const messagePayload = JSON.parse(event.data) as MessagePayload;
-                const messageSenderName =
-                    getClientById(messagePayload.userType.clientId)?.username || t("unknown_user");
-                // //console.log("messagePayload", messagePayload);
+                // const messageSenderName =
+                //     getClientById(messagePayload.userType.clientId)?.username || t("unknown_user");
+                //console.log("messagePayload", messagePayload);
 
                 onMessage(messagePayload);
 
                 checkIfMessageIsToBeAddedToTheUnseenMessagesList(messagePayload);
 
                 //display the message
-                checkIfNotificationIsNeeded(messagePayload, messageSenderName);
+                checkIfNotificationIsNeeded(messagePayload);
                 break;
             }
 

@@ -1,5 +1,8 @@
 import { MakeWindowsTaskIconFlash, Notification } from "../../../wailsjs/go/main/App";
-import { WindowIsMinimised, WindowShow } from "../../../wailsjs/runtime/runtime";
+import {
+    WindowIsMinimised,
+    WindowShow,
+} from "../../../wailsjs/runtime/runtime";
 import useChatBottomRefVisibleStore from "../../stores/chatBottomRefVisibleStore";
 import useDoNotDisturbStore from "../../stores/doNotDisturbStore";
 import useUnseenMessageCountStore from "../../stores/unseenMessageCountStore";
@@ -8,6 +11,7 @@ import { ClientListPayload, MessagePayload, PayloadSubType } from "../../utils/c
 import { checkIfScrollToBottomIsNeeded } from "../../utils/scrollToBottomNeeded";
 import useMessageMapStore from "../../stores/messageMapStore";
 import useClientsStore, { RegisteredUser } from "../../stores/clientsStore";
+import useGuiHasFocusStore from "../../stores/guiHasFocusStore";
 
 export function checkIfMessageIsToBeAddedToTheUnseenMessagesList(messagePayload: MessagePayload) {
     // if we don't need to scroll to the bottom, we need to add the message to the unseen messages list
@@ -16,13 +20,13 @@ export function checkIfMessageIsToBeAddedToTheUnseenMessagesList(messagePayload:
     if (addIdToList) {
         useUnseenMessageCountStore.getState().addMessageToUnseenMessagesList(messagePayload.messageType.messageId);
     } else {
-        console.log("Scroll to bottom is needed");
+        // console.log("Scroll to bottom is needed");
         useUnseenMessageCountStore.getState().resetUnseenMessageCount();
-        console.log(useUnseenMessageCountStore.getState().unseenMessageCount);
+        // console.log(useUnseenMessageCountStore.getState().unseenMessageCount);
     }
 }
 
-export function checkIfNotificationIsNeeded(messagePayload: MessagePayload, messageSenderName: string) {
+export function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
     // no message allowed if "do not disturb" is active
     if (useDoNotDisturbStore.getState().doNotDisturb) {
         return;
@@ -31,21 +35,46 @@ export function checkIfNotificationIsNeeded(messagePayload: MessagePayload, mess
     if (messagePayload.userType.clientId === useUserStore.getState().myId) {
         return;
     }
-    // no message needed if already at chat bottom
-    if (useChatBottomRefVisibleStore.getState().chatBottomRefVisible) {
-        return;
+
+    // first check if gui is even in focus
+    if (useGuiHasFocusStore.getState().guiHasFocus) {
+        // no message needed if already at chat bottom
+        if (!useChatBottomRefVisibleStore.getState().chatBottomRefVisible) {
+            return;
+        }
     }
 
+    const messageSenderName = useClientsStore
+        .getState()
+        .clients.find((predicate) => predicate.id === messagePayload.userType.clientId)?.username;
+
     const titleNotification = messagePayload.messageType.time.slice(0, 5) + " - " + messageSenderName;
-    Notification(titleNotification, messagePayload.messageType.message).then(() => {
-        WindowIsMinimised().then((isMinimised) => {
+
+    // WindowShow();
+    // MakeWindowsTaskIconFlash("localchat");
+    WindowIsMinimised()
+        .then((isMinimised) => {
             if (isMinimised) {
-                MakeWindowsTaskIconFlash("localchat");
+                MakeWindowsTaskIconFlash("Local Chat");
+                // setTimeout(() => {
+                //     WindowUnminimise();
+                // }, 100);
+                // setTimeout(() => {
+                //     WindowHide();
+                // }, 600);
             } else {
                 WindowShow();
             }
-        });
-    });
+        })
+        .then(() => Notification(titleNotification, messagePayload.messageType.message));
+
+    // WindowIsMinimised().then((isMinimised) => {
+    //     if (isMinimised) {
+    //         MakeWindowsTaskIconFlash("localchat");
+    //     } else {
+    //         WindowShow();
+    //     }
+    // });
 }
 
 export function handleClientListPayload(payloadAsString: string) {

@@ -45,7 +45,7 @@ function Emoji(props: EmojiProps) {
     }
 
     function handleEmojiClick(emojiData: EmojiClickData, event: MouseEvent) {
-        event.preventDefault();
+        console.log("mouse event", event);
         props.setMessage((prev) => prev + emojiData.emoji);
     }
 

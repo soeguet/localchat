@@ -1,17 +1,31 @@
 import React from "react";
-import { WindowUnminimise, WindowMinimise, WindowShow } from "../../../../wailsjs/runtime/runtime";
+import { checkIfNotificationIsNeeded } from "../../../hooks/socket/utils";
+import { MessagePayload, PayloadSubType } from "../../../utils/customTypes";
 
 function ClipButton() {
-    
     function handleClipClick() {
         //console.log("Clip clicked");
         setTimeout(() => {
-            //MakeWindowsTaskIconFlash("localchat");
-            setTimeout(() => {
-                WindowUnminimise();
-            }, 1000);
-            WindowMinimise();
-            WindowShow();
+            // //MakeWindowsTaskIconFlash("localchat");
+            // setTimeout(() => {
+            //     WindowUnminimise();
+            // }, 1000);
+            // WindowMinimise();
+            // WindowShow();
+            checkIfNotificationIsNeeded({
+                payloadType: PayloadSubType.message,
+                messageType: {
+                    message: "This is a test message",
+                    time: "12:34",
+                    messageId: "1234",
+                    messageSenderId: "xyz",
+                },
+                userType: {
+                    clientId: "1234",
+                    clientUsername: "testUser",
+                    clientProfilePhoto: "",
+                },
+            } as MessagePayload);
         }, 3000);
     }
 
