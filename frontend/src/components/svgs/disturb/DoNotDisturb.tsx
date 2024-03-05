@@ -1,5 +1,3 @@
-import {svgSize} from "../../../utils/variables";
-
 function DoNotDisturb() {
     return (
         <svg style={

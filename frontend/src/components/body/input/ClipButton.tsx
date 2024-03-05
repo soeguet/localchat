@@ -6,12 +6,6 @@ function ClipButton() {
     function handleClipClick() {
         //console.log("Clip clicked");
         setTimeout(() => {
-            // //MakeWindowsTaskIconFlash("localchat");
-            // setTimeout(() => {
-            //     WindowUnminimise();
-            // }, 1000);
-            // WindowMinimise();
-            // WindowShow();
             checkIfNotificationIsNeeded({
                 payloadType: PayloadSubType.message,
                 messageType: {

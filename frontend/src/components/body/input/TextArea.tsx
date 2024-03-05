@@ -13,7 +13,7 @@ const TextArea = (props: TextAreaProps) => {
     return (
         <>
             <textarea
-                className="flex-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-1 rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder={t("chat_input_placeholder")}
                 rows={2}
                 value={props.message}

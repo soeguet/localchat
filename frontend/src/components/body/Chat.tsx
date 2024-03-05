@@ -1,11 +1,11 @@
-import ChatInputSection from "../ChatInputSection";
-import TypingIndicator from "../TypingIndicator";
-import Header from "../Header";
+import ChatInputSection from "./input/ChatInputSection";
+import TypingIndicator from "./panel/TypingIndicator";
+import Header from "./header/Header";
 import { RegisteredUser } from "../../utils/customTypes";
 import useUserStore from "../../stores/userStore";
 import useClientStore from "../../stores/clientsStore";
 import ChatPanel from "./panel/ChatPanel";
-import ClientNotFoundPage from "./ClientNotFoundPage";
+import ClientNotFoundPage from "../error/ClientNotFoundPage";
 import useConnection from "../../hooks/socket/connection";
 import { useWindowFocussedListener } from "../../hooks/body/useWindowFocussedListener";
 
@@ -31,7 +31,7 @@ function App() {
 
     return (
         <>
-            <div className="flex flex-col h-screen justify-evenly">
+            <div className="flex h-screen flex-col justify-evenly">
                 <Header />
                 <ChatPanel />
                 <TypingIndicator />

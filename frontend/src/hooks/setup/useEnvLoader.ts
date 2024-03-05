@@ -24,7 +24,6 @@ export function useEnvironmentVariablesLoader() {
             setSocketPort(envVarsObj.port);
             setClientOs(envVarsObj.os);
             setMyUsername(envVarsObj.username);
-            console.log("envVarsObj.id", envVarsObj.id);
             setMyId(envVarsObj.id);
         });
     }, []);
