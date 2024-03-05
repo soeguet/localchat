@@ -55,7 +55,7 @@ export function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
     WindowIsMinimised()
         .then((isMinimised) => {
             if (isMinimised) {
-                MakeWindowsTaskIconFlash("Local Chat");
+                MakeWindowsTaskIconFlash("Localchat");
                 // setTimeout(() => {
                 //     WindowUnminimise();
                 // }, 100);

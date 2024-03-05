@@ -11,5 +11,8 @@ frontend/bun.lockb
 go.work.sum
 go.work
 package-lock.json
-.idea
+.idea/*
+!.idea/rcb-settings.xml
 start_chat.sh
+.idea
+.idea/rcb-settings.xml

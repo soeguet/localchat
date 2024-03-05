@@ -1,5 +1,5 @@
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
-import { useEffect, useRef, useState } from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import React from "react";
 
 type EmojiProps = {
@@ -45,18 +45,18 @@ function Emoji(props: EmojiProps) {
         };
     }, [emojiVisible]);
 
-    function toggleEmojiWindow() {
+    const toggleEmojiWindow = useCallback(function toggleEmojiWindow() {
         if (emojiVisible === "hidden") {
             setEmojiVisible("");
         } else {
             setEmojiVisible("hidden");
         }
-    }
+    }, [emojiVisible]);
 
-    function handleEmojiClick(emojiData: EmojiClickData, event: MouseEvent) {
+    const handleEmojiClick = useCallback(function handleEmojiClick(emojiData: EmojiClickData, event: MouseEvent) {
         console.log("mouse event", event);
         props.setMessage((prev) => prev + emojiData.emoji);
-    }
+    }, [props]);
 
     return (
         <>

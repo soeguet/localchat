@@ -5,7 +5,7 @@ import App from "./App";
 import "./config/i18n";
 import { WindowSetTitle } from "../wailsjs/runtime";
 
-WindowSetTitle("Local Chat");
+WindowSetTitle("Localchat");
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
