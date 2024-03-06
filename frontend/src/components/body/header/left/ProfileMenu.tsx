@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { WindowReload } from "../../../../../wailsjs/runtime/runtime";
+import { WindowReload } from "../../../../../wailsjs/runtime";
 import { useTranslation } from "react-i18next";
 import ForceModal from "../ForceModal";
 import useDoNotDisturbStore from "../../../../stores/doNotDisturbStore";
 import ProfileModal from "./ProfileModal";
+import InfoMenuButton from "./InfoMenuButton";
 
 type ProfileMenuPropsType = {
     showMenu: boolean;
@@ -19,7 +20,7 @@ function ProfileMenu(props: ProfileMenuPropsType) {
     const [showProfileModal, setShowProfileModal] = useState(false);
 
     /**
-     * Handles the click outside of the menu.
+     * Handles the click outside the menu.
      * @param event - The mouse event object.
      */
     const handleClickOutside = (event: MouseEvent) => {
@@ -70,6 +71,8 @@ function ProfileMenu(props: ProfileMenuPropsType) {
                     >
                         {t("menu_item_profile")}
                     </button>
+
+                    <InfoMenuButton />
 
                     <button
                         className="block w-full border-t-2 px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"

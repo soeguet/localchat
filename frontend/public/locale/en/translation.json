@@ -28,5 +28,6 @@
     "client_not_found": "Client not found, please wait or try again..",
     "menu_item_do_not_disturb": "🛑 Do not disturb!",
     "unread_messages_count": "Unread Messages",
-    "below_unread_messages_start": "NEW MESSAGES BELOW"
+    "below_unread_messages_start": "NEW MESSAGES BELOW",
+    "menu_item_info": "ℹ️ Info"
 }
