@@ -1,27 +1,27 @@
-import { MakeWindowsTaskIconFlash, Notification } from "../../../wailsjs/go/main/App";
+import {MakeWindowsTaskIconFlash, Notification} from "../../../wailsjs/go/main/App";
 import {
     WindowIsMinimised,
     WindowShow,
-} from "../../../wailsjs/runtime/runtime";
+} from "../../../wailsjs/runtime";
 import useChatBottomRefVisibleStore from "../../stores/chatBottomRefVisibleStore";
 import useDoNotDisturbStore from "../../stores/doNotDisturbStore";
 import useUnseenMessageCountStore from "../../stores/unseenMessageCountStore";
 import useUserStore from "../../stores/userStore";
-import { ClientListPayload, MessagePayload, PayloadSubType } from "../../utils/customTypes";
-import { checkIfScrollToBottomIsNeeded } from "../../utils/scrollToBottomNeeded";
+import {ClientListPayload, MessagePayload, PayloadSubType} from "../../utils/customTypes";
 import useMessageMapStore from "../../stores/messageMapStore";
-import useClientsStore, { RegisteredUser } from "../../stores/clientsStore";
+import useClientStore, {RegisteredUser} from "../../stores/clientStore";
 import useGuiHasFocusStore from "../../stores/guiHasFocusStore";
+import {scrollToBottom} from "../../utils/functionality";
 
-export function checkIfMessageIsToBeAddedToTheUnseenMessagesList(messagePayload: MessagePayload) {
+export function checkIfMessageIsToBeAddedToTheUnseenMessagesList(messagePayload: MessagePayload, addIdToList: boolean) {
     // if we don't need to scroll to the bottom, we need to add the message to the unseen messages list
-    const addIdToList = !checkIfScrollToBottomIsNeeded();
 
     if (addIdToList) {
         useUnseenMessageCountStore.getState().addMessageToUnseenMessagesList(messagePayload.messageType.messageId);
     } else {
         // console.log("Scroll to bottom is needed");
         useUnseenMessageCountStore.getState().resetUnseenMessageCount();
+        scrollToBottom();
         // console.log(useUnseenMessageCountStore.getState().unseenMessageCount);
     }
 }
@@ -44,7 +44,7 @@ export function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
         }
     }
 
-    const messageSenderName = useClientsStore
+    const messageSenderName = useClientStore
         .getState()
         .clients.find((predicate) => predicate.id === messagePayload.userType.clientId)?.username;
 
@@ -80,7 +80,7 @@ export function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
 export function handleClientListPayload(payloadAsString: string) {
     const payloadAsObject: ClientListPayload = JSON.parse(payloadAsString);
     const clients: RegisteredUser[] = payloadAsObject.clients;
-    useClientsStore.getState().setClients(clients);
+    useClientStore.getState().setClients(clients);
 }
 
 export function handeMessageListPayload(data: string) {

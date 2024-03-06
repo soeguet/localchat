@@ -1,5 +1,5 @@
 import { Notification } from "../../wailsjs/go/main/App";
-import { getClientById } from "../stores/clientsStore";
+import { getClientById } from "../stores/clientStore";
 import useReplyStore, { Reply } from "../stores/replyStore";
 import useUserStore from "../stores/userStore";
 import useWebsocketStore from "../stores/websocketStore";

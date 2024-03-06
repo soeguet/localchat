@@ -6,7 +6,7 @@ import {
     PayloadSubType,
     ProfileUpdatePayload,
 } from "../../../../utils/customTypes";
-import useClientsStore from "../../../../stores/clientsStore";
+import useClientsStore from "../../../../stores/clientStore";
 import { useTranslation } from "react-i18next";
 import i18n from "../../../../config/i18n";
 import useFontSizeStore from "../../../../stores/fontSizeStore";

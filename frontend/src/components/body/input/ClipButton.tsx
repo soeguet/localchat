@@ -1,17 +1,22 @@
 import React from "react";
-import { checkIfNotificationIsNeeded } from "../../../hooks/socket/utils";
-import { MessagePayload, PayloadSubType } from "../../../utils/customTypes";
+import {
+    checkIfMessageIsToBeAddedToTheUnseenMessagesList,
+    checkIfNotificationIsNeeded
+} from "../../../hooks/socket/utils";
+import {PayloadSubType} from "../../../utils/customTypes";
+import {checkIfScrollToBottomIsNeeded} from "../../../utils/scrollToBottomNeeded";
+import useMessageMapStore from "../../../stores/messageMapStore";
 
 function ClipButton() {
     function handleClipClick() {
         //console.log("Clip clicked");
         setTimeout(() => {
-            checkIfNotificationIsNeeded({
+            const messagePayload = {
                 payloadType: PayloadSubType.message,
                 messageType: {
                     message: "This is a test message",
                     time: "12:34",
-                    messageId: "1234",
+                    messageId: Math.random().toString(36).substring(7),
                     messageSenderId: "xyz",
                 },
                 userType: {
@@ -19,7 +24,17 @@ function ClipButton() {
                     clientUsername: "testUser",
                     clientProfilePhoto: "",
                 },
-            } as MessagePayload);
+            };
+
+            useMessageMapStore.getState().onMessage(messagePayload);
+
+            // if scroll to bottom is not needed, add the message to the unseen messages list
+            const addIdToList = !checkIfScrollToBottomIsNeeded(messagePayload.userType.clientId);
+            checkIfMessageIsToBeAddedToTheUnseenMessagesList(messagePayload, addIdToList);
+
+            //display the message
+            checkIfNotificationIsNeeded(messagePayload);
+
         }, 3000);
     }
 

@@ -59,7 +59,7 @@ function ProfileMenu(props: ProfileMenuPropsType) {
                 <div
                     ref={menuRef}
                     className={
-                        "absolute left-2 top-20 z-20 mr-12 mt-2 w-56 rounded-md border-2 bg-white py-1 shadow-xl"
+                        "fixed left-2 top-20 z-20 mr-12 mt-2 w-56 rounded-md border-2 bg-white py-1 shadow-xl"
                     }
                 >
                     <button

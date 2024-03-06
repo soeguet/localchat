@@ -47,7 +47,7 @@ function ChatPanel() {
         <>
             <div
                 ref={chatContainerRef}
-                className="grow overflow-y-auto px-5 pb-2 pt-2"
+                className="relative grow overflow-y-auto px-5 pb-2 pt-2"
             >
                 <MessageRenderMap/>
                 <ScrollToBottomButton chatBottomRefVisible={chatBottomRefVisible}/>

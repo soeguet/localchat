@@ -19,14 +19,21 @@ function MessageRenderMap() {
     const idOfTheFirstUnreadMessage = useUnseenMessageCountStore(
         (state) => state.unseenMessagesIdList[0]
     );
+
     useEffect(() => {
-        if (checkIfScrollToBottomIsNeeded()) {
-            scrollToBottom();
-            useUnseenMessageCountStore.getState().resetUnseenMessageCount();
+
+        // get the last message from newMap
+        const lastMessage = Array.from(newMap.entries())[newMap.size - 1];
+
+        if (checkIfScrollToBottomIsNeeded(lastMessage[1].userType.clientId)) {
+            scrollToBottom().then(() => {
+                useUnseenMessageCountStore.getState().resetUnseenMessageCount();
+            });
         } else {
             useUnseenMessageCountStore.getState().incrementUnseenMessageCount();
         }
     }, [newMap]);
+
     return (
         <>
             {Array.from(newMap.entries()).map((value, index, array) => {

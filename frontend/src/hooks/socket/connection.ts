@@ -9,6 +9,7 @@ import useDoNotDisturbStore from "../../stores/doNotDisturbStore";
 import { Notification } from "../../../wailsjs/go/main/App";
 import { WindowMinimise, WindowShow, WindowUnminimise } from "../../../wailsjs/runtime";
 import { handleClientListPayload, checkIfMessageIsToBeAddedToTheUnseenMessagesList, checkIfNotificationIsNeeded, handeMessageListPayload } from "./utils";
+import {checkIfScrollToBottomIsNeeded} from "../../utils/scrollToBottomNeeded";
 
 function useConnection() {
     const { socketIp, socketPort, myId } = useUserStore();
@@ -56,7 +57,9 @@ function useConnection() {
 
                 onMessage(messagePayload);
 
-                checkIfMessageIsToBeAddedToTheUnseenMessagesList(messagePayload);
+                // if scroll to bottom is not needed, add the message to the unseen messages list
+                const addIdToList = !checkIfScrollToBottomIsNeeded(messagePayload.userType.clientId);
+                checkIfMessageIsToBeAddedToTheUnseenMessagesList(messagePayload, addIdToList);
 
                 //display the message
                 checkIfNotificationIsNeeded(messagePayload);

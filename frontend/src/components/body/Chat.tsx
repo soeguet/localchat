@@ -3,7 +3,7 @@ import TypingIndicator from "./panel/TypingIndicator";
 import Header from "./header/Header";
 import { RegisteredUser } from "../../utils/customTypes";
 import useUserStore from "../../stores/userStore";
-import useClientStore from "../../stores/clientsStore";
+import useClientStore from "../../stores/clientStore";
 import ChatPanel from "./panel/ChatPanel";
 import ClientNotFoundPage from "../error/ClientNotFoundPage";
 import useConnection from "../../hooks/socket/connection";

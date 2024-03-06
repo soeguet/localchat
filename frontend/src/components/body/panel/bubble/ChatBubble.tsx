@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import "./ChatBubble.css";
 import useClientsStore, {
     getClientById,
-} from "../../../../stores/clientsStore";
+} from "../../../../stores/clientStore";
 import useFontSizeStore from "../../../../stores/fontSizeStore";
 import useReplyStore from "../../../../stores/replyStore";
 import useUnseenMessageCountStore from "../../../../stores/unseenMessageCountStore";

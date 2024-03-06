@@ -1,4 +1,4 @@
-import useClientsStore from "../../../../stores/clientsStore";
+import useClientsStore from "../../../../stores/clientStore";
 import React from "react";
 
 function ProfilePicture({

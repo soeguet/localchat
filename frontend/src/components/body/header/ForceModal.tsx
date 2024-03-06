@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import {useTranslation} from "react-i18next";
-import useClientsStore from "../../../stores/clientsStore";
+import useClientsStore from "../../../stores/clientStore";
 import useWebsocketStore from "../../../stores/websocketStore";
 import {PayloadSubType} from "../../../utils/customTypes";
 import useUserStore from "../../../stores/userStore";
@@ -66,10 +66,10 @@ function ForceModal() {
             {isOpen && <div
                 className="fixed inset-0 z-20 flex items-center justify-center bg-black bg-opacity-50">
                 <div ref={forceModalRef}
-                     className="w-full rounded-lg border-2 border-blue-300 bg-white p-4 text-black divide-y-2 divide-gray-400 sm:w-3/4 md:w-3/4 lg:w-1/2 xl:w-1/2">
+                    className="w-full rounded-lg border-2 border-blue-300 bg-white p-4 text-black divide-y-2 divide-gray-400 sm:w-3/4 md:w-3/4 lg:w-1/2 xl:w-1/2">
                     {
                         clientsList.map((client) => {
-                            if (client.id === clientId) return
+                            if (client.id === clientId) return;
                             return (
                                 <div key={client.id} className="flex items-center justify-between">
                                     <span>{client.username}</span>

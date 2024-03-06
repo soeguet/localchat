@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useUserStore from "../../../../stores/userStore";
-import useClientsStore from "../../../../stores/clientsStore";
+import useClientsStore from "../../../../stores/clientStore";
 import ProfileMenu from "./ProfileMenu";
 import ProfilePicture from "./ProfilePicture";
 import useDoNotDisturbStore from "../../../../stores/doNotDisturbStore";
@@ -21,7 +21,7 @@ function HeaderLeft() {
     const borderColorCondition = `${!profilePictureHovered ? clientColor : "cyan" || "lightgrey"}`;
 
     return (
-        <div className="flex items-center">
+        <div className=" relative flex items-center">
             <div
                 onClick={() => setShowProfileMenu(!showProfileMenu)}
                 onMouseEnter={() => setProfilePictureHovered(true)}
