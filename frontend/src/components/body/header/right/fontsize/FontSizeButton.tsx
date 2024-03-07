@@ -7,16 +7,12 @@ function FontSizeButton() {
 
     return (
         <>
-            <div className="mx-3">
-                <div>
-                    <button
-                        onClick={() => setShowPopup(true)}
-                        className="rounded-full border-2 border-black text-white transition duration-300 ease-in-out hover:border-cyan-500"
-                    >
-                        <FontSizeSvg />
-                    </button>
-                </div>
-            </div>
+            <button
+                onClick={() => setShowPopup(true)}
+                className=" mx-3 rounded-full border-2 border-black text-white transition duration-300 ease-in-out hover:border-cyan-500"
+            >
+                <FontSizeSvg />
+            </button>
             <FontSizePopup showPopup={showPopup} setShowPopup={setShowPopup} />
         </>
     );

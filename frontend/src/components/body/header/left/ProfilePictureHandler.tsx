@@ -1,5 +1,5 @@
 import DoNotDisturb from "../../../svgs/disturb/DoNotDisturb";
-import ProfilePicture from "./ProfilePicture";
+import ProfilePicture from "../../../reuseable/ProfilePicture";
 import useDoNotDisturbStore from "../../../../stores/doNotDisturbStore";
 import { useState } from "react";
 import useClientStore from "../../../../stores/clientStore";
@@ -10,6 +10,9 @@ type ProfilePictureHandlerProps = {
     setShowMenu: (show: boolean) => void;
 };
 
+/**
+ * checks if the user is in do not disturb mode and displays the appropriate profile picture
+ */
 function ProfilePictureHandler(props: ProfilePictureHandlerProps) {
     const doNotDisturb = useDoNotDisturbStore((state) => state.doNotDisturb);
     const clientId = useUserStore((state) => state.myId);

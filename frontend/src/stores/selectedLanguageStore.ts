@@ -7,7 +7,7 @@ type SelectedLanguageStore = {
 };
 
 const useSelectedLanguageStore = create<SelectedLanguageStore>((set) => ({
-    selectedLanguage: "en",
+    selectedLanguage: localStorage.getItem("language") === "de" ? "de" : "en",
     switchLanguage: (language: string) =>
         set({ selectedLanguage: language === "en" ? "de" : "en" }),
     setSelectedLanguage: (language: "de" | "en") =>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ProfilePicture from "./ProfilePicture";
+import ProfilePicture from "../../../reuseable/ProfilePicture";
 import useUserStore from "../../../../stores/userStore";
 import useWebsocketStore from "../../../../stores/websocketStore";
 import {

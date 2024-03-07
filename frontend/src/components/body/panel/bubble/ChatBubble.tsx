@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./ChatBubble.css";
 import useClientStore, { getClientById } from "../../../../stores/clientStore";
@@ -8,9 +8,10 @@ import useUnseenMessageCountStore from "../../../../stores/unseenMessageCountSto
 import useUserStore from "../../../../stores/userStore";
 import { MessagePayload } from "../../../../utils/customTypes";
 import { getTimeWithHHmmFormat } from "../../../../utils/time";
-import ProfilePicture from "../../header/left/ProfilePicture";
+import ProfilePicture from "../../../reuseable/ProfilePicture";
 import QuoteBubble from "../QuoteBubble";
 import LinkifiedText from "../LinkifiedText";
+import ChatBubbleMenu from "./ChatBubbleMenu";
 
 type MessageProps = {
     messagePayload: MessagePayload;
@@ -19,14 +20,15 @@ type MessageProps = {
 };
 
 function ChatBubble(props: MessageProps) {
-    const { t } = useTranslation();
     const [showMenu, setShowMenu] = useState(false);
-    const menuRef = useRef<HTMLDivElement>(null);
     const thisMessageSenderClientId = props.messagePayload.userType.clientId;
     const clientUsername = useClientStore(
         (state) =>
             state.clients.find((c) => c.id === thisMessageSenderClientId)
                 ?.username
+    );
+    const unseenMessagesIdList = useUnseenMessageCountStore(
+        (state) => state.unseenMessagesIdList
     );
     const fontSize = useFontSizeStore((state) => state.fontSize);
     const clientColor = useClientStore(
@@ -38,35 +40,10 @@ function ChatBubble(props: MessageProps) {
     const thisMessageFromThisClient =
         thisMessageSenderClientId === useUserStore.getState().myId;
 
-    const thisMessageUnseen = useUnseenMessageCountStore((state) =>
-        state.unseenMessagesIdList.includes(
-            props.messagePayload.messageType.messageId
-        )
+    // useMemo does not seem to be worth it tbh
+    const thisMessageUnseen = unseenMessagesIdList.includes(
+        props.messagePayload.messageType.messageId
     );
-
-    // /**
-    //  * Handles the click outside of the menu.
-    //  * @param event - The mouse event object.
-    //  */
-    const handleClickOutside = (event: MouseEvent) => {
-        if (
-            menuRef.current &&
-            !menuRef.current.contains(event.target as Node)
-        ) {
-            const { left, top, right, bottom } =
-                menuRef.current.getBoundingClientRect();
-            const { clientX, clientY } = event;
-
-            if (
-                clientX < left ||
-                clientX > right ||
-                clientY < top ||
-                clientY > bottom
-            ) {
-                setShowMenu(false);
-            }
-        }
-    };
 
     function activateReplyMessage() {
         useReplyStore.getState().setReplyMessage({
@@ -77,16 +54,6 @@ function ChatBubble(props: MessageProps) {
             message: props.messagePayload.messageType.message,
         });
     }
-
-    useEffect(() => {
-        if (showMenu) {
-            document.addEventListener("mousedown", handleClickOutside);
-        }
-
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [showMenu]);
 
     return (
         <div
@@ -109,25 +76,12 @@ function ChatBubble(props: MessageProps) {
                         opacity: props.lastMessageFromThisClientId ? "0" : "1",
                     }}
                 />
-                {showMenu && (
-                    <div
-                        className={`absolute ${thisMessageFromThisClient ? "right-0 mr-20" : "left-0 ml-20"} z-20 mt-2 w-48 rounded-md border-2 bg-white py-1 shadow-xl`}
-                        ref={menuRef}
-                    >
-                        <button
-                            className="block w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-100"
-                            onClick={activateReplyMessage}
-                        >
-                            {t("menu_item_reply")}
-                        </button>
-                        <button
-                            className="block w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-100"
-                            onClick={() => console.log("Editing")}
-                        >
-                            {t("menu_item_edit")}
-                        </button>
-                    </div>
-                )}
+                <ChatBubbleMenu
+                    showMenu={showMenu}
+                    setShowMenu={setShowMenu}
+                    thisMessageFromThisClient={thisMessageFromThisClient}
+                    activateReplyMessage={activateReplyMessage}
+                />
             </div>
 
             <div

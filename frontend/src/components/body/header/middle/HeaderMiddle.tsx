@@ -1,8 +1,7 @@
-import { t } from "i18next";
-import { WindowReloadApp } from "../../../../../wailsjs/runtime/runtime";
+import useWebsocketStore from "../../../../stores/websocketStore";
 import ConnectedSvg from "../../../svgs/status/ConnectedSvg";
 import DisconnectedSvg from "../../../svgs/status/DisconnectedSvg";
-import useWebsocketStore from "../../../../stores/websocketStore";
+import ReconnectButton from "./ReconnectButton";
 
 function HeaderMiddle() {
     const ws = useWebsocketStore((state) => state.ws);
@@ -10,18 +9,11 @@ function HeaderMiddle() {
     return (
         <div>
             {ws?.readyState === ws?.OPEN ? (
-                <div className="rounded-full border-2 border-black">
-                    <ConnectedSvg />
-                </div>
+                <ConnectedSvg />
             ) : (
                 <div className="flex">
                     <DisconnectedSvg />
-                    <button
-                        onClick={() => WindowReloadApp()}
-                        className="ml-2 rounded bg-blue-500 px-2 py-1 font-bold text-white hover:bg-blue-700"
-                    >
-                        {t("button_reconnect")}
-                    </button>
+                    <ReconnectButton />
                 </div>
             )}
         </div>

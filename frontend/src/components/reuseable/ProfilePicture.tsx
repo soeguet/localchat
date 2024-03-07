@@ -1,4 +1,4 @@
-import useClientStore from "../../../../stores/clientStore";
+import useClientStore from "../../stores/clientStore";
 import React from "react";
 
 type ProfilePictureProps = {

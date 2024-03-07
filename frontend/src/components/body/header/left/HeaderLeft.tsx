@@ -12,7 +12,7 @@ function HeaderLeft() {
     );
 
     return (
-        <div className=" relative flex items-center">
+        <div className="relative flex items-center">
             <ProfilePictureHandler
                 showMenu={showProfileMenu}
                 setShowMenu={setShowProfileMenu}

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import useFontSizeStore from "../../../../../stores/fontSizeStore";
 import { useTranslation } from "react-i18next";
 import FontSizeAdjustButton from "./elements/FontSizeAdjustButton";
@@ -53,6 +53,7 @@ const FontSizePopup = (props: FontSizePopupProps) => {
                             >
                                 -
                             </FontSizeAdjustButton>
+
                             <input
                                 type="range"
                                 min="12"
@@ -63,6 +64,7 @@ const FontSizePopup = (props: FontSizePopupProps) => {
                                 }
                                 className="w-full cursor-pointer"
                             />
+
                             <FontSizeAdjustButton
                                 onClick={() =>
                                     setFontSize(
