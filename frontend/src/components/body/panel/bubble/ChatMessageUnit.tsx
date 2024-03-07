@@ -18,15 +18,14 @@ type MessageProps = {
 function ChatMessageUnit(props: MessageProps) {
     const [showMenu, setShowMenu] = useState(false);
     const thisMessageSenderClientId = props.messagePayload.userType.clientId;
+    const thisMessageFromThisClient =
+        thisMessageSenderClientId === useUserStore.getState().myId;
     const clientColor = useClientStore(
         (state) =>
             state.clients.find(
                 (c) => c.id === props.messagePayload.userType.clientId
             )?.clientColor
     );
-    const thisMessageFromThisClient =
-        thisMessageSenderClientId === useUserStore.getState().myId;
-
 
     function activateReplyMessage() {
         useReplyStore.getState().setReplyMessage({
@@ -38,9 +37,12 @@ function ChatMessageUnit(props: MessageProps) {
         });
     }
 
+    const messageOnWhichSideAligned = `${thisMessageFromThisClient ? "flex-row-reverse" : ""}`;
+    const howMuchMarginToMessageAbove = `${!props.lastMessageFromThisClientId && !props.lastMessageTimestampSameAsThisOne ? "mt-3" : "mt-1"}`;
+
     return (
         <div
-            className={`flex items-end ${thisMessageFromThisClient ? "flex-row-reverse" : ""} ${!props.lastMessageFromThisClientId && !props.lastMessageTimestampSameAsThisOne ? "mt-3" : "mt-1"}`}
+            className={`flex items-end ${messageOnWhichSideAligned} ${howMuchMarginToMessageAbove}`}
         >
             <div
                 onClick={() => setShowMenu(!showMenu)}
@@ -66,7 +68,13 @@ function ChatMessageUnit(props: MessageProps) {
                     activateReplyMessage={activateReplyMessage}
                 />
             </div>
-            <ChatMessageBubblePart messagePayload={props.messagePayload} lastMessageFromThisClientId={props.lastMessageFromThisClientId} lastMessageTimestampSameAsThisOne={props.lastMessageTimestampSameAsThisOne} />
+            <ChatMessageBubblePart
+                messagePayload={props.messagePayload}
+                lastMessageFromThisClientId={props.lastMessageFromThisClientId}
+                lastMessageTimestampSameAsThisOne={
+                    props.lastMessageTimestampSameAsThisOne
+                }
+            />
         </div>
     );
 }
