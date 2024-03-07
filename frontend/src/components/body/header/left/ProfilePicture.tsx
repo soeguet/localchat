@@ -1,34 +1,30 @@
-import useClientsStore from "../../../../stores/clientStore";
+import useClientStore from "../../../../stores/clientStore";
 import React from "react";
 
-function ProfilePicture({
-    clientId,
-    pictureUrl,
-    properties,
-    style = { width: "40px", height: "40px" },
-}: {
+type ProfilePictureProps = {
     clientId: string;
-    pictureSizeFactor?: number;
     pictureUrl?: string;
     properties?: string;
     style?: {
-        width: string;
-        height: string;
+        width: string | "40px";
+        height: string | "40px";
         borderColor?: string;
         opacity?: string;
     };
-}) {
-    const client = useClientsStore((state) =>
-        state.clients.find((c) => c.id === clientId)
+};
+
+function ProfilePicture(props: ProfilePictureProps) {
+    const client = useClientStore((state) =>
+        state.clients.find((c) => c.id === props.clientId)
     );
     const profilePicture = client?.profilePhotoUrl;
 
     return (
         <>
             <img
-                style={style}
-                className={`rounded-full border-2 ${properties} transition duration-300 ease-in-out`}
-                src={pictureUrl ? pictureUrl : profilePicture}
+                style={props.style}
+                className={`rounded-full border-2 ${props.properties} transition duration-300 ease-in-out`}
+                src={props.pictureUrl ? props.pictureUrl : profilePicture}
                 alt={""}
             />
         </>

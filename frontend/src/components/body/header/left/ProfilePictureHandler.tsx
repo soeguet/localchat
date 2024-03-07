@@ -1,0 +1,46 @@
+import DoNotDisturb from "../../../svgs/disturb/DoNotDisturb";
+import ProfilePicture from "./ProfilePicture";
+import useDoNotDisturbStore from "../../../../stores/doNotDisturbStore";
+import { useState } from "react";
+import useClientStore from "../../../../stores/clientStore";
+import useUserStore from "../../../../stores/userStore";
+
+type ProfilePictureHandlerProps = {
+    showMenu: boolean;
+    setShowMenu: (show: boolean) => void;
+};
+
+function ProfilePictureHandler(props: ProfilePictureHandlerProps) {
+    const doNotDisturb = useDoNotDisturbStore((state) => state.doNotDisturb);
+    const clientId = useUserStore((state) => state.myId);
+    const clientColor = useClientStore(
+        (state) => state.clients.find((c) => c.id === clientId)?.clientColor
+    );
+    const [profilePictureHovered, setProfilePictureHovered] = useState(false);
+    const borderColorCondition = `${!profilePictureHovered ? clientColor : "cyan" || "lightgrey"}`;
+    const profilePictureStyle = {
+        width: "70px",
+        height: "70px",
+        borderColor: borderColorCondition,
+    };
+    return (
+        <>
+            <div
+                onClick={() => props.setShowMenu(!props.showMenu)}
+                onMouseEnter={() => setProfilePictureHovered(true)}
+                onMouseLeave={() => setProfilePictureHovered(false)}
+            >
+                {doNotDisturb ? (
+                    <DoNotDisturb style={profilePictureStyle} />
+                ) : (
+                    <ProfilePicture
+                        clientId={clientId}
+                        style={profilePictureStyle}
+                    />
+                )}
+            </div>
+        </>
+    );
+}
+
+export default ProfilePictureHandler;

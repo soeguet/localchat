@@ -6,7 +6,7 @@ import {
     PayloadSubType,
     ProfileUpdatePayload,
 } from "../../../../utils/customTypes";
-import useClientsStore from "../../../../stores/clientStore";
+import useClientStore from "../../../../stores/clientStore";
 import { useTranslation } from "react-i18next";
 import i18n from "../../../../config/i18n";
 import useFontSizeStore from "../../../../stores/fontSizeStore";
@@ -32,7 +32,7 @@ function ProfileModal(props: ProfileModalProps) {
         setMyUsername,
         setMyProfilePhoto,
     } = useUserStore();
-    const profileColor = useClientsStore(
+    const profileColor = useClientStore(
         (state) => state.clients.find((c) => c.id === myId)?.clientColor
     );
     const websocket = useWebsocketStore((state) => state.ws);

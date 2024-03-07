@@ -1,8 +1,7 @@
-import useUnseenMessageCountStore from "../../../../stores/unseenMessageCountStore";
-import UnreadMessagesSvg from "../../../svgs/messages/UnreadMessagesSvg";
+import useUnseenMessageCountStore from "../../../../../stores/unseenMessageCountStore";
+import UnreadMessagesSvg from "../../../../svgs/messages/UnreadMessagesSvg";
 
 function UnreadMessageButton() {
-
     const unseenMessageCount = useUnseenMessageCountStore(
         (state) => state.unseenMessageCount
     );

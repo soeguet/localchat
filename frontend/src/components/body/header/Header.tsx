@@ -6,11 +6,11 @@ import HeaderRight from "./right/HeaderRight";
 function Header() {
     const doNotDisturb = useDoNotDisturbStore((state) => state.doNotDisturb);
 
-    const doNotDisturbCondition = `${doNotDisturb ? "bg-orange-700 text-white" : "bg-gray-700 text-white"}`;
+    const doNotDisturbCondition = `${doNotDisturb ? "bg-orange-700" : "bg-gray-700"}`;
 
     return (
         <div
-            className={`${doNotDisturbCondition} flex items-center justify-between border-b-2 border-b-black px-4 pb-2 pt-1`}
+            className={`${doNotDisturbCondition} flex items-center justify-between border-b-2 border-b-black px-4 pb-2 pt-1 text-white`}
         >
             <HeaderLeft />
             <HeaderMiddle />

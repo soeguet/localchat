@@ -14,14 +14,15 @@ export type ClientStore = {
     setClients: (clients: RegisteredUser[]) => void;
 };
 
-const useClientsStore: UseBoundStore<StoreApi<ClientStore>> = create<ClientStore>((set) => ({
-    clients: [],
-    setClients: (clients) => set({ clients }),
-}));
+const useClientStore: UseBoundStore<StoreApi<ClientStore>> =
+    create<ClientStore>((set) => ({
+        clients: [],
+        setClients: (clients) => set({ clients }),
+    }));
 
 export const getClientById = (id: string): RegisteredUser | undefined => {
-    const clients = useClientsStore.getState().clients;
+    const clients = useClientStore.getState().clients;
     return clients.find((client) => client.id === id);
 };
 
-export default useClientsStore;
+export default useClientStore;

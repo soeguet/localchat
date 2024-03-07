@@ -5,6 +5,7 @@ import ForceModal from "../ForceModal";
 import useDoNotDisturbStore from "../../../../stores/doNotDisturbStore";
 import ProfileModal from "./ProfileModal";
 import InfoMenuButton from "./InfoMenuButton";
+import { handleClickOutsideOfDiv } from "../../../../utils/handleClickOutsideOfDiv";
 
 type ProfileMenuPropsType = {
     showMenu: boolean;
@@ -19,37 +20,17 @@ function ProfileMenu(props: ProfileMenuPropsType) {
     );
     const [showProfileModal, setShowProfileModal] = useState(false);
 
-    /**
-     * Handles the click outside the menu.
-     * @param event - The mouse event object.
-     */
-    const handleClickOutside = (event: MouseEvent) => {
-        if (
-            menuRef.current &&
-            !menuRef.current.contains(event.target as Node)
-        ) {
-            const { left, top, right, bottom } =
-                menuRef.current.getBoundingClientRect();
-            const { clientX, clientY } = event;
-
-            if (
-                clientX < left ||
-                clientX > right ||
-                clientY < top ||
-                clientY > bottom
-            ) {
-                props.setShowMenu(false);
-            }
-        }
-    };
-
     useEffect(() => {
         if (props.showMenu) {
-            document.addEventListener("mousedown", handleClickOutside);
+            document.addEventListener("mousedown", (e) =>
+                handleClickOutsideOfDiv(menuRef, e, props.setShowMenu)
+            );
         }
 
         return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("mousedown", (e) =>
+                handleClickOutsideOfDiv(menuRef, e, props.setShowMenu)
+            );
         };
     }, [props.showMenu]);
 

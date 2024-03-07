@@ -1,5 +1,5 @@
 import { useState } from "react";
-import FontSizeSvg from "../../../svgs/font/FontSizeSvg";
+import FontSizeSvg from "../../../../svgs/font/FontSizeSvg";
 import FontSizePopup from "./FontSizePopup";
 
 function FontSizeButton() {

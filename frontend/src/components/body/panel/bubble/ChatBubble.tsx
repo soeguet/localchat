@@ -1,9 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./ChatBubble.css";
-import useClientsStore, {
-    getClientById,
-} from "../../../../stores/clientStore";
+import useClientStore, { getClientById } from "../../../../stores/clientStore";
 import useFontSizeStore from "../../../../stores/fontSizeStore";
 import useReplyStore from "../../../../stores/replyStore";
 import useUnseenMessageCountStore from "../../../../stores/unseenMessageCountStore";
@@ -25,13 +23,13 @@ function ChatBubble(props: MessageProps) {
     const [showMenu, setShowMenu] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
     const thisMessageSenderClientId = props.messagePayload.userType.clientId;
-    const clientUsername = useClientsStore(
+    const clientUsername = useClientStore(
         (state) =>
             state.clients.find((c) => c.id === thisMessageSenderClientId)
                 ?.username
     );
     const fontSize = useFontSizeStore((state) => state.fontSize);
-    const clientColor = useClientsStore(
+    const clientColor = useClientStore(
         (state) =>
             state.clients.find(
                 (c) => c.id === props.messagePayload.userType.clientId

@@ -6,7 +6,7 @@ import useUserStore from "../../stores/userStore";
 import useClientStore from "../../stores/clientStore";
 import ChatPanel from "./panel/ChatPanel";
 import ClientNotFoundPage from "../error/ClientNotFoundPage";
-import useConnection from "../../hooks/socket/connection";
+import useWebsocketConnection from "../../hooks/socket/useWebsocketConnection";
 import { useWindowFocussedListener } from "../../hooks/body/useWindowFocussedListener";
 
 /**
@@ -20,8 +20,7 @@ function App() {
         state.clients.find((c) => c.id === clientId)
     );
 
-    // custom hook for websocket connection
-    useConnection();
+    useWebsocketConnection();
 
     useWindowFocussedListener();
 

@@ -1,4 +1,8 @@
-export const isVisibleInViewport = (el: HTMLElement, parentEl: HTMLElement, partiallyVisible: boolean = false): boolean => {
+export const isVisibleInViewport = (
+    el: HTMLElement,
+    parentEl: HTMLElement,
+    partiallyVisible: boolean = false
+): boolean => {
     const rect = el.getBoundingClientRect();
     const parentRect = parentEl.getBoundingClientRect();
 

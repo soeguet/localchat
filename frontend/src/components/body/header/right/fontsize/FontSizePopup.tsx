@@ -1,58 +1,40 @@
 import React, { useEffect, useRef } from "react";
-import useFontSizeStore from "../../../../stores/fontSizeStore";
+import useFontSizeStore from "../../../../../stores/fontSizeStore";
 import { useTranslation } from "react-i18next";
+import FontSizeAdjustButton from "./elements/FontSizeAdjustButton";
+import { handleClickOutsideOfDiv } from "../../../../../utils/handleClickOutsideOfDiv";
 
 type FontSizePopupProps = {
     showPopup: boolean;
     setShowPopup: (show: boolean) => void;
 };
 
-const FontSizePopup = ({ showPopup, setShowPopup }: FontSizePopupProps) => {
+const FontSizePopup = (props: FontSizePopupProps) => {
     const { t } = useTranslation();
     const { fontSize, setFontSize } = useFontSizeStore();
     const fontSizeRef = useRef<HTMLDivElement>(null);
-
-    /**
-     * Handles the click outside the menu.
-     * @param event - The mouse event object.
-     */
-    const handleClickOutside = (event: MouseEvent) => {
-        if (
-            fontSizeRef.current &&
-            !fontSizeRef.current.contains(event.target as Node)
-        ) {
-            const { left, top, right, bottom } =
-                fontSizeRef.current.getBoundingClientRect();
-            const { clientX, clientY } = event;
-
-            if (
-                clientX < left ||
-                clientX > right ||
-                clientY < top ||
-                clientY > bottom
-            ) {
-                setShowPopup(false);
-            }
-        }
-    };
 
     useEffect(() => {
         localStorage.setItem("fontSize", fontSize.toString());
     }, [fontSize]);
 
     useEffect(() => {
-        if (showPopup) {
-            document.addEventListener("mousedown", handleClickOutside);
+        if (props.showPopup) {
+            document.addEventListener("mousedown", (event) =>
+                handleClickOutsideOfDiv(fontSizeRef, event, props.setShowPopup)
+            );
         }
 
         return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("mousedown", (event) =>
+                handleClickOutsideOfDiv(fontSizeRef, event, props.setShowPopup)
+            );
         };
-    }, [showPopup]);
+    }, [props.showPopup, props.setShowPopup]);
 
     return (
         <>
-            {showPopup && (
+            {props.showPopup && (
                 <div
                     ref={fontSizeRef}
                     className="absolute right-10 top-24 z-20 -mt-2 rounded-lg border-2 bg-white p-4 py-1 shadow-xl"
@@ -62,16 +44,15 @@ const FontSizePopup = ({ showPopup, setShowPopup }: FontSizePopupProps) => {
                             <h2>{t("adjust_font_size")}</h2>
                         </div>
                         <div className="flex items-center justify-start gap-2">
-                            <button
+                            <FontSizeAdjustButton
                                 onClick={() =>
                                     setFontSize(
                                         fontSize - 1 < 12 ? 12 : fontSize - 1
                                     )
                                 }
-                                className="rounded bg-gray-200 px-2 text-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
                             >
                                 -
-                            </button>
+                            </FontSizeAdjustButton>
                             <input
                                 type="range"
                                 min="12"
@@ -82,21 +63,20 @@ const FontSizePopup = ({ showPopup, setShowPopup }: FontSizePopupProps) => {
                                 }
                                 className="w-full cursor-pointer"
                             />
-                            <button
+                            <FontSizeAdjustButton
                                 onClick={() =>
                                     setFontSize(
                                         fontSize + 1 > 24 ? 24 : fontSize + 1
                                     )
                                 }
-                                className="rounded bg-gray-200 px-2 text-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
                             >
                                 +
-                            </button>
+                            </FontSizeAdjustButton>
+
                             <button
-                                onClick={() => setShowPopup(false)}
+                                onClick={() => props.setShowPopup(false)}
                                 className="ml-3 rounded-full bg-gray-200 px-3 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
                             >
-                                <span className="sr-only">Close</span>
                                 🗙
                             </button>
                         </div>
