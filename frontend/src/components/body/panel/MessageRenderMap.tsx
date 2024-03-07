@@ -1,7 +1,7 @@
 import {MessagePayload} from "../../../utils/customTypes";
 import React, {useDeferredValue, useEffect} from "react";
 import ScrollSymbolSvg from "../../svgs/scroll/ScrollSymbolSvg";
-import ChatBubble from "./bubble/ChatBubble";
+import ChatMessageUnit from "./bubble/ChatMessageUnit";
 import {useTranslation} from "react-i18next";
 import useUnseenMessageCountStore from "../../../stores/unseenMessageCountStore";
 import {checkIfScrollToBottomIsNeeded} from "../../../utils/scrollToBottomNeeded";
@@ -78,7 +78,7 @@ function MessageRenderMap() {
                                 <ScrollSymbolSvg/>
                             </div>
                         )}
-                        <ChatBubble
+                        <ChatMessageUnit
                             messagePayload={value[1]}
                             lastMessageFromThisClientId={
                                 lastMessageFromThisClientId
