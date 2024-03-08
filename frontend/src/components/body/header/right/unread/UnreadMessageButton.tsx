@@ -1,4 +1,5 @@
 import useUnseenMessageCountStore from "../../../../../stores/unseenMessageCountStore";
+import { scrollToBottom } from "../../../../../utils/functionality";
 import UnreadMessagesSvg from "../../../../svgs/messages/UnreadMessagesSvg";
 
 function UnreadMessageButton() {
@@ -9,7 +10,15 @@ function UnreadMessageButton() {
     return (
         <div>
             {unseenMessageCount > 0 && (
-                <button className="rounded-full border-2 border-black text-white hover:bg-gray-500">
+                <button
+                    onClick={async () => {
+                        await scrollToBottom();
+                        // useUnseenMessageCountStore
+                        //     .getState()
+                        //     .resetUnseenMessageCount();
+                    }}
+                    className="rounded-full border-2 border-black text-white hover:bg-gray-500"
+                >
                     <UnreadMessagesSvg />
                 </button>
             )}

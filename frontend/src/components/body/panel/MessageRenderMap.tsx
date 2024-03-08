@@ -1,27 +1,20 @@
-import {MessagePayload} from "../../../utils/customTypes";
-import React, {useDeferredValue, useEffect} from "react";
-import ScrollSymbolSvg from "../../svgs/scroll/ScrollSymbolSvg";
+import { MessagePayload } from "../../../utils/customTypes";
+import React, { useDeferredValue, useEffect } from "react";
 import ChatMessageUnit from "./bubble/ChatMessageUnit";
-import {useTranslation} from "react-i18next";
 import useUnseenMessageCountStore from "../../../stores/unseenMessageCountStore";
-import {checkIfScrollToBottomIsNeeded} from "../../../utils/scrollToBottomNeeded";
-import {scrollToBottom} from "../../../utils/functionality";
+import { checkIfScrollToBottomIsNeeded } from "../../../utils/scrollToBottomNeeded";
+import { scrollToBottom } from "../../../utils/functionality";
 import useMessageMapStore from "../../../stores/messageMapStore";
+import UnreadMessagesBelowBanner from "./UnreadMessagesBelowBanner";
 
 function MessageRenderMap() {
-
     const messageMap = useMessageMapStore((state) => state.messageMap);
-    const {t} = useTranslation();
-    const unreadMessagesCount = useUnseenMessageCountStore(
-        (state) => state.unseenMessagesIdList.length
-    );
     const newMap = useDeferredValue(messageMap);
     const idOfTheFirstUnreadMessage = useUnseenMessageCountStore(
         (state) => state.unseenMessagesIdList[0]
     );
 
     useEffect(() => {
-
         // get the last message from newMap
         const lastMessage = Array.from(newMap.entries())[newMap.size - 1];
 
@@ -64,20 +57,14 @@ function MessageRenderMap() {
                         lastMessageTimestampSameAsThisOne = true;
                     }
                 }
+
                 return (
                     <React.Fragment key={value[0]}>
-                        {thisIsTheFirstUnreadMessage && (
-                            <div
-                                className="mx-5 my-3 flex grow items-center justify-center rounded-md border border-black bg-gray-400 p-2 text-justify text-lg font-semibold text-white shadow-lg">
-                                <ScrollSymbolSvg/>{" "}
-                                <div className="mx-5">
-                                    {unreadMessagesCount}{" "}
-                                    {t("unread_messages_count")} :{" "}
-                                    {t("below_unread_messages_start")}{" "}
-                                </div>
-                                <ScrollSymbolSvg/>
-                            </div>
-                        )}
+                        <UnreadMessagesBelowBanner
+                            thisIsTheFirstUnreadMessage={
+                                thisIsTheFirstUnreadMessage
+                            }
+                        />
                         <ChatMessageUnit
                             messagePayload={value[1]}
                             lastMessageFromThisClientId={

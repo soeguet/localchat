@@ -1,13 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import "./ChatMessageUnit.css";
-import useClientStore from "../../../../stores/clientStore";
-import useReplyStore from "../../../../stores/replyStore";
 import useUserStore from "../../../../stores/userStore";
 import { MessagePayload } from "../../../../utils/customTypes";
-import { getTimeWithHHmmFormat } from "../../../../utils/time";
-import ProfilePicture from "../../../reuseable/ProfilePicture";
-import ChatBubbleMenu from "./ChatBubbleMenu";
 import ChatMessageBubblePart from "./ChatMessageBubblePart";
+import ChatMessageOuterPart from "./ChatMessageOuterPart";
 
 type MessageProps = {
     messagePayload: MessagePayload;
@@ -16,26 +12,9 @@ type MessageProps = {
 };
 
 function ChatMessageUnit(props: MessageProps) {
-    const [showMenu, setShowMenu] = useState(false);
     const thisMessageSenderClientId = props.messagePayload.userType.clientId;
     const thisMessageFromThisClient =
         thisMessageSenderClientId === useUserStore.getState().myId;
-    const clientColor = useClientStore(
-        (state) =>
-            state.clients.find(
-                (c) => c.id === props.messagePayload.userType.clientId
-            )?.clientColor
-    );
-
-    function activateReplyMessage() {
-        useReplyStore.getState().setReplyMessage({
-            id: props.messagePayload.messageType.messageId,
-            senderId: props.messagePayload.userType.clientId,
-            username: props.messagePayload.userType.clientUsername,
-            time: getTimeWithHHmmFormat(new Date()),
-            message: props.messagePayload.messageType.message,
-        });
-    }
 
     const messageOnWhichSideAligned = `${thisMessageFromThisClient ? "flex-row-reverse" : ""}`;
     const howMuchMarginToMessageAbove = `${!props.lastMessageFromThisClientId && !props.lastMessageTimestampSameAsThisOne ? "mt-3" : "mt-1"}`;
@@ -44,30 +23,11 @@ function ChatMessageUnit(props: MessageProps) {
         <div
             className={`flex items-end ${messageOnWhichSideAligned} ${howMuchMarginToMessageAbove}`}
         >
-            <div
-                onClick={() => setShowMenu(!showMenu)}
-                className="relative mx-2 flex flex-col items-center"
-            >
-                <ProfilePicture
-                    clientId={props.messagePayload.userType.clientId}
-                    style={{
-                        width: props.lastMessageFromThisClientId
-                            ? "75px"
-                            : "75px",
-                        height: props.lastMessageFromThisClientId
-                            ? "40px"
-                            : "75px",
-                        borderColor: clientColor || "lightgrey",
-                        opacity: props.lastMessageFromThisClientId ? "0" : "1",
-                    }}
-                />
-                <ChatBubbleMenu
-                    showMenu={showMenu}
-                    setShowMenu={setShowMenu}
-                    thisMessageFromThisClient={thisMessageFromThisClient}
-                    activateReplyMessage={activateReplyMessage}
-                />
-            </div>
+            <ChatMessageOuterPart
+                messagePayload={props.messagePayload}
+                lastMessageFromThisClientId={props.lastMessageFromThisClientId}
+                thisMessageFromThisClient={thisMessageFromThisClient}
+            />
             <ChatMessageBubblePart
                 messagePayload={props.messagePayload}
                 lastMessageFromThisClientId={props.lastMessageFromThisClientId}
