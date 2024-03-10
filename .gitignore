@@ -16,3 +16,4 @@ package-lock.json
 start_chat.sh
 .idea
 .idea/rcb-settings.xml
+.env
