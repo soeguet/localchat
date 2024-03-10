@@ -16,6 +16,7 @@ function MessageRenderMap() {
 
     useEffect(() => {
         // get the last message from newMap
+        if (newMap.size === 0) return;
         const lastMessage = Array.from(newMap.entries())[newMap.size - 1];
 
         if (checkIfScrollToBottomIsNeeded(lastMessage[1].userType.clientId)) {
@@ -29,54 +30,55 @@ function MessageRenderMap() {
 
     return (
         <>
-            {Array.from(newMap.entries()).map((value, index, array) => {
-                let lastMessageFromThisClientId = false;
-                let lastMessageTimestampSameAsThisOne = false;
+            {newMap.size > 0 &&
+                Array.from(newMap.entries()).map((value, index, array) => {
+                    let lastMessageFromThisClientId = false;
+                    let lastMessageTimestampSameAsThisOne = false;
 
-                const thisIsTheFirstUnreadMessage =
-                    value[1].messageType.messageId ===
-                    idOfTheFirstUnreadMessage;
+                    const thisIsTheFirstUnreadMessage =
+                        value[1].messageType.messageId ===
+                        idOfTheFirstUnreadMessage;
 
-                // //console.log("value", value);
-                // //console.log("array", array);
+                    // //console.log("value", value);
+                    // //console.log("array", array);
 
-                if (array.length > 1 && index > 0) {
-                    const lastMessage: [string, MessagePayload] =
-                        array[index - 1];
-                    // //console.log("lastMessage", lastMessage);
-                    if (
-                        lastMessage[1].userType.clientId ===
-                        value[1].userType.clientId
-                    ) {
-                        lastMessageFromThisClientId = true;
+                    if (array.length > 1 && index > 0) {
+                        const lastMessage: [string, MessagePayload] =
+                            array[index - 1];
+                        // //console.log("lastMessage", lastMessage);
+                        if (
+                            lastMessage[1].userType.clientId ===
+                            value[1].userType.clientId
+                        ) {
+                            lastMessageFromThisClientId = true;
+                        }
+                        if (
+                            lastMessage[1].messageType.time ===
+                            value[1].messageType.time
+                        ) {
+                            lastMessageTimestampSameAsThisOne = true;
+                        }
                     }
-                    if (
-                        lastMessage[1].messageType.time ===
-                        value[1].messageType.time
-                    ) {
-                        lastMessageTimestampSameAsThisOne = true;
-                    }
-                }
 
-                return (
-                    <React.Fragment key={value[0]}>
-                        <UnreadMessagesBelowBanner
-                            thisIsTheFirstUnreadMessage={
-                                thisIsTheFirstUnreadMessage
-                            }
-                        />
-                        <ChatMessageUnit
-                            messagePayload={value[1]}
-                            lastMessageFromThisClientId={
-                                lastMessageFromThisClientId
-                            }
-                            lastMessageTimestampSameAsThisOne={
-                                lastMessageTimestampSameAsThisOne
-                            }
-                        />
-                    </React.Fragment>
-                );
-            })}
+                    return (
+                        <React.Fragment key={value[0]}>
+                            <UnreadMessagesBelowBanner
+                                thisIsTheFirstUnreadMessage={
+                                    thisIsTheFirstUnreadMessage
+                                }
+                            />
+                            <ChatMessageUnit
+                                messagePayload={value[1]}
+                                lastMessageFromThisClientId={
+                                    lastMessageFromThisClientId
+                                }
+                                lastMessageTimestampSameAsThisOne={
+                                    lastMessageTimestampSameAsThisOne
+                                }
+                            />
+                        </React.Fragment>
+                    );
+                })}
         </>
     );
 }
