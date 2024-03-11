@@ -41,13 +41,13 @@ export function handleIncomingMessages(event: MessageEvent) {
             const messagePayload = JSON.parse(event.data) as MessagePayload;
             // const messageSenderName =
             //     getClientById(messagePayload.userType.clientId)?.username || t("unknown_user");
-            //console.log("messagePayload", messagePayload);
+            // console.log("messagePayload", messagePayload);
 
             useMessageMapStore.getState().onMessage(messagePayload);
 
             // if scroll to bottom is not needed, add the message to the unseen messages list
             const addIdToList = !checkIfScrollToBottomIsNeeded(
-                messagePayload.userType.clientId
+                messagePayload.userType.userId
             );
             checkIfMessageIsToBeAddedToTheUnseenMessagesList(
                 messagePayload,

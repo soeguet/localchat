@@ -58,11 +58,17 @@ export enum PayloadSubType {
     typing,
     force,
 }
+// export type UserType = {
+//     clientId: string;
+//     clientUsername: string;
+//     clientProfilePhoto: string;
+// };
 export type UserType = {
-    clientId: string;
-    clientUsername: string;
-    clientProfilePhoto: string;
+    userId: string;
+    userName: string;
+    userProfilePhoto: string;
 };
+
 export type MessageType = {
     messageId: string;
     messageSenderId: string;
@@ -75,11 +81,17 @@ export type QuoteType = {
     quoteMessage: string;
     quoteTime: string;
 };
+export type ReactionType = {
+    messageId: string;
+    emojiName: string;
+    userId: string;
+};
 export type MessagePayload = {
     payloadType: PayloadSubType;
     userType: UserType;
     messageType: MessageType;
     quoteType?: QuoteType;
+    reactionType?: ReactionType;
 };
 
 export type CallbackProps = {
@@ -88,8 +100,6 @@ export type CallbackProps = {
     onMessage: (event: MessageEvent) => void;
     onError: (event: Event) => void;
 };
-
-
 
 export type InputProps = {
     sendClientMessageToWebsocket: (message: string) => void;

@@ -19,7 +19,7 @@ function MessageRenderMap() {
         if (newMap.size === 0) return;
         const lastMessage = Array.from(newMap.entries())[newMap.size - 1];
 
-        if (checkIfScrollToBottomIsNeeded(lastMessage[1].userType.clientId)) {
+        if (checkIfScrollToBottomIsNeeded(lastMessage[1].userType.userId)) {
             scrollToBottom().then(() => {
                 useUnseenMessageCountStore.getState().resetUnseenMessageCount();
             });
@@ -47,8 +47,8 @@ function MessageRenderMap() {
                             array[index - 1];
                         // //console.log("lastMessage", lastMessage);
                         if (
-                            lastMessage[1].userType.clientId ===
-                            value[1].userType.clientId
+                            lastMessage[1].userType.userId ===
+                            value[1].userType.userId
                         ) {
                             lastMessageFromThisClientId = true;
                         }

@@ -72,9 +72,9 @@ function sendClientMessageToWebsocket(message: string): void {
     const payload: MessagePayload = {
         payloadType: PayloadSubType.message,
         userType: {
-            clientId: id,
-            clientUsername: username,
-            clientProfilePhoto: useUserStore.getState().myProfilePhoto,
+            userId: id,
+            userName: username,
+            userProfilePhoto: useUserStore.getState().myProfilePhoto,
         },
         messageType: {
             message: message,

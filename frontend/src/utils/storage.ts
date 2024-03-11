@@ -18,7 +18,7 @@ export async function addMessageIfUniqueId(
     notificationRequest: boolean
 ) {
     const id: string | undefined = newMessage.messageType.messageId;
-    const userId: string | undefined = newMessage.userType.clientId;
+    const userId: string | undefined = newMessage.userType.userId;
     const thisClientId = useUserStore.getState().myId;
 
     if (id === undefined) {
@@ -35,7 +35,7 @@ export async function addMessageIfUniqueId(
 
             if (notificationRequest) {
                 await Notification(
-                    getTimeWithHHmmFormat(new Date()) + " - " + newMessage.userType.clientUsername,
+                    getTimeWithHHmmFormat(new Date()) + " - " + newMessage.userType.userName,
                     newMessage.messageType.message
                 );
                 WindowShow();

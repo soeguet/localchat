@@ -32,7 +32,7 @@ export function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
         return;
     }
     // no message needed if message from this client
-    if (messagePayload.userType.clientId === useUserStore.getState().myId) {
+    if (messagePayload.userType.userId === useUserStore.getState().myId) {
         return;
     }
 
@@ -46,7 +46,7 @@ export function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
 
     const messageSenderName = useClientStore
         .getState()
-        .clients.find((predicate) => predicate.id === messagePayload.userType.clientId)?.username;
+        .clients.find((predicate) => predicate.id === messagePayload.userType.userId)?.username;
 
     const titleNotification = messagePayload.messageType.time.slice(0, 5) + " - " + messageSenderName;
 
@@ -84,6 +84,7 @@ export function handleClientListPayload(payloadAsString: string) {
 }
 
 export function handeMessageListPayload(data: string) {
+    console.log("handeMessageListPayload");
     const messageListPayload = JSON.parse(data) as {
         payloadType: PayloadSubType.messageList;
         messageList: MessagePayload[];
