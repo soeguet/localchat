@@ -31,11 +31,11 @@ function QuoteBubble(props: QuoteBubbleProps) {
                 >
                     <div className="text-gray-800">
                         <LinkifiedText
-                            text={props.payload.messageType.message}
+                            text={props.payload.quoteType.quoteMessage}
                         />
                     </div>
                     <div className="mt-2 text-gray-500">
-                        — {quotedClientName}, {props.payload.messageType.time}
+                        — {quotedClientName}, {props.payload.quoteType.quoteTime}
                     </div>
                 </div>
             )}
