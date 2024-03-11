@@ -57,6 +57,7 @@ export enum PayloadSubType {
     messageList,
     typing,
     force,
+    reaction,
 }
 // export type UserType = {
 //     clientId: string;
@@ -87,11 +88,12 @@ export type ReactionType = {
     userId: string;
 };
 export type MessagePayload = {
+    payloadId?: number;
     payloadType: PayloadSubType;
     userType: UserType;
     messageType: MessageType;
     quoteType?: QuoteType;
-    reactionType?: ReactionType;
+    reactionType?: ReactionType[];
 };
 
 export type CallbackProps = {
