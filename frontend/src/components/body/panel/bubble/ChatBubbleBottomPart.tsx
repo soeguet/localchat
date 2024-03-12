@@ -18,7 +18,7 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
     const clientColor = useClientStore(
         (state) =>
             state.clients.find(
-                (c) => c.id === props.messagePayload.userType.userId
+                (c) => c.id === props.messagePayload.users.id1
             )?.clientColor
     );
     const unseenMessagesIdList = useUnseenMessageCountStore(
@@ -45,6 +45,7 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
               };
 
     type ReactionPayload = {
+        messagePayloadId?: number;
         payloadType: PayloadSubType.reaction;
         messageId: string;
         emoji: string;
@@ -53,6 +54,7 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
 
     function sendReactionToSocket(emoji: EmojiClickData, event: MouseEvent) {
         const reactionPayload: ReactionPayload = {
+            messagePayloadId: props.messagePayload.payloadId,
             payloadType: PayloadSubType.reaction,
             messageId: props.messagePayload.messageType.messageId,
             emoji: emoji.emoji,
@@ -85,7 +87,7 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
                         text={props.messagePayload.messageType.message}
                     />
                     <div className="text-xs text-gray-300">
-                    asd
+                        asd
                         {props.messagePayload.reactionType?.map((reaction) => {
                             return (
                                 <span key={reaction.emojiName} className="mr-1">

@@ -46,7 +46,7 @@ export function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
 
     const messageSenderName = useClientStore
         .getState()
-        .clients.find((predicate) => predicate.id === messagePayload.userType.userId)?.username;
+        .clients.find((predicate) => predicate.id === messagePayload.users.id)?.username;
 
     const titleNotification = messagePayload.messageType.time.slice(0, 5) + " - " + messageSenderName;
 

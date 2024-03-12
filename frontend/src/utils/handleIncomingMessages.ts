@@ -40,7 +40,7 @@ export function handleIncomingMessages(event: MessageEvent) {
         case PayloadSubType.message: {
             const messagePayload = JSON.parse(event.data) as MessagePayload;
             // const messageSenderName =
-            //     getClientById(messagePayload.userType.clientId)?.username || t("unknown_user");
+            //     getClientById(messagePayload.users.id)?.username || t("unknown_user");
             // console.log("messagePayload", messagePayload);
 
             useMessageMapStore.getState().onMessage(messagePayload);

@@ -17,7 +17,7 @@ function QuoteBubble(props: QuoteBubbleProps) {
     const quotedClientName = useClientStore
         .getState()
         .clients.find(
-            (c) => c.id === props.payload.userType.userId
+            (c) => c.id === props.payload.users.id
         )?.username;
 
     return (

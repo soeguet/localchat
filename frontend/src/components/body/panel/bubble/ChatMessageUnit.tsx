@@ -12,7 +12,8 @@ type MessageProps = {
 };
 
 function ChatMessageUnit(props: MessageProps) {
-    const thisMessageSenderClientId = props.messagePayload.userType.userId;
+    console.log("ChatMessageUnit", props.messagePayload);
+    const thisMessageSenderClientId = props.messagePayload.users.id;
     const thisMessageFromThisClient =
         thisMessageSenderClientId === useUserStore.getState().myId;
 

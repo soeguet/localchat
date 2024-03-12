@@ -29,7 +29,7 @@ function ClipButton() {
             useMessageMapStore.getState().onMessage(messagePayload);
 
             // if scroll to bottom is not needed, add the message to the unseen messages list
-            const addIdToList = !checkIfScrollToBottomIsNeeded(messagePayload.userType.userId);
+            const addIdToList = !checkIfScrollToBottomIsNeeded(messagePayload.users.userId);
             checkIfMessageIsToBeAddedToTheUnseenMessagesList(messagePayload, addIdToList);
 
             //display the message

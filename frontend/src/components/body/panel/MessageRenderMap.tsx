@@ -17,9 +17,13 @@ function MessageRenderMap() {
     useEffect(() => {
         // get the last message from newMap
         if (newMap.size === 0) return;
+
         const lastMessage = Array.from(newMap.entries())[newMap.size - 1];
 
-        if (checkIfScrollToBottomIsNeeded(lastMessage[1].userType.userId)) {
+        if (lastMessage[1].users.id === undefined) {
+            return;
+        }
+        if (checkIfScrollToBottomIsNeeded(lastMessage[1].users.id)) {
             scrollToBottom().then(() => {
                 useUnseenMessageCountStore.getState().resetUnseenMessageCount();
             });
@@ -30,6 +34,7 @@ function MessageRenderMap() {
 
     return (
         <>
+            aasdasd
             {newMap.size > 0 &&
                 Array.from(newMap.entries()).map((value, index, array) => {
                     let lastMessageFromThisClientId = false;
@@ -39,16 +44,17 @@ function MessageRenderMap() {
                         value[1].messageType.messageId ===
                         idOfTheFirstUnreadMessage;
 
-                    // //console.log("value", value);
-                    // //console.log("array", array);
+                    //console.log("value", value);
+                    //console.log("array", array);
 
                     if (array.length > 1 && index > 0) {
                         const lastMessage: [string, MessagePayload] =
                             array[index - 1];
-                        // //console.log("lastMessage", lastMessage);
+                        //console.log("lastMessage", lastMessage);
                         if (
-                            lastMessage[1].userType.userId ===
-                            value[1].userType.userId
+                            lastMessage[1].userType?.userId !== undefined &&
+                            lastMessage[1].users.id ===
+                                value[1].users.id
                         ) {
                             lastMessageFromThisClientId = true;
                         }
