@@ -41,7 +41,7 @@ function MessageRenderMap() {
                     let lastMessageTimestampSameAsThisOne = false;
 
                     const thisIsTheFirstUnreadMessage =
-                        value[1].messageType.messageId ===
+                        value[1].messageType.id ===
                         idOfTheFirstUnreadMessage;
 
                     //console.log("value", value);

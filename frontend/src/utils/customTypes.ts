@@ -49,6 +49,26 @@ export type PayloadType = {
     payloadType: PayloadSubType;
 };
 
+export type MessageListPayload = {
+    payloadType: PayloadSubType.messageList;
+    messages: MessageList[];
+};
+
+export type MessageType = {
+    id: string;
+    messageId: string;
+    time: string;
+    message: string;
+};
+
+export type MessageList = {
+    users: RegisteredUser;
+    messageType: MessageType;
+    quoteType: QuoteType;
+    reactions: ReactionType[];
+};
+
+
 export enum PayloadSubType {
     auth,
     message,
@@ -70,18 +90,15 @@ export type UserType = {
     userProfilePhoto: string;
 };
 
-export type MessageType = {
-    messageId: string;
-    messageSenderId: string;
-    time: string;
-    message: string;
-};
 export type QuoteType = {
+    id: number;
     quoteId: string;
     quoteSenderId: string;
     quoteMessage: string;
     quoteTime: string;
+    payloadId: number;
 };
+
 export type ReactionType = {
     messageId: string;
     emojiName: string;

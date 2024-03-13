@@ -16,8 +16,8 @@ const useMessageMapStore: UseBoundStore<StoreApi<MessageMapStore>> = create<Mess
             const newMap = new Map(state.messageMap);
             console.log("message", message);
 
-            if (!newMap.has(message.messageType.messageId)) {
-                newMap.set(message.messageType.messageId, message);
+            if (!newMap.has(message.messageType.id)) {
+                newMap.set(message.messageType.id, message);
             }
 
             return { messageMap: newMap };

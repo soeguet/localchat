@@ -3,11 +3,11 @@ import useGuiHasFocusStore from "../stores/guiHasFocusStore";
 import {scrollToBottom} from "./functionality";
 import useUserStore from "../stores/userStore";
 
-export function checkIfScrollToBottomIsNeeded(messageId: string) {
+export function checkIfScrollToBottomIsNeeded(id: string) {
 
     const clientId = useUserStore.getState().myId;
 
-    if (messageId === clientId) {
+    if (id === clientId) {
         return true;
     }
 

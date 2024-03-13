@@ -79,8 +79,8 @@ function sendClientMessageToWebsocket(message: string): void {
         messageType: {
             message: message,
             time: getTimeWithHHmmFormat(new Date()),
-            messageId: generateSimpleId(),
-            messageSenderId: id,
+            id: generateSimpleId(),
+            messageId: id,
         },
     };
 

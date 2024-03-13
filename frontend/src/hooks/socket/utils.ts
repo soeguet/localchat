@@ -17,7 +17,7 @@ export function checkIfMessageIsToBeAddedToTheUnseenMessagesList(messagePayload:
     // if we don't need to scroll to the bottom, we need to add the message to the unseen messages list
 
     if (addIdToList) {
-        useUnseenMessageCountStore.getState().addMessageToUnseenMessagesList(messagePayload.messageType.messageId);
+        useUnseenMessageCountStore.getState().addMessageToUnseenMessagesList(messagePayload.messageType.id);
     } else {
         // console.log("Scroll to bottom is needed");
         useUnseenMessageCountStore.getState().resetUnseenMessageCount();

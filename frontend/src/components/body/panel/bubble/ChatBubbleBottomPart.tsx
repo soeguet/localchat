@@ -26,7 +26,7 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
     );
     // useMemo does not seem to be worth it tbh
     const thisMessageUnseen = unseenMessagesIdList.includes(
-        props.messagePayload.messageType.messageId
+        props.messagePayload.messageType.id
     );
     const defaultChatBubbleColor = `${props.thisMessageFromThisClient ? "bg-blue-500 text-white" : "bg-gray-500 text-white"}`;
     const reactionStyle: CSSProperties | undefined =
@@ -47,7 +47,7 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
     type ReactionPayload = {
         messagePayloadId?: number;
         payloadType: PayloadSubType.reaction;
-        messageId: string;
+        id: string;
         emoji: string;
         userId: string;
     };
@@ -56,7 +56,7 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
         const reactionPayload: ReactionPayload = {
             messagePayloadId: props.messagePayload.payloadId,
             payloadType: PayloadSubType.reaction,
-            messageId: props.messagePayload.messageType.messageId,
+            id: props.messagePayload.messageType.messageId,
             emoji: emoji.emoji,
             userId: useUserStore.getState().myId,
         };

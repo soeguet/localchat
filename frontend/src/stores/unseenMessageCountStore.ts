@@ -5,7 +5,7 @@ type UnseenMessageCountStore = {
     incrementUnseenMessageCount: () => void;
     resetUnseenMessageCount: () => void;
     unseenMessagesIdList: string[];
-    addMessageToUnseenMessagesList: (messageId: string) => void;
+    addMessageToUnseenMessagesList: (id: string) => void;
 };
 
 const useUnseenMessageCountStore = create<UnseenMessageCountStore>((set) => ({
@@ -13,7 +13,7 @@ const useUnseenMessageCountStore = create<UnseenMessageCountStore>((set) => ({
     incrementUnseenMessageCount: () => set((state) => ({ unseenMessageCount: state.unseenMessageCount + 1 })),
     resetUnseenMessageCount: () => set({ unseenMessageCount: 0, unseenMessagesIdList: []}),
     unseenMessagesIdList: [],
-    addMessageToUnseenMessagesList: (messageId: string) => set((state) => ({ unseenMessagesIdList: [...state.unseenMessagesIdList, messageId] })),
+    addMessageToUnseenMessagesList: (id: string) => set((state) => ({ unseenMessagesIdList: [...state.unseenMessagesIdList, messageId] })),
 }));
 
 export default useUnseenMessageCountStore;

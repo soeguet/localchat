@@ -16,8 +16,8 @@ function ClipButton() {
                 messageType: {
                     message: "This is a test message",
                     time: "12:34",
-                    messageId: Math.random().toString(36).substring(7),
-                    messageSenderId: "xyz",
+                    id: Math.random().toString(36).substring(7),
+                    messageId: "xyz",
                 },
                 userType: {
                     userId: "1234",
