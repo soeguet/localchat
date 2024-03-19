@@ -17,7 +17,8 @@ function ProfilePictureHandler(props: ProfilePictureHandlerProps) {
     const doNotDisturb = useDoNotDisturbStore((state) => state.doNotDisturb);
     const clientId = useUserStore((state) => state.myId);
     const clientColor = useClientStore(
-        (state) => state.clients.find((c) => c.id === clientId)?.clientColor
+        (state) =>
+            state.clients.find((c) => c.clientId === clientId)?.clientColor
     );
     const [profilePictureHovered, setProfilePictureHovered] = useState(false);
     const borderColorCondition = `${!profilePictureHovered ? clientColor : "cyan" || "lightgrey"}`;

@@ -10,7 +10,7 @@ function ChatMessageTimestamp(props: ChatMessageTimestampProps) {
         <>
             {!props.lastMessageTimestampSameAsThisOne && (
                 <span className="text-gray-500">
-                    {props.messagePayload.messageType.time}
+                    {props.messagePayload.messageType.messageTime}
                 </span>
             )}
         </>

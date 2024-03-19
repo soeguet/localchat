@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import useClientStore from "../../../stores/clientStore";
 import useWebsocketStore from "../../../stores/websocketStore";
@@ -76,16 +76,18 @@ function ForceModal() {
                         className="w-full divide-y-2 divide-gray-400 rounded-lg border-2 border-blue-300 bg-white p-4 text-black sm:w-3/4 md:w-3/4 lg:w-1/2 xl:w-1/2"
                     >
                         {clientsList.map((client) => {
-                            if (client.id === clientId) return;
+                            if (client.clientId === clientId) return;
                             return (
                                 <div
-                                    key={client.id}
+                                    key={client.clientId}
                                     className="flex items-center justify-between"
                                 >
-                                    <span>{client.username}</span>
+                                    <span>{client.clientUsername}</span>
                                     <button
                                         className="rounded bg-blue-500 px-2 py-1 font-bold text-white hover:bg-blue-700"
-                                        onClick={() => forceClient(client.id)}
+                                        onClick={() =>
+                                            forceClient(client.clientId)
+                                        }
                                     >
                                         {t("menu_item_force")}
                                     </button>

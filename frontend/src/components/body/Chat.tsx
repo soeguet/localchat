@@ -1,13 +1,13 @@
 import ChatInputSection from "./input/ChatInputSection";
 import TypingIndicator from "./panel/TypingIndicator";
 import Header from "./header/Header";
-import { RegisteredUser } from "../../utils/customTypes";
 import useUserStore from "../../stores/userStore";
 import useClientStore from "../../stores/clientStore";
 import ChatPanel from "./panel/ChatPanel";
 import ClientNotFoundPage from "../error/ClientNotFoundPage";
 import useWebsocketConnection from "../../hooks/socket/useWebsocketConnection";
 import { useWindowFocussedListener } from "../../hooks/body/useWindowFocussedListener";
+import { ClientEntity } from "../../utils/customTypes";
 
 /**
  * The main part of the application.
@@ -16,8 +16,8 @@ import { useWindowFocussedListener } from "../../hooks/body/useWindowFocussedLis
 function App() {
     // this client state
     const clientId = useUserStore((state) => state.myId);
-    const thisClient: RegisteredUser | undefined = useClientStore((state) =>
-        state.clients.find((c) => c.id === clientId)
+    const thisClient: ClientEntity | undefined = useClientStore((state) =>
+        state.clients.find((c) => c.clientId === clientId)
     );
 
     useWebsocketConnection();

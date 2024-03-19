@@ -14,8 +14,8 @@ function ChatBubbleTopPart(props: ChatBubbleTopPartProps) {
     const messageSenderUsername = useClientStore(
         (state) =>
             state.clients.find(
-                (c) => c.id === props.messagePayload.users.id
-            )?.username
+                (c) => c.clientId === props.messagePayload.clientType.clientId
+            )?.clientUsername
     );
     const fontSize = useFontSizeStore((state) => state.fontSize);
     return (

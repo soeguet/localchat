@@ -17,8 +17,8 @@ function QuoteBubble(props: QuoteBubbleProps) {
     const quotedClientName = useClientStore
         .getState()
         .clients.find(
-            (c) => c.id === props.payload.users.id
-        )?.username;
+            (c) => c.clientId === props.payload.clientType.clientId
+        )?.clientUsername;
 
     return (
         <>
@@ -31,7 +31,7 @@ function QuoteBubble(props: QuoteBubbleProps) {
                 >
                     <div className="text-gray-800">
                         <LinkifiedText
-                            text={props.payload.quoteType.quoteMessage}
+                            text={props.payload.quoteType.quoteMessageContext}
                         />
                     </div>
                     <div className="mt-2 text-gray-500">

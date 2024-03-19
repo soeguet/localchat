@@ -13,7 +13,7 @@ type ChatMessageBubblePartProps = {
 function ChatMessageBubblePart(props: ChatMessageBubblePartProps) {
     const thisClientId = useUserStore((state) => state.myId);
     const thisMessageFromThisClient =
-        props.messagePayload.users.id === thisClientId;
+        props.messagePayload.clientType.clientId === thisClientId;
 
     const alignChatLeftOrRight = `${thisMessageFromThisClient ? "items-end" : "items-start"}`;
 

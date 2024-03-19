@@ -18,10 +18,27 @@ export enum PayloadSubType {
  *  };
  */
 export type AuthenticationPayload = {
-  payloadType: PayloadSubType.auth;
+    payloadType: PayloadSubType.auth;
 } & Pick<ClientEntity, "clientId" | "clientUsername">;
 
-export type ClientUpdatePayload = PayloadSubType.profileUpdate & ClientEntity;
+/**
+ * [[ RESULTING TYPE ]]
+ *  export type ClientUpdatePayload = {
+ *     payloadType: PayloadSubType.auth;
+ *     clientId: string;
+ *     clientUsername: string;
+ *     clientColor?: string;
+ *     clientProfileImage?: string;
+ *  };
+ */
+export type ClientUpdatePayload = {
+    payloadType: PayloadSubType.profileUpdate;
+} & ClientEntity;
+
+export type ClientListPayload = {
+    payloadType: PayloadSubType.clientList;
+    clients: ClientEntity[];
+};
 
 export type ClientEntity = {
     clientId: string;
@@ -239,13 +256,13 @@ export type CallbackProps = {
 //     onReconnect: (socket: WebSocket) => void;
 // };
 //
-// /**
-//  * Represents the environment variables required for the application.
-//  */
-// export type EnvVars = {
-//     id: string;
-//     username: string;
-//     ip: string;
-//     port: string;
-//     os: string;
-// };
+/**
+ * Represents the environment variables required for the application.
+ */
+export type EnvVars = {
+    id: string;
+    username: string;
+    ip: string;
+    port: string;
+    os: string;
+};

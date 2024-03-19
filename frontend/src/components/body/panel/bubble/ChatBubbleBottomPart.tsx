@@ -18,7 +18,7 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
     const clientColor = useClientStore(
         (state) =>
             state.clients.find(
-                (c) => c.id === props.messagePayload.users.id1
+                (c) => c.clientId === props.messagePayload.clientType.clientId
             )?.clientColor
     );
     const unseenMessagesIdList = useUnseenMessageCountStore(
@@ -26,7 +26,7 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
     );
     // useMemo does not seem to be worth it tbh
     const thisMessageUnseen = unseenMessagesIdList.includes(
-        props.messagePayload.messageType.id
+        props.messagePayload.messageType.messageId
     );
     const defaultChatBubbleColor = `${props.thisMessageFromThisClient ? "bg-blue-500 text-white" : "bg-gray-500 text-white"}`;
     const reactionStyle: CSSProperties | undefined =
@@ -53,8 +53,9 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
     };
 
     function sendReactionToSocket(emoji: EmojiClickData, event: MouseEvent) {
+        event.preventDefault();
         const reactionPayload: ReactionPayload = {
-            messagePayloadId: props.messagePayload.payloadId,
+            // TODO
             payloadType: PayloadSubType.reaction,
             id: props.messagePayload.messageType.messageId,
             emoji: emoji.emoji,
@@ -84,14 +85,17 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
                 >
                     <QuoteBubble payload={props.messagePayload} />
                     <LinkifiedText
-                        text={props.messagePayload.messageType.message}
+                        text={props.messagePayload.messageType.messageConext}
                     />
                     <div className="text-xs text-gray-300">
                         asd
                         {props.messagePayload.reactionType?.map((reaction) => {
                             return (
-                                <span key={reaction.emojiName} className="mr-1">
-                                    {reaction.emojiName}
+                                <span
+                                    key={reaction.reactionContext}
+                                    className="mr-1"
+                                >
+                                    {reaction.reactionContext}
                                 </span>
                             );
                         })}

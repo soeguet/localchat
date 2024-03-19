@@ -63,7 +63,7 @@ function closeWebSocket() {
 function sendClientMessageToWebsocket(message: string): void {
     const replyMessage: Reply | null = useReplyStore.getState().replyMessage;
     const id = useUserStore.getState().myId;
-    const username = getClientById(id)?.username;
+    const username = getClientById(id)?.clientUsername;
 
     if (
         username === null ||

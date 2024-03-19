@@ -20,10 +20,10 @@ function MessageRenderMap() {
 
         const lastMessage = Array.from(newMap.entries())[newMap.size - 1];
 
-        if (lastMessage[1].users.id === undefined) {
+        if (lastMessage[1].clientType.clientId === undefined) {
             return;
         }
-        if (checkIfScrollToBottomIsNeeded(lastMessage[1].users.id)) {
+        if (checkIfScrollToBottomIsNeeded(lastMessage[1].clientType.clientId)) {
             scrollToBottom().then(() => {
                 useUnseenMessageCountStore.getState().resetUnseenMessageCount();
             });
@@ -41,7 +41,7 @@ function MessageRenderMap() {
                     let lastMessageTimestampSameAsThisOne = false;
 
                     const thisIsTheFirstUnreadMessage =
-                        value[1].messageType.id ===
+                        value[1].messageType.messageId ===
                         idOfTheFirstUnreadMessage;
 
                     //console.log("value", value);
@@ -52,15 +52,15 @@ function MessageRenderMap() {
                             array[index - 1];
                         //console.log("lastMessage", lastMessage);
                         if (
-                            lastMessage[1].userType?.userId !== undefined &&
-                            lastMessage[1].users.id ===
-                                value[1].users.id
+                            lastMessage[1].clientType.clientId !== undefined &&
+                            lastMessage[1].clientType.clientId ===
+                            value[1].clientType.clientId
                         ) {
                             lastMessageFromThisClientId = true;
                         }
                         if (
-                            lastMessage[1].messageType.time ===
-                            value[1].messageType.time
+                            lastMessage[1].messageType.messageTime===
+                            value[1].messageType.messageTime
                         ) {
                             lastMessageTimestampSameAsThisOne = true;
                         }

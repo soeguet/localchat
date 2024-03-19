@@ -47,7 +47,7 @@ export function handleIncomingMessages(event: MessageEvent) {
 
             // if scroll to bottom is not needed, add the message to the unseen messages list
             const addIdToList = !checkIfScrollToBottomIsNeeded(
-                messagePayload.userType.userId
+                messagePayload.clientType.clientId
             );
             checkIfMessageIsToBeAddedToTheUnseenMessagesList(
                 messagePayload,

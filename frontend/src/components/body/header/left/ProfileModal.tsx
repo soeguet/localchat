@@ -3,8 +3,8 @@ import ProfilePicture from "../../../reuseable/ProfilePicture";
 import useUserStore from "../../../../stores/userStore";
 import useWebsocketStore from "../../../../stores/websocketStore";
 import {
+    ClientUpdatePayload,
     PayloadSubType,
-    ProfileUpdatePayload,
 } from "../../../../utils/customTypes";
 import useClientStore from "../../../../stores/clientStore";
 import { useTranslation } from "react-i18next";
@@ -33,7 +33,7 @@ function ProfileModal(props: ProfileModalProps) {
         setMyProfilePhoto,
     } = useUserStore();
     const profileColor = useClientStore(
-        (state) => state.clients.find((c) => c.id === myId)?.clientColor
+        (state) => state.clients.find((c) => c.clientId === myId)?.clientColor
     );
     const websocket = useWebsocketStore((state) => state.ws);
     const { fontSize, setFontSize } = useFontSizeStore();
@@ -114,12 +114,12 @@ function ProfileModal(props: ProfileModalProps) {
         setMyProfilePhoto(localProfilePicture);
 
         // send profile update to socket
-        const profileUpdatePayload: ProfileUpdatePayload = {
+        const profileUpdatePayload: ClientUpdatePayload = {
             payloadType: PayloadSubType.profileUpdate,
             clientId: myId,
-            username: localName || "",
-            color: localColor || "",
-            pictureUrl: localProfilePicture,
+            clientUsername: localName || "",
+            clientColor: localColor || "",
+            clientProfileImage: localProfilePicture,
         };
         if (!websocket) {
             throw new Error("Websocket not initialized");

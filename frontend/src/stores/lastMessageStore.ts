@@ -9,7 +9,7 @@ type LastMessageStore = {
 const useLastMessageStore: UseBoundStore<StoreApi<LastMessageStore>> = create<LastMessageStore>((set) => ({
     lastMessageId: "",
     lastMessageTime: "",
-    setLastMessage: (id, messageTime) => set({ lastMessageId: messageId, lastMessageTime: messageTime }),
+    setLastMessage: (id, messageTime) => set({ lastMessageId: id, lastMessageTime: messageTime }),
 }));
 
 export default useLastMessageStore;

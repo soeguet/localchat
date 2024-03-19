@@ -8,7 +8,8 @@ function HeaderLeft() {
     const [showProfileMenu, setShowProfileMenu] = useState(false);
     const clientId = useUserStore((state) => state.myId);
     const username = useClientStore(
-        (state) => state.clients.find((c) => c.id === clientId)?.username
+        (state) =>
+            state.clients.find((c) => c.clientId === clientId)?.clientUsername
     );
 
     return (

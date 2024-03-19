@@ -1,5 +1,5 @@
 import { StoreApi, UseBoundStore, create } from "zustand";
-import { RegisteredUser } from "../utils/customTypes";
+import { ClientEntity } from "../utils/customTypes";
 
 export type UserStore = {
     myId: string;
@@ -10,8 +10,8 @@ export type UserStore = {
     setMyColor: (color: string) => void;
     myProfilePhoto: string;
     setMyProfilePhoto: (photo: string) => void;
-    userMap: Map<string, RegisteredUser>;
-    setUserMap: (userMap: Map<string, RegisteredUser>) => void;
+    userMap: Map<string, ClientEntity>;
+    setUserMap: (userMap: Map<string, ClientEntity>) => void;
     socketIp: string;
     socketPort: string;
     clientOs: string;
@@ -29,8 +29,8 @@ const useUserStore: UseBoundStore<StoreApi<UserStore>> = create((set) => ({
     setMyColor: (color: string) => set({ myColor: color }),
     myProfilePhoto: "",
     setMyProfilePhoto: (photo: string) => set({ myProfilePhoto: photo }),
-    userMap: new Map<string, RegisteredUser>(),
-    setUserMap: (users: Map<string, RegisteredUser>) => set({ userMap: users }),
+    userMap: new Map<string, ClientEntity>(),
+    setUserMap: (users: Map<string, ClientEntity>) => set({ userMap: users }),
     socketIp: "",
     socketPort: "",
     clientOs: "",

@@ -7,9 +7,9 @@ import useChatBottomRefVisibleStore from "../../stores/chatBottomRefVisibleStore
 import useDoNotDisturbStore from "../../stores/doNotDisturbStore";
 import useUnseenMessageCountStore from "../../stores/unseenMessageCountStore";
 import useUserStore from "../../stores/userStore";
-import {ClientListPayload, MessagePayload, PayloadSubType} from "../../utils/customTypes";
+import { ClientEntity, ClientListPayload, MessagePayload, PayloadSubType} from "../../utils/customTypes";
 import useMessageMapStore from "../../stores/messageMapStore";
-import useClientStore, {RegisteredUser} from "../../stores/clientStore";
+import useClientStore from "../../stores/clientStore";
 import useGuiHasFocusStore from "../../stores/guiHasFocusStore";
 import {scrollToBottom} from "../../utils/functionality";
 
@@ -17,7 +17,7 @@ export function checkIfMessageIsToBeAddedToTheUnseenMessagesList(messagePayload:
     // if we don't need to scroll to the bottom, we need to add the message to the unseen messages list
 
     if (addIdToList) {
-        useUnseenMessageCountStore.getState().addMessageToUnseenMessagesList(messagePayload.messageType.id);
+        useUnseenMessageCountStore.getState().addMessageToUnseenMessagesList(messagePayload.messageType.messageId);
     } else {
         // console.log("Scroll to bottom is needed");
         useUnseenMessageCountStore.getState().resetUnseenMessageCount();
@@ -32,7 +32,7 @@ export function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
         return;
     }
     // no message needed if message from this client
-    if (messagePayload.userType.userId === useUserStore.getState().myId) {
+    if (messagePayload.clientType.clientId === useUserStore.getState().myId) {
         return;
     }
 
@@ -46,9 +46,9 @@ export function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
 
     const messageSenderName = useClientStore
         .getState()
-        .clients.find((predicate) => predicate.id === messagePayload.users.id)?.username;
+        .clients.find((predicate) => predicate.clientId=== messagePayload.clientType.clientId)?.clientUsername;
 
-    const titleNotification = messagePayload.messageType.time.slice(0, 5) + " - " + messageSenderName;
+    const titleNotification = messagePayload.messageType.messageTime.slice(0, 5) + " - " + messageSenderName;
 
     // WindowShow();
     // MakeWindowsTaskIconFlash("localchat");
@@ -66,7 +66,7 @@ export function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
                 WindowShow();
             }
         })
-        .then(() => Notification(titleNotification, messagePayload.messageType.message));
+        .then(() => Notification(titleNotification, messagePayload.messageType.messageConext));
 
     // WindowIsMinimised().then((isMinimised) => {
     //     if (isMinimised) {
@@ -79,7 +79,7 @@ export function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
 
 export function handleClientListPayload(payloadAsString: string) {
     const payloadAsObject: ClientListPayload = JSON.parse(payloadAsString);
-    const clients: RegisteredUser[] = payloadAsObject.clients;
+    const clients: ClientEntity[] = payloadAsObject.clients;
     useClientStore.getState().setClients(clients);
 }
 

@@ -17,17 +17,25 @@ function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
     const clientColor = useClientStore(
         (state) =>
             state.clients.find(
-                (c) => c.id === props.messagePayload.users.id
+                (c) => c.clientId === props.messagePayload.clientType.clientId
             )?.clientColor
     );
 
     function activateReplyMessage() {
         useReplyStore.getState().setReplyMessage({
-            id: props.messagePayload.messageType.id,
-            senderId: props.messagePayload.users.id,
-            username: props.messagePayload.users.username,
+            id: props.messagePayload.messageType.messageId,
+            senderId: props.messagePayload.clientType.clientId,
+            username:
+                useClientStore
+                    .getState()
+                    .clients.find(
+                        (c) =>
+                            c.clientId ===
+                            props.messagePayload.clientType.clientId
+                    )?.clientUsername || "Unknown",
             time: getTimeWithHHmmFormat(new Date()),
-            message: props.messagePayload.messageType.message,
+            date: new Date().toDateString(),
+            message: props.messagePayload.messageType.messageConext,
         });
     }
     return (
@@ -37,7 +45,7 @@ function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
                 className="relative mx-2 flex flex-col items-center"
             >
                 <ProfilePicture
-                    clientId={props.messagePayload.users.id}
+                    clientId={props.messagePayload.clientType.clientId}
                     style={{
                         width: props.lastMessageFromThisClientId
                             ? "75px"

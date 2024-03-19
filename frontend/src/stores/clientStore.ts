@@ -1,17 +1,12 @@
 import { StoreApi, UseBoundStore, create } from "zustand";
+import { ClientEntity } from "../utils/customTypes";
 
 /**
  * Represents a registered user.
  */
-export type RegisteredUser = {
-    id: string;
-    username: string;
-    clientColor: string;
-    profilePhotoUrl: string;
-};
 export type ClientStore = {
-    clients: RegisteredUser[];
-    setClients: (clients: RegisteredUser[]) => void;
+    clients: ClientEntity[];
+    setClients: (clients: ClientEntity[]) => void;
 };
 
 const useClientStore: UseBoundStore<StoreApi<ClientStore>> =
@@ -20,9 +15,9 @@ const useClientStore: UseBoundStore<StoreApi<ClientStore>> =
         setClients: (clients) => set({ clients }),
     }));
 
-export const getClientById = (id: string): RegisteredUser | undefined => {
+export const getClientById = (id: string): ClientEntity| undefined => {
     const clients = useClientStore.getState().clients;
-    return clients.find((client) => client.id === id);
+    return clients.find((client) => client.clientId === id);
 };
 
 export default useClientStore;

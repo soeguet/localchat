@@ -1,8 +1,7 @@
-import {getClientById} from "../../../stores/clientStore";
+import { getClientById } from "../../../stores/clientStore";
 import useTypingStore from "../../../stores/typingStore";
 import "./TypingIndicator.css";
-import {useEffect, useRef, useState} from "react";
-
+import { useEffect, useRef, useState } from "react";
 
 /**
  * Represents a typing indicator that displays who is currently typing.
@@ -10,16 +9,14 @@ import {useEffect, useRef, useState} from "react";
  * @return {JSX.Element} The typing indicator component.
  */
 function TypingIndicator(): JSX.Element {
-
     const [isHovered, setIsHovered] = useState(false);
-
 
     const typingUsers: string[] = useTypingStore(
         (state) => state.typingClientIds
     );
 
     const typingUserNames: string[] = typingUsers.map((id) => {
-        return getClientById(id)?.username || "Unknown";
+        return getClientById(id)?.clientUsername || "Unknown";
     });
 
     const names = typingUserNames.join(", ");
@@ -37,18 +34,22 @@ function TypingIndicator(): JSX.Element {
                 setIsHovered(false);
             });
         }
-        return (
-            () => {
-                if (typingIndicatorRef.current) {
-                    typingIndicatorRef.current.removeEventListener("mouseenter", () => {
+        return () => {
+            if (typingIndicatorRef.current) {
+                typingIndicatorRef.current.removeEventListener(
+                    "mouseenter",
+                    () => {
                         setIsHovered(true);
-                    });
-                    typingIndicatorRef.current.removeEventListener("mouseleave", () => {
+                    }
+                );
+                typingIndicatorRef.current.removeEventListener(
+                    "mouseleave",
+                    () => {
                         setIsHovered(false);
-                    });
-                }
+                    }
+                );
             }
-        );
+        };
     }, [typingUserNames.length]);
 
     return (
