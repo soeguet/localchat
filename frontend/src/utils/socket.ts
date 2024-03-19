@@ -3,10 +3,10 @@ import { getClientById } from "../stores/clientStore";
 import useReplyStore, { Reply } from "../stores/replyStore";
 import useUserStore from "../stores/userStore";
 import useWebsocketStore from "../stores/websocketStore";
-import { AuthenticatedPayload, CallbackProps, MessagePayload, PayloadSubType } from "./customTypes";
 import { generateSimpleId } from "./functionality";
 import useDoNotDisturbStore from "../stores/doNotDisturbStore";
 import { getTimeWithHHmmFormat } from "./time";
+import { AuthenticationPayload, CallbackProps, MessagePayload, PayloadSubType } from "./customTypes";
 
 let socket: WebSocket;
 
@@ -24,7 +24,7 @@ export const initWebSocket = (callbacks: CallbackProps) => {
         }
 
         // register user with the server
-        const authPayload: AuthenticatedPayload = {
+        const authPayload: AuthenticationPayload = {
             payloadType: PayloadSubType.auth,
             clientUsername: useUserStore.getState().myUsername,
             clientId: useUserStore.getState().myId,
@@ -65,32 +65,37 @@ function sendClientMessageToWebsocket(message: string): void {
     const id = useUserStore.getState().myId;
     const username = getClientById(id)?.username;
 
-    if (username === null || username === undefined || id === null || username === "" || id === "") {
+    if (
+        username === null ||
+        username === undefined ||
+        id === null ||
+        username === "" ||
+        id === ""
+    ) {
         throw new Error("username or id is null" + username + id);
     }
 
     const payload: MessagePayload = {
         payloadType: PayloadSubType.message,
-        userType: {
-            userId: id,
-            userName: username,
-            userProfilePhoto: useUserStore.getState().myProfilePhoto,
+        clientType: {
+            clientId: id,
         },
         messageType: {
-            message: message,
-            time: getTimeWithHHmmFormat(new Date()),
-            id: generateSimpleId(),
-            messageId: id,
+            messageConext: message,
+            messageTime: getTimeWithHHmmFormat(new Date()),
+            messageDate: new Date().toDateString(),
+            messageId: generateSimpleId(),
         },
     };
 
     // if there is a replyMessage message, add it to the payload
     if (replyMessage) {
         payload.quoteType = {
-            quoteId: replyMessage.id,
-            quoteMessage: replyMessage.message,
+            quoteClientId: replyMessage.senderId,
+            quoteDate: replyMessage.date,
+            quoteMessageId: replyMessage.id,
+            quoteMessageContext: replyMessage.message,
             quoteTime: replyMessage.time,
-            quoteSenderId: replyMessage.senderId,
         };
     }
 

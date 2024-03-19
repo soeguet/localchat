@@ -8,6 +8,7 @@ export type Reply = {
     senderId: string;
     username: string;
     time: string;
+    date: string;
     message: string;
 };
 
