@@ -5,9 +5,9 @@ import useUserStore from "../stores/userStore";
 
 export function checkIfScrollToBottomIsNeeded(id: string) {
 
-    const clientId = useUserStore.getState().myId;
+    const clientDbId = useUserStore.getState().myId;
 
-    if (id === clientId) {
+    if (id === clientDbId) {
         return true;
     }
 

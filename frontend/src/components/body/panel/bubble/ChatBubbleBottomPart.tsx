@@ -18,7 +18,7 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
     const clientColor = useClientStore(
         (state) =>
             state.clients.find(
-                (c) => c.clientId === props.messagePayload.clientType.clientId
+                (c) => c.clientDbId === props.messagePayload.clientType.clientDbId
             )?.clientColor
     );
     const unseenMessagesIdList = useUnseenMessageCountStore(

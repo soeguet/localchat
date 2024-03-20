@@ -15,10 +15,10 @@ type ProfilePictureHandlerProps = {
  */
 function ProfilePictureHandler(props: ProfilePictureHandlerProps) {
     const doNotDisturb = useDoNotDisturbStore((state) => state.doNotDisturb);
-    const clientId = useUserStore((state) => state.myId);
+    const clientDbId = useUserStore((state) => state.myId);
     const clientColor = useClientStore(
         (state) =>
-            state.clients.find((c) => c.clientId === clientId)?.clientColor
+            state.clients.find((c) => c.clientDbId === clientDbId)?.clientColor
     );
     const [profilePictureHovered, setProfilePictureHovered] = useState(false);
     const borderColorCondition = `${!profilePictureHovered ? clientColor : "cyan" || "lightgrey"}`;
@@ -38,7 +38,7 @@ function ProfilePictureHandler(props: ProfilePictureHandlerProps) {
                     <DoNotDisturb style={profilePictureStyle} />
                 ) : (
                     <ProfilePicture
-                        clientId={clientId}
+                        clientDbId={clientDbId}
                         style={profilePictureStyle}
                     />
                 )}

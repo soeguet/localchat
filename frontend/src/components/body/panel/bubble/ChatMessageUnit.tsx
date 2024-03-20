@@ -13,7 +13,7 @@ type MessageProps = {
 
 function ChatMessageUnit(props: MessageProps) {
     console.log("ChatMessageUnit", props.messagePayload);
-    const thisMessageSenderClientId = props.messagePayload.clientType.clientId;
+    const thisMessageSenderClientId = props.messagePayload.clientType.clientDbId;
     const thisMessageFromThisClient =
         thisMessageSenderClientId === useUserStore.getState().myId;
 

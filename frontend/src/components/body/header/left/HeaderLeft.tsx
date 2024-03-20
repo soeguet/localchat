@@ -6,10 +6,10 @@ import useUserStore from "../../../../stores/userStore";
 
 function HeaderLeft() {
     const [showProfileMenu, setShowProfileMenu] = useState(false);
-    const clientId = useUserStore((state) => state.myId);
+    const clientDbId = useUserStore((state) => state.myId);
     const username = useClientStore(
         (state) =>
-            state.clients.find((c) => c.clientId === clientId)?.clientUsername
+            state.clients.find((c) => c.clientDbId === clientDbId)?.clientUsername
     );
 
     return (

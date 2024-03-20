@@ -64,14 +64,14 @@ func SetClientId() string {
 
 func GetLocalChatEnvVars() (string, error) {
 
-	clientId := SetClientId()
+	clientDbId := SetClientId()
 
 	envVars := EnvVars{
 		Username: os.Getenv("LOCALCHAT_USERNAME"),
 		IP:       os.Getenv("LOCALCHAT_IP"),
 		Port:     os.Getenv("LOCALCHAT_PORT"),
 		Os:       runtime.GOOS,
-		Id:       clientId,
+		Id:       clientDbId,
 	}
 
 	envVarsJSON, err := json.Marshal(envVars)

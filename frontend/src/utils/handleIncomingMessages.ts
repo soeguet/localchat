@@ -48,7 +48,7 @@ export function handleIncomingMessages(event: MessageEvent) {
 
             // if scroll to bottom is not needed, add the message to the unseen messages list
             const addIdToList = !checkIfScrollToBottomIsNeeded(
-                messagePayload.clientType.clientId
+                messagePayload.clientType.clientDbId
             );
             checkIfMessageIsToBeAddedToTheUnseenMessagesList(
                 messagePayload,
@@ -66,7 +66,7 @@ export function handleIncomingMessages(event: MessageEvent) {
 
         case PayloadSubType.typing:
             if (
-                dataAsObject.clientId === undefined ||
+                dataAsObject.clientDbId === undefined ||
                 dataAsObject.isTyping === undefined
             ) {
                 throw new Error(
@@ -76,16 +76,16 @@ export function handleIncomingMessages(event: MessageEvent) {
             if (dataAsObject.isTyping) {
                 useTypingStore
                     .getState()
-                    .addTypingClientId(dataAsObject.clientId);
+                    .addTypingClientId(dataAsObject.clientDbId);
             } else {
                 useTypingStore
                     .getState()
-                    .removeTypingClientId(dataAsObject.clientId);
+                    .removeTypingClientId(dataAsObject.clientDbId);
             }
             break;
 
         case PayloadSubType.force:
-            if (dataAsObject.clientId === useUserStore.getState().myId) {
+            if (dataAsObject.clientDbId === useUserStore.getState().myId) {
                 // just to be safe if the client does not want to get notifications!
                 if (!useDoNotDisturbStore.getState().doNotDisturb) {
                     Notification("ALARM", "PLEASE CHECK THE CHAT");

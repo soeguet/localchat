@@ -17,7 +17,7 @@ const useClientStore: UseBoundStore<StoreApi<ClientStore>> =
 
 export const getClientById = (id: string): ClientEntity| undefined => {
     const clients = useClientStore.getState().clients;
-    return clients.find((client) => client.clientId === id);
+    return clients.find((client) => client.clientDbId === id);
 };
 
 export default useClientStore;

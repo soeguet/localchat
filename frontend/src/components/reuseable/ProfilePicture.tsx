@@ -2,7 +2,7 @@ import useClientStore from "../../stores/clientStore";
 import React from "react";
 
 type ProfilePictureProps = {
-    clientId: string;
+    clientDbId: string;
     pictureUrl?: string;
     properties?: string;
     style?: {
@@ -15,7 +15,7 @@ type ProfilePictureProps = {
 
 function ProfilePicture(props: ProfilePictureProps) {
     const client = useClientStore((state) =>
-        state.clients.find((c) => c.clientId === props.clientId)
+        state.clients.find((c) => c.clientDbId === props.clientDbId)
     );
     const profilePicture = client?.clientProfileImage;
 

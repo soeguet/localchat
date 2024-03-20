@@ -7,7 +7,6 @@ import ChatPanel from "./panel/ChatPanel";
 import ClientNotFoundPage from "../error/ClientNotFoundPage";
 import useWebsocketConnection from "../../hooks/socket/useWebsocketConnection";
 import { useWindowFocussedListener } from "../../hooks/body/useWindowFocussedListener";
-import { ClientEntity } from "../../utils/customTypes";
 
 /**
  * The main part of the application.
@@ -15,14 +14,10 @@ import { ClientEntity } from "../../utils/customTypes";
  */
 function App() {
     // this client state
-    const clientId = useUserStore((state) => state.myId);
-    const thisClient: ClientEntity | undefined = useClientStore((state) =>
-        state.clients.find((c) => c.clientId === clientId)
+    const clientDbId = useUserStore((state) => state.myId);
+    const thisClient = useClientStore((state) =>
+        state.clients.find((c) => c.clientDbId === clientDbId)
     );
-
-    console.log("thisClient");
-    console.log(clientId);
-    console.table(thisClient);
 
     useWebsocketConnection();
 

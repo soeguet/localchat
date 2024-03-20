@@ -19,12 +19,12 @@ export async function addMessageIfUniqueId(
     notificationRequest: boolean
 ) {
     const id: string | undefined = newMessage.messageType.messageId;
-    const userId: string | undefined = newMessage.clientType.clientId;
+    const userId: string | undefined = newMessage.clientType.clientDbId;
     const thisClientId = useUserStore.getState().myId;
     const username =
         useClientStore
             .getState()
-            .clients.find((predicate) => predicate.clientId === userId)
+            .clients.find((predicate) => predicate.clientDbId === userId)
             ?.clientUsername || "Unknown";
 
     if (id === undefined) {

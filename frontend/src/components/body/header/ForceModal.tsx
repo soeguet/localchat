@@ -13,14 +13,14 @@ function ForceModal() {
     const clientsList = useClientStore((state) => state.clients);
     const websocket = useWebsocketStore((state) => state.ws);
 
-    const clientId = useUserStore((state) => state.myId);
+    const clientDbId = useUserStore((state) => state.myId);
 
-    function forceClient(clientId: string) {
+    function forceClient(clientDbId: string) {
         if (websocket !== null) {
             websocket.send(
                 JSON.stringify({
                     payloadType: PayloadSubType.force,
-                    clientId: clientId,
+                    clientDbId: clientDbId,
                 })
             );
         }
@@ -76,17 +76,17 @@ function ForceModal() {
                         className="w-full divide-y-2 divide-gray-400 rounded-lg border-2 border-blue-300 bg-white p-4 text-black sm:w-3/4 md:w-3/4 lg:w-1/2 xl:w-1/2"
                     >
                         {clientsList.map((client) => {
-                            if (client.clientId === clientId) return;
+                            if (client.clientDbId === clientDbId) return;
                             return (
                                 <div
-                                    key={client.clientId}
+                                    key={client.clientDbId}
                                     className="flex items-center justify-between"
                                 >
                                     <span>{client.clientUsername}</span>
                                     <button
                                         className="rounded bg-blue-500 px-2 py-1 font-bold text-white hover:bg-blue-700"
                                         onClick={() =>
-                                            forceClient(client.clientId)
+                                            forceClient(client.clientDbId)
                                         }
                                     >
                                         {t("menu_item_force")}

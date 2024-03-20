@@ -27,7 +27,7 @@ export const initWebSocket = (callbacks: CallbackProps) => {
         const authPayload: AuthenticationPayload = {
             payloadType: PayloadSubType.auth,
             clientUsername: useUserStore.getState().myUsername,
-            clientId: useUserStore.getState().myId,
+            clientDbId: useUserStore.getState().myId,
         };
 
         setTimeout(() => {
@@ -78,7 +78,7 @@ function sendClientMessageToWebsocket(message: string): void {
     const payload: MessagePayload = {
         payloadType: PayloadSubType.message,
         clientType: {
-            clientId: id,
+            clientDbId: id,
         },
         messageType: {
             messageConext: message,

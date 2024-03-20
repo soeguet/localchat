@@ -33,7 +33,7 @@ function ProfileModal(props: ProfileModalProps) {
         setMyProfilePhoto,
     } = useUserStore();
     const profileColor = useClientStore(
-        (state) => state.clients.find((c) => c.clientId === myId)?.clientColor
+        (state) => state.clients.find((c) => c.clientDbId === myId)?.clientColor
     );
     const websocket = useWebsocketStore((state) => state.ws);
     const { fontSize, setFontSize } = useFontSizeStore();
@@ -116,7 +116,7 @@ function ProfileModal(props: ProfileModalProps) {
         // send profile update to socket
         const profileUpdatePayload: ClientUpdatePayload = {
             payloadType: PayloadSubType.profileUpdate,
-            clientId: myId,
+            clientDbId: myId,
             clientUsername: localName || "",
             clientColor: localColor || "",
             clientProfileImage: localProfilePicture,
@@ -143,7 +143,7 @@ function ProfileModal(props: ProfileModalProps) {
                                 {localProfilePicture ? (
                                     <div className="grid">
                                         <ProfilePicture
-                                            clientId={myId}
+                                            clientDbId={myId}
                                             pictureUrl={localProfilePicture}
                                             style={{
                                                 width: "70px",
@@ -158,7 +158,7 @@ function ProfileModal(props: ProfileModalProps) {
                                     </div>
                                 ) : (
                                     <ProfilePicture
-                                        clientId={myId}
+                                        clientDbId={myId}
                                         style={{
                                             width: "70px",
                                             height: "70px",

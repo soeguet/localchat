@@ -7,14 +7,14 @@ export function useTypingHook() {
     const [typingTimeoutId, setTypingTimeoutId] = useState<number | null>(null);
 
     const websocket = useWebsocketStore((state) => state.ws);
-    const clientId = useUserStore((state) => state.myId);
+    const clientDbId = useUserStore((state) => state.myId);
 
     const sendTypingStatus = useCallback((isTyping: boolean) => {
         if (websocket !== null) {
             websocket.send(
                 JSON.stringify({
                     payloadType: PayloadSubType.typing,
-                    clientId: clientId,
+                    clientDbId: clientDbId,
                     isTyping: isTyping,
                 })
             );

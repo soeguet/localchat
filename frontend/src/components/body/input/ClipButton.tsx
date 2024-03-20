@@ -20,14 +20,14 @@ function ClipButton() {
                     messageId: Math.random().toString(36).substring(7),
                 },
                 clientType: {
-                    clientId: "1234",
+                    clientDbId: "1234",
                 },
             };
 
             useMessageMapStore.getState().onMessage(messagePayload);
 
             // if scroll to bottom is not needed, add the message to the unseen messages list
-            const addIdToList = !checkIfScrollToBottomIsNeeded(messagePayload.clientType.clientId);
+            const addIdToList = !checkIfScrollToBottomIsNeeded(messagePayload.clientType.clientDbId);
             checkIfMessageIsToBeAddedToTheUnseenMessagesList(messagePayload, addIdToList);
 
             //display the message

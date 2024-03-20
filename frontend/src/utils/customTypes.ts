@@ -14,18 +14,18 @@ export enum PayloadSubType {
  *  export type AuthenticationPayload = {
  *     payloadType: PayloadSubType.auth;
  *     clientUsername: string;
- *     clientId: string;
+ *     clientDbId: string;
  *  };
  */
 export type AuthenticationPayload = {
     payloadType: PayloadSubType.auth;
-} & Pick<ClientEntity, "clientId" | "clientUsername">;
+} & Pick<ClientEntity, "clientDbId" | "clientUsername">;
 
 /**
  * [[ RESULTING TYPE ]]
  *  export type ClientUpdatePayload = {
  *     payloadType: PayloadSubType.auth;
- *     clientId: string;
+ *     clientDbId: string;
  *     clientUsername: string;
  *     clientColor?: string;
  *     clientProfileImage?: string;
@@ -41,7 +41,7 @@ export type ClientListPayload = {
 };
 
 export type ClientEntity = {
-    clientId: string;
+    clientDbId: string;
     clientUsername: string;
     clientColor?: string;
     clientProfileImage?: string;
@@ -95,7 +95,7 @@ export type ReactionEntity = {
  *          messageDate: Date;
  *      };
  *      clientType: {
- *          clientId: string;
+ *          clientDbId: string;
  *      };
  *      quoteType?: {
  *          quoteMessageId: string;
@@ -114,7 +114,7 @@ export type ReactionEntity = {
 export type MessagePayload = {
     payloadType: PayloadSubType.message;
     messageType: Omit<MessageEntity, "messageDbId">;
-    clientType: Pick<ClientEntity, "clientId">;
+    clientType: Pick<ClientEntity, "clientDbId">;
     quoteType?: Omit<QuoteEntity, "quoteDbId">;
     reactionType?: Omit<ReactionEntity, "reactionDbId">[];
 };
@@ -150,7 +150,7 @@ export type MessageListPayload = {
 //
 // export type ProfileUpdatePayload = {
 //     payloadType: PayloadSubType.profileUpdate;
-//     clientId: string;
+//     clientDbId: string;
 //     username: string;
 //     color: string;
 //     pictureUrl: string;
@@ -159,7 +159,7 @@ export type MessageListPayload = {
 // export type AuthenticatedPayload = {
 //     payloadType: PayloadSubType.auth;
 //     clientUsername: string;
-//     clientId: string;
+//     clientDbId: string;
 // };
 //
 // /**
@@ -206,7 +206,7 @@ export type MessageListPayload = {
 //     reaction,
 // }
 // // export type UserType = {
-// //     clientId: string;
+// //     clientDbId: string;
 // //     clientUsername: string;
 // //     clientProfilePhoto: string;
 // // };
