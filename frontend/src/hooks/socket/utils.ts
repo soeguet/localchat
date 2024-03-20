@@ -78,6 +78,8 @@ export function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
 }
 
 export function handleClientListPayload(payloadAsString: string) {
+    // console.log("handleClientListPayload");
+    // console.log(payloadAsString);
     const payloadAsObject: ClientListPayload = JSON.parse(payloadAsString);
     const clients: ClientEntity[] = payloadAsObject.clients;
     useClientStore.getState().setClients(clients);

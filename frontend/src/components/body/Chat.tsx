@@ -20,6 +20,10 @@ function App() {
         state.clients.find((c) => c.clientId === clientId)
     );
 
+    console.log("thisClient");
+    console.log(clientId);
+    console.table(thisClient);
+
     useWebsocketConnection();
 
     useWindowFocussedListener();

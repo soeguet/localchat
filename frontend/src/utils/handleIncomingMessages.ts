@@ -20,11 +20,12 @@ import useTypingStore from "../stores/typingStore";
 export function handleIncomingMessages(event: MessageEvent) {
     const dataAsObject = JSON.parse(event.data);
     //
-    //console.log("dataAsObject", dataAsObject);
+    console.log("dataAsObject", dataAsObject);
 
     switch (dataAsObject.payloadType) {
         // update the client list with new data
         case PayloadSubType.clientList || PayloadSubType.profileUpdate:
+            // console.table(dataAsObject.clients);
             if (
                 dataAsObject.clients === undefined ||
                 dataAsObject.clients === null ||
