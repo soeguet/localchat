@@ -30,12 +30,14 @@ function QuoteBubble(props: QuoteBubbleProps) {
                     }}
                 >
                     <div className="text-gray-800">
-                        <LinkifiedText
+                        {props.payload.quoteType.quoteMessageContext}
+                        {/* <LinkifiedText
                             text={props.payload.quoteType.quoteMessageContext}
-                        />
+                        /> */}
                     </div>
                     <div className="mt-2 text-gray-500">
-                        — {quotedClientName}, {props.payload.quoteType.quoteTime}
+                        — {quotedClientName},{" "}
+                        {props.payload.quoteType.quoteTime}
                     </div>
                 </div>
             )}

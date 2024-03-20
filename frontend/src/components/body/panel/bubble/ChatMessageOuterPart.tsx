@@ -24,7 +24,7 @@ function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
 
     function activateReplyMessage() {
         useReplyStore.getState().setReplyMessage({
-            id: props.messagePayload.messageType.messageId,
+            id: props.messagePayload.messageType.messageDbId,
             senderId: props.messagePayload.clientType.clientDbId,
             username:
                 useClientStore

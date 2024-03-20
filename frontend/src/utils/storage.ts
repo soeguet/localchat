@@ -18,7 +18,7 @@ export async function addMessageIfUniqueId(
     newMessage: MessagePayload,
     notificationRequest: boolean
 ) {
-    const id: string | undefined = newMessage.messageType.messageId;
+    const id: string | undefined = newMessage.messageType.messageDbId;
     const userId: string | undefined = newMessage.clientType.clientDbId;
     const thisClientId = useUserStore.getState().myId;
     const username =

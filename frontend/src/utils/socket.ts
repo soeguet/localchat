@@ -6,7 +6,12 @@ import useWebsocketStore from "../stores/websocketStore";
 import { generateSimpleId } from "./functionality";
 import useDoNotDisturbStore from "../stores/doNotDisturbStore";
 import { getTimeWithHHmmFormat } from "./time";
-import { AuthenticationPayload, CallbackProps, MessagePayload, PayloadSubType } from "./customTypes";
+import {
+    AuthenticationPayload,
+    CallbackProps,
+    MessagePayload,
+    PayloadSubType,
+} from "./customTypes";
 
 let socket: WebSocket;
 
@@ -84,7 +89,7 @@ function sendClientMessageToWebsocket(message: string): void {
             messageConext: message,
             messageTime: getTimeWithHHmmFormat(new Date()),
             messageDate: new Date().toDateString(),
-            messageId: generateSimpleId(),
+            messageDbId: generateSimpleId(),
         },
     };
 

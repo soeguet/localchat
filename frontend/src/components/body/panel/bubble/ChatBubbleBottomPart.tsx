@@ -26,7 +26,7 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
     );
     // useMemo does not seem to be worth it tbh
     const thisMessageUnseen = unseenMessagesIdList.includes(
-        props.messagePayload.messageType.messageId
+        props.messagePayload.messageType.messageDbId
     );
     const defaultChatBubbleColor = `${props.thisMessageFromThisClient ? "bg-blue-500 text-white" : "bg-gray-500 text-white"}`;
     const reactionStyle: CSSProperties | undefined =
@@ -57,7 +57,7 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
         const reactionPayload: ReactionPayload = {
             // TODO
             payloadType: PayloadSubType.reaction,
-            id: props.messagePayload.messageType.messageId,
+            id: props.messagePayload.messageType.messageDbId,
             emoji: emoji.emoji,
             userId: useUserStore.getState().myId,
         };
@@ -84,9 +84,10 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
                     }}
                 >
                     <QuoteBubble payload={props.messagePayload} />
-                    <LinkifiedText
+                    {props.messagePayload.messageType.messageConext}
+                    {/*<LinkifiedText
                         text={props.messagePayload.messageType.messageConext}
-                    />
+                    />*/}
                     <div className="text-xs text-gray-300">
                         asd
                         {props.messagePayload.reactionType?.map((reaction) => {

@@ -24,17 +24,17 @@ const useMessageMapStore: UseBoundStore<StoreApi<MessageMapStore>> =
                 if (message.messageType === undefined) {
                     return state;
                 }
-                if (message.messageType.messageId === undefined) {
+                if (message.messageType.messageDbId === undefined) {
                     return state;
                 }
-                if (state.messageMap.has(message.messageType.messageId)) {
+                if (state.messageMap.has(message.messageType.messageDbId)) {
                     return state;
                 }
                 // new map needed!
                 const newMap = new Map(state.messageMap);
                 // console.log("message", message);
 
-                newMap.set(message.messageType.messageId, message);
+                newMap.set(message.messageType.messageDbId, message);
 
                 return { messageMap: newMap };
             }),

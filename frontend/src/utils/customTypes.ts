@@ -48,8 +48,7 @@ export type ClientEntity = {
 };
 
 export type MessageEntity = {
-    messageDbId: number;
-    messageId: string;
+    messageDbId: string;
     messageConext: string;
     messageTime: string;
     messageDate: string;
@@ -89,7 +88,7 @@ export type ReactionEntity = {
  * export type MessagePayload = {
  *      payloadType: PayloadSubType.message;
  *      messageType: {
- *          messageId: string;
+ *          messageDbId: string;
  *          messageConext: string;
  *          messageTime: string;
  *          messageDate: Date;
@@ -113,7 +112,7 @@ export type ReactionEntity = {
  */
 export type MessagePayload = {
     payloadType: PayloadSubType.message;
-    messageType: Omit<MessageEntity, "messageDbId">;
+    messageType: MessageEntity;
     clientType: Pick<ClientEntity, "clientDbId">;
     quoteType?: Omit<QuoteEntity, "quoteDbId">;
     reactionType?: Omit<ReactionEntity, "reactionDbId">[];
@@ -182,7 +181,7 @@ export type MessageListPayload = {
 //
 // export type MessageType = {
 //     id: string;
-//     messageId: string;
+//     messageDbId: string;
 //     time: string;
 //     message: string;
 // };
@@ -226,7 +225,7 @@ export type MessageListPayload = {
 // };
 //
 // export type ReactionType = {
-//     messageId: string;
+//     messageDbId: string;
 //     emojiName: string;
 //     userId: string;
 // };
