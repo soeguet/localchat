@@ -86,7 +86,7 @@ function sendClientMessageToWebsocket(message: string): void {
             clientDbId: id,
         },
         messageType: {
-            messageConext: message,
+            messageContext: message,
             messageTime: getTimeWithHHmmFormat(new Date()),
             messageDate: new Date().toDateString(),
             messageDbId: generateSimpleId(),
@@ -96,11 +96,11 @@ function sendClientMessageToWebsocket(message: string): void {
     // if there is a replyMessage message, add it to the payload
     if (replyMessage) {
         payload.quoteType = {
+            quoteDbId: replyMessage.id,
             quoteClientId: replyMessage.senderId,
-            quoteDate: replyMessage.date,
-            quoteMessageId: replyMessage.id,
             quoteMessageContext: replyMessage.message,
             quoteTime: replyMessage.time,
+            quoteDate: replyMessage.date,
         };
     }
 

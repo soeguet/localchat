@@ -18,7 +18,8 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
     const clientColor = useClientStore(
         (state) =>
             state.clients.find(
-                (c) => c.clientDbId === props.messagePayload.clientType.clientDbId
+                (c) =>
+                    c.clientDbId === props.messagePayload.clientType.clientDbId
             )?.clientColor
     );
     const unseenMessagesIdList = useUnseenMessageCountStore(
@@ -84,12 +85,11 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
                     }}
                 >
                     <QuoteBubble payload={props.messagePayload} />
-                    {props.messagePayload.messageType.messageConext}
+                    {props.messagePayload.messageType.messageContext}
                     {/*<LinkifiedText
-                        text={props.messagePayload.messageType.messageConext}
+                        text={props.messagePayload.messageType.messageContext}
                     />*/}
                     <div className="text-xs text-gray-300">
-                        asd
                         {props.messagePayload.reactionType?.map((reaction) => {
                             return (
                                 <span
@@ -102,14 +102,16 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
                         })}
                     </div>
                 </div>
-                <EmojiPicker
+                {/*
+                    <EmojiPicker
                     reactionsDefaultOpen={true}
                     autoFocusSearch={false}
                     lazyLoadEmojis={true}
                     onReactionClick={sendReactionToSocket}
                     open={reactionVisible}
                     style={reactionStyle}
-                />
+                /> 
+                */}
             </div>
         </>
     );

@@ -41,7 +41,7 @@ export async function addMessageIfUniqueId(
             if (notificationRequest) {
                 await Notification(
                     getTimeWithHHmmFormat(new Date()) + " - " + username,
-                    newMessage.messageType.messageConext
+                    newMessage.messageType.messageContext
                 );
                 WindowShow();
             }

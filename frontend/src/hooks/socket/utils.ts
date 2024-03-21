@@ -66,7 +66,7 @@ export function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
                 WindowShow();
             }
         })
-        .then(() => Notification(titleNotification, messagePayload.messageType.messageConext));
+        .then(() => Notification(titleNotification, messagePayload.messageType.messageContext));
 
     // WindowIsMinimised().then((isMinimised) => {
     //     if (isMinimised) {

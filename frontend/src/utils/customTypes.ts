@@ -49,14 +49,30 @@ export type ClientEntity = {
 
 export type MessageEntity = {
     messageDbId: string;
-    messageConext: string;
+    messageContext: string;
     messageTime: string;
     messageDate: string;
 };
 
+/**
+ * [[ RESULTING TYPE ]]
+ * export type QuoteEntity = {
+ *    quoteDbId: number;
+ *    quoteMessageId: string;
+ *    quoteClientId: string;
+ *    quoteMessageContext: string;
+ *    quoteTime: string;
+ *    quoteDate: string;
+ *  };
+ *
+ * @param {string} quoteDbId
+ * @param {string} quoteClientId
+ * @param {string} quoteMessageContext
+ * @param {string} quoteTime
+ * @param {string} quoteDate
+ */
 export type QuoteEntity = {
-    quoteDbId: number;
-    quoteMessageId: string;
+    quoteDbId: string;
     quoteClientId: string;
     quoteMessageContext: string;
     quoteTime: string;
@@ -89,7 +105,7 @@ export type ReactionEntity = {
  *      payloadType: PayloadSubType.message;
  *      messageType: {
  *          messageDbId: string;
- *          messageConext: string;
+ *          messageContext: string;
  *          messageTime: string;
  *          messageDate: Date;
  *      };
@@ -114,7 +130,7 @@ export type MessagePayload = {
     payloadType: PayloadSubType.message;
     messageType: MessageEntity;
     clientType: Pick<ClientEntity, "clientDbId">;
-    quoteType?: Omit<QuoteEntity, "quoteDbId">;
+    quoteType?: QuoteEntity;
     reactionType?: Omit<ReactionEntity, "reactionDbId">[];
 };
 

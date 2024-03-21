@@ -14,7 +14,7 @@ function ClipButton() {
             const messagePayload: MessagePayload = {
                 payloadType: PayloadSubType.message,
                 messageType: {
-                    messageConext: "This is a test message",
+                    messageContext: "This is a test message",
                     messageTime: "12:34",
                     messageDate: "2021-12-12",
                     messageDbId: Math.random().toString(36).substring(7),

@@ -36,7 +36,7 @@ function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
                     )?.clientUsername || "Unknown",
             time: getTimeWithHHmmFormat(new Date()),
             date: new Date().toDateString(),
-            message: props.messagePayload.messageType.messageConext,
+            message: props.messagePayload.messageType.messageContext,
         });
     }
     return (

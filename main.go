@@ -44,7 +44,7 @@ func main() {
 			ProgramName:         "wails",
 		},
 		Debug: options.Debug{
-			OpenInspectorOnStartup: false,
+			OpenInspectorOnStartup: true,
 		},
 	})
 

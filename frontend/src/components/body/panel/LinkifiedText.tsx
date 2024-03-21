@@ -82,16 +82,17 @@ function LinkifiedText({ text }: Props) {
 
     const markup = createMarkup();
 
-    if (!markup.changed) {
-        return <>{text}</>;
-    } else if (markup.changed && markup.__html !== undefined) {
-        return (
-            <div
-                ref={textRef}
-                dangerouslySetInnerHTML={{ __html: markup.__html }}
-            />
-        );
-    }
+    return <>{text}</>;
+    // if (!markup.changed) {
+    //     return <>{text}</>;
+    // } else if (markup.changed && markup.__html !== undefined) {
+    //     return (
+    //         <div
+    //             ref={textRef}
+    //             dangerouslySetInnerHTML={{ __html: markup.__html }}
+    //         />
+    //     );
+    // }
 }
 
 export default LinkifiedText;

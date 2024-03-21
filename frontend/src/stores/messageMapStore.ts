@@ -18,6 +18,7 @@ const useMessageMapStore: UseBoundStore<StoreApi<MessageMapStore>> =
                 // console.log("STATE!!");
                 // console.log(state);
                 // console.log(message);
+                debugger;
                 if (message === undefined) {
                     return state;
                 }
