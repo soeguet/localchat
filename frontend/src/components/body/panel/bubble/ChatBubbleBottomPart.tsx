@@ -7,6 +7,7 @@ import QuoteBubble from "../QuoteBubble";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import useUserStore from "../../../../stores/userStore";
 import useWebsocketStore from "../../../../stores/websocketStore";
+import { base64ToUtf8 } from "../../../../utils/encoder";
 
 type ChatBubbleBottomPartProps = {
     messagePayload: MessagePayload;
@@ -66,6 +67,12 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
         useWebsocketStore.getState().ws?.send(JSON.stringify(reactionPayload));
     }
 
+    const base64DecodedMessage = base64ToUtf8(
+        props.messagePayload.messageType.messageContext
+    );
+
+    console.log("base64DecodedMessage", base64DecodedMessage);
+
     return (
         <>
             <div
@@ -85,10 +92,11 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
                     }}
                 >
                     <QuoteBubble payload={props.messagePayload} />
-                    {props.messagePayload.messageType.messageContext}
+                    <div className="whitespace-pre-wrap">{base64DecodedMessage}</div>
                     {/*<LinkifiedText
                         text={props.messagePayload.messageType.messageContext}
                     />*/}
+                    {/*
                     <div className="text-xs text-gray-300">
                         {props.messagePayload.reactionType?.map((reaction) => {
                             return (
@@ -101,6 +109,7 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
                             );
                         })}
                     </div>
+                    */}
                 </div>
                 {/*
                     <EmojiPicker

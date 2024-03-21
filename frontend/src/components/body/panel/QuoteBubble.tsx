@@ -20,6 +20,10 @@ function QuoteBubble(props: QuoteBubbleProps) {
             (c) => c.clientDbId === props.payload.clientType.clientDbId
         )?.clientUsername;
 
+    const base64DecodedQuoteMessage = btoa(
+        props.payload.quoteType?.quoteMessageContext || "error"
+    );
+
     return (
         <>
             {props.payload.quoteType && (
@@ -30,7 +34,7 @@ function QuoteBubble(props: QuoteBubbleProps) {
                     }}
                 >
                     <div className="text-gray-800">
-                        {props.payload.quoteType.quoteMessageContext}
+                        {base64DecodedQuoteMessage}
                         {/* <LinkifiedText
                             text={props.payload.quoteType.quoteMessageContext}
                         /> */}

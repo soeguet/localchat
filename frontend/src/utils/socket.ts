@@ -12,6 +12,7 @@ import {
     MessagePayload,
     PayloadSubType,
 } from "./customTypes";
+import { utf8ToBase64 } from "./encoder";
 
 let socket: WebSocket;
 
@@ -80,13 +81,17 @@ function sendClientMessageToWebsocket(message: string): void {
         throw new Error("username or id is null" + username + id);
     }
 
+    console.log("message", message);
+
+    const base64EncodedMessage = utf8ToBase64(message);
+
     const payload: MessagePayload = {
         payloadType: PayloadSubType.message,
         clientType: {
             clientDbId: id,
         },
         messageType: {
-            messageContext: message,
+            messageContext: base64EncodedMessage,
             messageTime: getTimeWithHHmmFormat(new Date()),
             messageDate: new Date().toDateString(),
             messageDbId: generateSimpleId(),
@@ -95,10 +100,12 @@ function sendClientMessageToWebsocket(message: string): void {
 
     // if there is a replyMessage message, add it to the payload
     if (replyMessage) {
+        const base64EncodedReplyMessage = utf8ToBase64(replyMessage.message);
+
         payload.quoteType = {
             quoteDbId: replyMessage.id,
             quoteClientId: replyMessage.senderId,
-            quoteMessageContext: replyMessage.message,
+            quoteMessageContext: base64EncodedReplyMessage,
             quoteTime: replyMessage.time,
             quoteDate: replyMessage.date,
         };

@@ -12,7 +12,7 @@ const TextArea = (props: TextAreaProps) => {
     const { t } = useTranslation();
 
     const replyMessage = useReplyStore((state) => state.replyMessage);
-    const textAreaRef = useRef<HTMLTextAreaElement | null>(null); // Setze den Ref-Typen explizit
+    const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
     useEffect(() => {
         if (replyMessage) {
@@ -24,7 +24,7 @@ const TextArea = (props: TextAreaProps) => {
     return (
         <>
             <textarea
-                className="flex-1 rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-1 whitespace-pre-wrap text-wrap rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder={t("chat_input_placeholder")}
                 ref={textAreaRef}
                 rows={2}
