@@ -34,7 +34,6 @@ function MessageRenderMap() {
 
     return (
         <>
-            aasdasd
             {newMap.size > 0 &&
                 Array.from(newMap.entries()).map((value, index, array) => {
                     let lastMessageFromThisClientId = false;

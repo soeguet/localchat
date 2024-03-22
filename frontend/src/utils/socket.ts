@@ -100,12 +100,10 @@ function sendClientMessageToWebsocket(message: string): void {
 
     // if there is a replyMessage message, add it to the payload
     if (replyMessage) {
-        const base64EncodedReplyMessage = utf8ToBase64(replyMessage.message);
-
         payload.quoteType = {
             quoteDbId: replyMessage.id,
             quoteClientId: replyMessage.senderId,
-            quoteMessageContext: base64EncodedReplyMessage,
+            quoteMessageContext: replyMessage.message,
             quoteTime: replyMessage.time,
             quoteDate: replyMessage.date,
         };

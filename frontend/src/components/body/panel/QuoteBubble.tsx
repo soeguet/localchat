@@ -2,13 +2,14 @@ import useClientStore from "../../../stores/clientStore";
 import useFontSizeStore from "../../../stores/fontSizeStore";
 import { MessagePayload } from "../../../utils/customTypes";
 import LinkifiedText from "./LinkifiedText";
+import {base64ToUtf8} from "../../../utils/encoder";
 
 type QuoteBubbleProps = {
     payload: MessagePayload;
 };
 
 function QuoteBubble(props: QuoteBubbleProps) {
-    if (props.payload === undefined) {
+    if (props.payload === undefined || props.payload.quoteType === null) {
         return null;
     }
 
@@ -20,8 +21,8 @@ function QuoteBubble(props: QuoteBubbleProps) {
             (c) => c.clientDbId === props.payload.clientType.clientDbId
         )?.clientUsername;
 
-    const base64DecodedQuoteMessage = btoa(
-        props.payload.quoteType?.quoteMessageContext || "error"
+    const base64DecodedQuoteMessage = base64ToUtf8(
+        props.payload.quoteType!.quoteMessageContext
     );
 
     return (

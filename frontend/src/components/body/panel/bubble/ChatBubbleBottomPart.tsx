@@ -34,17 +34,17 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
     const reactionStyle: CSSProperties | undefined =
         props.thisMessageFromThisClient
             ? {
-                  position: "absolute",
-                  right: 50,
-                  transition: "all 1s",
-                  zIndex: 50,
-              }
+                position: "absolute",
+                right: 50,
+                transition: "all 1s",
+                zIndex: 50,
+            }
             : {
-                  position: "absolute",
-                  left: 50,
-                  transition: "all 1s",
-                  zIndex: 50,
-              };
+                position: "absolute",
+                left: 50,
+                transition: "all 1s",
+                zIndex: 50,
+            };
 
     type ReactionPayload = {
         messagePayloadId?: number;
@@ -71,8 +71,6 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
         props.messagePayload.messageType.messageContext
     );
 
-    console.log("base64DecodedMessage", base64DecodedMessage);
-
     return (
         <>
             <div
@@ -96,9 +94,10 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
                     {/*<LinkifiedText
                         text={props.messagePayload.messageType.messageContext}
                     />*/}
-                    {/*
-                    <div className="text-xs text-gray-300">
-                        {props.messagePayload.reactionType?.map((reaction) => {
+
+                    <div className="text-xs absolute z-10 translate-y-2 bg-cyan-400 text-gray-300">
+                        😃 😃 😃
+{/*                        {props.messagePayload.reactionType?.map((reaction) => {
                             return (
                                 <span
                                     key={reaction.reactionContext}
@@ -107,9 +106,9 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
                                     {reaction.reactionContext}
                                 </span>
                             );
-                        })}
+                        })}*/}
                     </div>
-                    */}
+
                 </div>
                 {/*
                     <EmojiPicker

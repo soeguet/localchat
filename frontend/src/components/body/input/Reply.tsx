@@ -1,9 +1,15 @@
 import React from "react";
 import useReplyStore from "../../../stores/replyStore";
+import {base64ToUtf8} from "../../../utils/encoder";
 
 function Reply() {
     const replyMessage = useReplyStore((state) => state.replyMessage);
     const setReplyMessage = useReplyStore((state) => state.setReplyMessage);
+
+    if (replyMessage === null) {
+        return;
+    }
+    const decodedMessage = base64ToUtf8(replyMessage.message);
 
     return (
         <>
@@ -19,7 +25,7 @@ function Reply() {
                             </p>
                         </div>
                         <p className="mt-1 text-sm text-gray-800">
-                            {replyMessage.message}
+                            {decodedMessage}
                         </p>
                     </div>
                     <button
