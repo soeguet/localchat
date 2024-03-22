@@ -1,9 +1,11 @@
 import React from "react";
 import "./ChatMessageUnit.css";
 import useUserStore from "../../../../stores/userStore";
-import { MessagePayload } from "../../../../utils/customTypes";
+import {MessagePayload, PayloadSubType} from "../../../../utils/customTypes";
 import ChatMessageBubblePart from "./ChatMessageBubblePart";
 import ChatMessageOuterPart from "./ChatMessageOuterPart";
+import useWebsocketStore from "../../../../stores/websocketStore";
+import {generateSimpleId} from "../../../../utils/functionality";
 
 type MessageProps = {
     messagePayload: MessagePayload;
@@ -36,6 +38,22 @@ function ChatMessageUnit(props: MessageProps) {
                     props.lastMessageTimestampSameAsThisOne
                 }
             />
+
+            <button className="bg-red-400 p-2 rounded-2xl border-2"
+                onClick={() => {
+
+                    useWebsocketStore.getState().ws?.send(JSON.stringify({
+                        payloadType: PayloadSubType.reaction,
+                        reactionDbId: generateSimpleId(),
+                        reactionMessageId: props.messagePayload.messageType.messageDbId,
+                        reactionContext: "😂",
+                        reactionClientId: useUserStore.getState().myId,
+                    }));
+                }
+                }
+
+            >asd
+            </button>
         </div>
     );
 }

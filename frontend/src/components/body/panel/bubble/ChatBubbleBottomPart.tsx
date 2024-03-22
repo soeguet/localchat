@@ -1,13 +1,13 @@
-import { CSSProperties, useState } from "react";
+import {CSSProperties, useState} from "react";
 import useClientStore from "../../../../stores/clientStore";
 import useUnseenMessageCountStore from "../../../../stores/unseenMessageCountStore";
-import { MessagePayload, PayloadSubType } from "../../../../utils/customTypes";
-import LinkifiedText from "../LinkifiedText";
+import {MessagePayload, PayloadSubType} from "../../../../utils/customTypes";
 import QuoteBubble from "../QuoteBubble";
-import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
+import {EmojiClickData} from "emoji-picker-react";
 import useUserStore from "../../../../stores/userStore";
 import useWebsocketStore from "../../../../stores/websocketStore";
-import { base64ToUtf8 } from "../../../../utils/encoder";
+import {base64ToUtf8} from "../../../../utils/encoder";
+import ReactionField from "./reaction/ReactionField";
 
 type ChatBubbleBottomPartProps = {
     messagePayload: MessagePayload;
@@ -19,8 +19,9 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
     const clientColor = useClientStore(
         (state) =>
             state.clients.find(
-                (c) =>
-                    c.clientDbId === props.messagePayload.clientType.clientDbId
+                (c): boolean => {
+                    return c.clientDbId === props.messagePayload.clientType.clientDbId;
+                }
             )?.clientColor
     );
     const unseenMessagesIdList = useUnseenMessageCountStore(
@@ -74,9 +75,13 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
     return (
         <>
             <div
-                className=""
-                onMouseEnter={() => setReactionVisible(true)}
-                onMouseLeave={() => setReactionVisible(false)}
+                className="mb-7"
+                onMouseEnter={() => {
+                    setReactionVisible(true);
+                }}
+                onMouseLeave={() => {
+                    setReactionVisible(false);
+                }}
             >
                 <div
                     className={`relative max-w-md break-words rounded-lg border border-black px-4 py-2 md:max-w-2xl lg:max-w-4xl ${defaultChatBubbleColor}`}
@@ -89,26 +94,14 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
                         borderWidth: thisMessageUnseen ? "2px" : "1px",
                     }}
                 >
-                    <QuoteBubble payload={props.messagePayload} />
+                    <QuoteBubble payload={props.messagePayload}/>
                     <div className="whitespace-pre-wrap">{base64DecodedMessage}</div>
                     {/*<LinkifiedText
                         text={props.messagePayload.messageType.messageContext}
                     />*/}
 
-                    <div className="text-xs absolute z-10 translate-y-2 bg-cyan-400 text-gray-300">
-                        😃 😃 😃
-{/*                        {props.messagePayload.reactionType?.map((reaction) => {
-                            return (
-                                <span
-                                    key={reaction.reactionContext}
-                                    className="mr-1"
-                                >
-                                    {reaction.reactionContext}
-                                </span>
-                            );
-                        })}*/}
-                    </div>
-
+                    {(props.messagePayload.reactionType && props.messagePayload.reactionType.length > 0) &&
+                        <ReactionField reactionType={props.messagePayload.reactionType}/>}
                 </div>
                 {/*
                     <EmojiPicker
@@ -118,7 +111,7 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
                     onReactionClick={sendReactionToSocket}
                     open={reactionVisible}
                     style={reactionStyle}
-                /> 
+                />
                 */}
             </div>
         </>
