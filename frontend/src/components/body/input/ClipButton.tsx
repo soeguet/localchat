@@ -6,6 +6,8 @@ import {
 import { MessagePayload, PayloadSubType } from "../../../utils/customTypes";
 import { checkIfScrollToBottomIsNeeded } from "../../../utils/scrollToBottomNeeded";
 import useMessageMapStore from "../../../stores/messageMapStore";
+import {generateSimpleId} from "../../../utils/functionality";
+import {utf8ToBase64} from "../../../utils/encoder";
 
 function ClipButton() {
     function handleClipClick() {
@@ -14,14 +16,21 @@ function ClipButton() {
             const messagePayload: MessagePayload = {
                 payloadType: PayloadSubType.message,
                 messageType: {
-                    messageContext: "This is a test message",
+                    messageContext: utf8ToBase64("This is a test message"),
                     messageTime: "12:34",
                     messageDate: "2021-12-12",
-                    messageDbId: Math.random().toString(36).substring(7),
+                    messageDbId: generateSimpleId(),
                 },
                 clientType: {
                     clientDbId: "1234",
                 },
+                quoteType: {
+                    quoteDbId: "replyMessage.id",
+                    quoteClientId: "replyMessage.senderId",
+                    quoteMessageContext: utf8ToBase64("replyMessage.message"),
+                    quoteTime: "replyMessage.time",
+                    quoteDate: "replyMessage.date",
+                }
             };
 
             useMessageMapStore.getState().onMessage(messagePayload);

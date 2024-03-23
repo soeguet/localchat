@@ -1,7 +1,9 @@
+import React from "react";
 import useUserStore from "../../../../stores/userStore";
-import { MessagePayload } from "../../../../utils/customTypes";
+import {MessagePayload} from "../../../../utils/customTypes";
 import ChatBubbleBottomPart from "./ChatBubbleBottomPart";
 import ChatBubbleTopPart from "./ChatBubbleTopPart";
+
 
 type ChatMessageBubblePartProps = {
     messagePayload: MessagePayload;
@@ -11,6 +13,7 @@ type ChatMessageBubblePartProps = {
 
 // naming is hard
 function ChatMessageBubblePart(props: ChatMessageBubblePartProps) {
+
     const thisClientId = useUserStore((state) => state.myId);
     const thisMessageFromThisClient =
         props.messagePayload.clientType.clientDbId === thisClientId;
@@ -18,17 +21,21 @@ function ChatMessageBubblePart(props: ChatMessageBubblePartProps) {
     const alignChatLeftOrRight = `${thisMessageFromThisClient ? "items-end" : "items-start"}`;
 
     return (
-        <div className={`flex flex-col ${alignChatLeftOrRight}`}>
-            <ChatBubbleTopPart
-                messagePayload={props.messagePayload}
-                lastMessageFromThisClientId={props.lastMessageFromThisClientId}
-                lastMessageTimestampSameAsThisOne={
-                    props.lastMessageTimestampSameAsThisOne
-                }
-            />
-            <ChatBubbleBottomPart messagePayload={props.messagePayload} thisMessageFromThisClient={thisMessageFromThisClient} />
-        </div>
-    );
+        <>
+            <div className={`flex flex-col ${alignChatLeftOrRight}`}>
+                <ChatBubbleTopPart
+                    messagePayload={props.messagePayload}
+                    lastMessageFromThisClientId={props.lastMessageFromThisClientId}
+                    lastMessageTimestampSameAsThisOne={
+                        props.lastMessageTimestampSameAsThisOne
+                    }
+                />
+                <ChatBubbleBottomPart messagePayload={props.messagePayload}
+                    thisMessageFromThisClient={thisMessageFromThisClient}/>
+            </div>
+        </>
+    )
+    ;
 }
 
 export default ChatMessageBubblePart;
