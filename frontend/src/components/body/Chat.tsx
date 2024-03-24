@@ -32,7 +32,6 @@ function App() {
             <div className="flex h-screen flex-col justify-evenly">
                 <Header />
                 <ChatPanel />
-                <TypingIndicator />
                 <ChatInputSection />
             </div>
         </>

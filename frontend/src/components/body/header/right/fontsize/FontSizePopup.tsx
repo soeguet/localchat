@@ -41,7 +41,7 @@ const FontSizePopup = (props: FontSizePopupProps) => {
                 >
                     <div className="grid grid-rows-2 gap-4 text-black">
                         <div className="flex items-center justify-between">
-                            <h2>{t("adjust_font_size")}</h2>
+                            <h2>{t("adjust_font_size")} - {fontSize}</h2>
                         </div>
                         <div className="flex items-center justify-start gap-2">
                             <FontSizeAdjustButton

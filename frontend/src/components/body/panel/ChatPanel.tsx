@@ -1,12 +1,13 @@
-import { useCallback, useEffect, useRef } from "react";
+import {useCallback, useEffect, useRef} from "react";
 import useChatBottomRefVisibleStore from "../../../stores/chatBottomRefVisibleStore";
 import ScrollToBottomButton from "./ScrollToBottomButton";
 import MessageRenderMap from "./MessageRenderMap";
-import { debounce } from "../../../utils/debounce";
+import {debounce} from "../../../utils/debounce";
+import TypingIndicator from "./TypingIndicator";
 
 function ChatPanel() {
     // socket state
-    const { chatBottomRefVisible, setChatBottomRefVisible, setChatBottomRef } =
+    const {chatBottomRefVisible, setChatBottomRefVisible, setChatBottomRef} =
         useChatBottomRefVisibleStore();
 
     //console.log("CHATPANEL RENDER");
@@ -21,7 +22,7 @@ function ChatPanel() {
         debounce(() => {
             if (!chatContainerRef.current) return;
 
-            const { scrollTop, scrollHeight, clientHeight } =
+            const {scrollTop, scrollHeight, clientHeight} =
                 chatContainerRef.current;
             if (scrollTop + clientHeight >= scrollHeight) {
                 setChatBottomRefVisible(true);
@@ -49,11 +50,12 @@ function ChatPanel() {
                 ref={chatContainerRef}
                 className={"relative grow overflow-y-auto px-5 pb-2 pt-2"}
             >
-                <MessageRenderMap />
+                <MessageRenderMap/>
+                <div ref={chatBottomRef}/>
                 <ScrollToBottomButton
                     chatBottomRefVisible={chatBottomRefVisible}
                 />
-                <div ref={chatBottomRef} />
+                <TypingIndicator/>
             </div>
         </>
     );
