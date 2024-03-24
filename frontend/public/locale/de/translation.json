@@ -26,5 +26,8 @@
     "menu_item_force": "⚠\uFE0F Warnung erzwingen",
     "adjust_font_size": "Schriftgröße anpassen",
     "client_not_found": "Der Nutzer konnte nicht gefunden werden, bitte warten..",
-    "menu_item_do_not_disturb": "🛑 Bitte nicht stören!"
+    "menu_item_do_not_disturb": "🛑 Bitte nicht stören!",
+    "unread_messages_count": "Ungelesene Nachrichten",
+    "below_unread_messages_start": "NEUE NACHRICHTEN AB HIER",
+    "menu_item_info": "ℹ️ Info"
 }

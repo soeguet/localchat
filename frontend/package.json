@@ -1,7 +1,8 @@
 {
     "name": "react-src",
     "private": true,
-    "version": "0.0.0",
+    "version": "1.0.4.2",
+    "author": "soeguet",
     "type": "module",
     "scripts": {
         "dev": "vite",
@@ -11,7 +12,7 @@
         "preview": "vite preview"
     },
     "dependencies": {
-        "emoji-picker-react": "^4.7.14",
+        "emoji-picker-react": "^4.8.0",
         "i18next": "^23.10.0",
         "i18next-http-backend": "^2.5.0",
         "react": "^18.2.0",

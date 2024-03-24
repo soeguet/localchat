@@ -1,23 +1,27 @@
-import {Notification} from "../../wailsjs/go/main/App";
-import {getClientById} from "../stores/clientsStore";
-import useEnvironmentStore from "../stores/environmentStore";
-import useReplyStore, {Reply} from "../stores/replyStore";
+import { Notification } from "../../wailsjs/go/main/App";
+import { getClientById } from "../stores/clientStore";
+import useReplyStore, { Reply } from "../stores/replyStore";
 import useUserStore from "../stores/userStore";
 import useWebsocketStore from "../stores/websocketStore";
-import {AuthenticatedPayload, CallbackProps, MessagePayload, PayloadSubType} from "./customTypes";
-import {generateSimpleId} from "./functionality";
+import { generateSimpleId } from "./functionality";
 import useDoNotDisturbStore from "../stores/doNotDisturbStore";
-import {getTimeWithHHmmFormat} from "./time";
+import { getTimeWithHHmmFormat } from "./time";
+import {
+    AuthenticationPayload,
+    CallbackProps,
+    MessagePayload,
+    PayloadSubType,
+} from "./customTypes";
+import { utf8ToBase64 } from "./encoder";
 
 let socket: WebSocket;
 
 export const initWebSocket = (callbacks: CallbackProps) => {
-
-    console.log("Connecting to WebSocket");
-    console.log("useEnvironmentStore.getState().socketIp", useEnvironmentStore.getState().socketIp);
-    console.log("useEnvironmentStore.getState().socketPort", useEnvironmentStore.getState().socketPort);
+    //console.log("Connecting to WebSocket");
+    //console.log("useEnvironmentStore.getState().socketIp", useEnvironmentStore.getState().socketIp);
+    //console.log("useEnvironmentStore.getState().socketPort", useEnvironmentStore.getState().socketPort);
     socket = new WebSocket(
-        `ws://${useEnvironmentStore.getState().socketIp}:${useEnvironmentStore.getState().socketPort}/chat`
+        `ws://${useUserStore.getState().socketIp}:${useUserStore.getState().socketPort}/chat`
     );
 
     socket.onopen = () => {
@@ -26,10 +30,10 @@ export const initWebSocket = (callbacks: CallbackProps) => {
         }
 
         // register user with the server
-        const authPayload: AuthenticatedPayload = {
+        const authPayload: AuthenticationPayload = {
             payloadType: PayloadSubType.auth,
             clientUsername: useUserStore.getState().myUsername,
-            clientId: useUserStore.getState().myId,
+            clientDbId: useUserStore.getState().myId,
         };
 
         setTimeout(() => {
@@ -62,45 +66,51 @@ function closeWebSocket() {
     useWebsocketStore.getState().setWs(null);
 }
 
-/**
- * Sends a client message to the websocket.
- * @param message - The message to send.
- */
 function sendClientMessageToWebsocket(message: string): void {
     const replyMessage: Reply | null = useReplyStore.getState().replyMessage;
     const id = useUserStore.getState().myId;
-    const username = getClientById(id)?.username;
+    const username = getClientById(id)?.clientUsername;
 
-    if (username === null || username === undefined || id === null || username === "" || id === "") {
+    if (
+        username === null ||
+        username === undefined ||
+        id === null ||
+        username === "" ||
+        id === ""
+    ) {
         throw new Error("username or id is null" + username + id);
     }
 
+    console.log("message", message);
+
+    const base64EncodedMessage = utf8ToBase64(message);
+
     const payload: MessagePayload = {
         payloadType: PayloadSubType.message,
-        userType: {
-            clientId: id,
-            clientUsername: username,
-            clientProfilePhoto: useUserStore.getState().myProfilePhoto,
+        clientType: {
+            clientDbId: id,
         },
         messageType: {
-            message: message,
-            time: getTimeWithHHmmFormat(new Date()),
-            messageId: generateSimpleId(),
-            messageSenderId: id,
+            messageContext: base64EncodedMessage,
+            messageTime: getTimeWithHHmmFormat(new Date()),
+            messageDate: new Date().toDateString(),
+            messageDbId: generateSimpleId(),
         },
     };
 
     // if there is a replyMessage message, add it to the payload
     if (replyMessage) {
         payload.quoteType = {
-            quoteId: replyMessage.id,
-            quoteMessage: replyMessage.message,
+            quoteDbId: replyMessage.id,
+            quoteClientId: replyMessage.senderId,
+            quoteMessageContext: replyMessage.message,
             quoteTime: replyMessage.time,
-            quoteSenderId: replyMessage.senderId,
+            quoteDate: replyMessage.date,
         };
     }
 
+    //console.log("payload", payload);
     socket.send(JSON.stringify(payload));
 }
 
-export {closeWebSocket, sendClientMessageToWebsocket, socket};
+export { closeWebSocket, sendClientMessageToWebsocket, socket };

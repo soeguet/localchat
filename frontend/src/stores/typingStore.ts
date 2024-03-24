@@ -2,21 +2,21 @@ import { create } from "zustand";
 
 type TypingStoreType = {
     typingClientIds: string[];
-    addTypingClientId: (clientId: string) => void;
-    removeTypingClientId: (clientId: string) => void;
+    addTypingClientId: (clientDbId: string) => void;
+    removeTypingClientId: (clientDbId: string) => void;
 };
 
 const useTypingStore = create<TypingStoreType>((set) => ({
     typingClientIds: [],
-    addTypingClientId: (clientId: string) =>
+    addTypingClientId: (clientDbId: string) =>
         set((state) => ({
-            typingClientIds: state.typingClientIds.includes(clientId)
+            typingClientIds: state.typingClientIds.includes(clientDbId)
                 ? state.typingClientIds
-                : [...state.typingClientIds, clientId],
+                : [...state.typingClientIds, clientDbId],
         })),
-    removeTypingClientId: (clientId: string) =>
+    removeTypingClientId: (clientDbId: string) =>
         set((state) => ({
-            typingClientIds: state.typingClientIds.filter((id) => id !== clientId),
+            typingClientIds: state.typingClientIds.filter((id) => id !== clientDbId),
         })),
 }));
 

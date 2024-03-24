@@ -3,7 +3,8 @@ import { MessagePayload } from "./customTypes";
 import { Notification } from "../../wailsjs/go/main/App";
 import useUserStore from "../stores/userStore";
 import { WindowShow } from "../../wailsjs/runtime";
-import React, {Dispatch} from "react";
+import React, { Dispatch } from "react";
+import useClientStore from "../stores/clientStore";
 /**
  * Adds a message to the message map if it has a unique ID.
  * @param messagesMap
@@ -17,9 +18,14 @@ export async function addMessageIfUniqueId(
     newMessage: MessagePayload,
     notificationRequest: boolean
 ) {
-    const id: string | undefined = newMessage.messageType.messageId;
-    const userId: string | undefined = newMessage.userType.clientId;
+    const id: string | undefined = newMessage.messageType.messageDbId;
+    const userId: string | undefined = newMessage.clientType.clientDbId;
     const thisClientId = useUserStore.getState().myId;
+    const username =
+        useClientStore
+            .getState()
+            .clients.find((predicate) => predicate.clientDbId === userId)
+            ?.clientUsername || "Unknown";
 
     if (id === undefined) {
         throw new Error("message has no id!");
@@ -32,11 +38,10 @@ export async function addMessageIfUniqueId(
 
         // TODO put this somewhere else
         if (userId !== thisClientId) {
-
             if (notificationRequest) {
                 await Notification(
-                    getTimeWithHHmmFormat(new Date()) + " - " + newMessage.userType.clientUsername,
-                    newMessage.messageType.message
+                    getTimeWithHHmmFormat(new Date()) + " - " + username,
+                    newMessage.messageType.messageContext
                 );
                 WindowShow();
             }

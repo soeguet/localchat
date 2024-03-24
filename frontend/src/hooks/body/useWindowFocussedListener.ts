@@ -1,14 +1,19 @@
-import {useEffect, useRef} from "react";
+import { useEffect, useRef } from "react";
+import useGuiHasFocusStore from "../../stores/guiHasFocusStore";
 
 export function useWindowFocussedListener() {
     // window focus state
     const guiHasFocus = useRef(true);
     useEffect(() => {
         const handleFocus = () => {
+            //console.log("GUI now has focus");
+            useGuiHasFocusStore.getState().setGuiHasFocus(true);
             guiHasFocus.current = true;
         };
 
         const handleBlur = () => {
+            useGuiHasFocusStore.getState().setGuiHasFocus(false);
+            //console.log("GUI lost focus");
             guiHasFocus.current = false;
         };
 
@@ -20,6 +25,4 @@ export function useWindowFocussedListener() {
             window.removeEventListener("blur", handleBlur);
         };
     }, []);
-
-    return guiHasFocus;
 }

@@ -22,6 +22,12 @@ type EnvVars struct {
 }
 
 func SetClientId() string {
+
+	// if dev=true environment variable is set, use a random id
+	if os.Getenv("DEV") == "true" {
+		return uuid.New().String()
+	}
+
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		log.Fatalf("error retrieving home path: %v", err)
@@ -58,20 +64,22 @@ func SetClientId() string {
 
 func GetLocalChatEnvVars() (string, error) {
 
-	clientId := SetClientId()
+	clientDbId := SetClientId()
 
 	envVars := EnvVars{
 		Username: os.Getenv("LOCALCHAT_USERNAME"),
 		IP:       os.Getenv("LOCALCHAT_IP"),
 		Port:     os.Getenv("LOCALCHAT_PORT"),
 		Os:       runtime.GOOS,
-		Id:       clientId,
+		Id:       clientDbId,
 	}
 
 	envVarsJSON, err := json.Marshal(envVars)
 	if err != nil {
 		return "", err
 	}
+
+	
 
 	return string(envVarsJSON), nil
 }
