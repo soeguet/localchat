@@ -57,7 +57,7 @@ function TypingIndicator(): JSX.Element {
             {typingUserNames.length > 0 && (
                 <div
                     ref={typingIndicatorRef}
-                    className="sticky bottom-0 p-2 w-max z-50 mb-1 max-w-xs mx-auto left-0 right-0 transform rounded-lg border border-black bg-gray-200 text-xs shadow"
+                    className="sticky bottom-0 top-full p-2 w-max z-50 mb-1 max-w-xs mx-auto left-0 right-0 transform rounded-lg border border-black bg-gray-200 text-xs shadow"
                     style={{
                         opacity: isHovered ? 0.3 : 0.7,
                         transition: "opacity 0.3s",

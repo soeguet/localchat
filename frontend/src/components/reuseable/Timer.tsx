@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
+import { useTranslation } from "react-i18next";
 
 function Timer() {
+    const {t} = useTranslation()
     const [timeLeft, setTimeLeft] = useState(300);
 
     useEffect(() => {
@@ -18,7 +20,7 @@ function Timer() {
 
     return (
         <>
-            <span>{minutes}:{seconds < 10 ? `0${seconds}` : seconds} minutes left</span>
+            <span>{minutes}:{seconds < 10 ? `0${seconds}` : seconds} {t("timer_time_left")}</span>
         </>
     );
 }

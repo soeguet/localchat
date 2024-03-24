@@ -217,7 +217,9 @@ function ProfileModal(props: ProfileModalProps) {
                             </div>
                         </div>
                         <div>
-                            <label htmlFor="name">Name</label>
+                            <label htmlFor="name">
+                                {t("profile_menu_item_name")}
+                            </label>
                             <input
                                 type="text"
                                 id="name"
@@ -256,15 +258,15 @@ function ProfileModal(props: ProfileModalProps) {
                                 onChange={(e) => setLanguage(e.target.value)}
                                 className="mt-1 w-full rounded-md border border-gray-300 p-2"
                             >
-                                <option value="de">🇩🇪 Deutsch</option>
-                                <option value="en">🇺🇸 Englisch</option>
+                                <option value="de">{t("profile_menu_item_language_de")}</option>
+                                <option value="en">{t("profile_menu_item_language_en")}</option>
                             </select>
                         </div>
                         <div className="col-span-1">
                             <div className="grid">
                                 <div>
                                     <label htmlFor="profileColor">
-                                        Profile Color
+                                        {t("profile_menu_profile_color_label")}
                                     </label>
                                 </div>
                                 <div className="grow">
@@ -284,7 +286,9 @@ function ProfileModal(props: ProfileModalProps) {
                             </div>
                         </div>
                         <div className="grid">
-                            <label htmlFor="fontSize">Font Size</label>
+                            <label htmlFor="fontSize">
+                                {t("profile_menu_font_size_label")}
+                            </label>
                             <input
                                 type="range"
                                 min="12"
@@ -300,14 +304,14 @@ function ProfileModal(props: ProfileModalProps) {
                                 type="submit"
                                 className="mt-2 rounded-lg bg-blue-500 px-4 py-2 text-white"
                             >
-                                Save Changes
+                                {t("profile_menu_save_button")}
                             </button>
                             <button
                                 onClick={() => props.setIsOpen(false)}
                                 type="button"
                                 className="ml-2 mt-2 rounded-lg bg-gray-500 px-4 py-2 text-white"
                             >
-                                Cancel
+                                {t("profile_menu_cancel_button")}
                             </button>
                         </div>
                     </form>

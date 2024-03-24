@@ -1,6 +1,6 @@
 import useSelectedLanguageStore from "../../../../../stores/selectedLanguageStore";
 import { switchLanguage } from "../../../../../utils/i18n-helper";
-import AmericanFlagSvg from "../../../../svgs/flags/AmericanFlagSvg";
+import BritainFlagSvg from "../../../../svgs/flags/BritainFlagSvg";
 import GermanFlagSvg from "../../../../svgs/flags/GermanFlagSvg";
 
 function FlagButton() {
@@ -15,7 +15,7 @@ function FlagButton() {
                 className="rounded-full border-2 border-black text-white transition duration-300 ease-in-out hover:border-cyan-500"
             >
                 {selectedLanguage === "en" ? (
-                    <AmericanFlagSvg />
+                    <BritainFlagSvg />
                 ) : (
                     <GermanFlagSvg />
                 )}

@@ -19,7 +19,7 @@ function ScrollToBottomButton({
                             .getState()
                             .resetUnseenMessageCount();
                     }}
-                    className="sticky bottom-0 left-full z-50 flex size-10 max-w-xs
+                    className="sticky bottom-0 top-full left-full z-50 flex size-10 max-w-xs
                     transform animate-bounce items-center justify-center rounded-full border border-black
                     bg-gray-200 text-xs shadow transition duration-300 ease-in-out hover:border-cyan-500"
                 >
