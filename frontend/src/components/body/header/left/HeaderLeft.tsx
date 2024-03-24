@@ -1,16 +1,10 @@
-import { useState } from "react";
-import useClientStore from "../../../../stores/clientStore";
+import {useState} from "react";
 import ProfileMenu from "./ProfileMenu";
 import ProfilePictureHandler from "./ProfilePictureHandler";
-import useUserStore from "../../../../stores/userStore";
+import ClientName from "./ClientName";
 
 function HeaderLeft() {
     const [showProfileMenu, setShowProfileMenu] = useState(false);
-    const clientDbId = useUserStore((state) => state.myId);
-    const username = useClientStore(
-        (state) =>
-            state.clients.find((c) => c.clientDbId === clientDbId)?.clientUsername
-    );
 
     return (
         <div className="relative flex items-center">
@@ -22,7 +16,7 @@ function HeaderLeft() {
                 showMenu={showProfileMenu}
                 setShowMenu={setShowProfileMenu}
             />
-            <span className="ml-3 font-medium">{username}</span>
+            <ClientName/>
         </div>
     );
 }

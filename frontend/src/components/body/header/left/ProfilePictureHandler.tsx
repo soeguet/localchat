@@ -30,6 +30,7 @@ function ProfilePictureHandler(props: ProfilePictureHandlerProps) {
     return (
         <>
             <div
+                className="cursor-pointer"
                 onClick={() => props.setShowMenu(!props.showMenu)}
                 onMouseEnter={() => setProfilePictureHovered(true)}
                 onMouseLeave={() => setProfilePictureHovered(false)}

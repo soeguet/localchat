@@ -1,5 +1,4 @@
 import ChatInputSection from "./input/ChatInputSection";
-import TypingIndicator from "./panel/TypingIndicator";
 import Header from "./header/Header";
 import useUserStore from "../../stores/userStore";
 import useClientStore from "../../stores/clientStore";
