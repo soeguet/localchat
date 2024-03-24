@@ -104,7 +104,7 @@ export function handleIncomingMessages(event: MessageEvent) {
             // updated message from socket with reactions
             useMessageMapStore.getState().onUpdateMessage(dataAsObject);
 
-            notifyClientIfReactionTarget(dataAsObject as ReactionPayload);
+            notifyClientIfReactionTarget(dataAsObject as MessagePayload);
 
             break;
 

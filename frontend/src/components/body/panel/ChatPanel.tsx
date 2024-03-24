@@ -51,11 +51,11 @@ function ChatPanel() {
                 className={"relative grow overflow-y-auto px-5 pb-2 pt-2"}
             >
                 <MessageRenderMap/>
-                <div ref={chatBottomRef}/>
                 <ScrollToBottomButton
                     chatBottomRefVisible={chatBottomRefVisible}
                 />
                 <TypingIndicator/>
+                <div ref={chatBottomRef}/>
             </div>
         </>
     );

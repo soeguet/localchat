@@ -43,7 +43,7 @@ function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
         <>
             <div
                 onClick={() => setShowMenu(!showMenu)}
-                className="relative mx-2 flex flex-col items-center"
+                className="self-stretch cursor-pointer mx-2 flex flex-col items-center"
             >
                 <ProfilePicture
                     clientDbId={props.messagePayload.clientType.clientDbId}
