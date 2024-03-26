@@ -1,10 +1,9 @@
-import useChatBottomRefVisibleStore from "../stores/chatBottomRefVisibleStore";
+import useRefStore from "../stores/refStore";
 import useGuiHasFocusStore from "../stores/guiHasFocusStore";
-import {scrollToBottom} from "./functionality";
+import { scrollToBottom } from "./functionality";
 import useUserStore from "../stores/userStore";
 
 export function checkIfScrollToBottomIsNeeded(id: string) {
-
     const clientDbId = useUserStore.getState().myId;
 
     if (id === clientDbId) {
@@ -14,14 +13,13 @@ export function checkIfScrollToBottomIsNeeded(id: string) {
     const guiHasFocus = useGuiHasFocusStore.getState().guiHasFocus;
     //console.log("guiHasFocus", guiHasFocus);
     if (!guiHasFocus) {
-
         // EXPERIMENTAL -- scroll to bottom, even though the gui does not have focus // if bottomRef is visible
-        if (useChatBottomRefVisibleStore.getState().chatBottomRefVisible) {
+        if (useRefStore.getState().chatBottomRefVisible) {
             scrollToBottom();
         }
 
         return false;
     }
 
-    return useChatBottomRefVisibleStore.getState().chatBottomRefVisible;
+    return useRefStore.getState().chatBottomRefVisible;
 }

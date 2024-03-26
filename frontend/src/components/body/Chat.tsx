@@ -6,6 +6,8 @@ import ChatPanel from "./panel/ChatPanel";
 import ClientNotFoundPage from "../error/ClientNotFoundPage";
 import useWebsocketConnection from "../../hooks/socket/useWebsocketConnection";
 import { useWindowFocussedListener } from "../../hooks/body/useWindowFocussedListener";
+import TypingIndicator from "./panel/TypingIndicator";
+import ScrollToBottomButton from "./panel/ScrollToBottomButton";
 
 /**
  * The main part of the application.
@@ -31,6 +33,8 @@ function App() {
             <div className="flex h-screen flex-col justify-evenly">
                 <Header />
                 <ChatPanel />
+                <TypingIndicator />
+                <ScrollToBottomButton />
                 <ChatInputSection />
             </div>
         </>

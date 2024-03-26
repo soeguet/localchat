@@ -55,21 +55,23 @@ function TypingIndicator(): JSX.Element {
     return (
         <>
             {typingUserNames.length > 0 && (
-                <div
-                    ref={typingIndicatorRef}
-                    className="sticky bottom-0 top-full p-2 w-max z-50 mb-1 max-w-xs mx-auto left-0 right-0 transform rounded-lg border border-black bg-gray-200 text-xs shadow"
-                    style={{
-                        opacity: isHovered ? 0.3 : 0.7,
-                        transition: "opacity 0.3s",
-                    }}
-                >
-                    <div className="flex items-center">
-                        <div className="flex overflow-hidden text-black">
-                            {names} {text}
-                            <div className="ml-1">
-                                <span className="dots dot1">.</span>
-                                <span className="dots dot2">.</span>
-                                <span className="dots dot3">.</span>
+                <div className="relative max-h-0 -translate-y-10">
+                    <div
+                        ref={typingIndicatorRef}
+                        className="sticky bottom-0 left-0 right-0 top-full z-50 mx-auto mb-1 w-max max-w-xs transform rounded-lg border border-black bg-gray-200 p-2 text-xs shadow"
+                        style={{
+                            opacity: isHovered ? 0.3 : 0.7,
+                            transition: "opacity 0.3s",
+                        }}
+                    >
+                        <div className="flex items-center">
+                            <div className="flex overflow-hidden text-black">
+                                {names} {text}
+                                <div className="ml-1">
+                                    <span className="dots dot1">.</span>
+                                    <span className="dots dot2">.</span>
+                                    <span className="dots dot3">.</span>
+                                </div>
                             </div>
                         </div>
                     </div>

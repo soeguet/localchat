@@ -1,7 +1,7 @@
-import useChatBottomRefVisibleStore from "../stores/chatBottomRefVisibleStore";
+import useRefStore from "../stores/refStore";
 
 export async function scrollToBottom(): Promise<void> {
-    const chatBottomRef = useChatBottomRefVisibleStore.getState().chatBottomRef;
+    const chatBottomRef = useRefStore.getState().chatBottomRef;
     chatBottomRef?.current?.scrollIntoView({ behavior: "smooth" });
 }
 

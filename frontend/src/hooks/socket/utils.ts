@@ -1,24 +1,36 @@
-import {MakeWindowsTaskIconFlash, Notification} from "../../../wailsjs/go/main/App";
 import {
-    WindowIsMinimised,
-    WindowShow,
-} from "../../../wailsjs/runtime";
-import useChatBottomRefVisibleStore from "../../stores/chatBottomRefVisibleStore";
+    MakeWindowsTaskIconFlash,
+    Notification,
+} from "../../../wailsjs/go/main/App";
+import { WindowIsMinimised, WindowShow } from "../../../wailsjs/runtime";
+import useRefStore from "../../stores/refStore";
 import useDoNotDisturbStore from "../../stores/doNotDisturbStore";
 import useUnseenMessageCountStore from "../../stores/unseenMessageCountStore";
 import useUserStore from "../../stores/userStore";
-import { ClientEntity, ClientListPayload, MessagePayload, PayloadSubType} from "../../utils/customTypes";
+import {
+    ClientEntity,
+    ClientListPayload,
+    MessagePayload,
+    PayloadSubType,
+} from "../../utils/customTypes";
 import useMessageMapStore from "../../stores/messageMapStore";
 import useClientStore from "../../stores/clientStore";
 import useGuiHasFocusStore from "../../stores/guiHasFocusStore";
-import {scrollToBottom} from "../../utils/functionality";
-import {base64ToUtf8} from "../../utils/encoder";
+import { scrollToBottom } from "../../utils/functionality";
+import { base64ToUtf8 } from "../../utils/encoder";
 
-export function checkIfMessageIsToBeAddedToTheUnseenMessagesList(messagePayload: MessagePayload, addIdToList: boolean) {
+export function checkIfMessageIsToBeAddedToTheUnseenMessagesList(
+    messagePayload: MessagePayload,
+    addIdToList: boolean
+) {
     // if we don't need to scroll to the bottom, we need to add the message to the unseen messages list
 
     if (addIdToList) {
-        useUnseenMessageCountStore.getState().addMessageToUnseenMessagesList(messagePayload.messageType.messageDbId);
+        useUnseenMessageCountStore
+            .getState()
+            .addMessageToUnseenMessagesList(
+                messagePayload.messageType.messageDbId
+            );
     } else {
         // console.log("Scroll to bottom is needed");
         useUnseenMessageCountStore.getState().resetUnseenMessageCount();
@@ -40,16 +52,22 @@ export function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
     // first check if gui is even in focus
     if (useGuiHasFocusStore.getState().guiHasFocus) {
         // no message needed if already at chat bottom
-        if (!useChatBottomRefVisibleStore.getState().chatBottomRefVisible) {
+        if (!useRefStore.getState().chatBottomRefVisible) {
             return;
         }
     }
 
     const messageSenderName = useClientStore
         .getState()
-        .clients.find((predicate) => predicate.clientDbId=== messagePayload.clientType.clientDbId)?.clientUsername;
+        .clients.find(
+            (predicate) =>
+                predicate.clientDbId === messagePayload.clientType.clientDbId
+        )?.clientUsername;
 
-    const titleNotification = messagePayload.messageType.messageTime.slice(0, 5) + " - " + messageSenderName;
+    const titleNotification =
+        messagePayload.messageType.messageTime.slice(0, 5) +
+        " - " +
+        messageSenderName;
 
     // WindowShow();
     // MakeWindowsTaskIconFlash("localchat");
@@ -67,8 +85,10 @@ export function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
                 WindowShow();
             }
         })
-        .then(async() => {
-            const message = base64ToUtf8(messagePayload.messageType.messageContext);
+        .then(async () => {
+            const message = base64ToUtf8(
+                messagePayload.messageType.messageContext
+            );
             await Notification(titleNotification, message);
         });
 
@@ -96,7 +116,10 @@ export function handeMessageListPayload(data: string) {
         messageList: MessagePayload[];
     };
 
-    if (messageListPayload.messageList === undefined || messageListPayload.messageList === null) {
+    if (
+        messageListPayload.messageList === undefined ||
+        messageListPayload.messageList === null
+    ) {
         throw new Error("messageListPayload.payload is empty");
     }
 
