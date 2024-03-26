@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import { defineConfig } from 'vitest/config'
 import topLevelAwait from "vite-plugin-top-level-await";
 import react from "@vitejs/plugin-react";
 
@@ -11,6 +11,10 @@ export default defineConfig({
             promiseImportName: (i) => `__tla_${i}`,
         }),
     ],
+    test: {
+        globals: true,
+        environment: 'jsdom',
+    },
     server: {
         port: 3000,
     },

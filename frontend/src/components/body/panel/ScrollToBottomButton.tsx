@@ -1,9 +1,9 @@
-import { scrollToBottom } from "../../../utils/functionality";
+import {scrollToBottom} from "../../../utils/functionality";
 import ScrollSymbolSvg from "../../svgs/scroll/ScrollSymbolSvg";
 import useUnseenMessageCountStore from "../../../stores/unseenMessageCountStore";
 import useRefStore from "../../../stores/refStore";
-import { useCallback, useEffect } from "react";
-import { debounce } from "../../../utils/debounce";
+import {useCallback, useEffect} from "react";
+import {debounce} from "../../../utils/debounce";
 
 function ScrollToBottomButton() {
     // socket state
@@ -17,10 +17,11 @@ function ScrollToBottomButton() {
 
     const handleScroll = useCallback(
         debounce(() => {
+
             if (!chatContainerRef) return;
             if (!chatContainerRef.current) return;
 
-            const { scrollTop, scrollHeight, clientHeight } =
+            const {scrollTop, scrollHeight, clientHeight} =
                 chatContainerRef.current;
             if (scrollTop + clientHeight >= scrollHeight) {
                 setChatBottomRefVisible(true);
@@ -28,7 +29,7 @@ function ScrollToBottomButton() {
                 setChatBottomRefVisible(false);
             }
         }, 250),
-        []
+        [chatContainerRef]
     );
 
     useEffect(() => {
@@ -58,7 +59,7 @@ function ScrollToBottomButton() {
                     transform animate-bounce items-center justify-center rounded-full border border-black
                     bg-gray-200 text-xs shadow transition duration-300 ease-in-out hover:border-cyan-500"
                     >
-                        <ScrollSymbolSvg />
+                        <ScrollSymbolSvg/>
                     </button>
                 </div>
             )}
