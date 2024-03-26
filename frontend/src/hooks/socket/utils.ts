@@ -12,6 +12,7 @@ import useMessageMapStore from "../../stores/messageMapStore";
 import useClientStore from "../../stores/clientStore";
 import useGuiHasFocusStore from "../../stores/guiHasFocusStore";
 import {scrollToBottom} from "../../utils/functionality";
+import {base64ToUtf8} from "../../utils/encoder";
 
 export function checkIfMessageIsToBeAddedToTheUnseenMessagesList(messagePayload: MessagePayload, addIdToList: boolean) {
     // if we don't need to scroll to the bottom, we need to add the message to the unseen messages list
@@ -66,7 +67,10 @@ export function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
                 WindowShow();
             }
         })
-        .then(() => Notification(titleNotification, messagePayload.messageType.messageContext));
+        .then(async() => {
+            const message = base64ToUtf8(messagePayload.messageType.messageContext);
+            await Notification(titleNotification, message);
+        });
 
     // WindowIsMinimised().then((isMinimised) => {
     //     if (isMinimised) {

@@ -5,6 +5,7 @@ import useUserStore from "../stores/userStore";
 import { WindowShow } from "../../wailsjs/runtime";
 import React, { Dispatch } from "react";
 import useClientStore from "../stores/clientStore";
+import {base64ToUtf8} from "./encoder";
 /**
  * Adds a message to the message map if it has a unique ID.
  * @param messagesMap
@@ -39,9 +40,12 @@ export async function addMessageIfUniqueId(
         // TODO put this somewhere else
         if (userId !== thisClientId) {
             if (notificationRequest) {
+
+                const message = base64ToUtf8(newMessage.messageType.messageContext);
+
                 await Notification(
                     getTimeWithHHmmFormat(new Date()) + " - " + username,
-                    newMessage.messageType.messageContext
+                    message
                 );
                 WindowShow();
             }
