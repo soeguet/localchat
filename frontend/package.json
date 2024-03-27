@@ -45,6 +45,9 @@
         "typescript": "^5.2.2",
         "vite": "^5.0.8",
         "vite-plugin-top-level-await": "^1.4.1",
-        "vitest": "^1.4.0"
+        "vitest": "^1.4.0",
+        "@testing-library/jest-dom": "^5.16.4",
+        "@vitest/coverage-v8": "latest",
+        "@vitest/ui": "latest"
     }
 }

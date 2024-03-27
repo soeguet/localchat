@@ -17,7 +17,6 @@ var assets embed.FS
 //go:embed frontend/public/logo.png
 var icon []byte
 
-
 // main is the entry point of the application.
 func main() {
 	// Create an instance of the app structure
