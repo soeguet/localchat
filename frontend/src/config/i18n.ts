@@ -4,11 +4,27 @@ import HttpBackend from "i18next-http-backend";
 
 const language = localStorage.getItem("language") || "en";
 
-i18n.use(HttpBackend)
+let isTestMode: boolean = false;
+try {
+    isTestMode =
+        process.env.NODE_ENV === "test" ||
+        process.env.REACT_APP_TEST_MODE === "true";
+} catch (e) {
+    console.log("Error in i18n.ts", e);
+}
+
+const loadPath = isTestMode
+    ? "/public/locale/{{lng}}/{{ns}}.json"
+    : "/locale/{{lng}}/{{ns}}.json";
+
+//console.log("Current Working Directory:", process.cwd());
+
+await i18n
+    .use(HttpBackend)
     .use(initReactI18next)
     .init({
         backend: {
-            loadPath: "/locale/{{lng}}/{{ns}}.json",
+            loadPath: loadPath,
         },
         fallbackLng: language,
         debug: true,
@@ -16,6 +32,7 @@ i18n.use(HttpBackend)
         interpolation: {
             escapeValue: false,
         },
-    }).then(r => console.log("i18n initialized!", r));
+    })
+    .then((r) => console.log("i18n initialized!", r));
 
 export default i18n;

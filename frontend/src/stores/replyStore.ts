@@ -21,12 +21,15 @@ export type ReplyStore = {
 };
 
 /**
- * Custom hook for managing the reply store.
+ * Custom hooks for managing the reply store.
  * @returns An object containing the replyMessage state and a function to set the replyMessage value.
  */
-const useReplyStore: UseBoundStore<StoreApi<ReplyStore>> = create<ReplyStore>((set) => ({
-    replyMessage: null,
-    setReplyMessage: (replyMessage) => set(() => ({ replyMessage: replyMessage })),
-}));
+const useReplyStore: UseBoundStore<StoreApi<ReplyStore>> = create<ReplyStore>(
+    (set) => ({
+        replyMessage: null,
+        setReplyMessage: (replyMessage) =>
+            set(() => ({ replyMessage: replyMessage })),
+    })
+);
 
 export default useReplyStore;

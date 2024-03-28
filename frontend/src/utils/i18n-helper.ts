@@ -1,5 +1,6 @@
 import i18n from "../config/i18n";
-import useSelectedLanguageStore, {
+import {
+    useSelectedLanguageStore,
     setSelectedLanguage,
 } from "../stores/selectedLanguageStore";
 

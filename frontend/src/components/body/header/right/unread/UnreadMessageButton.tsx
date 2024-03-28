@@ -8,21 +8,19 @@ function UnreadMessageButton() {
     );
 
     return (
-        <div>
+        <>
             {unseenMessageCount > 0 && (
                 <button
+                    data-testid="unread-message-button"
                     onClick={async () => {
                         await scrollToBottom();
-                        // useUnseenMessageCountStore
-                        //     .getState()
-                        //     .resetUnseenMessageCount();
                     }}
                     className="rounded-full border-2 border-black text-white hover:bg-gray-500"
                 >
                     <UnreadMessagesSvg />
                 </button>
             )}
-        </div>
+        </>
     );
 }
 

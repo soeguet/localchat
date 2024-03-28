@@ -1,7 +1,7 @@
-import useSelectedLanguageStore from "../../../../../stores/selectedLanguageStore";
-import { switchLanguage } from "../../../../../utils/i18n-helper";
+import { useSelectedLanguageStore } from "../../../../../stores/selectedLanguageStore";
 import BritainFlagSvg from "../../../../svgs/flags/BritainFlagSvg";
 import GermanFlagSvg from "../../../../svgs/flags/GermanFlagSvg";
+import { switchLanguage } from "../../../../../utils/i18n-helper";
 
 function FlagButton() {
     const selectedLanguage: "en" | "de" = useSelectedLanguageStore(

@@ -1,5 +1,5 @@
 import FlagButton from "./flag/FlagButton";
-import FontSizeButton from "./fontsize/FontSizeButton";
+import FontSizeButton from "./font-size/font-size-button/FontSizeButton";
 import UnreadMessageButton from "./unread/UnreadMessageButton";
 
 function HeaderRight() {

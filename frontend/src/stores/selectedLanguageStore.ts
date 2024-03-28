@@ -13,7 +13,9 @@ const useSelectedLanguageStore = create<SelectedLanguageStore>((set) => ({
     setSelectedLanguage: (language: "de" | "en") =>
         set({ selectedLanguage: language }),
 }));
-export const setSelectedLanguage = (language: "de" | "en") => {
+
+const setSelectedLanguage = (language: "de" | "en") => {
     useSelectedLanguageStore.getState().setSelectedLanguage(language);
 };
-export default useSelectedLanguageStore;
+
+export { useSelectedLanguageStore, setSelectedLanguage };
