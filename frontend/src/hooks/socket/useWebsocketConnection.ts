@@ -7,7 +7,6 @@ import { handleIncomingMessages } from "../../utils/handleIncomingMessages";
 function useWebsocketConnection() {
     const socketPort = useUserStore((store) => store.socketPort);
     const socketIp = useUserStore((store) => store.socketIp);
-    // typing state
 
     const setIsConnected = useWebsocketStore((state) => state.setIsConnected);
 
@@ -17,7 +16,10 @@ function useWebsocketConnection() {
             onOpen: () => setIsConnected(true),
             onClose: () => setIsConnected(false),
             onMessage: (event) => handleIncomingMessages(event),
-            onError: (event) => console.error(event),
+            onError: (event) => {
+                console.error(event);
+                setIsConnected(false);
+            },
         });
     }, [socketIp, socketPort]);
 }

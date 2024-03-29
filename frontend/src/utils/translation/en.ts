@@ -1,4 +1,4 @@
-{
+export const en_translation = {
     "selected_language": "🇺🇸",
     "status_connected": "Connected",
     "status_disconnected": "Disconnected",

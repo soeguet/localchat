@@ -24,9 +24,9 @@ export const initWebSocket = (callbacks: CallbackProps) => {
         `ws://${useUserStore.getState().socketIp}:${useUserStore.getState().socketPort}/chat`
     );
 
-    socket.onopen = () => {
+    socket.onopen = async () => {
         if (!useDoNotDisturbStore.getState().doNotDisturb) {
-            Notification("localchat", "Connection opened");
+            await Notification("localchat", "Connection opened");
         }
 
         // register user with the server
@@ -43,9 +43,9 @@ export const initWebSocket = (callbacks: CallbackProps) => {
         callbacks.onOpen();
     };
 
-    socket.onclose = () => {
+    socket.onclose = async () => {
         if (!useDoNotDisturbStore.getState().doNotDisturb) {
-            Notification("localchat", "Connection closed");
+            await Notification("localchat", "Connection closed");
         }
         callbacks.onClose();
     };

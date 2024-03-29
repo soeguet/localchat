@@ -6,6 +6,7 @@ function ReconnectButton() {
 
     return (
         <button
+            data-testid="reconnect-button"
             onClick={() => WindowReloadApp()}
             className="ml-2 rounded bg-blue-500 px-2 py-1 font-bold text-white hover:bg-blue-700"
         >

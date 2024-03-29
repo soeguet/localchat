@@ -19,14 +19,15 @@ describe("FlagButton", () => {
         render(<FlagButton />);
         expect(screen.getByTestId("britain-flag-svg")).toBeInTheDocument();
     });
-    test.skip("should switch the language to 'de' when the button is clicked", () => {
+
+    test("should switch the language to 'de' when the button is clicked", async () => {
         render(<FlagButton />);
         const button = screen.getByTestId("flag-button");
-        fireEvent.click(button);
+        await waitFor(() => userEvent.click(button));
         expect(screen.getByTestId("german-flag-svg")).toBeInTheDocument();
     });
 
-    test.skip("should render change language", async () => {
+    test("should render change language", async () => {
         render(<FlagButton />);
         const flagButton = screen.getByRole("button");
         await waitFor(() => userEvent.click(flagButton));
@@ -35,11 +36,12 @@ describe("FlagButton", () => {
         expect(screen.getByTestId("britain-flag-svg")).toBeInTheDocument();
     });
 
-    test.skip("clicking updates store variable", async () => {
+    test("clicking updates store variable", async () => {
         render(<FlagButton />);
         const flagButton = screen.getByRole("button");
         await waitFor(() => userEvent.click(flagButton));
+        expect(useSelectedLanguageStore.getState().selectedLanguage).toBe("de");
         await waitFor(() => userEvent.click(flagButton));
-        expect(useSelectedLanguageStore.getState().selectedLanguage).toBeNull();
+        expect(useSelectedLanguageStore.getState().selectedLanguage).toBe("en");
     });
 });

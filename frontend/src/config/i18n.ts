@@ -1,38 +1,30 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import HttpBackend from "i18next-http-backend";
+import { en_translation } from "../utils/translation/en";
+import { de_translation } from "../utils/translation/de";
 
 const language = localStorage.getItem("language") || "en";
 
-let isTestMode: boolean = false;
-try {
-    isTestMode =
-        process.env.NODE_ENV === "test" ||
-        process.env.REACT_APP_TEST_MODE === "true";
-} catch (e) {
-    console.log("Error in i18n.ts", e);
-}
 
-const loadPath = isTestMode
-    ? "/public/locale/{{lng}}/{{ns}}.json"
-    : "/locale/{{lng}}/{{ns}}.json";
-
-//console.log("Current Working Directory:", process.cwd());
-
-await i18n
-    .use(HttpBackend)
+i18n
     .use(initReactI18next)
     .init({
-        backend: {
-            loadPath: loadPath,
-        },
-        fallbackLng: language,
-        debug: true,
+        lng: language,
+        fallbackLng: 'en',
+        // have a common namespace used around the full app
+        ns: ['translationsNS'],
+        defaultNS: 'translationsNS',
+
+        debug: false,
 
         interpolation: {
-            escapeValue: false,
+            escapeValue: false, // not needed for react!!
         },
-    })
-    .then((r) => console.log("i18n initialized!", r));
+
+        resources: {
+            en: { translationsNS: en_translation },
+            de: { translationsNS: de_translation },
+        },
+    });
 
 export default i18n;

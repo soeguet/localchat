@@ -3,7 +3,8 @@ import { svgSize } from "../../../utils/variables";
 function ConnectedSvg() {
     return (
         <>
-            <div className="rounded-full border-2 border-black">
+            <div className="rounded-full border-2 border-black"
+                data-testid="connected-svg">
                 <svg
                     style={svgSize}
                     viewBox="-2.4 -2.4 28.80 28.80"

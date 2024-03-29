@@ -3,6 +3,7 @@ import { svgSize } from "../../../utils/variables";
 function DisconnectedSvg() {
     return (
         <svg
+            data-testid="disconnected-svg"
             style={svgSize}
             viewBox="-1.4 -1.4 16.80 16.80"
             xmlns="http://www.w3.org/2000/svg"

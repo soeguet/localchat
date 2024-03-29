@@ -4,18 +4,18 @@ import DisconnectedSvg from "../../../svgs/status/DisconnectedSvg";
 import ReconnectButton from "./ReconnectButton";
 
 function HeaderMiddle() {
-    const ws = useWebsocketStore((state) => state.ws);
+    const isConnected = useWebsocketStore((state) => state.isConnected);
 
     return (
-        <div>
-            {ws?.readyState === ws?.OPEN ? (
+        <div data-testid="header-middle">
+            {isConnected ?
                 <ConnectedSvg />
-            ) : (
+                :
                 <div className="flex">
                     <DisconnectedSvg />
                     <ReconnectButton />
                 </div>
-            )}
+            }
         </div>
     );
 }

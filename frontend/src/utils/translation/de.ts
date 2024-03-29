@@ -1,4 +1,4 @@
-{
+export const de_translation = {
     "selected_language": "🇩🇪",
     "status_connected": "Verbunden",
     "status_disconnected": "Getrennt",
@@ -40,4 +40,4 @@
     "timer_time_left": "Minuten verbleiben",
     "header_do_not_disturb_label": "Bitte nicht stören: ",
     "loading_label": "Lade.."
-}
+};
