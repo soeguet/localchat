@@ -22,6 +22,7 @@ function UnreadMessagesSvg() {
 
     return (
         <svg
+            data-testid="unread-messages-svg"
             style={{ width: "48px", height: "48px" }}
             viewBox="-2.4 -2.4 28.80 28.80"
             fill="none"

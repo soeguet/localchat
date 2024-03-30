@@ -22,6 +22,7 @@ function ProfilePicture(props: ProfilePictureProps) {
     return (
         <>
             <img
+                data-testid="profile-picture"
                 style={props.style}
                 className={`rounded-full border-2 ${props.properties} transition duration-300 ease-in-out`}
                 src={props.pictureUrl ? props.pictureUrl : profilePicture}
