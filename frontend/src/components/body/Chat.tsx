@@ -13,7 +13,7 @@ import ScrollToBottomButton from "./panel/ScrollToBottomButton";
  * The main part of the application.
  * Renders the chat interface and handles message handling and sending.
  */
-function App() {
+function Chat() {
     // this client state
     const clientDbId = useUserStore((state) => state.myId);
     const thisClient = useClientStore((state) =>
@@ -41,4 +41,4 @@ function App() {
     );
 }
 
-export default App;
+export default Chat;

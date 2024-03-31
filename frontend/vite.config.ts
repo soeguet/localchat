@@ -17,8 +17,13 @@ export default defineConfig({
         globals: true,
         environment: "jsdom",
         setupFiles: "./src/test/setup.ts",
+        // include: ["src/**/*.{js,ts}"],
+        includeSource: ["src/**/*.{js,ts}"],
     },
     server: {
         port: 3000,
+    },
+    define: {
+        "import.meta.vitest": "undefined",
     },
 });

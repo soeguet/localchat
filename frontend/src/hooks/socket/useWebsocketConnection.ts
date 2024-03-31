@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import useWebsocketStore from "../../stores/websocketStore";
-import { initWebSocket } from "../../utils/socket";
+import { closeWebSocket, initWebSocket } from "../../utils/socket";
 import useUserStore from "../../stores/userStore";
 import { handleIncomingMessages } from "../../utils/handleIncomingMessages";
 
@@ -14,11 +14,18 @@ function useWebsocketConnection() {
         //console.log("Connecting to WebSocket");
         initWebSocket({
             onOpen: () => setIsConnected(true),
-            onClose: () => setIsConnected(false),
-            onMessage: (event) => handleIncomingMessages(event),
+            onClose: () => {
+                setIsConnected(false);
+                closeWebSocket();
+            },
+            onMessage: (event) => {
+                handleIncomingMessages(event);
+                closeWebSocket();
+            },
             onError: (event) => {
                 console.error(event);
                 setIsConnected(false);
+                closeWebSocket();
             },
         });
     }, [socketIp, socketPort]);

@@ -17,9 +17,7 @@ import { utf8ToBase64 } from "./encoder";
 let socket: WebSocket;
 
 export const initWebSocket = (callbacks: CallbackProps) => {
-    //console.log("Connecting to WebSocket");
-    //console.log("useEnvironmentStore.getState().socketIp", useEnvironmentStore.getState().socketIp);
-    //console.log("useEnvironmentStore.getState().socketPort", useEnvironmentStore.getState().socketPort);
+
     socket = new WebSocket(
         `ws://${useUserStore.getState().socketIp}:${useUserStore.getState().socketPort}/chat`
     );
@@ -81,8 +79,6 @@ function sendClientMessageToWebsocket(message: string): void {
         throw new Error("username or id is null" + username + id);
     }
 
-    console.log("message", message);
-
     const base64EncodedMessage = utf8ToBase64(message);
 
     const payload: MessagePayload = {
@@ -109,7 +105,6 @@ function sendClientMessageToWebsocket(message: string): void {
         };
     }
 
-    //console.log("payload", payload);
     socket.send(JSON.stringify(payload));
 }
 

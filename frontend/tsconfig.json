@@ -8,7 +8,8 @@
       "ESNext"
     ],
     "types": [
-      "vitest/globals"
+      "vitest/globals",
+      "vitest/importMeta"
     ],
     "allowJs": false,
     "skipLibCheck": true,

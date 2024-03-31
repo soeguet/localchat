@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1711821094959" clover="3.2.0">
-  <project timestamp="1711821094959" name="All files">
-    <metrics statements="4927" coveredstatements="1716" conditionals="171" coveredconditionals="99" methods="181" coveredmethods="37" elements="5279" coveredelements="1852" complexity="0" loc="4927" ncloc="4927" packages="39" files="106" classes="106"/>
+<coverage generated="1711877327834" clover="3.2.0">
+  <project timestamp="1711877327834" name="All files">
+    <metrics statements="4927" coveredstatements="1757" conditionals="176" coveredconditionals="106" methods="183" coveredmethods="41" elements="5286" coveredelements="1904" complexity="0" loc="4927" ncloc="4927" packages="39" files="106" classes="106"/>
     <package name="frontend">
       <metrics statements="21" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
       <file name="postcss.config.js" path="/home/soeguet/code/wails/localchat/frontend/postcss.config.js">
@@ -47,23 +47,23 @@
         <line num="9" count="1" type="stmt"/>
         <line num="10" count="1" type="stmt"/>
         <line num="11" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="12" count="15" type="stmt"/>
-        <line num="13" count="15" type="stmt"/>
-        <line num="14" count="15" type="cond" truecount="1" falsecount="0"/>
-        <line num="15" count="45" type="stmt"/>
-        <line num="16" count="15" type="stmt"/>
-        <line num="17" count="15" type="stmt"/>
-        <line num="18" count="15" type="stmt"/>
+        <line num="12" count="16" type="stmt"/>
+        <line num="13" count="16" type="stmt"/>
+        <line num="14" count="16" type="cond" truecount="1" falsecount="0"/>
+        <line num="15" count="47" type="stmt"/>
+        <line num="16" count="16" type="stmt"/>
+        <line num="17" count="16" type="stmt"/>
+        <line num="18" count="16" type="stmt"/>
         <line num="19" count="1" type="stmt"/>
         <line num="20" count="1" type="stmt"/>
         <line num="21" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="22" count="15" type="stmt"/>
-        <line num="23" count="15" type="stmt"/>
-        <line num="24" count="15" type="stmt"/>
-        <line num="25" count="15" type="stmt"/>
-        <line num="26" count="15" type="cond" truecount="0" falsecount="1"/>
+        <line num="22" count="16" type="stmt"/>
+        <line num="23" count="16" type="stmt"/>
+        <line num="24" count="16" type="stmt"/>
+        <line num="25" count="16" type="stmt"/>
+        <line num="26" count="16" type="cond" truecount="0" falsecount="1"/>
         <line num="27" count="0" type="stmt"/>
-        <line num="28" count="15" type="stmt"/>
+        <line num="28" count="16" type="stmt"/>
         <line num="29" count="1" type="stmt"/>
         <line num="30" count="1" type="stmt"/>
         <line num="31" count="0" type="stmt"/>
@@ -86,12 +86,12 @@
         <line num="48" count="1" type="stmt"/>
         <line num="49" count="1" type="stmt"/>
         <line num="50" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="51" count="22" type="cond" truecount="1" falsecount="0"/>
-        <line num="52" count="22" type="cond" truecount="1" falsecount="0"/>
-        <line num="53" count="45" type="stmt"/>
-        <line num="54" count="22" type="stmt"/>
-        <line num="55" count="22" type="stmt"/>
-        <line num="56" count="22" type="stmt"/>
+        <line num="51" count="24" type="cond" truecount="1" falsecount="0"/>
+        <line num="52" count="24" type="cond" truecount="1" falsecount="0"/>
+        <line num="53" count="47" type="stmt"/>
+        <line num="54" count="24" type="stmt"/>
+        <line num="55" count="24" type="stmt"/>
+        <line num="56" count="24" type="stmt"/>
       </file>
     </package>
     <package name="frontend.src">
@@ -3469,7 +3469,7 @@
       </file>
     </package>
     <package name="frontend.src.hooks.body">
-      <metrics statements="40" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
+      <metrics statements="40" coveredstatements="28" conditionals="6" coveredconditionals="5" methods="4" coveredmethods="3"/>
       <file name="useScrollToBottom.ts" path="/home/soeguet/code/wails/localchat/frontend/src/hooks/body/useScrollToBottom.ts">
         <metrics statements="12" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="0" type="cond" truecount="0" falsecount="1"/>
@@ -3486,35 +3486,35 @@
         <line num="12" count="0" type="stmt"/>
       </file>
       <file name="useWindowFocussedListener.ts" path="/home/soeguet/code/wails/localchat/frontend/src/hooks/body/useWindowFocussedListener.ts">
-        <metrics statements="28" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="25" count="0" type="stmt"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
+        <metrics statements="28" coveredstatements="28" conditionals="5" coveredconditionals="5" methods="3" coveredmethods="3"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="6" count="2" type="stmt"/>
+        <line num="7" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="8" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="2" type="stmt"/>
+        <line num="14" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="19" count="2" type="stmt"/>
+        <line num="20" count="2" type="stmt"/>
+        <line num="21" count="2" type="stmt"/>
+        <line num="22" count="2" type="stmt"/>
+        <line num="23" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="24" count="2" type="stmt"/>
+        <line num="25" count="2" type="stmt"/>
+        <line num="26" count="2" type="stmt"/>
+        <line num="27" count="2" type="stmt"/>
+        <line num="28" count="2" type="stmt"/>
       </file>
     </package>
     <package name="frontend.src.hooks.input">
@@ -3805,7 +3805,7 @@
       </file>
     </package>
     <package name="frontend.src.stores">
-      <metrics statements="341" coveredstatements="177" conditionals="23" coveredconditionals="14" methods="28" coveredmethods="5"/>
+      <metrics statements="341" coveredstatements="190" conditionals="24" coveredconditionals="16" methods="28" coveredmethods="6"/>
       <file name="clientStore.ts" path="/home/soeguet/code/wails/localchat/frontend/src/stores/clientStore.ts">
         <metrics statements="23" coveredstatements="20" conditionals="1" coveredconditionals="1" methods="2" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
@@ -3881,20 +3881,20 @@
         <line num="13" count="1" type="stmt"/>
       </file>
       <file name="guiHasFocusStore.ts" path="/home/soeguet/code/wails/localchat/frontend/src/stores/guiHasFocusStore.ts">
-        <metrics statements="13" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
+        <metrics statements="13" coveredstatements="13" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
       </file>
       <file name="lastMessageStore.ts" path="/home/soeguet/code/wails/localchat/frontend/src/stores/lastMessageStore.ts">
         <metrics statements="15" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
