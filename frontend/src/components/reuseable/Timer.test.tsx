@@ -1,6 +1,7 @@
 import { describe } from "vitest";
 import { render, screen } from "../../utils/test-utils";
 import Timer from "./Timer";
+import { act } from "react-dom/test-utils";
 
 describe("Timer", () => {
     it("should render", async () => {
@@ -16,7 +17,9 @@ describe("Timer", () => {
 
     it("should render the right time after 1 second", async () => {
         render(<Timer />);
-        await new Promise((r) => setTimeout(r, 1500));
+        await act(async () => {
+            await new Promise((r) => setTimeout(r, 1005));
+        });
         const timer = screen.queryByTestId("do-not-disturb-timer");
         expect(timer).toHaveTextContent("4:59");
     });
