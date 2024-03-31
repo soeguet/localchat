@@ -22,7 +22,6 @@ beforeEach(() => {
         };
     })();
 
-    // Mock global.localStorage mit dem mock oben
     vi.stubGlobal("localStorage", localStorageMock);
 });
 

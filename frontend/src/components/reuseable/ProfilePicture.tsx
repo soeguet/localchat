@@ -6,7 +6,7 @@ type ProfilePictureProps = {
     pictureUrl?: string;
     properties?: string;
     style?: {
-        width: string | "40px";
+        width: string | '40px';
         height: string | "40px";
         borderColor?: string;
         opacity?: string;
