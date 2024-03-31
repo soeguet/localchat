@@ -5,15 +5,14 @@ import { de_translation } from "../utils/translation/de";
 
 const language = localStorage.getItem("language") || "en";
 
-
 i18n
     .use(initReactI18next)
     .init({
         lng: language,
-        fallbackLng: 'en',
+        fallbackLng: "en",
         // have a common namespace used around the full app
-        ns: ['translationsNS'],
-        defaultNS: 'translationsNS',
+        ns: ["translationsNS"],
+        defaultNS: "translationsNS",
 
         debug: false,
 
