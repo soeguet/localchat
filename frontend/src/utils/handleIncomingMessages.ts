@@ -1,4 +1,4 @@
-import {MessagePayload, PayloadSubType, ReactionPayload} from "./customTypes";
+import { MessagePayload, PayloadSubType, ReactionPayload } from "./customTypes";
 import {
     checkIfMessageIsToBeAddedToTheUnseenMessagesList,
     checkIfNotificationIsNeeded,
@@ -16,12 +16,10 @@ import {
 import useMessageMapStore from "../stores/messageMapStore";
 import useUserStore from "../stores/userStore";
 import useTypingStore from "../stores/typingStore";
-import {notifyClientIfReactionTarget} from "./reactionHandler";
+import { notifyClientIfReactionTarget } from "./reactionHandler";
 
 export function handleIncomingMessages(event: MessageEvent) {
     const dataAsObject = JSON.parse(event.data);
-    //
-    console.log("dataAsObject", dataAsObject);
 
     switch (dataAsObject.payloadType) {
         // update the client list with new data
@@ -41,9 +39,6 @@ export function handleIncomingMessages(event: MessageEvent) {
         // normal chat messages
         case PayloadSubType.message: {
             const messagePayload = JSON.parse(event.data) as MessagePayload;
-            // const messageSenderName =
-            //     getClientById(messagePayload.users.id)?.username || t("unknown_user");
-            // console.log("messagePayload", messagePayload);
 
             useMessageMapStore.getState().onMessage(messagePayload);
 
@@ -110,7 +105,6 @@ export function handleIncomingMessages(event: MessageEvent) {
 
         // unknown payload type
         default:
-            //console.log("Unknown payload type", dataAsObject);
             throw new Error("Unknown payload type");
     }
 }

@@ -11,7 +11,6 @@ export function checkIfScrollToBottomIsNeeded(id: string) {
     }
 
     const guiHasFocus = useGuiHasFocusStore.getState().guiHasFocus;
-    //console.log("guiHasFocus", guiHasFocus);
     if (!guiHasFocus) {
         // EXPERIMENTAL -- scroll to bottom, even though the gui does not have focus // if bottomRef is visible
         if (useRefStore.getState().chatBottomRefVisible) {

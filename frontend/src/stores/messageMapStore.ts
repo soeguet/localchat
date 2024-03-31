@@ -16,9 +16,6 @@ const useMessageMapStore: UseBoundStore<StoreApi<MessageMapStore>> =
         onMessage: (message: MessagePayload) =>
             set((state) => {
 
-                // console.log("STATE!!");
-                // console.log(state);
-                // console.log(message);
                 if (message === undefined) {
                     return state;
                 }
@@ -33,18 +30,13 @@ const useMessageMapStore: UseBoundStore<StoreApi<MessageMapStore>> =
                 }
                 // new map needed!
                 const newMap = new Map(state.messageMap);
-                // console.log("message", message);
 
                 newMap.set(message.messageType.messageDbId, message);
-
                 return { messageMap: newMap };
             }),
         onUpdateMessage: (message: MessagePayload) =>
             set((state) => {
 
-                // console.log("STATE!!");
-                // console.log(state);
-                // console.log(message);
                 if (message === undefined) {
                     return state;
                 }
@@ -56,7 +48,6 @@ const useMessageMapStore: UseBoundStore<StoreApi<MessageMapStore>> =
                 }
                 // new map needed!
                 const newMap = new Map(state.messageMap);
-                // console.log("message", message);
 
                 newMap.set(message.messageType.messageDbId, message);
 

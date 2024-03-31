@@ -67,7 +67,6 @@ function LinkifiedText({ text }: Props) {
     }
 
     function handleLinkClick(url: string) {
-        //console.log("Opening URL:", url);
         BrowserOpenURL(url);
     }
 

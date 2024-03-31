@@ -14,7 +14,6 @@ function ChatInputSection() {
     const [message, setMessage] = useState("");
 
     const handleSendMessage = useCallback(() => {
-        //console.log("Message sent:", message);
         if (message.trim().length == 0) {
             return;
         }

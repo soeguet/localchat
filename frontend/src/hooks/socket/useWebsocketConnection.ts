@@ -11,7 +11,6 @@ function useWebsocketConnection() {
     const setIsConnected = useWebsocketStore((state) => state.setIsConnected);
 
     useEffect(() => {
-        //console.log("Connecting to WebSocket");
         initWebSocket({
             onOpen: () => setIsConnected(true),
             onClose: () => {
@@ -20,7 +19,6 @@ function useWebsocketConnection() {
             },
             onMessage: (event) => {
                 handleIncomingMessages(event);
-                closeWebSocket();
             },
             onError: (event) => {
                 console.error(event);

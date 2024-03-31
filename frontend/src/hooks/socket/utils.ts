@@ -32,10 +32,8 @@ export function checkIfMessageIsToBeAddedToTheUnseenMessagesList(
                 messagePayload.messageType.messageDbId
             );
     } else {
-        // console.log("Scroll to bottom is needed");
         useUnseenMessageCountStore.getState().resetUnseenMessageCount();
         scrollToBottom();
-        // console.log(useUnseenMessageCountStore.getState().unseenMessageCount);
     }
 }
 
@@ -102,15 +100,12 @@ export function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
 }
 
 export function handleClientListPayload(payloadAsString: string) {
-    // console.log("handleClientListPayload");
-    // console.log(payloadAsString);
     const payloadAsObject: ClientListPayload = JSON.parse(payloadAsString);
     const clients: ClientEntity[] = payloadAsObject.clients;
     useClientStore.getState().setClients(clients);
 }
 
 export function handeMessageListPayload(data: string) {
-    console.log("handeMessageListPayload");
     const messageListPayload = JSON.parse(data) as {
         payloadType: PayloadSubType.messageList;
         messageList: MessagePayload[];

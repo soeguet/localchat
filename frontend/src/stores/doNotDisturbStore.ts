@@ -1,4 +1,4 @@
-import {create, StoreApi, UseBoundStore} from "zustand";
+import { create, StoreApi, UseBoundStore } from "zustand";
 
 type DoNotDisturbStore = {
     doNotDisturb: boolean;
@@ -11,17 +11,15 @@ const useDoNotDisturbStore: UseBoundStore<StoreApi<DoNotDisturbStore>> = create<
     timeoutId: undefined,
     setDoNotDisturb: (value: boolean) => {
         const currentTimeoutId = get().timeoutId;
-        console.log("currentTimeoutId", currentTimeoutId);
         if (currentTimeoutId) {
             clearTimeout(currentTimeoutId);
         }
-        set({doNotDisturb: value});
-        console.log("useDoNotDisturbStore.getState().doNotDisturb", useDoNotDisturbStore.getState().doNotDisturb);
+        set({ doNotDisturb: value });
         if (value) {
-            const timeoutId = setTimeout(() => set({doNotDisturb: false, timeoutId: undefined}), 300 * 1000);
-            set({timeoutId});
+            const timeoutId = setTimeout(() => set({ doNotDisturb: false, timeoutId: undefined }), 300 * 1000);
+            set({ timeoutId });
         } else {
-            set({timeoutId: undefined});
+            set({ timeoutId: undefined });
         }
     },
 }));

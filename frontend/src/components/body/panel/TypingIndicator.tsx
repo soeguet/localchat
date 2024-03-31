@@ -27,7 +27,6 @@ function TypingIndicator(): JSX.Element {
     useEffect(() => {
         if (typingIndicatorRef.current) {
             typingIndicatorRef.current.addEventListener("mouseenter", () => {
-                console.log("hovered");
                 setIsHovered(true);
             });
             typingIndicatorRef.current.addEventListener("mouseleave", () => {

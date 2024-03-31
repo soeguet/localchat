@@ -3,7 +3,6 @@ import MessageRenderMap from "./MessageRenderMap";
 import useRefStore from "../../../stores/refStore";
 
 function ChatPanel() {
-    //console.log("CHATPANEL RENDER");
     const chatBottomRef = useRef<HTMLDivElement>(null);
     const chatContainerRef = useRef<HTMLDivElement>(null);
     const setChatContainerRef = useRefStore(
@@ -16,7 +15,7 @@ function ChatPanel() {
         setChatBottomRef(chatBottomRef);
     }, []);
 
-    useEffect(() => {}, []);
+    useEffect(() => { }, []);
     return (
         <>
             <div

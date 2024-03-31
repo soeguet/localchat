@@ -53,7 +53,6 @@ function ProfileModal(props: ProfileModalProps) {
     ) {
         const file = event.target.files?.[0] || null;
         if (!file) {
-            //console.log("No file selected.");
             return;
         }
 

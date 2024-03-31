@@ -1,7 +1,7 @@
 import React from "react";
 import "./ChatMessageUnit.css";
 import useUserStore from "../../../../stores/userStore";
-import {MessagePayload} from "../../../../utils/customTypes";
+import { MessagePayload } from "../../../../utils/customTypes";
 import ChatMessageBubblePart from "./ChatMessageBubblePart";
 import ChatMessageOuterPart from "./ChatMessageOuterPart";
 import ReactionTriggerDiv from "./reaction/ReactionTriggerDiv";
@@ -14,7 +14,6 @@ type MessageProps = {
 
 function ChatMessageUnit(props: MessageProps) {
 
-    console.log("ChatMessageUnit", props.messagePayload);
     const thisMessageSenderClientId = props.messagePayload.clientType.clientDbId;
     const thisMessageFromThisClient =
         thisMessageSenderClientId === useUserStore.getState().myId;
@@ -39,7 +38,7 @@ function ChatMessageUnit(props: MessageProps) {
                     props.lastMessageTimestampSameAsThisOne
                 }
             />
-            <ReactionTriggerDiv messagePayload={props.messagePayload}/>
+            <ReactionTriggerDiv messagePayload={props.messagePayload} />
         </div>
     );
 }

@@ -43,13 +43,9 @@ function MessageRenderMap() {
                         value[1].messageType.messageDbId ===
                         idOfTheFirstUnreadMessage;
 
-                    //console.log("value", value);
-                    //console.log("array", array);
-
                     if (array.length > 1 && index > 0) {
                         const lastMessage: [string, MessagePayload] =
                             array[index - 1];
-                        //console.log("lastMessage", lastMessage);
                         if (
                             lastMessage[1].clientType.clientDbId !== undefined &&
                             lastMessage[1].clientType.clientDbId ===
@@ -58,7 +54,7 @@ function MessageRenderMap() {
                             lastMessageFromThisClientId = true;
                         }
                         if (
-                            lastMessage[1].messageType.messageTime===
+                            lastMessage[1].messageType.messageTime ===
                             value[1].messageType.messageTime
                         ) {
                             lastMessageTimestampSameAsThisOne = true;

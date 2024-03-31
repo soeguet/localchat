@@ -20,7 +20,6 @@ const TextArea = (props: TextAreaProps) => {
         }
     }, [replyMessage]);
 
-    //console.log("TextArea rendered");
     return (
         <>
             <textarea

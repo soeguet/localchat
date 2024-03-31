@@ -6,12 +6,11 @@ import {
 import { MessagePayload, PayloadSubType } from "../../../utils/customTypes";
 import { checkIfScrollToBottomIsNeeded } from "../../../utils/scrollToBottomNeeded";
 import useMessageMapStore from "../../../stores/messageMapStore";
-import {generateSimpleId} from "../../../utils/functionality";
-import {utf8ToBase64} from "../../../utils/encoder";
+import { generateSimpleId } from "../../../utils/functionality";
+import { utf8ToBase64 } from "../../../utils/encoder";
 
 function ClipButton() {
     function handleClipClick() {
-        //console.log("Clip clicked");
         setTimeout(() => {
             const messagePayload: MessagePayload = {
                 payloadType: PayloadSubType.message,

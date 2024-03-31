@@ -12,7 +12,6 @@ function Emoji(props: EmojiProps) {
 
     const emojiRef = useRef<HTMLDivElement>(null);
 
-    //console.log("EMOJI RERENDERED");
     /**
      * Handles the click outside of the menu.
      * @param event - The mouse event object.
@@ -75,7 +74,7 @@ function Emoji(props: EmojiProps) {
                     style={{
                         position: "fixed",
                         left: position.x,
-                        top: position.y-460,
+                        top: position.y - 460,
                         zIndex: 20,
                     }}
                 />
