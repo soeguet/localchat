@@ -7,7 +7,7 @@ function HeaderLeft() {
     const [showProfileMenu, setShowProfileMenu] = useState(false);
 
     return (
-        <div className="relative flex items-center">
+        <div className="relative flex items-center" data-testid="header-left-div">
             <ProfilePictureHandler
                 showMenu={showProfileMenu}
                 setShowMenu={setShowProfileMenu}
