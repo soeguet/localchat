@@ -1,8 +1,8 @@
-import { useTranslation } from "react-i18next";
-import { WindowReloadApp } from "../../../../../wailsjs/runtime/runtime";
+import {useTranslation} from "react-i18next";
+import {WindowReloadApp} from "../../../../../wailsjs/runtime";
 
 function ReconnectButton() {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     return (
         <button
@@ -15,4 +15,4 @@ function ReconnectButton() {
     );
 }
 
-export default ReconnectButton;
+export {ReconnectButton};

@@ -1,10 +1,10 @@
-import React from "react";
+import { memo } from "react";
 import "./ChatMessageUnit.css";
-import useUserStore from "../../../../stores/userStore";
+import { useUserStore } from "../../../../stores/userStore";
 import { MessagePayload } from "../../../../utils/customTypes";
-import ChatMessageBubblePart from "./ChatMessageBubblePart";
-import ChatMessageOuterPart from "./ChatMessageOuterPart";
-import ReactionTriggerDiv from "./reaction/ReactionTriggerDiv";
+import { ChatMessageBubblePart } from "./ChatMessageBubblePart";
+import { ChatMessageOuterPart } from "./ChatMessageOuterPart";
+import { ReactionTriggerDiv } from "./reaction/ReactionTriggerDiv";
 
 type MessageProps = {
     messagePayload: MessagePayload;
@@ -12,12 +12,11 @@ type MessageProps = {
     lastMessageTimestampSameAsThisOne: boolean;
 };
 
-function ChatMessageUnit(props: MessageProps) {
-
-    const thisMessageSenderClientId = props.messagePayload.clientType.clientDbId;
+const ChatMessageUnit = memo((props: MessageProps) => {
+    const thisMessageSenderClientId =
+        props.messagePayload.clientType.clientDbId;
     const thisMessageFromThisClient =
         thisMessageSenderClientId === useUserStore.getState().myId;
-
 
     const messageOnWhichSideAligned = `${thisMessageFromThisClient ? "flex-row-reverse" : ""}`;
     const howMuchMarginToMessageAbove = `${!props.lastMessageFromThisClientId && !props.lastMessageTimestampSameAsThisOne ? "mt-3" : "mt-1"}`;
@@ -41,6 +40,8 @@ function ChatMessageUnit(props: MessageProps) {
             <ReactionTriggerDiv messagePayload={props.messagePayload} />
         </div>
     );
-}
+});
 
-export default React.memo(ChatMessageUnit);
+ChatMessageUnit.displayName = "ChatMessageUnit";
+
+export { ChatMessageUnit };

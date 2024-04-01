@@ -1,8 +1,8 @@
-import useFontSizeStore from "../../../../../../stores/fontSizeStore";
-import FontSizeAdjustButton from "../font-size-elements/FontSizeAdjustButton";
-import useSetFontSizeLocalStorage from "../../flag/hooks/useSetFontSizeLocalStorage";
-import FontSizePopupHeader from "./FontSizePopupHeader";
-import FontSizePopupModalBody from "./FontSizePopupModalBody";
+import {useFontSizeStore} from "../../../../../../stores/fontSizeStore";
+import {FontSizeAdjustButton} from "../font-size-elements/FontSizeAdjustButton";
+import {useSetFontSizeLocalStorage} from "../../flag/hooks/useSetFontSizeLocalStorage";
+import {FontSizePopupHeader} from "./FontSizePopupHeader";
+import {FontSizePopupModalBody} from "./FontSizePopupModalBody";
 
 type FontSizePopupProps = {
     showPopup: boolean;
@@ -10,7 +10,7 @@ type FontSizePopupProps = {
 };
 
 const FontSizePopup = (props: FontSizePopupProps) => {
-    const { fontSize, setFontSize } = useFontSizeStore();
+    const {fontSize, setFontSize} = useFontSizeStore();
 
     useSetFontSizeLocalStorage(fontSize);
 
@@ -20,7 +20,7 @@ const FontSizePopup = (props: FontSizePopupProps) => {
                 showPopup={props.showPopup}
                 setShowPopup={props.setShowPopup}
             >
-                <FontSizePopupHeader fontSize={fontSize} />
+                <FontSizePopupHeader fontSize={fontSize}/>
                 <div className="flex items-center justify-start gap-2">
                     <FontSizeAdjustButton
                         onClick={() =>
@@ -59,4 +59,4 @@ const FontSizePopup = (props: FontSizePopupProps) => {
     );
 };
 
-export default FontSizePopup;
+export {FontSizePopup};

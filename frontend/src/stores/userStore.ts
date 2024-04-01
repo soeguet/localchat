@@ -1,5 +1,5 @@
-import { StoreApi, UseBoundStore, create } from "zustand";
-import { ClientEntity } from "../utils/customTypes";
+import {create, StoreApi, UseBoundStore} from "zustand";
+import {ClientEntity} from "../utils/customTypes";
 
 export type UserStore = {
     myId: string;
@@ -22,21 +22,21 @@ export type UserStore = {
 
 const useUserStore: UseBoundStore<StoreApi<UserStore>> = create((set) => ({
     myId: "",
-    setMyId: (id: string) => set({ myId: id }),
+    setMyId: (id: string) => set({myId: id}),
     myUsername: "",
-    setMyUsername: (username: string) => set({ myUsername: username }),
+    setMyUsername: (username: string) => set({myUsername: username}),
     myColor: "",
-    setMyColor: (color: string) => set({ myColor: color }),
+    setMyColor: (color: string) => set({myColor: color}),
     myProfilePhoto: "",
-    setMyProfilePhoto: (photo: string) => set({ myProfilePhoto: photo }),
+    setMyProfilePhoto: (photo: string) => set({myProfilePhoto: photo}),
     userMap: new Map<string, ClientEntity>(),
-    setUserMap: (users: Map<string, ClientEntity>) => set({ userMap: users }),
+    setUserMap: (users: Map<string, ClientEntity>) => set({userMap: users}),
     socketIp: "",
     socketPort: "",
     clientOs: "",
-    setSocketIp: (newIp: string) => set({ socketIp: newIp }),
-    setSocketPort: (newPort: string) => set({ socketPort: newPort }),
-    setClientOs: (newOs: string) => set({ clientOs: newOs }),
+    setSocketIp: (newIp: string) => set({socketIp: newIp}),
+    setSocketPort: (newPort: string) => set({socketPort: newPort}),
+    setClientOs: (newOs: string) => set({clientOs: newOs}),
 }));
 
-export default useUserStore;
+export {useUserStore};

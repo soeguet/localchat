@@ -1,7 +1,7 @@
 import {useState} from "react";
-import ProfileMenu from "./ProfileMenu";
-import ProfilePictureHandler from "./ProfilePictureHandler";
-import ClientName from "./ClientName";
+import {ProfileMenu} from "./ProfileMenu";
+import {ProfilePictureHandler} from "./ProfilePictureHandler";
+import {ClientName} from "./ClientName";
 
 function HeaderLeft() {
     const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -21,4 +21,4 @@ function HeaderLeft() {
     );
 }
 
-export default HeaderLeft;
+export {HeaderLeft};

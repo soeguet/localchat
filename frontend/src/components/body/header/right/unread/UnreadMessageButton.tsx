@@ -1,6 +1,6 @@
-import useUnseenMessageCountStore from "../../../../../stores/unseenMessageCountStore";
+import { useUnseenMessageCountStore } from "../../../../../stores/unseenMessageCountStore";
 import { scrollToBottom } from "../../../../../utils/functionality";
-import UnreadMessagesSvg from "../../../../svgs/messages/UnreadMessagesSvg";
+import { UnreadMessagesSvg } from "../../../../svgs/messages/UnreadMessagesSvg";
 
 function UnreadMessageButton() {
     const unseenMessageCount = useUnseenMessageCountStore(
@@ -24,4 +24,4 @@ function UnreadMessageButton() {
     );
 }
 
-export default UnreadMessageButton;
+export  { UnreadMessageButton };

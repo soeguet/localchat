@@ -1,11 +1,12 @@
-import { getTimeWithHHmmFormat } from "./time";
-import { MessagePayload } from "./customTypes";
-import { Notification } from "../../wailsjs/go/main/App";
-import useUserStore from "../stores/userStore";
-import { WindowShow } from "../../wailsjs/runtime";
-import React, { Dispatch } from "react";
-import useClientStore from "../stores/clientStore";
+import {getTimeWithHHmmFormat} from "./time";
+import {MessagePayload} from "./customTypes";
+import {Notification} from "../../wailsjs/go/main/App";
+import {useUserStore} from "../stores/userStore";
+import {WindowShow} from "../../wailsjs/runtime";
+import React, {Dispatch} from "react";
+import {useClientStore} from "../stores/clientStore";
 import {base64ToUtf8} from "./encoder";
+
 /**
  * Adds a message to the message map if it has a unique ID.
  * @param messagesMap

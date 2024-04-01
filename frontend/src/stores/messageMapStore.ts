@@ -1,5 +1,5 @@
-import { create, StoreApi, UseBoundStore } from "zustand";
-import { MessagePayload } from "../utils/customTypes";
+import {create, StoreApi, UseBoundStore} from "zustand";
+import {MessagePayload} from "../utils/customTypes";
 
 type MessageMapStore = {
     messageMap: Map<string, MessagePayload>;
@@ -12,7 +12,7 @@ const useMessageMapStore: UseBoundStore<StoreApi<MessageMapStore>> =
     create<MessageMapStore>((set) => ({
         messageMap: new Map<string, MessagePayload>(),
         setMessageMap: (messageMap: Map<string, MessagePayload>) =>
-            set(() => ({ messageMap: messageMap })),
+            set(() => ({messageMap: messageMap})),
         onMessage: (message: MessagePayload) =>
             set((state) => {
 
@@ -32,7 +32,7 @@ const useMessageMapStore: UseBoundStore<StoreApi<MessageMapStore>> =
                 const newMap = new Map(state.messageMap);
 
                 newMap.set(message.messageType.messageDbId, message);
-                return { messageMap: newMap };
+                return {messageMap: newMap};
             }),
         onUpdateMessage: (message: MessagePayload) =>
             set((state) => {
@@ -51,8 +51,8 @@ const useMessageMapStore: UseBoundStore<StoreApi<MessageMapStore>> =
 
                 newMap.set(message.messageType.messageDbId, message);
 
-                return { messageMap: newMap };
+                return {messageMap: newMap};
             }),
     }));
 
-export default useMessageMapStore;
+export {useMessageMapStore};

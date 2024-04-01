@@ -1,5 +1,5 @@
-import { ReactNode, useRef } from "react";
-import useClosePopupOnClickEffect from "../../../../../../hooks/popups/useClosePopupOnClickEffect";
+import {ReactNode, useRef} from "react";
+import {useClosePopupOnClickEffect} from "../../../../../../hooks/popups/useClosePopupOnClickEffect";
 
 type FontSizePopupModalBodyProps = {
     showPopup: boolean;
@@ -31,4 +31,4 @@ function FontSizePopupModalBody(props: FontSizePopupModalBodyProps) {
     );
 }
 
-export default FontSizePopupModalBody;
+export {FontSizePopupModalBody};

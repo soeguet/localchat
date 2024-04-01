@@ -1,11 +1,12 @@
-import { render, screen } from "@testing-library/react";
-import FontSizeAdjustButton from "./FontSizeAdjustButton";
-import { expect } from "vitest";
+import {render, screen} from "@testing-library/react";
+import {FontSizeAdjustButton} from "./FontSizeAdjustButton";
+import {expect} from "vitest";
 
 describe("FontSizeAdjustButton", () => {
 
     test("should render", () => {
-        render(<FontSizeAdjustButton onClick={() => { }} >test</FontSizeAdjustButton>);
+        render(<FontSizeAdjustButton onClick={() => {
+        }}>test</FontSizeAdjustButton>);
         expect(screen.getByText("test")).toBeInTheDocument();
     });
 

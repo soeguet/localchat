@@ -1,4 +1,4 @@
-import { svgSize } from "../../../utils/variables";
+import {svgSize} from "../../../utils/variables";
 
 function GermanFlagSvg() {
     return (
@@ -44,4 +44,4 @@ function GermanFlagSvg() {
     );
 }
 
-export default GermanFlagSvg;
+export {GermanFlagSvg};

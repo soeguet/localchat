@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import {useEffect, useState} from "react";
+import {useTranslation} from "react-i18next";
 
 function Timer() {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const [timeLeft, setTimeLeft] = useState(300);
 
     useEffect(() => {
@@ -20,9 +20,10 @@ function Timer() {
 
     return (
         <>
-            <span data-testid="do-not-disturb-timer">{minutes}:{seconds < 10 ? `0${seconds}` : seconds} {t("timer_time_left")}</span>
+            <span
+                data-testid="do-not-disturb-timer">{minutes}:{seconds < 10 ? `0${seconds}` : seconds} {t("timer_time_left")}</span>
         </>
     );
 }
 
-export default Timer;
+export {Timer};

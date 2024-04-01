@@ -1,7 +1,7 @@
 import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
-import { en_translation } from "../utils/translation/en";
-import { de_translation } from "../utils/translation/de";
+import {initReactI18next} from "react-i18next";
+import {en_translation} from "../utils/translation/en";
+import {de_translation} from "../utils/translation/de";
 
 const language = localStorage.getItem("language") || "en";
 
@@ -21,9 +21,9 @@ i18n
         },
 
         resources: {
-            en: { translationsNS: en_translation },
-            de: { translationsNS: de_translation },
+            en: {translationsNS: en_translation},
+            de: {translationsNS: de_translation},
         },
     });
 
-export default i18n;
+export {i18n};

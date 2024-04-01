@@ -1,9 +1,9 @@
-import { FormEvent, useEffect, useState } from "react";
-import useUserStore from "../../stores/userStore";
-import { useTranslation } from "react-i18next";
+import {FormEvent, useEffect, useState} from "react";
+import {useUserStore} from "../../stores/userStore";
+import {useTranslation} from "react-i18next";
 
 function Form() {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const setClientName = useUserStore((state) => state.setMyUsername);
     const setSocketIp = useUserStore((state) => state.setSocketIp);
     const setSocketPort = useUserStore((state) => state.setSocketPort);
@@ -162,4 +162,4 @@ function Form() {
     );
 }
 
-export default Form;
+export  { Form };

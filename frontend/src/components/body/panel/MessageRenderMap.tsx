@@ -1,11 +1,11 @@
-import { MessagePayload } from "../../../utils/customTypes";
-import React, { useDeferredValue, useEffect } from "react";
-import ChatMessageUnit from "./bubble/ChatMessageUnit";
-import useUnseenMessageCountStore from "../../../stores/unseenMessageCountStore";
-import { checkIfScrollToBottomIsNeeded } from "../../../utils/scrollToBottomNeeded";
-import { scrollToBottom } from "../../../utils/functionality";
-import useMessageMapStore from "../../../stores/messageMapStore";
-import UnreadMessagesBelowBanner from "./UnreadMessagesBelowBanner";
+import {MessagePayload} from "../../../utils/customTypes";
+import {Fragment, useDeferredValue, useEffect} from "react";
+import {ChatMessageUnit} from "./bubble/ChatMessageUnit";
+import {useUnseenMessageCountStore} from "../../../stores/unseenMessageCountStore";
+import {checkIfScrollToBottomIsNeeded} from "../../../utils/scrollToBottomNeeded";
+import {scrollToBottom} from "../../../utils/functionality";
+import {useMessageMapStore} from "../../../stores/messageMapStore";
+import {UnreadMessagesBelowBanner} from "./UnreadMessagesBelowBanner";
 
 function MessageRenderMap() {
     const messageMap = useMessageMapStore((state) => state.messageMap);
@@ -62,7 +62,7 @@ function MessageRenderMap() {
                     }
 
                     return (
-                        <React.Fragment key={value[0]}>
+                        <Fragment key={value[0]}>
                             <UnreadMessagesBelowBanner
                                 thisIsTheFirstUnreadMessage={
                                     thisIsTheFirstUnreadMessage
@@ -77,11 +77,11 @@ function MessageRenderMap() {
                                     lastMessageTimestampSameAsThisOne
                                 }
                             />
-                        </React.Fragment>
+                        </Fragment>
                     );
                 })}
         </>
     );
 }
 
-export default MessageRenderMap;
+export {MessageRenderMap};

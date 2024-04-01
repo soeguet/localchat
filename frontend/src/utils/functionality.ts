@@ -1,8 +1,8 @@
-import useRefStore from "../stores/refStore";
+import {useRefStore} from "../stores/refStore";
 
 export async function scrollToBottom(): Promise<void> {
     const chatBottomRef = useRefStore.getState().chatBottomRef;
-    chatBottomRef?.current?.scrollIntoView({ behavior: "smooth" });
+    chatBottomRef?.current?.scrollIntoView({behavior: "smooth"});
 }
 
 /**

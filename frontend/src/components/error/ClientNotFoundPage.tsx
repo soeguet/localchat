@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { WindowReloadApp } from "../../../wailsjs/runtime/runtime";
-import { useTranslation } from "react-i18next";
+import {useState} from "react";
+import {WindowReloadApp} from "../../../wailsjs/runtime";
+import {useTranslation} from "react-i18next";
 
 function ClientNotFoundPage() {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const [disableClickable, setDisableClickable] = useState(false);
     const timeout = setTimeout(() => {
         setDisableClickable(true);
@@ -32,4 +32,4 @@ function ClientNotFoundPage() {
     );
 }
 
-export default ClientNotFoundPage;
+export {ClientNotFoundPage};

@@ -17,4 +17,4 @@ function ChatMessageTimestamp(props: ChatMessageTimestampProps) {
     );
 }
 
-export default ChatMessageTimestamp;
+export { ChatMessageTimestamp };

@@ -1,20 +1,20 @@
-import { describe, expect } from "vitest";
-import { render } from "../../../../../utils/test-utils";
-import UnreadMessageButton from "./UnreadMessageButton";
-import { act, fireEvent, screen } from "@testing-library/react";
-import useUnseenMessageCountStore from "../../../../../stores/unseenMessageCountStore";
+import {describe, expect} from "vitest";
+import {render} from "../../../../../utils/test-utils";
+import { UnreadMessageButton } from "./UnreadMessageButton";
+import {act, fireEvent, screen} from "@testing-library/react";
+import { useUnseenMessageCountStore } from "../../../../../stores/unseenMessageCountStore";
 import * as functionalityModule from "../../../../../utils/functionality";
 
 describe("UnreadMessageButton", () => {
     it("should not render", () => {
-        render(<UnreadMessageButton />);
+        render(<UnreadMessageButton/>);
         expect(
             screen.queryByTestId("unread-message-button")
         ).not.toBeInTheDocument();
     });
 
     it("should render the component", () => {
-        render(<UnreadMessageButton />);
+        render(<UnreadMessageButton/>);
         act(() =>
             useUnseenMessageCountStore.getState().incrementUnseenMessageCount()
         );
@@ -27,7 +27,7 @@ describe("UnreadMessageButton", () => {
 
         useUnseenMessageCountStore.getState().incrementUnseenMessageCount();
 
-        const { getByTestId } = render(<UnreadMessageButton />);
+        const {getByTestId} = render(<UnreadMessageButton/>);
         fireEvent.click(getByTestId("unread-message-button"));
         expect(scrollToBottomMock).toHaveBeenCalled();
         scrollToBottomMock.mockRestore();

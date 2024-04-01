@@ -6,9 +6,9 @@ export const handleClickOutsideOfDiv = (
     modalSetter: (show: boolean) => void
 ) => {
     if (ref.current && !ref.current.contains(event.target as Node)) {
-        const { left, top, right, bottom } =
+        const {left, top, right, bottom} =
             ref.current.getBoundingClientRect();
-        const { clientX, clientY } = event;
+        const {clientX, clientY} = event;
 
         if (
             clientX < left ||

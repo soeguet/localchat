@@ -1,8 +1,8 @@
-import { useEffect } from "react";
-import useWebsocketStore from "../../stores/websocketStore";
-import { closeWebSocket, initWebSocket } from "../../utils/socket";
-import useUserStore from "../../stores/userStore";
-import { handleIncomingMessages } from "../../utils/handleIncomingMessages";
+import {useEffect} from "react";
+import {useWebsocketStore} from "../../stores/websocketStore";
+import {closeWebSocket, initWebSocket} from "../../utils/socket";
+import {useUserStore} from "../../stores/userStore";
+import {handleIncomingMessages} from "../../utils/handleIncomingMessages";
 
 function useWebsocketConnection() {
     const socketPort = useUserStore((store) => store.socketPort);
@@ -29,4 +29,4 @@ function useWebsocketConnection() {
     }, [socketIp, socketPort]);
 }
 
-export default useWebsocketConnection;
+export {useWebsocketConnection};

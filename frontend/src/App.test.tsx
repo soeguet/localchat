@@ -1,33 +1,38 @@
-import { vi } from "vitest";
-import { render, screen } from "@testing-library/react";
-import App from "./App";
+import {vi} from "vitest";
+import {render, screen} from "@testing-library/react";
+import {App} from "./App";
+
+import * as fontsize from "./hooks/setup/useFontSizeInitializer";
+import * as language from "./utils/useLanguageLoader";
+import * as envLoader from "./hooks/setup/useEnvLoader";
 
 vi.mock("./components/body/Chat", () => {
-    return { default: () => <div>Mocked Chat</div> };
+    return {default: () => <div>Mocked Chat</div>};
 });
 
 vi.mock("./components/startup/Form", () => {
-    return { default: () => <div>Form Component</div> };
+    return {default: () => <div>Form Component</div>};
+});
+
+vi.spyOn(fontsize, "useFontSizeInitializer").mockImplementation(() => {
+});
+vi.spyOn(language, "useInitializeSelectedAppLanguageFromLocalStorage").mockImplementation(() => {
 });
 
 describe("App.tsx", () => {
 
-    it.skip("should render Form component if all environment variables are not set", () => {
-        vi.mock("./hooks/setup/useEnvLoader.ts", () => ({
-            useEnvironmentVariablesLoader: () => ({ allEnvVariableSet: false }),
-        }));
+    it("should render Form component if all environment variables are not set", () => {
 
-        render(<App />);
+        vi.spyOn(envLoader, "useEnvironmentVariablesLoader").mockImplementation(() => ({allEnvVariableSet: false}));
+
+        render(<App/>);
         expect(screen.getByText(/form component/i)).toBeInTheDocument();
     });
 
     it("should render Mocked Chat component if all environment variables are set", () => {
-        // Mock für useEnvironmentVariablesLoader
-        vi.mock("./hooks/setup/useEnvLoader", () => ({
-            useEnvironmentVariablesLoader: () => ({ allEnvVariableSet: true }),
-        }));
+        vi.spyOn(envLoader, "useEnvironmentVariablesLoader").mockImplementation(() => ({allEnvVariableSet: true}));
 
-        render(<App />);
-        expect(screen.getByText(/mocked chat/i)).toBeInTheDocument(); // Bestätigt, dass der gemockte Chat gerendert wird
+        render(<App/>);
+        expect(screen.getByText(/mocked chat/i)).toBeInTheDocument();
     });
 });

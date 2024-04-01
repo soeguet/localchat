@@ -1,4 +1,4 @@
-import { StoreApi, UseBoundStore, create } from "zustand";
+import {create, StoreApi, UseBoundStore} from "zustand";
 
 type LastMessageStore = {
     lastMessageId: string;
@@ -9,7 +9,7 @@ type LastMessageStore = {
 const useLastMessageStore: UseBoundStore<StoreApi<LastMessageStore>> = create<LastMessageStore>((set) => ({
     lastMessageId: "",
     lastMessageTime: "",
-    setLastMessage: (id, messageTime) => set({ lastMessageId: id, lastMessageTime: messageTime }),
+    setLastMessage: (id, messageTime) => set({lastMessageId: id, lastMessageTime: messageTime}),
 }));
 
-export default useLastMessageStore;
+export {useLastMessageStore};

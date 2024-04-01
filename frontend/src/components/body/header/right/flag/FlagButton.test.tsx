@@ -1,34 +1,34 @@
-import { render, screen, userEvent } from "../../../../../utils/test-utils";
-import FlagButton from "./FlagButton";
-import { fireEvent, waitFor } from "@testing-library/react";
-import { useSelectedLanguageStore } from "../../../../../stores/selectedLanguageStore";
+import {render, screen, userEvent} from "../../../../../utils/test-utils";
+import {FlagButton} from "./FlagButton";
+import {waitFor} from "@testing-library/react";
+import {useSelectedLanguageStore} from "../../../../../stores/selectedLanguageStore";
 
 describe("FlagButton", () => {
     test("should render the FlagButton component", async () => {
-        render(<FlagButton />);
+        render(<FlagButton/>);
         const flagButton = screen.getByRole("button");
         expect(flagButton).toBeInTheDocument();
     });
 
     test("should render britain flag at start", () => {
-        render(<FlagButton />);
+        render(<FlagButton/>);
         expect(screen.getByTestId("flag-button")).toBeInTheDocument();
     });
 
     test("should render britain flag at start", () => {
-        render(<FlagButton />);
+        render(<FlagButton/>);
         expect(screen.getByTestId("britain-flag-svg")).toBeInTheDocument();
     });
 
     test("should switch the language to 'de' when the button is clicked", async () => {
-        render(<FlagButton />);
+        render(<FlagButton/>);
         const button = screen.getByTestId("flag-button");
         await waitFor(() => userEvent.click(button));
         expect(screen.getByTestId("german-flag-svg")).toBeInTheDocument();
     });
 
     test("should render change language", async () => {
-        render(<FlagButton />);
+        render(<FlagButton/>);
         const flagButton = screen.getByRole("button");
         await waitFor(() => userEvent.click(flagButton));
         expect(screen.getByTestId("german-flag-svg")).toBeInTheDocument();
@@ -37,7 +37,7 @@ describe("FlagButton", () => {
     });
 
     test("clicking updates store variable", async () => {
-        render(<FlagButton />);
+        render(<FlagButton/>);
         const flagButton = screen.getByRole("button");
         await waitFor(() => userEvent.click(flagButton));
         expect(useSelectedLanguageStore.getState().selectedLanguage).toBe("de");

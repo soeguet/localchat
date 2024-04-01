@@ -1,7 +1,7 @@
-import { describe, it, expect, vi } from "vitest";
-import { useWindowFocussedListener } from "./useWindowFocussedListener";
-import { renderHook } from "@testing-library/react";
-import useGuiHasFocusStore from "../../stores/guiHasFocusStore";
+import {describe, expect, it, vi} from "vitest";
+import {useWindowFocussedListener} from "./useWindowFocussedListener";
+import {renderHook} from "@testing-library/react";
+import {useGuiHasFocusStore} from "../../stores/guiHasFocusStore";
 
 describe("useWindowFocussedListener", () => {
 
@@ -11,8 +11,10 @@ describe("useWindowFocussedListener", () => {
 
     it("should register and unregister focus and blur event listeners", () => {
 
-        vi.spyOn(window, "addEventListener").mockImplementation(() => { });
-        vi.spyOn(window, "removeEventListener").mockImplementation(() => { });
+        vi.spyOn(window, "addEventListener").mockImplementation(() => {
+        });
+        vi.spyOn(window, "removeEventListener").mockImplementation(() => {
+        });
 
         renderHook(() => useWindowFocussedListener());
 

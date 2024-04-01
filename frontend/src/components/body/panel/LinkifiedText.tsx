@@ -94,4 +94,4 @@ function LinkifiedText({ text }: Props) {
     // }
 }
 
-export default LinkifiedText;
+export { LinkifiedText };

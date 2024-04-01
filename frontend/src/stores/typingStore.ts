@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import {create} from "zustand";
 
 type TypingStoreType = {
     typingClientIds: string[];
@@ -20,4 +20,4 @@ const useTypingStore = create<TypingStoreType>((set) => ({
         })),
 }));
 
-export default useTypingStore;
+export {useTypingStore};

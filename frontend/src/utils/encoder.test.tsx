@@ -1,4 +1,4 @@
-import { base64ToUtf8, utf8ToBase64 } from "./encoder";
+import {base64ToUtf8, utf8ToBase64} from "./encoder";
 
 describe("encoder methods", () => {
     it("base64ToUtf8 testing", () => {
@@ -22,4 +22,3 @@ describe("encoder methods", () => {
         expect(utf8ToBase64("world")).not.toBe("aGVsbG8=");
     });
 });
-

@@ -1,9 +1,9 @@
-import useClientStore from "../../../../stores/clientStore";
-import useUnseenMessageCountStore from "../../../../stores/unseenMessageCountStore";
-import {MessagePayload} from "../../../../utils/customTypes";
-import QuoteBubble from "../QuoteBubble";
-import {base64ToUtf8} from "../../../../utils/encoder";
-import ReactionField from "./reaction/ReactionField";
+import { useClientStore } from "../../../../stores/clientStore";
+import { useUnseenMessageCountStore } from "../../../../stores/unseenMessageCountStore";
+import { MessagePayload } from "../../../../utils/customTypes";
+import { QuoteBubble } from "../QuoteBubble";
+import { base64ToUtf8 } from "../../../../utils/encoder";
+import { ReactionField } from "./reaction/ReactionField";
 
 type ChatBubbleBottomPartProps = {
     messagePayload: MessagePayload;
@@ -13,11 +13,11 @@ type ChatBubbleBottomPartProps = {
 function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
     const clientColor = useClientStore(
         (state) =>
-            state.clients.find(
-                (c): boolean => {
-                    return c.clientDbId === props.messagePayload.clientType.clientDbId;
-                }
-            )?.clientColor
+            state.clients.find((c): boolean => {
+                return (
+                    c.clientDbId === props.messagePayload.clientType.clientDbId
+                );
+            })?.clientColor
     );
     const unseenMessagesIdList = useUnseenMessageCountStore(
         (state) => state.unseenMessagesIdList
@@ -34,7 +34,10 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
 
     let margin = "";
 
-    if (props.messagePayload.reactionType !== undefined && props.messagePayload.reactionType?.length > 0) {
+    if (
+        props.messagePayload.reactionType !== undefined &&
+        props.messagePayload.reactionType?.length > 0
+    ) {
         margin = "mb-7";
     }
 
@@ -52,18 +55,24 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
                         borderWidth: thisMessageUnseen ? "2px" : "1px",
                     }}
                 >
-                    <QuoteBubble payload={props.messagePayload}/>
-                    <div className="whitespace-pre-wrap">{base64DecodedMessage}</div>
+                    <QuoteBubble payload={props.messagePayload} />
+                    <div className="whitespace-pre-wrap">
+                        {base64DecodedMessage}
+                    </div>
                     {/*<LinkifiedText
                         text={props.messagePayload.messageType.messageContext}
                     />*/}
 
-                    {(props.messagePayload.reactionType && props.messagePayload.reactionType.length > 0) &&
-                        <ReactionField messagePayload={props.messagePayload}/>}
+                    {props.messagePayload.reactionType &&
+                        props.messagePayload.reactionType.length > 0 && (
+                            <ReactionField
+                                messagePayload={props.messagePayload}
+                            />
+                        )}
                 </div>
             </div>
         </>
     );
 }
 
-export default ChatBubbleBottomPart;
+export { ChatBubbleBottomPart };

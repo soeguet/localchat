@@ -1,22 +1,18 @@
-import { MessagePayload, PayloadSubType, ReactionPayload } from "./customTypes";
+import {MessagePayload, PayloadSubType} from "./customTypes";
 import {
     checkIfMessageIsToBeAddedToTheUnseenMessagesList,
     checkIfNotificationIsNeeded,
     handeMessageListPayload,
     handleClientListPayload,
 } from "../hooks/socket/utils";
-import { checkIfScrollToBottomIsNeeded } from "./scrollToBottomNeeded";
-import useDoNotDisturbStore from "../stores/doNotDisturbStore";
-import { Notification } from "../../wailsjs/go/main/App";
-import {
-    WindowMinimise,
-    WindowShow,
-    WindowUnminimise,
-} from "../../wailsjs/runtime";
-import useMessageMapStore from "../stores/messageMapStore";
-import useUserStore from "../stores/userStore";
-import useTypingStore from "../stores/typingStore";
-import { notifyClientIfReactionTarget } from "./reactionHandler";
+import {checkIfScrollToBottomIsNeeded} from "./scrollToBottomNeeded";
+import {useDoNotDisturbStore} from "../stores/doNotDisturbStore";
+import {Notification} from "../../wailsjs/go/main/App";
+import {WindowMinimise, WindowShow, WindowUnminimise,} from "../../wailsjs/runtime";
+import {useMessageMapStore} from "../stores/messageMapStore";
+import {useUserStore} from "../stores/userStore";
+import {useTypingStore} from "../stores/typingStore";
+import {notifyClientIfReactionTarget} from "./reactionHandler";
 
 export function handleIncomingMessages(event: MessageEvent) {
     const dataAsObject = JSON.parse(event.data);

@@ -1,10 +1,10 @@
 import {useEffect, useRef, useState} from "react";
 import {WindowReload} from "../../../../../wailsjs/runtime";
 import {useTranslation} from "react-i18next";
-import ForceModal from "../ForceModal";
-import useDoNotDisturbStore from "../../../../stores/doNotDisturbStore";
-import ProfileModal from "./ProfileModal";
-import InfoMenuButton from "./InfoMenuButton";
+import {ForceModal} from "../ForceModal";
+import {useDoNotDisturbStore} from "../../../../stores/doNotDisturbStore";
+import {ProfileModal} from "./ProfileModal";
+import {InfoMenuButton} from "./InfoMenuButton";
 import {handleClickOutsideOfDiv} from "../../../../utils/handleClickOutsideOfDiv";
 
 type ProfileMenuPropsType = {
@@ -82,4 +82,4 @@ function ProfileMenu(props: ProfileMenuPropsType) {
     );
 }
 
-export default ProfileMenu;
+export {ProfileMenu};

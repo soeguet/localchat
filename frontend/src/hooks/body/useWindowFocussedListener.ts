@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import useGuiHasFocusStore from "../../stores/guiHasFocusStore";
+import {useEffect, useRef} from "react";
+import {useGuiHasFocusStore} from "../../stores/guiHasFocusStore";
 
 export function useWindowFocussedListener() {
     // window focus state

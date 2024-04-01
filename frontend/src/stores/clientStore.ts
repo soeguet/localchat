@@ -1,5 +1,5 @@
-import { StoreApi, UseBoundStore, create } from "zustand";
-import { ClientEntity } from "../utils/customTypes";
+import {create, StoreApi, UseBoundStore} from "zustand";
+import {ClientEntity} from "../utils/customTypes";
 
 /**
  * Represents a registered user.
@@ -12,12 +12,12 @@ export type ClientStore = {
 const useClientStore: UseBoundStore<StoreApi<ClientStore>> =
     create<ClientStore>((set) => ({
         clients: [],
-        setClients: (clients) => set({ clients }),
+        setClients: (clients) => set({clients}),
     }));
 
-export const getClientById = (id: string): ClientEntity| undefined => {
+export const getClientById = (id: string): ClientEntity | undefined => {
     const clients = useClientStore.getState().clients;
     return clients.find((client) => client.clientDbId === id);
 };
 
-export default useClientStore;
+export {useClientStore};

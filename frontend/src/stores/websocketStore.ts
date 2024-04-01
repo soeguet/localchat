@@ -1,4 +1,4 @@
-import { StoreApi, UseBoundStore, create } from "zustand";
+import {create, StoreApi, UseBoundStore} from "zustand";
 
 type WebsocketStoreType = {
     ws: WebSocket | null;
@@ -9,8 +9,8 @@ type WebsocketStoreType = {
 
 const useWebsocketStore: UseBoundStore<StoreApi<WebsocketStoreType>> = create<WebsocketStoreType>((set) => ({
     ws: null,
-    setWs: (ws) => set({ ws }),
+    setWs: (ws) => set({ws}),
     isConnected: false,
-    setIsConnected: (state:boolean) => set({ isConnected: state }),
+    setIsConnected: (state: boolean) => set({isConnected: state}),
 }));
-export default useWebsocketStore;
+export {useWebsocketStore};

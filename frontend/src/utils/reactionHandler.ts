@@ -1,9 +1,9 @@
 import {MessagePayload} from "./customTypes";
-import useUserStore from "../stores/userStore";
+import {useUserStore} from "../stores/userStore";
 import {Notification} from "../../wailsjs/go/main/App";
-import useClientStore from "../stores/clientStore";
+import {useClientStore} from "../stores/clientStore";
 import {base64ToUtf8} from "./encoder";
-import useDoNotDisturbStore from "../stores/doNotDisturbStore";
+import {useDoNotDisturbStore} from "../stores/doNotDisturbStore";
 
 export function notifyClientIfReactionTarget(payload: MessagePayload) {
 

@@ -6,4 +6,4 @@ function useSetFontSizeLocalStorage(fontSize: number) {
     }, [fontSize]);
 }
 
-export default useSetFontSizeLocalStorage;
+export { useSetFontSizeLocalStorage };

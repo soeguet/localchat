@@ -16,4 +16,4 @@ function FontSizePopupHeader(props: FontSizePopupHeaderProps) {
     );
 }
 
-export default FontSizePopupHeader;
+export { FontSizePopupHeader };

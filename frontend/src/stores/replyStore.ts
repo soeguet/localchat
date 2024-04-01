@@ -1,4 +1,4 @@
-import { StoreApi, UseBoundStore, create } from "zustand";
+import {create, StoreApi, UseBoundStore} from "zustand";
 
 /**
  * Represents a reply in the chat.
@@ -28,8 +28,8 @@ const useReplyStore: UseBoundStore<StoreApi<ReplyStore>> = create<ReplyStore>(
     (set) => ({
         replyMessage: null,
         setReplyMessage: (replyMessage) =>
-            set(() => ({ replyMessage: replyMessage })),
+            set(() => ({replyMessage: replyMessage})),
     })
 );
 
-export default useReplyStore;
+export {useReplyStore};

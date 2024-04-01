@@ -1,7 +1,7 @@
 import {scrollToBottom} from "../../../utils/functionality";
-import ScrollSymbolSvg from "../../svgs/scroll/ScrollSymbolSvg";
-import useUnseenMessageCountStore from "../../../stores/unseenMessageCountStore";
-import useRefStore from "../../../stores/refStore";
+import {ScrollSymbolSvg} from "../../svgs/scroll/ScrollSymbolSvg";
+import {useUnseenMessageCountStore} from "../../../stores/unseenMessageCountStore";
+import {useRefStore} from "../../../stores/refStore";
 import {useCallback, useEffect} from "react";
 import {debounce} from "../../../utils/debounce";
 
@@ -67,4 +67,4 @@ function ScrollToBottomButton() {
     );
 }
 
-export default ScrollToBottomButton;
+export {ScrollToBottomButton};

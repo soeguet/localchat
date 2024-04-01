@@ -52,4 +52,4 @@ function ChatBubbleMenu(props: ChatBubbleMenuProps) {
     );
 }
 
-export default ChatBubbleMenu;
+export { ChatBubbleMenu };

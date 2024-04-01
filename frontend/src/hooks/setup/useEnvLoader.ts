@@ -1,6 +1,6 @@
-import useUserStore from "../../stores/userStore";
-import { useEffect, useState } from "react";
-import { GetLocalChatEnvVars } from "../../../wailsjs/go/main/App";
+import {useUserStore} from "../../stores/userStore";
+import {useEffect, useState} from "react";
+import {GetLocalChatEnvVars} from "../../../wailsjs/go/main/App";
 
 export function useEnvironmentVariablesLoader() {
     const [allEnvVariableSet, setAllEnvVariableSet] = useState(false);
@@ -36,5 +36,5 @@ export function useEnvironmentVariablesLoader() {
         }
     }, [socketIp, socketPort, myUsername, myId]);
 
-    return { allEnvVariableSet };
+    return {allEnvVariableSet};
 }

@@ -1,7 +1,7 @@
-import useRefStore from "../stores/refStore";
-import useGuiHasFocusStore from "../stores/guiHasFocusStore";
-import { scrollToBottom } from "./functionality";
-import useUserStore from "../stores/userStore";
+import {useRefStore} from "../stores/refStore";
+import {useGuiHasFocusStore} from "../stores/guiHasFocusStore";
+import {scrollToBottom} from "./functionality";
+import {useUserStore} from "../stores/userStore";
 
 export function checkIfScrollToBottomIsNeeded(id: string) {
     const clientDbId = useUserStore.getState().myId;

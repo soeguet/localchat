@@ -1,18 +1,13 @@
-import { Notification } from "../../wailsjs/go/main/App";
-import { getClientById } from "../stores/clientStore";
-import useReplyStore, { Reply } from "../stores/replyStore";
-import useUserStore from "../stores/userStore";
-import useWebsocketStore from "../stores/websocketStore";
-import { generateSimpleId } from "./functionality";
-import useDoNotDisturbStore from "../stores/doNotDisturbStore";
-import { getTimeWithHHmmFormat } from "./time";
-import {
-    AuthenticationPayload,
-    CallbackProps,
-    MessagePayload,
-    PayloadSubType,
-} from "./customTypes";
-import { utf8ToBase64 } from "./encoder";
+import {Notification} from "../../wailsjs/go/main/App";
+import {getClientById} from "../stores/clientStore";
+import {Reply, useReplyStore} from "../stores/replyStore";
+import {useUserStore} from "../stores/userStore";
+import {useWebsocketStore} from "../stores/websocketStore";
+import {generateSimpleId} from "./functionality";
+import {useDoNotDisturbStore} from "../stores/doNotDisturbStore";
+import {getTimeWithHHmmFormat} from "./time";
+import {AuthenticationPayload, CallbackProps, MessagePayload, PayloadSubType,} from "./customTypes";
+import {utf8ToBase64} from "./encoder";
 
 let socket: WebSocket;
 
@@ -108,4 +103,4 @@ function sendClientMessageToWebsocket(message: string): void {
     socket.send(JSON.stringify(payload));
 }
 
-export { closeWebSocket, sendClientMessageToWebsocket, socket };
+export {closeWebSocket, sendClientMessageToWebsocket, socket};

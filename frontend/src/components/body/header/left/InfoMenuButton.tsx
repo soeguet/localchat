@@ -1,6 +1,6 @@
 import {useTranslation} from "react-i18next";
-import React, {useState} from "react";
-import InfoMenuModal from "./InfoMenuModal";
+import {useState} from "react";
+import {InfoMenuModal} from "./InfoMenuModal";
 
 function InfoMenuButton() {
 
@@ -25,4 +25,4 @@ function InfoMenuButton() {
     );
 }
 
-export default InfoMenuButton;
+export {InfoMenuButton};

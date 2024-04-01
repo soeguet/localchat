@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import Header from "./Header";
-import useDoNotDisturbStore from "../../../stores/doNotDisturbStore";
+import { Header } from "./Header";
+import { useDoNotDisturbStore } from "../../../stores/doNotDisturbStore";
 
 describe("Header", () => {
     it("should render", () => {
