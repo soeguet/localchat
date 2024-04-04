@@ -7,6 +7,7 @@ import {
 import { generateSimpleId } from "../../../../../utils/functionality";
 import { useUserStore } from "../../../../../stores/userStore";
 import { useTranslation } from "react-i18next";
+import useReactionMenuStore from "../../../../../stores/reactionMenuStore";
 
 const EmojiPicker = lazy(() => import("emoji-picker-react"));
 
@@ -23,10 +24,17 @@ function ReactionTriggerDiv({ messagePayload }: ReactionTriggerDivProps) {
     const messageFromThisClient =
         messagePayload.clientType.clientDbId === useUserStore.getState().myId;
 
-    const handleOpenEmojiPicker = () => {
-        setIsLoading(true);
-        setReactionOpen(!reactionOpen);
-        setTimeout(() => setIsLoading(false), 20);
+    const handleOpenEmojiPicker = (e: any) => {
+        // setIsLoading(true);
+        // setReactionOpen(!reactionOpen);
+        // setTimeout(() => setIsLoading(false), 20);
+
+        console.log("e", e);
+        useReactionMenuStore.getState().setIsOpen(true);
+        useReactionMenuStore.getState().setPosition({
+            x: e.pageX - 324 / 2,
+            y: e.pageY + 20,
+        });
     };
 
     return (

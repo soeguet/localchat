@@ -1,13 +1,14 @@
-import {ChatInputSection} from "./input/ChatInputSection";
-import {Header} from "./header/Header";
-import {useUserStore} from "../../stores/userStore";
-import {useClientStore} from "../../stores/clientStore";
-import {ChatPanel} from "./panel/ChatPanel";
-import {ClientNotFoundPage} from "../error/ClientNotFoundPage";
-import {useWebsocketConnection} from "../../hooks/socket/useWebsocketConnection";
-import {useWindowFocussedListener} from "../../hooks/body/useWindowFocussedListener";
-import {TypingIndicator} from "./panel/TypingIndicator";
-import {ScrollToBottomButton} from "./panel/ScrollToBottomButton";
+import { ChatInputSection } from "./input/ChatInputSection";
+import { Header } from "./header/Header";
+import { useUserStore } from "../../stores/userStore";
+import { useClientStore } from "../../stores/clientStore";
+import { ChatPanel } from "./panel/ChatPanel";
+import { ClientNotFoundPage } from "../error/ClientNotFoundPage";
+import { useWebsocketConnection } from "../../hooks/socket/useWebsocketConnection";
+import { useWindowFocussedListener } from "../../hooks/body/useWindowFocussedListener";
+import { TypingIndicator } from "./panel/TypingIndicator";
+import { ScrollToBottomButton } from "./panel/ScrollToBottomButton";
+import ReactionModal from "./ReactionModal";
 
 /**
  * The main part of the application.
@@ -25,20 +26,24 @@ function Chat() {
     useWindowFocussedListener();
 
     if (thisClient === undefined) {
-        return <ClientNotFoundPage/>;
+        return <ClientNotFoundPage />;
     }
 
     return (
         <>
-            <main data-testid="chat-main" className="flex h-screen flex-col justify-evenly">
-                <Header/>
-                <ChatPanel/>
-                <TypingIndicator/>
-                <ScrollToBottomButton/>
-                <ChatInputSection/>
+            <main
+                data-testid="chat-main"
+                className="flex h-screen flex-col justify-evenly"
+            >
+                <Header />
+                <ChatPanel />
+                <TypingIndicator />
+                <ScrollToBottomButton />
+                <ChatInputSection />
+                <ReactionModal />
             </main>
         </>
     );
 }
 
-export {Chat};
+export { Chat };

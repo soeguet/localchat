@@ -6,6 +6,12 @@ import topLevelAwait from "vite-plugin-top-level-await";
 import react from "@vitejs/plugin-react"; // https://vitejs.dev/config/
 
 export default defineConfig({
+    build: {
+        sourcemap: true, // aktiviert die Generierung von Source Maps
+        // Weitere Optionen zur Konfiguration der Source Maps:
+        // sourcemap: 'inline', // Generiert inline Source Maps
+        // sourcemap: 'hidden', // Generiert keine Source Maps
+    },
     plugins: [
         react(),
         topLevelAwait({
