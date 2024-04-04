@@ -35,6 +35,9 @@ function ReactionTriggerDiv({ messagePayload }: ReactionTriggerDivProps) {
             x: e.pageX - 324 / 2,
             y: e.pageY + 20,
         });
+        useReactionMenuStore
+            .getState()
+            .setMessageDbId(messagePayload.messageType.messageDbId);
     };
 
     return (
