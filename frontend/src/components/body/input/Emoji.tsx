@@ -1,18 +1,17 @@
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
-import { useEffect, useRef, useState } from "react";
+import {memo, useEffect, useRef, useState} from "react";
 import React from "react";
 
 type EmojiProps = {
     setMessage: React.Dispatch<React.SetStateAction<string>>;
 };
 
-function Emoji(props: EmojiProps) {
+const Emoji = memo((props: EmojiProps) => {
     const [emojiVisible, setEmojiVisible] = useState(false);
     const [position, setPosition] = useState({ x: 0, y: 0 });
 
     const emojiRef = useRef<HTMLDivElement>(null);
 
-    //console.log("EMOJI RERENDERED");
     /**
      * Handles the click outside of the menu.
      * @param event - The mouse event object.
@@ -40,7 +39,7 @@ function Emoji(props: EmojiProps) {
     }
 
     useEffect(() => {
-        if (emojiVisible === true) {
+        if (emojiVisible) {
             document.addEventListener("mousedown", handleClickOutside);
         }
 
@@ -75,13 +74,15 @@ function Emoji(props: EmojiProps) {
                     style={{
                         position: "fixed",
                         left: position.x,
-                        top: position.y-460,
+                        top: position.y - 460,
                         zIndex: 20,
                     }}
                 />
             </div>
         </>
     );
-}
+});
 
-export default React.memo(Emoji);
+Emoji.displayName = "Emoji";
+
+export { Emoji };

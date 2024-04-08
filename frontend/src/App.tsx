@@ -1,5 +1,5 @@
-import Chat from "./components/body/Chat";
-import Form from "./components/startup/Form";
+import { Chat } from "./components/body/Chat";
+import { Form } from "./components/startup/Form";
 import { useEnvironmentVariablesLoader } from "./hooks/setup/useEnvLoader";
 import { useFontSizeInitializer } from "./hooks/setup/useFontSizeInitializer";
 import { useInitializeSelectedAppLanguageFromLocalStorage } from "./utils/useLanguageLoader";
@@ -21,4 +21,4 @@ function App() {
     return <Chat />;
 }
 
-export default App;
+export { App };

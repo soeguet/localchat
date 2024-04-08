@@ -1,8 +1,8 @@
-import React from "react";
-import useReplyStore from "../../../stores/replyStore";
+import React, {memo} from "react";
+import { useReplyStore } from "../../../stores/replyStore";
 import {base64ToUtf8} from "../../../utils/encoder";
 
-function Reply() {
+const Reply = memo(() => {
     const replyMessage = useReplyStore((state) => state.replyMessage);
     const setReplyMessage = useReplyStore((state) => state.setReplyMessage);
 
@@ -38,6 +38,8 @@ function Reply() {
             )}
         </>
     );
-}
+});
 
-export default React.memo(Reply);
+Reply.displayName = "Reply";
+
+export {Reply};

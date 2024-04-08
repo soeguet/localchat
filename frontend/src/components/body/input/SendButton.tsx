@@ -1,4 +1,4 @@
-import React from "react";
+import React, {memo} from "react";
 import {useTranslation} from "react-i18next";
 
 type SendButtonProps = {
@@ -6,7 +6,7 @@ type SendButtonProps = {
     sendTypingStatus: (status: boolean) => void;
 };
 
-function SendButton({handleSendMessage, sendTypingStatus}: SendButtonProps) {
+const SendButton = memo(({handleSendMessage, sendTypingStatus}: SendButtonProps) => {
     const {t} = useTranslation();
     return (
         <button
@@ -19,6 +19,8 @@ function SendButton({handleSendMessage, sendTypingStatus}: SendButtonProps) {
             {t("button_send")}
         </button>
     );
-}
+});
 
-export default React.memo(SendButton);
+SendButton.displayName = "SendButton";
+
+export {SendButton};

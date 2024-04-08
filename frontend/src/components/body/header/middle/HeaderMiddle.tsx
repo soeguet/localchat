@@ -1,23 +1,23 @@
-import useWebsocketStore from "../../../../stores/websocketStore";
-import ConnectedSvg from "../../../svgs/status/ConnectedSvg";
-import DisconnectedSvg from "../../../svgs/status/DisconnectedSvg";
-import ReconnectButton from "./ReconnectButton";
+import {useWebsocketStore} from "../../../../stores/websocketStore";
+import {ConnectedSvg} from "../../../svgs/status/ConnectedSvg";
+import {DisconnectedSvg} from "../../../svgs/status/DisconnectedSvg";
+import {ReconnectButton} from "./ReconnectButton";
 
 function HeaderMiddle() {
-    const ws = useWebsocketStore((state) => state.ws);
+    const isConnected = useWebsocketStore((state) => state.isConnected);
 
     return (
-        <div>
-            {ws?.readyState === ws?.OPEN ? (
-                <ConnectedSvg />
-            ) : (
+        <div data-testid="header-middle">
+            {isConnected ?
+                <ConnectedSvg/>
+                :
                 <div className="flex">
-                    <DisconnectedSvg />
-                    <ReconnectButton />
+                    <DisconnectedSvg/>
+                    <ReconnectButton/>
                 </div>
-            )}
+            }
         </div>
     );
 }
 
-export default HeaderMiddle;
+export {HeaderMiddle};

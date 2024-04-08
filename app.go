@@ -79,8 +79,6 @@ func GetLocalChatEnvVars() (string, error) {
 		return "", err
 	}
 
-	
-
 	return string(envVarsJSON), nil
 }
 

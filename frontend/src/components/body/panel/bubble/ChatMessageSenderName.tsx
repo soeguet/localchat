@@ -15,4 +15,4 @@ function ChatMessageSenderName(props: ChatMessageSenderNameProps) {
     );
 }
 
-export default ChatMessageSenderName;
+export { ChatMessageSenderName };

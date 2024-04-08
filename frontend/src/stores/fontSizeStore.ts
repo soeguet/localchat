@@ -10,4 +10,4 @@ const useFontSizeStore = create<FontSizeState>((set) => ({
     setFontSize: (size) => set({fontSize: size}),
 }));
 
-export default useFontSizeStore;
+export {useFontSizeStore};

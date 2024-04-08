@@ -1,23 +1,15 @@
-import {
-    MakeWindowsTaskIconFlash,
-    Notification,
-} from "../../../wailsjs/go/main/App";
-import { WindowIsMinimised, WindowShow } from "../../../wailsjs/runtime";
-import useRefStore from "../../stores/refStore";
-import useDoNotDisturbStore from "../../stores/doNotDisturbStore";
-import useUnseenMessageCountStore from "../../stores/unseenMessageCountStore";
-import useUserStore from "../../stores/userStore";
-import {
-    ClientEntity,
-    ClientListPayload,
-    MessagePayload,
-    PayloadSubType,
-} from "../../utils/customTypes";
-import useMessageMapStore from "../../stores/messageMapStore";
-import useClientStore from "../../stores/clientStore";
-import useGuiHasFocusStore from "../../stores/guiHasFocusStore";
-import { scrollToBottom } from "../../utils/functionality";
-import { base64ToUtf8 } from "../../utils/encoder";
+import {MakeWindowsTaskIconFlash, Notification,} from "../../../wailsjs/go/main/App";
+import {WindowIsMinimised, WindowShow} from "../../../wailsjs/runtime";
+import {useRefStore} from "../../stores/refStore";
+import {useDoNotDisturbStore} from "../../stores/doNotDisturbStore";
+import {useUnseenMessageCountStore} from "../../stores/unseenMessageCountStore";
+import {useUserStore} from "../../stores/userStore";
+import {ClientEntity, ClientListPayload, MessagePayload, PayloadSubType,} from "../../utils/customTypes";
+import {useMessageMapStore} from "../../stores/messageMapStore";
+import {useClientStore} from "../../stores/clientStore";
+import {useGuiHasFocusStore} from "../../stores/guiHasFocusStore";
+import {scrollToBottom} from "../../utils/functionality";
+import {base64ToUtf8} from "../../utils/encoder";
 
 export function checkIfMessageIsToBeAddedToTheUnseenMessagesList(
     messagePayload: MessagePayload,
@@ -32,10 +24,8 @@ export function checkIfMessageIsToBeAddedToTheUnseenMessagesList(
                 messagePayload.messageType.messageDbId
             );
     } else {
-        // console.log("Scroll to bottom is needed");
         useUnseenMessageCountStore.getState().resetUnseenMessageCount();
         scrollToBottom();
-        // console.log(useUnseenMessageCountStore.getState().unseenMessageCount);
     }
 }
 
@@ -102,15 +92,12 @@ export function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
 }
 
 export function handleClientListPayload(payloadAsString: string) {
-    // console.log("handleClientListPayload");
-    // console.log(payloadAsString);
     const payloadAsObject: ClientListPayload = JSON.parse(payloadAsString);
     const clients: ClientEntity[] = payloadAsObject.clients;
     useClientStore.getState().setClients(clients);
 }
 
 export function handeMessageListPayload(data: string) {
-    console.log("handeMessageListPayload");
     const messageListPayload = JSON.parse(data) as {
         payloadType: PayloadSubType.messageList;
         messageList: MessagePayload[];

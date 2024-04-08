@@ -1,32 +1,25 @@
-import { Notification } from "../../wailsjs/go/main/App";
-import { getClientById } from "../stores/clientStore";
-import useReplyStore, { Reply } from "../stores/replyStore";
-import useUserStore from "../stores/userStore";
-import useWebsocketStore from "../stores/websocketStore";
-import { generateSimpleId } from "./functionality";
-import useDoNotDisturbStore from "../stores/doNotDisturbStore";
-import { getTimeWithHHmmFormat } from "./time";
-import {
-    AuthenticationPayload,
-    CallbackProps,
-    MessagePayload,
-    PayloadSubType,
-} from "./customTypes";
-import { utf8ToBase64 } from "./encoder";
+import {Notification} from "../../wailsjs/go/main/App";
+import {getClientById} from "../stores/clientStore";
+import {Reply, useReplyStore} from "../stores/replyStore";
+import {useUserStore} from "../stores/userStore";
+import {useWebsocketStore} from "../stores/websocketStore";
+import {generateSimpleId} from "./functionality";
+import {useDoNotDisturbStore} from "../stores/doNotDisturbStore";
+import {getTimeWithHHmmFormat} from "./time";
+import {AuthenticationPayload, CallbackProps, MessagePayload, PayloadSubType,} from "./customTypes";
+import {utf8ToBase64} from "./encoder";
 
 let socket: WebSocket;
 
 export const initWebSocket = (callbacks: CallbackProps) => {
-    //console.log("Connecting to WebSocket");
-    //console.log("useEnvironmentStore.getState().socketIp", useEnvironmentStore.getState().socketIp);
-    //console.log("useEnvironmentStore.getState().socketPort", useEnvironmentStore.getState().socketPort);
+
     socket = new WebSocket(
         `ws://${useUserStore.getState().socketIp}:${useUserStore.getState().socketPort}/chat`
     );
 
-    socket.onopen = () => {
+    socket.onopen = async () => {
         if (!useDoNotDisturbStore.getState().doNotDisturb) {
-            Notification("localchat", "Connection opened");
+            await Notification("localchat", "Connection opened");
         }
 
         // register user with the server
@@ -43,9 +36,9 @@ export const initWebSocket = (callbacks: CallbackProps) => {
         callbacks.onOpen();
     };
 
-    socket.onclose = () => {
+    socket.onclose = async () => {
         if (!useDoNotDisturbStore.getState().doNotDisturb) {
-            Notification("localchat", "Connection closed");
+            await Notification("localchat", "Connection closed");
         }
         callbacks.onClose();
     };
@@ -81,8 +74,6 @@ function sendClientMessageToWebsocket(message: string): void {
         throw new Error("username or id is null" + username + id);
     }
 
-    console.log("message", message);
-
     const base64EncodedMessage = utf8ToBase64(message);
 
     const payload: MessagePayload = {
@@ -109,8 +100,7 @@ function sendClientMessageToWebsocket(message: string): void {
         };
     }
 
-    //console.log("payload", payload);
     socket.send(JSON.stringify(payload));
 }
 
-export { closeWebSocket, sendClientMessageToWebsocket, socket };
+export {closeWebSocket, sendClientMessageToWebsocket, socket};

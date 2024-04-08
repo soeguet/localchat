@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import {create} from "zustand";
 
 type SelectedLanguageStore = {
     selectedLanguage: "en" | "de";
@@ -9,9 +9,13 @@ type SelectedLanguageStore = {
 const useSelectedLanguageStore = create<SelectedLanguageStore>((set) => ({
     selectedLanguage: localStorage.getItem("language") === "de" ? "de" : "en",
     switchLanguage: (language: string) =>
-        set({ selectedLanguage: language === "en" ? "de" : "en" }),
+        set({selectedLanguage: language === "en" ? "de" : "en"}),
     setSelectedLanguage: (language: "de" | "en") =>
-        set({ selectedLanguage: language }),
+        set({selectedLanguage: language}),
 }));
 
-export default useSelectedLanguageStore;
+const setSelectedLanguage = (language: "de" | "en") => {
+    useSelectedLanguageStore.getState().setSelectedLanguage(language);
+};
+
+export {useSelectedLanguageStore, setSelectedLanguage};

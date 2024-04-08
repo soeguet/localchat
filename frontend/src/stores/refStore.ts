@@ -1,5 +1,5 @@
-import { RefObject } from "react";
-import { create } from "zustand";
+import {RefObject} from "react";
+import {create} from "zustand";
 
 type RefStore = {
     chatBottomRefVisible: boolean;
@@ -10,16 +10,22 @@ type RefStore = {
     setChatContainerRef: (ref: RefObject<HTMLDivElement> | null) => void;
 };
 
-export const useRefStore = create<RefStore>((set) => ({
-    chatBottomRef: { current: null },
+const useRefStore = create<RefStore>((set) => ({
+
+    chatBottomRef: {current: null},
+
     setChatBottomRef: (ref: RefObject<HTMLDivElement> | null) =>
-        set({ chatBottomRef: ref }),
+        set({chatBottomRef: ref}),
+
     chatBottomRefVisible: false,
+
     setChatBottomRefVisible: (visible: boolean) =>
-        set({ chatBottomRefVisible: visible }),
-    chatContainerRef: { current: null },
+        set({chatBottomRefVisible: visible}),
+
+    chatContainerRef: {current: null},
+
     setChatContainerRef: (ref: RefObject<HTMLDivElement> | null) =>
-        set({ chatContainerRef: ref }),
+        set({chatContainerRef: ref}),
 }));
 
-export default useRefStore;
+export {useRefStore};

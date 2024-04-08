@@ -1,7 +1,7 @@
-import useMessageMapStore from "../stores/messageMapStore";
-import useUserStore from "../stores/userStore";
+import {useMessageMapStore} from "../stores/messageMapStore";
+import {useUserStore} from "../stores/userStore";
 
-export function isMessageFromThisClient(messageDbId:string) {
+export function isMessageFromThisClient(messageDbId: string) {
     const messgeMap = useMessageMapStore.getState().messageMap;
 
     const message = messgeMap.get(messageDbId);

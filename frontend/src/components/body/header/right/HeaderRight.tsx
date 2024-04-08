@@ -1,6 +1,6 @@
-import FlagButton from "./flag/FlagButton";
-import FontSizeButton from "./fontsize/FontSizeButton";
-import UnreadMessageButton from "./unread/UnreadMessageButton";
+import { FlagButton  }from "./flag/FlagButton";
+import { FontSizeButton } from "./font-size/font-size-button/FontSizeButton";
+import { UnreadMessageButton } from "./unread/UnreadMessageButton";
 
 function HeaderRight() {
     return (
@@ -12,4 +12,4 @@ function HeaderRight() {
     );
 }
 
-export default HeaderRight;
+export { HeaderRight };

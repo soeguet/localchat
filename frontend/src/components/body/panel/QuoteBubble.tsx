@@ -1,7 +1,7 @@
-import useClientStore from "../../../stores/clientStore";
-import useFontSizeStore from "../../../stores/fontSizeStore";
+import { useClientStore } from "../../../stores/clientStore";
+import { useFontSizeStore } from "../../../stores/fontSizeStore";
 import { MessagePayload } from "../../../utils/customTypes";
-import LinkifiedText from "./LinkifiedText";
+import { LinkifiedText } from "./LinkifiedText";
 import {base64ToUtf8} from "../../../utils/encoder";
 
 type QuoteBubbleProps = {
@@ -50,4 +50,4 @@ function QuoteBubble(props: QuoteBubbleProps) {
     );
 }
 
-export default QuoteBubble;
+export { QuoteBubble };

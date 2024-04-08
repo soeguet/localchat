@@ -1,5 +1,5 @@
-import { create, StoreApi, UseBoundStore } from "zustand";
-import { MessagePayload } from "../utils/customTypes";
+import {create, StoreApi, UseBoundStore} from "zustand";
+import {MessagePayload} from "../utils/customTypes";
 
 type MessageMapStore = {
     messageMap: Map<string, MessagePayload>;
@@ -12,13 +12,10 @@ const useMessageMapStore: UseBoundStore<StoreApi<MessageMapStore>> =
     create<MessageMapStore>((set) => ({
         messageMap: new Map<string, MessagePayload>(),
         setMessageMap: (messageMap: Map<string, MessagePayload>) =>
-            set(() => ({ messageMap: messageMap })),
+            set(() => ({messageMap: messageMap})),
         onMessage: (message: MessagePayload) =>
             set((state) => {
 
-                // console.log("STATE!!");
-                // console.log(state);
-                // console.log(message);
                 if (message === undefined) {
                     return state;
                 }
@@ -33,18 +30,13 @@ const useMessageMapStore: UseBoundStore<StoreApi<MessageMapStore>> =
                 }
                 // new map needed!
                 const newMap = new Map(state.messageMap);
-                // console.log("message", message);
 
                 newMap.set(message.messageType.messageDbId, message);
-
-                return { messageMap: newMap };
+                return {messageMap: newMap};
             }),
         onUpdateMessage: (message: MessagePayload) =>
             set((state) => {
 
-                // console.log("STATE!!");
-                // console.log(state);
-                // console.log(message);
                 if (message === undefined) {
                     return state;
                 }
@@ -56,12 +48,11 @@ const useMessageMapStore: UseBoundStore<StoreApi<MessageMapStore>> =
                 }
                 // new map needed!
                 const newMap = new Map(state.messageMap);
-                // console.log("message", message);
 
                 newMap.set(message.messageType.messageDbId, message);
 
-                return { messageMap: newMap };
+                return {messageMap: newMap};
             }),
     }));
 
-export default useMessageMapStore;
+export {useMessageMapStore};

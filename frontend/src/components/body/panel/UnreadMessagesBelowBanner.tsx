@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
-import useUnseenMessageCountStore from "../../../stores/unseenMessageCountStore";
-import ScrollSymbolSvg from "../../svgs/scroll/ScrollSymbolSvg";
+import { useUnseenMessageCountStore } from "../../../stores/unseenMessageCountStore";
+import { ScrollSymbolSvg } from "../../svgs/scroll/ScrollSymbolSvg";
 
 type UnreadMessagesBelowBannerProps = {
     thisIsTheFirstUnreadMessage: boolean;
@@ -28,4 +28,4 @@ function UnreadMessagesBelowBanner(props:UnreadMessagesBelowBannerProps) {
     );
 }
 
-export default UnreadMessagesBelowBanner;
+export { UnreadMessagesBelowBanner };

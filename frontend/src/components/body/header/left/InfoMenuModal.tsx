@@ -29,4 +29,4 @@ const InfoMenuModal = ({isOpen, onClose, children}: InfoMenuModalProps) => {
     );
 };
 
-export default InfoMenuModal;
+export {InfoMenuModal};

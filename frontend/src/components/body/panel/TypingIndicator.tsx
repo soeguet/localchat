@@ -1,7 +1,7 @@
-import { getClientById } from "../../../stores/clientStore";
-import useTypingStore from "../../../stores/typingStore";
+import {getClientById} from "../../../stores/clientStore";
+import {useTypingStore} from "../../../stores/typingStore";
 import "./TypingIndicator.css";
-import { useEffect, useRef, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 
 /**
  * Represents a typing indicator that displays who is currently typing.
@@ -27,7 +27,6 @@ function TypingIndicator(): JSX.Element {
     useEffect(() => {
         if (typingIndicatorRef.current) {
             typingIndicatorRef.current.addEventListener("mouseenter", () => {
-                console.log("hovered");
                 setIsHovered(true);
             });
             typingIndicatorRef.current.addEventListener("mouseleave", () => {
@@ -81,4 +80,4 @@ function TypingIndicator(): JSX.Element {
     );
 }
 
-export default TypingIndicator;
+export {TypingIndicator};

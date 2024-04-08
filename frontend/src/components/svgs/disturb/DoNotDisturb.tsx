@@ -7,8 +7,10 @@ type DoNotDisturbProps = {
 function DoNotDisturb(props: DoNotDisturbProps) {
     return (
         <>
-            <div className="rounded-full border-2 border-black bg-white transition duration-300 ease-in-out hover:border-cyan-500">
+            <div
+                className="rounded-full border-2 border-black bg-white transition duration-300 ease-in-out hover:border-cyan-500">
                 <svg
+                    data-testid="do-not-disturb-svg"
                     style={props.style}
                     viewBox="0 0 1024 1024"
                     className="icon"
@@ -38,4 +40,4 @@ function DoNotDisturb(props: DoNotDisturbProps) {
     );
 }
 
-export default DoNotDisturb;
+export {DoNotDisturb};

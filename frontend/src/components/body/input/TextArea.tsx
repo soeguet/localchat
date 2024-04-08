@@ -1,6 +1,6 @@
-import { useTranslation } from "react-i18next";
-import React, { useEffect, useRef } from "react";
-import useReplyStore from "../../../stores/replyStore";
+import {useTranslation} from "react-i18next";
+import React, {useEffect, useRef} from "react";
+import {useReplyStore} from "../../../stores/replyStore";
 
 type TextAreaProps = {
     message: string;
@@ -8,8 +8,8 @@ type TextAreaProps = {
     handleKeyDown: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
 };
 
-const TextArea = (props: TextAreaProps) => {
-    const { t } = useTranslation();
+function TextArea(props: TextAreaProps) {
+    const {t} = useTranslation();
 
     const replyMessage = useReplyStore((state) => state.replyMessage);
     const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -20,7 +20,6 @@ const TextArea = (props: TextAreaProps) => {
         }
     }, [replyMessage]);
 
-    //console.log("TextArea rendered");
     return (
         <>
             <textarea
@@ -36,8 +35,6 @@ const TextArea = (props: TextAreaProps) => {
             ></textarea>
         </>
     );
-};
+}
 
-TextArea.displayName = "TextArea";
-
-export default TextArea;
+export {TextArea};

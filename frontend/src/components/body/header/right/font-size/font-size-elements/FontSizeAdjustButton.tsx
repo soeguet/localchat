@@ -18,4 +18,4 @@ function FontSizeAdjustButton(props: FontSizeAdjustButtonProps) {
     );
 }
 
-export default FontSizeAdjustButton;
+export {FontSizeAdjustButton};

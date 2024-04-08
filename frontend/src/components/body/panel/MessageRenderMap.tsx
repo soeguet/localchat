@@ -1,11 +1,11 @@
-import { MessagePayload } from "../../../utils/customTypes";
-import React, { useDeferredValue, useEffect } from "react";
-import ChatMessageUnit from "./bubble/ChatMessageUnit";
-import useUnseenMessageCountStore from "../../../stores/unseenMessageCountStore";
-import { checkIfScrollToBottomIsNeeded } from "../../../utils/scrollToBottomNeeded";
-import { scrollToBottom } from "../../../utils/functionality";
-import useMessageMapStore from "../../../stores/messageMapStore";
-import UnreadMessagesBelowBanner from "./UnreadMessagesBelowBanner";
+import {MessagePayload} from "../../../utils/customTypes";
+import {Fragment, useDeferredValue, useEffect} from "react";
+import {ChatMessageUnit} from "./bubble/ChatMessageUnit";
+import {useUnseenMessageCountStore} from "../../../stores/unseenMessageCountStore";
+import {checkIfScrollToBottomIsNeeded} from "../../../utils/scrollToBottomNeeded";
+import {scrollToBottom} from "../../../utils/functionality";
+import {useMessageMapStore} from "../../../stores/messageMapStore";
+import {UnreadMessagesBelowBanner} from "./UnreadMessagesBelowBanner";
 
 function MessageRenderMap() {
     const messageMap = useMessageMapStore((state) => state.messageMap);
@@ -43,13 +43,9 @@ function MessageRenderMap() {
                         value[1].messageType.messageDbId ===
                         idOfTheFirstUnreadMessage;
 
-                    //console.log("value", value);
-                    //console.log("array", array);
-
                     if (array.length > 1 && index > 0) {
                         const lastMessage: [string, MessagePayload] =
                             array[index - 1];
-                        //console.log("lastMessage", lastMessage);
                         if (
                             lastMessage[1].clientType.clientDbId !== undefined &&
                             lastMessage[1].clientType.clientDbId ===
@@ -58,7 +54,7 @@ function MessageRenderMap() {
                             lastMessageFromThisClientId = true;
                         }
                         if (
-                            lastMessage[1].messageType.messageTime===
+                            lastMessage[1].messageType.messageTime ===
                             value[1].messageType.messageTime
                         ) {
                             lastMessageTimestampSameAsThisOne = true;
@@ -66,7 +62,7 @@ function MessageRenderMap() {
                     }
 
                     return (
-                        <React.Fragment key={value[0]}>
+                        <Fragment key={value[0]}>
                             <UnreadMessagesBelowBanner
                                 thisIsTheFirstUnreadMessage={
                                     thisIsTheFirstUnreadMessage
@@ -81,11 +77,11 @@ function MessageRenderMap() {
                                     lastMessageTimestampSameAsThisOne
                                 }
                             />
-                        </React.Fragment>
+                        </Fragment>
                     );
                 })}
         </>
     );
 }
 
-export default MessageRenderMap;
+export {MessageRenderMap};

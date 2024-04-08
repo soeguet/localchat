@@ -1,25 +1,24 @@
-import { useCallback, useState } from "react";
-import Emoji from "./Emoji";
-import Reply from "./Reply";
-import useReplyStore from "../../../stores/replyStore";
-import TextArea from "./TextArea";
-import { sendClientMessageToWebsocket } from "../../../utils/socket";
-import ClipButton from "./ClipButton";
-import SendButton from "./SendButton";
-import { useTypingHook } from "../../../hooks/input/useTypingHook";
+import React, {useCallback, useState} from "react";
+import {Emoji} from "./Emoji";
+import {Reply} from "./Reply";
+import {useReplyStore} from "../../../stores/replyStore";
+import {TextArea} from "./TextArea";
+import {sendClientMessageToWebsocket} from "../../../utils/socket";
+import {ClipButton} from "./ClipButton";
+import {SendButton} from "./SendButton";
+import {useTypingHook} from "../../../hooks/input/useTypingHook";
 
 function ChatInputSection() {
-    const { typingTimeoutId, setTypingTimeoutId, sendTypingStatus } =
+    const {typingTimeoutId, setTypingTimeoutId, sendTypingStatus} =
         useTypingHook();
     const [message, setMessage] = useState("");
 
     const handleSendMessage = useCallback(() => {
-        //console.log("Message sent:", message);
         if (message.trim().length == 0) {
             return;
         }
         if (message) {
-            const { replyMessage, setReplyMessage } = useReplyStore.getState();
+            const {replyMessage, setReplyMessage} = useReplyStore.getState();
             sendClientMessageToWebsocket(message);
 
             // reset replyMessage state AFTER sending the message. we need that state for the message payload
@@ -67,10 +66,10 @@ function ChatInputSection() {
     return (
         <>
             <div className="flex grow-0 items-end gap-2 border-t-2 border-t-black bg-white p-4">
-                <Emoji setMessage={setMessage} />
-                <ClipButton />
+                <Emoji setMessage={setMessage}/>
+                <ClipButton/>
                 <div className="mx-2 my-auto flex flex-1 flex-col gap-2">
-                    <Reply />
+                    <Reply/>
                     <TextArea
                         message={message}
                         setMessage={setMessage}
@@ -86,4 +85,4 @@ function ChatInputSection() {
     );
 }
 
-export default ChatInputSection;
+export {ChatInputSection};

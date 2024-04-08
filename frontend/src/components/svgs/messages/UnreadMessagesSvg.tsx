@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import useUnseenMessageCountStore from "../../../stores/unseenMessageCountStore";
+import {useEffect, useState} from "react";
+import {useUnseenMessageCountStore} from "../../../stores/unseenMessageCountStore";
 
 function UnreadMessagesSvg() {
     const [color, setColor] = useState("#ff0000");
@@ -22,7 +22,8 @@ function UnreadMessagesSvg() {
 
     return (
         <svg
-            style={{ width: "48px", height: "48px" }}
+            data-testid="unread-messages-svg"
+            style={{width: "48px", height: "48px"}}
             viewBox="-2.4 -2.4 28.80 28.80"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -68,4 +69,4 @@ function UnreadMessagesSvg() {
     );
 }
 
-export default UnreadMessagesSvg;
+export {UnreadMessagesSvg};

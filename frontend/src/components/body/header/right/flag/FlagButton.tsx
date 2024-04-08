@@ -1,27 +1,28 @@
-import useSelectedLanguageStore from "../../../../../stores/selectedLanguageStore";
-import { switchLanguage } from "../../../../../utils/i18n-helper";
-import BritainFlagSvg from "../../../../svgs/flags/BritainFlagSvg";
-import GermanFlagSvg from "../../../../svgs/flags/GermanFlagSvg";
+import {useSelectedLanguageStore} from "../../../../../stores/selectedLanguageStore";
+import {BritainFlagSvg} from "../../../../svgs/flags/BritainFlagSvg";
+import {GermanFlagSvg} from "../../../../svgs/flags/GermanFlagSvg";
+import {switchLanguage} from "../../../../../utils/i18n-helper";
 
 function FlagButton() {
-    const selectedLanguage = useSelectedLanguageStore(
+    const selectedLanguage: "en" | "de" = useSelectedLanguageStore(
         (state) => state.selectedLanguage
     );
 
     return (
         <div>
             <button
-                onClick={() => switchLanguage()}
+                data-testid="flag-button"
+                onClick={switchLanguage}
                 className="rounded-full border-2 border-black text-white transition duration-300 ease-in-out hover:border-cyan-500"
             >
                 {selectedLanguage === "en" ? (
-                    <BritainFlagSvg />
+                    <BritainFlagSvg/>
                 ) : (
-                    <GermanFlagSvg />
+                    <GermanFlagSvg/>
                 )}
             </button>
         </div>
     );
 }
 
-export default FlagButton;
+export {FlagButton};

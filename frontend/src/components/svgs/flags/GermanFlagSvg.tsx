@@ -1,8 +1,9 @@
-import { svgSize } from "../../../utils/variables";
+import {svgSize} from "../../../utils/variables";
 
 function GermanFlagSvg() {
     return (
         <svg
+            data-testid="german-flag-svg"
             style={svgSize}
             viewBox="-3.6 -3.6 43.20 43.20"
             xmlns="http://www.w3.org/2000/svg"
@@ -43,4 +44,4 @@ function GermanFlagSvg() {
     );
 }
 
-export default GermanFlagSvg;
+export {GermanFlagSvg};

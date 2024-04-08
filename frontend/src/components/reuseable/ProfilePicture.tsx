@@ -1,5 +1,5 @@
-import useClientStore from "../../stores/clientStore";
-import React from "react";
+import {useClientStore} from "../../stores/clientStore";
+import {memo} from "react";
 
 type ProfilePictureProps = {
     clientDbId: string;
@@ -13,7 +13,7 @@ type ProfilePictureProps = {
     };
 };
 
-function ProfilePicture(props: ProfilePictureProps) {
+const ProfilePicture = memo((props: ProfilePictureProps) => {
     const client = useClientStore((state) =>
         state.clients.find((c) => c.clientDbId === props.clientDbId)
     );
@@ -22,6 +22,7 @@ function ProfilePicture(props: ProfilePictureProps) {
     return (
         <>
             <img
+                data-testid="profile-picture"
                 style={props.style}
                 className={`rounded-full border-2 ${props.properties} transition duration-300 ease-in-out`}
                 src={props.pictureUrl ? props.pictureUrl : profilePicture}
@@ -29,6 +30,8 @@ function ProfilePicture(props: ProfilePictureProps) {
             />
         </>
     );
-}
+});
 
-export default React.memo(ProfilePicture);
+ProfilePicture.displayName = "ProfilePicture";
+
+export {ProfilePicture};

@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import useSelectedLanguageStore from "../stores/selectedLanguageStore";
+import {useEffect} from "react";
+import {useSelectedLanguageStore} from "../stores/selectedLanguageStore";
 
 export function useInitializeSelectedAppLanguageFromLocalStorage() {
     useEffect(() => {

@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import {create} from "zustand";
 
 type GuiHasFocusStore = {
     guiHasFocus: boolean;
@@ -7,7 +7,7 @@ type GuiHasFocusStore = {
 
 const useGuiHasFocusStore = create<GuiHasFocusStore>((set) => ({
     guiHasFocus: false,
-    setGuiHasFocus: (hasFocus: boolean) => set({ guiHasFocus: hasFocus }),
+    setGuiHasFocus: (hasFocus: boolean) => set({guiHasFocus: hasFocus}),
 }));
 
-export default useGuiHasFocusStore;
+export {useGuiHasFocusStore};

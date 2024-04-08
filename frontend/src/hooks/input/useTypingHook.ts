@@ -1,7 +1,7 @@
-import { useCallback, useState } from "react";
-import { PayloadSubType } from "../../utils/customTypes";
-import useUserStore from "../../stores/userStore";
-import useWebsocketStore from "../../stores/websocketStore";
+import {useCallback, useState} from "react";
+import {PayloadSubType} from "../../utils/customTypes";
+import {useUserStore} from "../../stores/userStore";
+import {useWebsocketStore} from "../../stores/websocketStore";
 
 export function useTypingHook() {
     const [typingTimeoutId, setTypingTimeoutId] = useState<number | null>(null);
@@ -21,5 +21,5 @@ export function useTypingHook() {
         }
     }, []);
 
-    return { typingTimeoutId, setTypingTimeoutId, sendTypingStatus };
+    return {typingTimeoutId, setTypingTimeoutId, sendTypingStatus};
 }

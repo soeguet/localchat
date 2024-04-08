@@ -1,17 +1,16 @@
-import React from "react";
+import React, {memo} from "react";
 import {
     checkIfMessageIsToBeAddedToTheUnseenMessagesList,
     checkIfNotificationIsNeeded,
 } from "../../../hooks/socket/utils";
-import { MessagePayload, PayloadSubType } from "../../../utils/customTypes";
-import { checkIfScrollToBottomIsNeeded } from "../../../utils/scrollToBottomNeeded";
-import useMessageMapStore from "../../../stores/messageMapStore";
+import {MessagePayload, PayloadSubType} from "../../../utils/customTypes";
+import {checkIfScrollToBottomIsNeeded} from "../../../utils/scrollToBottomNeeded";
+import {useMessageMapStore} from "../../../stores/messageMapStore";
 import {generateSimpleId} from "../../../utils/functionality";
 import {utf8ToBase64} from "../../../utils/encoder";
 
-function ClipButton() {
+const ClipButton = memo(() => {
     function handleClipClick() {
-        //console.log("Clip clicked");
         setTimeout(() => {
             const messagePayload: MessagePayload = {
                 payloadType: PayloadSubType.message,
@@ -59,6 +58,8 @@ function ClipButton() {
             </button>
         </>
     );
-}
+});
 
-export default React.memo(ClipButton);
+ClipButton.displayName = "ClipButton";
+
+export {ClipButton};

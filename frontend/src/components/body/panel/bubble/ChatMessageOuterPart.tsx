@@ -1,10 +1,10 @@
 import { useState } from "react";
-import useClientStore from "../../../../stores/clientStore";
-import useReplyStore from "../../../../stores/replyStore";
+import { useClientStore } from "../../../../stores/clientStore";
+import { useReplyStore } from "../../../../stores/replyStore";
 import { MessagePayload } from "../../../../utils/customTypes";
 import { getTimeWithHHmmFormat } from "../../../../utils/time";
-import ProfilePicture from "../../../reuseable/ProfilePicture";
-import ChatBubbleMenu from "./ChatBubbleMenu";
+import { ProfilePicture } from "../../../reuseable/ProfilePicture";
+import { ChatBubbleMenu } from "./ChatBubbleMenu";
 
 type ChatMessageOuterPartProps = {
     messagePayload: MessagePayload;
@@ -69,4 +69,4 @@ function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
     );
 }
 
-export default ChatMessageOuterPart;
+export { ChatMessageOuterPart };

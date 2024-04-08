@@ -1,4 +1,4 @@
-import { svgSize } from "../../../utils/variables";
+import {svgSize} from "../../../utils/variables";
 
 function FontSizeSvg() {
     return (
@@ -36,4 +36,4 @@ function FontSizeSvg() {
     );
 }
 
-export default FontSizeSvg;
+export {FontSizeSvg};

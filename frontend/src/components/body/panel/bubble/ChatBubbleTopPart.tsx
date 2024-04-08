@@ -1,8 +1,8 @@
-import useClientStore from "../../../../stores/clientStore";
-import useFontSizeStore from "../../../../stores/fontSizeStore";
+import { useClientStore } from "../../../../stores/clientStore";
+import { useFontSizeStore } from "../../../../stores/fontSizeStore";
 import { MessagePayload } from "../../../../utils/customTypes";
-import ChatMessageSenderName from "./ChatMessageSenderName";
-import ChatMessageTimestamp from "./ChatMessageTimestamp";
+import { ChatMessageSenderName } from "./ChatMessageSenderName";
+import { ChatMessageTimestamp } from "./ChatMessageTimestamp";
 
 type ChatBubbleTopPartProps = {
     messagePayload: MessagePayload;
@@ -42,4 +42,4 @@ function ChatBubbleTopPart(props: ChatBubbleTopPartProps) {
     );
 }
 
-export default ChatBubbleTopPart;
+export { ChatBubbleTopPart };

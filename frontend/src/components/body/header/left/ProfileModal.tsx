@@ -1,23 +1,20 @@
-import React, { useEffect, useState } from "react";
-import ProfilePicture from "../../../reuseable/ProfilePicture";
-import useUserStore from "../../../../stores/userStore";
-import useWebsocketStore from "../../../../stores/websocketStore";
-import {
-    ClientUpdatePayload,
-    PayloadSubType,
-} from "../../../../utils/customTypes";
-import useClientStore from "../../../../stores/clientStore";
-import { useTranslation } from "react-i18next";
-import i18n from "../../../../config/i18n";
-import useFontSizeStore from "../../../../stores/fontSizeStore";
+import {ChangeEvent, Dispatch, FormEvent, SetStateAction, useEffect, useState} from "react";
+import {ProfilePicture} from "../../../reuseable/ProfilePicture";
+import {useUserStore} from "../../../../stores/userStore";
+import {useWebsocketStore} from "../../../../stores/websocketStore";
+import {ClientUpdatePayload, PayloadSubType} from "../../../../utils/customTypes";
+import {useClientStore} from "../../../../stores/clientStore";
+import {useTranslation} from "react-i18next";
+import {i18n} from "../../../../config/i18n";
+import {useFontSizeStore} from "../../../../stores/fontSizeStore";
 
 type ProfileModalProps = {
     isOpen: boolean;
-    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    setIsOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 function ProfileModal(props: ProfileModalProps) {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     // just in case
     if (!props.isOpen) return null;
 
@@ -36,7 +33,7 @@ function ProfileModal(props: ProfileModalProps) {
         (state) => state.clients.find((c) => c.clientDbId === myId)?.clientColor
     );
     const websocket = useWebsocketStore((state) => state.ws);
-    const { fontSize, setFontSize } = useFontSizeStore();
+    const {fontSize, setFontSize} = useFontSizeStore();
 
     const [preferPictureUrl, setPreferPictureUrl] = useState(false);
     const [localName, setLocalName] = useState(myUsername);
@@ -49,11 +46,10 @@ function ProfileModal(props: ProfileModalProps) {
     );
 
     async function handleFileChange(
-        event: React.ChangeEvent<HTMLInputElement>
+        event: ChangeEvent<HTMLInputElement>
     ) {
         const file = event.target.files?.[0] || null;
         if (!file) {
-            //console.log("No file selected.");
             return;
         }
 
@@ -103,7 +99,7 @@ function ProfileModal(props: ProfileModalProps) {
         return window.btoa(binary);
     }
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
 
         // set env vars
@@ -321,4 +317,4 @@ function ProfileModal(props: ProfileModalProps) {
     );
 }
 
-export default ProfileModal;
+export {ProfileModal};

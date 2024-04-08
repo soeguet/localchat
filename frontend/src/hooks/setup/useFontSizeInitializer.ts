@@ -1,4 +1,4 @@
-import useFontSizeStore from "../../stores/fontSizeStore";
+import {useFontSizeStore} from "../../stores/fontSizeStore";
 import {useEffect} from "react";
 
 export function useFontSizeInitializer() {
