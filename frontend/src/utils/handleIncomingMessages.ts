@@ -13,26 +13,15 @@ import {useMessageMapStore} from "../stores/messageMapStore";
 import {useUserStore} from "../stores/userStore";
 import {useTypingStore} from "../stores/typingStore";
 import {notifyClientIfReactionTarget} from "./reactionHandler";
+import {retrieveMessageListFromSocket} from "./socket";
 
 export function handleIncomingMessages(event: MessageEvent) {
     const dataAsObject = JSON.parse(event.data);
 
     switch (dataAsObject.payloadType) {
-        // update the client list with new data
-        case PayloadSubType.clientList || PayloadSubType.profileUpdate:
-            // console.table(dataAsObject.clients);
-            if (
-                dataAsObject.clients === undefined ||
-                dataAsObject.clients === null ||
-                dataAsObject.clients.length === 0
-            ) {
-                throw new Error("Client list is empty");
-            }
-            handleClientListPayload(event.data);
-
-            break;
 
         // normal chat messages
+        // PayloadSubType.message == 1
         case PayloadSubType.message: {
             const messagePayload = JSON.parse(event.data) as MessagePayload;
 
@@ -52,10 +41,31 @@ export function handleIncomingMessages(event: MessageEvent) {
             break;
         }
 
+        // update the client list with new data
+        // PayloadSubType.clientList == 2
+        // PayloadSubType.profileUpdate == 3
+        case PayloadSubType.clientList || PayloadSubType.profileUpdate:
+            // console.table(dataAsObject.clients);
+            if (
+                dataAsObject.clients === undefined ||
+                dataAsObject.clients === null ||
+                dataAsObject.clients.length === 0
+            ) {
+                throw new Error("Client list is empty");
+            }
+            handleClientListPayload(event.data);
+
+            // AFTER receiving the client list, ask for the message list
+            retrieveMessageListFromSocket();
+
+            break;
+
+        // PayloadSubType.messageList == 4
         case PayloadSubType.messageList:
             handeMessageListPayload(event.data);
             break;
 
+        // PayloadSubType.typing == 5
         case PayloadSubType.typing:
             if (
                 dataAsObject.clientDbId === undefined ||
@@ -76,6 +86,7 @@ export function handleIncomingMessages(event: MessageEvent) {
             }
             break;
 
+        // PayloadSubType.force == 6
         case PayloadSubType.force:
             if (dataAsObject.clientDbId === useUserStore.getState().myId) {
                 // just to be safe if the client does not want to get notifications!
@@ -91,6 +102,7 @@ export function handleIncomingMessages(event: MessageEvent) {
             }
             break;
 
+        // PayloadSubType.reaction == 7
         case PayloadSubType.reaction:
             // updated message from socket with reactions
             useMessageMapStore.getState().onUpdateMessage(dataAsObject);

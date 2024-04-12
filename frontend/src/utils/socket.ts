@@ -103,4 +103,12 @@ function sendClientMessageToWebsocket(message: string): void {
     socket.send(JSON.stringify(payload));
 }
 
-export {closeWebSocket, sendClientMessageToWebsocket, socket};
+function retrieveMessageListFromSocket() {
+    const payload = {
+        payloadType: PayloadSubType.messageList,
+    };
+
+    socket.send(JSON.stringify(payload));
+}
+
+export {closeWebSocket, sendClientMessageToWebsocket, socket, retrieveMessageListFromSocket};
