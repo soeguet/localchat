@@ -1,3 +1,4 @@
+// main package
 package main
 
 import (
@@ -14,8 +15,8 @@ import (
 //go:embed all:frontend/dist
 var assets embed.FS
 
-//go:embed frontend/public/logo.png
-var icon []byte
+// //go:embed frontend/public/logo.png
+// var icon []byte
 
 // main is the entry point of the application.
 func main() {
@@ -23,7 +24,7 @@ func main() {
 	app := NewApp()
 
 	// Create application with options
-	err := wails.Run(&options.App{
+	if err := wails.Run(&options.App{
 		Title:  "localchat",
 		Width:  1024,
 		Height: 768,
@@ -45,9 +46,7 @@ func main() {
 		Debug: options.Debug{
 			OpenInspectorOnStartup: true,
 		},
-	})
-
-	if err != nil {
+	}); err != nil {
 		println("Error:", err.Error())
 	}
 }

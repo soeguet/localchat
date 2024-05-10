@@ -1,11 +1,12 @@
-import {useEffect, useRef, useState} from "react";
-import {WindowReload} from "../../../../../wailsjs/runtime";
-import {useTranslation} from "react-i18next";
-import {ForceModal} from "../ForceModal";
-import {useDoNotDisturbStore} from "../../../../stores/doNotDisturbStore";
-import {ProfileModal} from "./ProfileModal";
-import {InfoMenuButton} from "./InfoMenuButton";
-import {handleClickOutsideOfDiv} from "../../../../utils/handleClickOutsideOfDiv";
+import { useEffect, useRef, useState } from "react";
+import { WindowReload } from "../../../../../wailsjs/runtime";
+import { useTranslation } from "react-i18next";
+import { ForceModal } from "../ForceModal";
+import { useDoNotDisturbStore } from "../../../../stores/doNotDisturbStore";
+import { ProfileModal } from "./ProfileModal";
+import { InfoMenuButton } from "./InfoMenuButton";
+import { handleClickOutsideOfDiv } from "../../../../utils/handleClickOutsideOfDiv";
+import { NewSettingsModalButton } from "./NewSettingsModalButton";
 
 type ProfileMenuPropsType = {
     showMenu: boolean;
@@ -13,7 +14,7 @@ type ProfileMenuPropsType = {
 };
 
 function ProfileMenu(props: ProfileMenuPropsType) {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const menuRef = useRef<HTMLDivElement>(null);
     const setDoNotDisturb = useDoNotDisturbStore(
         (state) => state.setDoNotDisturb
@@ -53,16 +54,21 @@ function ProfileMenu(props: ProfileMenuPropsType) {
                         {t("menu_item_profile")}
                     </button>
 
-                    <InfoMenuButton/>
+                    <NewSettingsModalButton />
+                    <InfoMenuButton />
 
                     <button
                         className="block w-full border-t-2 px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
-                        onClick={() => setDoNotDisturb(!useDoNotDisturbStore.getState().doNotDisturb)}
+                        onClick={() =>
+                            setDoNotDisturb(
+                                !useDoNotDisturbStore.getState().doNotDisturb
+                            )
+                        }
                     >
                         {t("menu_item_do_not_disturb")}
                     </button>
 
-                    <ForceModal/>
+                    <ForceModal />
 
                     <button
                         className="block w-full border-t-2 px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
@@ -82,4 +88,5 @@ function ProfileMenu(props: ProfileMenuPropsType) {
     );
 }
 
-export {ProfileMenu};
+export { ProfileMenu };
+

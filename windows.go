@@ -1,6 +1,7 @@
 //go:build windows
 // +build windows
 
+// main package
 package main
 
 import (
@@ -14,6 +15,7 @@ var (
 	procFindWindowW   = user32.NewProc("FindWindowW")
 )
 
+// FLASHWINFO is a structure that contains information about flashing a window.
 type FLASHWINFO struct {
 	cbSize    uint32
 	hwnd      syscall.Handle
@@ -36,8 +38,8 @@ const (
 // The className parameter specifies the class name of the window.
 // The windowName parameter specifies the window name or title of the window.
 func FindWindow(className, windowName string) syscall.Handle {
-	var cn *uint16 = nil
-	var wn *uint16 = nil
+	var cn *uint16
+	var wn *uint16
 	if className != "" {
 		cn, _ = syscall.UTF16PtrFromString(className)
 	}
@@ -55,7 +57,6 @@ func FindWindow(className, windowName string) syscall.Handle {
 // It takes the window handle, flags, count, and timeout as parameters.
 // Returns true if the window was successfully flashed, false otherwise.
 func FlashWindowEx(hwnd syscall.Handle, dwFlags, uCount, dwTimeout uint32) bool {
-
 	var fwi FLASHWINFO
 	fwi.cbSize = uint32(unsafe.Sizeof(fwi))
 	fwi.hwnd = hwnd
