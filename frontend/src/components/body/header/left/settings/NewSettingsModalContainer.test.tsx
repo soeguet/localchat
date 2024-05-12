@@ -1,5 +1,5 @@
 import { expect, test, describe } from "vitest";
-import { render, screen, userEvent } from "../../../../utils/test-utils";
+import { render, screen, userEvent } from "../../../../../utils/test-utils";
 import { NewSettingsModalContainer } from "./NewSettingsModalContainer";
 import { NewSettingsModalButton } from "./NewSettingsModalButton";
 

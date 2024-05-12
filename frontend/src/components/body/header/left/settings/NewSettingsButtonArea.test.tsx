@@ -8,4 +8,20 @@ describe("NewSettingsButtonArea", () => {
         const area = screen.getByTestId("settings-button-area");
         expect(area).toBeInTheDocument();
     });
+
+    test("click on cancel should trigger onClose", () => {
+        const onClose = vi.fn();
+        render(<NewSettingsButtonArea onClose={onClose} />);
+        const cancel = screen.getByTestId("close-settings-modal-button");
+        cancel.click();
+        expect(onClose).toHaveBeenCalled();
+    });
+
+    test("click on save should trigger onClose", () => {
+        const onClose = vi.fn();
+        render(<NewSettingsButtonArea onClose={onClose} />);
+        const cancel = screen.getByTestId("save-settings-modal-button");
+        cancel.click();
+        expect(onClose).toHaveBeenCalled();
+    });
 });

@@ -9,7 +9,11 @@ function NewSettingsButtonArea(props: NewSettingsButtonAreaProps) {
                 data-testid="settings-button-area"
                 className="col-span-2 flex items-center justify-end"
             >
-                <button className="mt-2 rounded-lg bg-blue-500 px-4 py-2 text-white">
+                <button
+                    data-testid="save-settings-modal-button"
+                    onClick={props.onClose}
+                    className="mt-2 rounded-lg bg-blue-500 px-4 py-2 text-white"
+                >
                     SAVE
                 </button>
                 <button

@@ -6,7 +6,7 @@ import { useDoNotDisturbStore } from "../../../../stores/doNotDisturbStore";
 import { ProfileModal } from "./ProfileModal";
 import { InfoMenuButton } from "./InfoMenuButton";
 import { handleClickOutsideOfDiv } from "../../../../utils/handleClickOutsideOfDiv";
-import { NewSettingsModalButton } from "./NewSettingsModalButton";
+import { NewSettingsModalButton } from "./settings/NewSettingsModalButton";
 
 type ProfileMenuPropsType = {
     showMenu: boolean;
@@ -45,13 +45,14 @@ function ProfileMenu(props: ProfileMenuPropsType) {
                     }
                 >
                     <button
+                        disabled={true}
                         className="block w-full px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
                         onClick={() => {
                             setShowProfileModal(true);
                             props.setShowMenu(false);
                         }}
                     >
-                        {t("menu_item_profile")}
+                        {t("menu_item_profile")} - DISABLED
                     </button>
 
                     <NewSettingsModalButton />
@@ -89,4 +90,3 @@ function ProfileMenu(props: ProfileMenuPropsType) {
 }
 
 export { ProfileMenu };
-
