@@ -6,7 +6,7 @@ import { useDoNotDisturbStore } from "../../../../stores/doNotDisturbStore";
 import { ProfileModal } from "./ProfileModal";
 import { InfoMenuButton } from "./InfoMenuButton";
 import { handleClickOutsideOfDiv } from "../../../../utils/handleClickOutsideOfDiv";
-import { NewSettingsModalButton } from "./settings/NewSettingsModalButton";
+import { NewSettingsModalButton } from "./settings/body/button/NewSettingsModalButton";
 
 type ProfileMenuPropsType = {
     showMenu: boolean;

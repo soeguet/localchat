@@ -1,9 +1,9 @@
-import {DoNotDisturb} from "../../../svgs/disturb/DoNotDisturb";
-import {useDoNotDisturbStore} from "../../../../stores/doNotDisturbStore";
-import {useState} from "react";
-import {useClientStore} from "../../../../stores/clientStore";
-import {useUserStore} from "../../../../stores/userStore";
-import {ProfilePicture} from "../../../reuseable/ProfilePicture";
+import { DoNotDisturb } from "../../../svgs/disturb/DoNotDisturb";
+import { useDoNotDisturbStore } from "../../../../stores/doNotDisturbStore";
+import { useState } from "react";
+import { useClientStore } from "../../../../stores/clientStore";
+import { useUserStore } from "../../../../stores/userStore";
+import { ProfilePicture } from "../../../reuseable/ProfilePicture";
 
 type ProfilePictureHandlerProps = {
     showMenu: boolean;
@@ -36,9 +36,8 @@ function ProfilePictureHandler(props: ProfilePictureHandlerProps) {
                 onMouseLeave={() => setProfilePictureHovered(false)}
             >
                 {doNotDisturb ? (
-                    <DoNotDisturb style={profilePictureStyle}/>
+                    <DoNotDisturb style={profilePictureStyle} />
                 ) : (
-
                     <ProfilePicture
                         clientDbId={clientDbId}
                         style={profilePictureStyle}
@@ -49,4 +48,4 @@ function ProfilePictureHandler(props: ProfilePictureHandlerProps) {
     );
 }
 
-export {ProfilePictureHandler};
+export { ProfilePictureHandler };

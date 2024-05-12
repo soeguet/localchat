@@ -6,7 +6,13 @@ type NewSettingsModalProps = {
     onClose: () => void;
 };
 
-function NewSettingsModal(props: NewSettingsModalProps) {
+/**
+ * Renders a modal component for displaying settings.
+ *
+ * @param {NewSettingsModalProps} props - The component props.
+ * @returns {JSX.Element} The rendered modal component.
+ */
+function NewSettingsModal(props: NewSettingsModalProps): JSX.Element {
     const dialogRef = useRef<HTMLDialogElement>(null);
 
     useEffect(() => {

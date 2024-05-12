@@ -1,5 +1,5 @@
 import { expect, test, describe } from "vitest";
-import { render, screen } from "../../../../../utils/test-utils";
+import { render, screen } from "../../../../../../utils/test-utils";
 import { NewPickerFields } from "./NewPickerFields";
 
 describe("NewPickerFields", () => {

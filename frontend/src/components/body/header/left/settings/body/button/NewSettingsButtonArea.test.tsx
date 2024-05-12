@@ -1,6 +1,6 @@
 import { expect, test, describe } from "vitest";
-import { render, screen } from "../../../../../utils/test-utils";
 import { NewSettingsButtonArea } from "./NewSettingsButtonArea";
+import { render,screen } from "../../../../../../../utils/test-utils";
 
 describe("NewSettingsButtonArea", () => {
     test("should render", () => {

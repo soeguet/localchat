@@ -1,7 +1,7 @@
-import { NewInputFields } from "./NewInputFields";
-import { NewPickerFields } from "./NewPickerFields";
-import { NewProfilePicturePicker } from "./NewProfilePicturePicker";
-import { NewSettingsButtonArea } from "./NewSettingsButtonArea";
+import { NewInputFields } from "../middle/NewInputFields";
+import { NewPickerFields } from "../bottom/NewPickerFields";
+import { NewProfilePicturePicker } from "../top/NewProfilePicturePicker";
+import { NewSettingsButtonArea } from "./button/NewSettingsButtonArea";
 
 type NewSettingsModalProps = {
     onClose: () => void;

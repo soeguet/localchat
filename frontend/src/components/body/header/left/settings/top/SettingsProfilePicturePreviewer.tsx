@@ -1,6 +1,6 @@
-import { ProfilePicture } from "../../../../../reuseable/ProfilePicture";
 import useSettingsStore from "../../../../../../stores/settingsStore";
 import { useUserStore } from "../../../../../../stores/userStore";
+import { ProfilePicture } from "../../../../../reuseable/ProfilePicture";
 
 function SettingsProfilePicturePreviewer() {
     const { myId } = useUserStore();

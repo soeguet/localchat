@@ -1,6 +1,6 @@
-import { SettingsColorPicker } from "./field/SettingsColorPicker";
-import { SettingsFontSizePicker } from "./field/SettingsFontSizePicker";
-import { SettingsLanguagePicker } from "./field/SettingsLanguagePicker";
+import { SettingsColorPicker } from "./SettingsColorPicker";
+import { SettingsFontSizePicker } from "./SettingsFontSizePicker";
+import { SettingsLanguagePicker } from "./SettingsLanguagePicker";
 
 function NewPickerFields() {
     return (

@@ -24,12 +24,7 @@ function ReactionTriggerDiv({ messagePayload }: ReactionTriggerDivProps) {
     const messageFromThisClient =
         messagePayload.clientType.clientDbId === useUserStore.getState().myId;
 
-    const handleOpenEmojiPicker = (e: any) => {
-        // setIsLoading(true);
-        // setReactionOpen(!reactionOpen);
-        // setTimeout(() => setIsLoading(false), 20);
-
-        console.log("e", e);
+    function handleOpenEmojiPicker(e: React.MouseEvent<HTMLDivElement>) {
         useReactionMenuStore.getState().setIsOpen(true);
         useReactionMenuStore.getState().setPosition({
             x: e.pageX - 324 / 2,
@@ -38,7 +33,7 @@ function ReactionTriggerDiv({ messagePayload }: ReactionTriggerDivProps) {
         useReactionMenuStore
             .getState()
             .setMessageDbId(messagePayload.messageType.messageDbId);
-    };
+    }
 
     return (
         <>

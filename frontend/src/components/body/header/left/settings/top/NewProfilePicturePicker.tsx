@@ -1,8 +1,8 @@
 import { useState } from "react";
-import useSettingsStore from "../../../../../stores/settingsStore";
-import { SettingsProfilePicturePreviewer } from "./picture/SettingsProfilePicturePreviewer";
-import { PreferPictureUrlCheckbox } from "./picture/PreferPictureUrlCheckbox";
-import { handleFileChange } from "../../../../../utils/pictureHelper";
+import useSettingsStore from "../../../../../../stores/settingsStore";
+import { PreferPictureUrlCheckbox } from "./PreferPictureUrlCheckbox";
+import { handleFileChange } from "../../../../../../utils/pictureHelper";
+import { SettingsProfilePicturePreviewer } from "./SettingsProfilePicturePreviewer";
 
 function NewProfilePicturePicker() {
     const [preferPictureUrl, setPreferPictureUrl] = useState(false);
