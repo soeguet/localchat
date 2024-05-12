@@ -21,15 +21,15 @@ function NewSettingsModal(props: NewSettingsModalProps) {
     }, [props.isOpen]);
 
     return (
-        <>
+        <div className="w-full bg-red-500">
             <dialog
                 data-testid="settings-modal"
-                className="z-10 size-3/4 bg-transparent "
+                className="fixed inset-0 z-10 bg-transparent backdrop:bg-black backdrop:opacity-70"
                 ref={dialogRef}
             >
                 <NewSettingsModalContainer onClose={props.onClose} />
             </dialog>
-        </>
+        </div>
     );
 }
 

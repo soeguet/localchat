@@ -23,19 +23,19 @@ const InfoMenuModal = (props: InfoMenuModalProps) => {
     return (
         <dialog
             data-testid="info-menu-modal"
-            className=" flex size-1/4 flex-col rounded-xl border border-black p-3 shadow-lg"
+            className=" flex size-1/4 flex-col rounded-xl shadow-lg backdrop:bg-black backdrop:bg-opacity-70 hover:border-cyan-400"
             ref={dialogRef}
             onClose={props.onClose}
         >
-            <div className="relative flex justify-end">
+            <div className="duration-300k relative  flex size-full flex-col rounded-xl border-2 p-3 transition ease-in-out hover:border-cyan-400 ">
                 <button
-                    className=" absolute rounded-full border border-gray-500 bg-gray-300 px-3 pb-1 transition ease-in-out hover:bg-gray-200"
+                    className="absolute right-1 top-1 rounded-full border border-gray-500 bg-gray-300 px-3 pb-1 transition ease-in-out hover:bg-gray-200"
                     onClick={props.onClose}
                 >
                     x
                 </button>
+                <div className=" h-full">{props.children}</div>
             </div>
-            <div className="h-full">{props.children}</div>
         </dialog>
     );
 };

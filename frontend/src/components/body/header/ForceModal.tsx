@@ -1,12 +1,12 @@
-import {useEffect, useRef, useState} from "react";
-import {useTranslation} from "react-i18next";
-import {useClientStore} from "../../../stores/clientStore";
-import {useWebsocketStore} from "../../../stores/websocketStore";
-import {PayloadSubType} from "../../../utils/customTypes";
-import {useUserStore} from "../../../stores/userStore";
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useClientStore } from "../../../stores/clientStore";
+import { useWebsocketStore } from "../../../stores/websocketStore";
+import { PayloadSubType } from "../../../utils/customTypes";
+import { useUserStore } from "../../../stores/userStore";
 
 function ForceModal() {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
     const forceModalRef = useRef<HTMLDivElement>(null);
 
@@ -35,9 +35,9 @@ function ForceModal() {
             forceModalRef.current &&
             !forceModalRef.current.contains(event.target as Node)
         ) {
-            const {left, top, right, bottom} =
+            const { left, top, right, bottom } =
                 forceModalRef.current.getBoundingClientRect();
-            const {clientX, clientY} = event;
+            const { clientX, clientY } = event;
 
             if (
                 clientX < left ||
@@ -59,6 +59,8 @@ function ForceModal() {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [isOpen]);
+
+    // TODO rewrite as dialog
     return (
         <>
             <button
@@ -101,4 +103,4 @@ function ForceModal() {
     );
 }
 
-export {ForceModal};
+export { ForceModal };
