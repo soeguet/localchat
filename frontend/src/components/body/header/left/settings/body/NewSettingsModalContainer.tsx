@@ -6,6 +6,7 @@ import { NewSettingsButtonArea } from "./button/NewSettingsButtonArea";
 type NewSettingsModalProps = {
     onClose: () => void;
 };
+
 function NewSettingsModalContainer(props: NewSettingsModalProps) {
     return (
         <>
@@ -13,7 +14,7 @@ function NewSettingsModalContainer(props: NewSettingsModalProps) {
                 className="flex flex-col rounded-xl border-2 border-black bg-white p-3 transition duration-300 ease-in-out hover:border-cyan-400"
                 data-testid="settings-modal-container"
             >
-                <div className="flex grow flex-col justify-start gap-5 border bg-red-50 p-5">
+                <div className="flex grow flex-col justify-start gap-5 border p-5">
                     <NewProfilePicturePicker />
                     <NewInputFields />
                     <NewPickerFields />

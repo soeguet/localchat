@@ -5,8 +5,13 @@ import { ProfilePicture } from "../../../../../reuseable/ProfilePicture";
 function SettingsProfilePicturePreviewer() {
     const { myId } = useUserStore();
     const localColor = useSettingsStore((state) => state.localColor);
-    const profilepictureUrl = useSettingsStore((state) => state.profilePicture);
-    const profilePicture = useSettingsStore((state) => state.profilePicture);
+    const profilepictureUrl = useSettingsStore(
+        (state) => state.localProfilePictureUrl
+    );
+    const profilePicture = useSettingsStore(
+        (state) => state.localProfilePicture
+    );
+
     return (
         <>
             <div

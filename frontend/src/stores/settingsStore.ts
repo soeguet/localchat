@@ -13,10 +13,10 @@ type SettingsStoreType = {
     setLocalIp: (ip: string) => void;
     localPort: string;
     setLocalPort: (port: string) => void;
-    profilePicture: string;
-    setProfilePicture: (picture: string) => void;
-    profilePictureUrl: string;
-    setProfilePictureUrl: (url: string) => void;
+    localProfilePicture: string;
+    setLocalProfilePicture: (picture: string) => void;
+    localProfilePictureUrl: string;
+    setLocalProfilePictureUrl: (url: string) => void;
 };
 
 const useSettingsStore: UseBoundStore<StoreApi<SettingsStoreType>> =
@@ -37,11 +37,11 @@ const useSettingsStore: UseBoundStore<StoreApi<SettingsStoreType>> =
         setLocalIp: (ip: string) => set({ localIp: ip }),
         localPort: "",
         setLocalPort: (port: string) => set({ localPort: port }),
-        profilePicture: "",
-        setProfilePicture: (picture: string) =>
-            set({ profilePicture: picture }),
-        profilePictureUrl: "",
-        setProfilePictureUrl: (url: string) => set({ profilePictureUrl: url }),
+        localProfilePicture: "",
+        setLocalProfilePicture: (picture: string) =>
+            set({ localProfilePicture: picture }),
+        localProfilePictureUrl: "",
+        setLocalProfilePictureUrl: (url: string) => set({ localProfilePictureUrl: url }),
     }));
 
 export default useSettingsStore;

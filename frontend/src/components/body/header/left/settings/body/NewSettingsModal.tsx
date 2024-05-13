@@ -27,7 +27,7 @@ function NewSettingsModal(props: NewSettingsModalProps): JSX.Element {
     }, [props.isOpen]);
 
     return (
-        <div className="w-full bg-red-500">
+        <div className="w-full">
             <dialog
                 data-testid="settings-modal"
                 className="fixed inset-0 z-10 bg-transparent backdrop:bg-black backdrop:opacity-70"

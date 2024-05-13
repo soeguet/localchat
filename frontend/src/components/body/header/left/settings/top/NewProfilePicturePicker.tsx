@@ -7,7 +7,7 @@ import { SettingsProfilePicturePreviewer } from "./SettingsProfilePicturePreview
 function NewProfilePicturePicker() {
     const [preferPictureUrl, setPreferPictureUrl] = useState(false);
     const setLocalProfilePicture = useSettingsStore(
-        (state) => state.setProfilePicture
+        (state) => state.setLocalProfilePicture
     );
 
     return (
@@ -32,6 +32,8 @@ function NewProfilePicturePicker() {
                             className="mt-1 w-full rounded-md border border-gray-300 p-2"
                         />
                     ) : (
+                        //
+                        // handleFileChange needs to be refactored
                         <input
                             type="file"
                             id="profilePicture"
