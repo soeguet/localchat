@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { NewSettingsModal } from "../NewSettingsModal";
+import useSettingsStore from "../../../../../../../stores/settingsStore";
 
 function NewSettingsModalButton() {
     const [isOpened, setIsOpened] = useState(false);
@@ -17,7 +18,10 @@ function NewSettingsModalButton() {
             {isOpened && (
                 <NewSettingsModal
                     isOpen={isOpened}
-                    onClose={() => setIsOpened(false)}
+                    onClose={() => {
+                        setIsOpened(false);
+                        useSettingsStore.getState().resetAllStoreValues();
+                    }}
                 />
             )}
         </>

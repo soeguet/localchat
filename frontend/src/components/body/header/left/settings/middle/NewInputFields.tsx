@@ -3,10 +3,13 @@ import useSettingsStore from "../../../../../../stores/settingsStore";
 
 function NewInputFields() {
     const { t } = useTranslation();
+
     const localName = useSettingsStore((state) => state.localName);
     const setLocalName = useSettingsStore((state) => state.setLocalName);
+
     const localIp = useSettingsStore((state) => state.localIp);
     const setLocalIp = useSettingsStore((state) => state.setLocalIp);
+
     const localPort = useSettingsStore((state) => state.localPort);
     const setLocalPort = useSettingsStore((state) => state.setLocalPort);
 

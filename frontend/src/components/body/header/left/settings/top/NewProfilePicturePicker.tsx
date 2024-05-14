@@ -6,6 +6,7 @@ import { SettingsProfilePicturePreviewer } from "./SettingsProfilePicturePreview
 
 function NewProfilePicturePicker() {
     const [preferPictureUrl, setPreferPictureUrl] = useState(false);
+
     const setLocalProfilePicture = useSettingsStore(
         (state) => state.setLocalProfilePicture
     );
@@ -16,7 +17,7 @@ function NewProfilePicturePicker() {
                 data-testid="profile-picture-picker-container"
                 className="col-span-3 grid grid-cols-8"
             >
-                <SettingsProfilePicturePreviewer />
+                <SettingsProfilePicturePreviewer preferPictureUrl={preferPictureUrl}/>
                 <div className="col-span-6">
                     <PreferPictureUrlCheckbox
                         isSelected={setPreferPictureUrl}
