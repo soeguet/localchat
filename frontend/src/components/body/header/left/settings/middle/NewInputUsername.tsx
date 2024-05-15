@@ -6,6 +6,7 @@ function NewInputUsername() {
 
     const localName = useSettingsStore((state) => state.localName);
     const setLocalName = useSettingsStore((state) => state.setLocalName);
+
     return (
         <div data-testid="settings-input-username" className="flex flex-col">
             <label htmlFor="name">{t("profile_menu_item_name")}</label>
