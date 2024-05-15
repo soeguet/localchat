@@ -1,11 +1,7 @@
-import { useTranslation } from "react-i18next";
 import useSettingsStore from "../../../../../../stores/settingsStore";
+import { NewInputUsername } from "./NewInputUsername";
 
 function NewInputFields() {
-    const { t } = useTranslation();
-
-    const localName = useSettingsStore((state) => state.localName);
-    const setLocalName = useSettingsStore((state) => state.setLocalName);
 
     const localIp = useSettingsStore((state) => state.localIp);
     const setLocalIp = useSettingsStore((state) => state.setLocalIp);
@@ -19,16 +15,7 @@ function NewInputFields() {
                 data-testid="settings-input-field-container"
                 className="flex justify-between gap-3"
             >
-                <div className="flex flex-col">
-                    <label htmlFor="name">{t("profile_menu_item_name")}</label>
-                    <input
-                        type="text"
-                        id="name"
-                        value={localName}
-                        onChange={(e) => setLocalName(e.target.value)}
-                        className="mt-1 rounded-md border border-gray-300 p-2"
-                    />
-                </div>
+                <NewInputUsername />
                 <div className="flex flex-col">
                     <label htmlFor="socketIp">Socket IP</label>
                     <input

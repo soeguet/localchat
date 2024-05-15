@@ -1,7 +1,9 @@
 import { NewInputFields } from "../middle/NewInputFields";
-import { NewPickerFields } from "../bottom/NewPickerFields";
 import { NewProfilePicturePicker } from "../top/NewProfilePicturePicker";
 import { NewSettingsButtonArea } from "./button/NewSettingsButtonArea";
+import { SettingsColorPicker } from "../bottom/SettingsColorPicker";
+import { SettingsFontSizePicker } from "../bottom/SettingsFontSizePicker";
+import { SettingsLanguagePicker } from "../bottom/SettingsLanguagePicker";
 
 type NewSettingsModalProps = {
     onClose: () => void;
@@ -17,7 +19,12 @@ function NewSettingsModalContainer(props: NewSettingsModalProps) {
                 <div className="flex grow flex-col justify-start gap-5 border p-5">
                     <NewProfilePicturePicker />
                     <NewInputFields />
-                    <NewPickerFields />
+                    {/* <NewPickerFields />  remove this */}
+                    <div className="flex justify-start gap-5">
+                        <SettingsLanguagePicker />
+                        <SettingsColorPicker />
+                        <SettingsFontSizePicker />
+                    </div>
                 </div>
                 <NewSettingsButtonArea onClose={props.onClose} />
             </div>
