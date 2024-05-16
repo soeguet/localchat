@@ -65,10 +65,10 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
 
                     {props.messagePayload.reactionType &&
                         props.messagePayload.reactionType.length > 0 && (
-                            <ReactionField
-                                messagePayload={props.messagePayload}
-                            />
-                        )}
+                        <ReactionField
+                            messagePayload={props.messagePayload}
+                        />
+                    )}
                 </div>
             </div>
         </>

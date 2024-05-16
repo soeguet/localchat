@@ -1,11 +1,24 @@
 import { useTranslation } from "react-i18next";
 import useSettingsStore from "../../../../../../stores/settingsStore";
+import { useUserStore } from "../../../../../../stores/userStore";
+import { useClientStore } from "../../../../../../stores/clientStore";
+import { useEffect } from "react";
 
 function SettingsColorPicker() {
     const { t } = useTranslation();
 
     const localColor = useSettingsStore((state) => state.localColor);
     const setLocalColor = useSettingsStore((state) => state.setLocalColor);
+
+    const myId = useUserStore((state) => state.myId);
+    const myProfileColor = useClientStore((state) => {
+        return state.clients.find((client) => client.clientDbId=== myId)?.clientColor;
+    });
+
+    useEffect(() => {
+        setLocalColor(myProfileColor ?? localColor);
+    }
+    , [myProfileColor]);
 
     return (
         <>

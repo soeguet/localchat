@@ -1,11 +1,19 @@
 import { useTranslation } from "react-i18next";
 import useSettingsStore from "../../../../../../stores/settingsStore";
+import { useSelectedLanguageStore } from "../../../../../../stores/selectedLanguageStore";
+import { useEffect } from "react";
 
 function SettingsLanguagePicker() {
     const { t } = useTranslation();
 
     const language = useSettingsStore((state) => state.language);
     const setLanguage = useSettingsStore((state) => state.setLanguage);
+    const selectedLanguage = useSelectedLanguageStore((state) => state.selectedLanguage);
+
+    useEffect(()=>{
+        setLanguage(selectedLanguage);
+    },[selectedLanguage]);
+
 
     return (
         <>

@@ -4,7 +4,7 @@ import { screen } from "@testing-library/react";
 
 describe("SettingsProfilePicturePreviewer", () => {
     test("should render profile picture preview", () => {
-        render(<SettingsProfilePicturePreviewer preferPictureUrl={true} />);
+        render(<SettingsProfilePicturePreviewer />);
         expect(
             screen.queryByTestId("settings-profile-picture-preview")
         ).toBeInTheDocument();

@@ -31,8 +31,7 @@ function SettingsProfilePicturePreviewer() {
                 <div className="grid">
                     <ProfilePicture
                         clientDbId={myId}
-                        pictureUrl={profilepictureUrl}
-                        previewPicture={profilePicture}
+                        pictureUrl={profilepictureUrl ?? profilePicture}
                         style={{
                             width: "70px",
                             height: "70px",
