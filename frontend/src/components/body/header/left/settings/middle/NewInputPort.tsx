@@ -1,8 +1,15 @@
+import { useEffect } from "react";
+import useEnvVars from "../../../../../../hooks/useEnvVars";
 import useSettingsStore from "../../../../../../stores/settingsStore";
 
 function NewInputPort() {
     const localPort = useSettingsStore((state) => state.localPort);
     const setLocalPort = useSettingsStore((state) => state.setLocalPort);
+    const [envVars] = useEnvVars();
+
+    useEffect(() => {
+        setLocalPort(envVars["port"]);
+    }, []);
 
     return (
         <div className="flex flex-col">

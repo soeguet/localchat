@@ -1,9 +1,16 @@
+import { useEffect } from "react";
+import useEnvVars from "../../../../../../hooks/useEnvVars";
 import useSettingsStore from "../../../../../../stores/settingsStore";
+import { EnvVars } from '../../../../../../utils/customTypes';
 
 function NewInputIp() {
-
     const localIp = useSettingsStore((state) => state.localIp);
     const setLocalIp = useSettingsStore((state) => state.setLocalIp);
+    const [envVars] = useEnvVars();
+
+    useEffect(() => {
+        setLocalIp(envVars["ip"]);
+    }, []);
 
     return (
         <div data-testid="settings-input-ip" className="flex flex-col">
@@ -19,4 +26,4 @@ function NewInputIp() {
     );
 }
 
-export {NewInputIp};
+export { NewInputIp };

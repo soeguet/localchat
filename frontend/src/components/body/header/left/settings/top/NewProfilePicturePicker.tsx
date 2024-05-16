@@ -7,6 +7,13 @@ import { SettingsProfilePicturePreviewer } from "./SettingsProfilePicturePreview
 function NewProfilePicturePicker() {
     const [preferPictureUrl, setPreferPictureUrl] = useState(false);
 
+    function togglePictureUrlSelector(checked: boolean) {
+
+        useSettingsStore.getState().setLocalProfilePictureUrl("");
+        useSettingsStore.getState().setLocalProfilePicture("");
+        setPreferPictureUrl(checked);
+    }
+
     const setLocalProfilePicture = useSettingsStore(
         (state) => state.setLocalProfilePicture
     );
@@ -20,7 +27,7 @@ function NewProfilePicturePicker() {
                 <SettingsProfilePicturePreviewer preferPictureUrl={preferPictureUrl}/>
                 <div className="col-span-6">
                     <PreferPictureUrlCheckbox
-                        isSelected={setPreferPictureUrl}
+                        isSelected={togglePictureUrlSelector}
                     />
                     {preferPictureUrl ? (
                         <input

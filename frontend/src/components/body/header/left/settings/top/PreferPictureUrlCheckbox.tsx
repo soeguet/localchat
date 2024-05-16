@@ -16,7 +16,7 @@ function PreferPictureUrlCheckbox(props: PreferPictureUrlCheckboxProps) {
                     <input
                         id="comments"
                         aria-describedby="comments-description"
-                        onChange={(e) => props.isSelected(e.target.checked)}
+                        onChange={(e) => props.isSelected(e.target.checked.valueOf())}
                         name="comments"
                         type="checkbox"
                         className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"

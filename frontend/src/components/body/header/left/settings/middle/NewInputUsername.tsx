@@ -1,11 +1,17 @@
 import { useTranslation } from "react-i18next";
 import useSettingsStore from "../../../../../../stores/settingsStore";
+import { useEffect } from "react";
+import { useUserStore } from "../../../../../../stores/userStore";
 
 function NewInputUsername() {
     const { t } = useTranslation();
 
     const localName = useSettingsStore((state) => state.localName);
     const setLocalName = useSettingsStore((state) => state.setLocalName);
+
+    useEffect(() => {
+        setLocalName(useUserStore.getState().myUsername);
+    }, []);
 
     return (
         <div data-testid="settings-input-username" className="flex flex-col">
@@ -21,4 +27,4 @@ function NewInputUsername() {
     );
 }
 
-export {NewInputUsername};
+export { NewInputUsername };

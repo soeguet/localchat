@@ -4,6 +4,7 @@ import {memo} from "react";
 type ProfilePictureProps = {
     clientDbId: string;
     pictureUrl?: string;
+    previewPicture?: string;
     properties?: string;
     style?: {
         width: string | "40px";
@@ -19,7 +20,16 @@ const ProfilePicture = memo((props: ProfilePictureProps) => {
         state.clients.find((c) => c.clientDbId === props.clientDbId)
     );
 
-    const profilePicture = client?.clientProfileImage;
+    let profilePicture = client?.clientProfileImage;
+
+    if (props.previewPicture) {
+        
+        profilePicture = props.previewPicture;
+    }
+
+    if (props.pictureUrl) {
+        profilePicture = props.pictureUrl;
+    }
 
     return (
         <>

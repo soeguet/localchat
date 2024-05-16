@@ -20,7 +20,6 @@ function NewSettingsModalContainer(props: NewSettingsModalProps) {
             >
                 <div className="flex grow flex-col justify-start gap-5 border p-5">
                     <NewProfilePicturePicker />
-                    {/* <NewInputFields /> remove this*/}
                     <div
                         data-testid="settings-input-field-container"
                         className="flex justify-between gap-3"
@@ -29,7 +28,6 @@ function NewSettingsModalContainer(props: NewSettingsModalProps) {
                         <NewInputIp />
                         <NewInputPort />
                     </div>
-                    {/* <NewPickerFields />  remove this */}
                     <div className="flex justify-start gap-5">
                         <SettingsLanguagePicker />
                         <SettingsColorPicker />

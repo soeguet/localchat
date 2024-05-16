@@ -1,4 +1,5 @@
 import { ChangeEvent } from "react";
+import useSettingsStore from '../stores/settingsStore';
 
 export function arrayBufferToBase64(buffer: ArrayBuffer): string {
     let binary = "";
@@ -38,7 +39,7 @@ export async function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
         const base64String = arrayBufferToBase64(arrayBuffer);
         const pictureUrl = `data:image/jpeg;base64,${base64String}`;
         // TODO refactor this part
-        // setLocalProfilePicture(pictureUrl);
+        useSettingsStore.getState().setLocalProfilePicture(pictureUrl);
     } catch (error) {
         console.error("Error reading the file.", error);
     }
