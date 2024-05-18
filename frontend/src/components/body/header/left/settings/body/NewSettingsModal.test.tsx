@@ -9,7 +9,13 @@ beforeEach(() => {
 
 describe("NewSettingsModal", () => {
     test("should render if directly called", () => {
-        render(<NewSettingsModal isOpen={true} onClose={() => {}} />);
+        render(
+            <NewSettingsModal
+                isOpen={true}
+                onSave={() => {}}
+                onClose={() => {}}
+            />
+        );
         const settingsModal = screen.getByTestId("settings-modal");
         expect(settingsModal).toBeInTheDocument();
     });

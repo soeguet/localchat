@@ -41,3 +41,4 @@ const InfoMenuModal = (props: InfoMenuModalProps) => {
 };
 
 export { InfoMenuModal };
+

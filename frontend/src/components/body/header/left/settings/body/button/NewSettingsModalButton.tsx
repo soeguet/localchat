@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { NewSettingsModal } from "../NewSettingsModal";
 import useSettingsStore from "../../../../../../../stores/settingsStore";
+import { handleProfileSettingsUpdatesWithSocket } from "../../../../../../../utils/handleCommunicationWithSocket";
+import { handleLocalSettingsUpdates } from "../../../../../../../utils/handleLocalSettingsUpdates";
 
 function NewSettingsModalButton() {
     const [isOpened, setIsOpened] = useState(false);
@@ -21,6 +23,19 @@ function NewSettingsModalButton() {
                     onClose={() => {
                         setIsOpened(false);
                         useSettingsStore.getState().resetAllStoreValues();
+                    }}
+                    onSave={() => {
+                        const reconnectionTimeoutValue =
+                            handleLocalSettingsUpdates();
+
+                        const timeout: NodeJS.Timeout = setTimeout(() => {
+                            handleProfileSettingsUpdatesWithSocket();
+
+                            setIsOpened(false);
+                            useSettingsStore.getState().resetAllStoreValues();
+
+                            return clearTimeout(timeout);
+                        }, reconnectionTimeoutValue);
                     }}
                 />
             )}

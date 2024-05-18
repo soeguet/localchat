@@ -8,14 +8,18 @@ beforeEach(() => {
 });
 describe("NewSettingsModalContainer", () => {
     test("should render component", () => {
-        render(<NewSettingsModalContainer onClose={() => {}} />);
+        render(
+            <NewSettingsModalContainer onSave={() => {}} onClose={() => {}} />
+        );
         const container = screen.getByTestId("settings-modal-container");
         expect(container).toBeInTheDocument();
     });
 
     test("should close on button click", async () => {
         const onClose = vi.fn();
-        render(<NewSettingsModalContainer onClose={onClose} />);
+        render(
+            <NewSettingsModalContainer onClose={onClose} onSave={() => {}} />
+        );
         const closeButton = screen.getByTestId("close-settings-modal-button");
         await userEvent.click(closeButton);
         expect(onClose).toHaveBeenCalledTimes(1);

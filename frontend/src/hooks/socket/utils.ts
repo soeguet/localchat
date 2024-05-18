@@ -1,15 +1,23 @@
-import {MakeWindowsTaskIconFlash, Notification,} from "../../../wailsjs/go/main/App";
-import {WindowIsMinimised, WindowShow} from "../../../wailsjs/runtime";
-import {useRefStore} from "../../stores/refStore";
-import {useDoNotDisturbStore} from "../../stores/doNotDisturbStore";
-import {useUnseenMessageCountStore} from "../../stores/unseenMessageCountStore";
-import {useUserStore} from "../../stores/userStore";
-import {ClientEntity, ClientListPayload, MessagePayload, PayloadSubType,} from "../../utils/customTypes";
-import {useMessageMapStore} from "../../stores/messageMapStore";
-import {useClientStore} from "../../stores/clientStore";
-import {useGuiHasFocusStore} from "../../stores/guiHasFocusStore";
-import {scrollToBottom} from "../../utils/functionality";
-import {base64ToUtf8} from "../../utils/encoder";
+import {
+    MakeWindowsTaskIconFlash,
+    Notification,
+} from "../../../wailsjs/go/main/App";
+import { WindowIsMinimised, WindowShow } from "../../../wailsjs/runtime";
+import { useRefStore } from "../../stores/refStore";
+import { useDoNotDisturbStore } from "../../stores/doNotDisturbStore";
+import { useUnseenMessageCountStore } from "../../stores/unseenMessageCountStore";
+import { useUserStore } from "../../stores/userStore";
+import {
+    ClientEntity,
+    ClientListPayload,
+    MessagePayload,
+    PayloadSubType,
+} from "../../utils/customTypes";
+import { useMessageMapStore } from "../../stores/messageMapStore";
+import { useClientStore } from "../../stores/clientStore";
+import { useGuiHasFocusStore } from "../../stores/guiHasFocusStore";
+import { scrollToBottom } from "../../utils/functionality";
+import { base64ToUtf8 } from "../../utils/encoder";
 
 export function checkIfMessageIsToBeAddedToTheUnseenMessagesList(
     messagePayload: MessagePayload,
@@ -95,6 +103,29 @@ export function handleClientListPayload(payloadAsString: string) {
     const payloadAsObject: ClientListPayload = JSON.parse(payloadAsString);
     const clients: ClientEntity[] = payloadAsObject.clients;
     useClientStore.getState().setClients(clients);
+}
+
+export function updateThisClientsCachedDataWithNewPayloadData(
+    payloadAsString: string
+) {
+    const payloadAsObject: ClientListPayload = JSON.parse(payloadAsString);
+    const clients: ClientEntity[] = payloadAsObject.clients;
+    const myId = useUserStore.getState().myId;
+    const myClient = clients.find((client) => client.clientDbId === myId);
+
+    if (myClient === undefined) {
+        throw new Error("Client not found in client list");
+    }
+
+    useUserStore.getState().setMyUsername(myClient.clientUsername);
+
+    if (myClient.clientColor) {
+        useUserStore.getState().setMyColor(myClient.clientColor);
+    }
+
+    if (myClient.clientProfileImage) {
+        useUserStore.getState().setMyProfilePhoto(myClient.clientProfileImage);
+    }
 }
 
 export function handeMessageListPayload(data: string) {

@@ -1,25 +1,29 @@
-import {MessagePayload, PayloadSubType} from "./customTypes";
+import { MessagePayload, PayloadSubType } from "./customTypes";
 import {
     checkIfMessageIsToBeAddedToTheUnseenMessagesList,
     checkIfNotificationIsNeeded,
     handeMessageListPayload,
     handleClientListPayload,
+    updateThisClientsCachedDataWithNewPayloadData,
 } from "../hooks/socket/utils";
-import {checkIfScrollToBottomIsNeeded} from "./scrollToBottomNeeded";
-import {useDoNotDisturbStore} from "../stores/doNotDisturbStore";
-import {Notification} from "../../wailsjs/go/main/App";
-import {WindowMinimise, WindowShow, WindowUnminimise,} from "../../wailsjs/runtime";
-import {useMessageMapStore} from "../stores/messageMapStore";
-import {useUserStore} from "../stores/userStore";
-import {useTypingStore} from "../stores/typingStore";
-import {notifyClientIfReactionTarget} from "./reactionHandler";
-import {retrieveMessageListFromSocket} from "./socket";
+import { checkIfScrollToBottomIsNeeded } from "./scrollToBottomNeeded";
+import { useDoNotDisturbStore } from "../stores/doNotDisturbStore";
+import { Notification } from "../../wailsjs/go/main/App";
+import {
+    WindowMinimise,
+    WindowShow,
+    WindowUnminimise,
+} from "../../wailsjs/runtime";
+import { useMessageMapStore } from "../stores/messageMapStore";
+import { useUserStore } from "../stores/userStore";
+import { useTypingStore } from "../stores/typingStore";
+import { notifyClientIfReactionTarget } from "./reactionHandler";
+import { retrieveMessageListFromSocket } from "./socket";
 
 export function handleIncomingMessages(event: MessageEvent) {
     const dataAsObject = JSON.parse(event.data);
 
     switch (dataAsObject.payloadType) {
-
         // normal chat messages
         // PayloadSubType.message == 1
         case PayloadSubType.message: {
@@ -54,6 +58,7 @@ export function handleIncomingMessages(event: MessageEvent) {
                 throw new Error("Client list is empty");
             }
             handleClientListPayload(event.data);
+            updateThisClientsCachedDataWithNewPayloadData(event.data);
 
             // AFTER receiving the client list, ask for the message list
             retrieveMessageListFromSocket();

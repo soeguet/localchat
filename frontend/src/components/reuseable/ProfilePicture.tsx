@@ -1,10 +1,9 @@
-import {useClientStore} from "../../stores/clientStore";
-import {memo} from "react";
+import { useClientStore } from "../../stores/clientStore";
+import { memo } from "react";
 
 type ProfilePictureProps = {
     clientDbId: string;
     pictureUrl?: string;
-    previewPicture?: string;
     properties?: string;
     style?: {
         width: string | "40px";
@@ -15,21 +14,11 @@ type ProfilePictureProps = {
 };
 
 const ProfilePicture = memo((props: ProfilePictureProps) => {
-
     const client = useClientStore((state) =>
         state.clients.find((c) => c.clientDbId === props.clientDbId)
     );
 
-    let profilePicture = client?.clientProfileImage;
-
-    if (props.previewPicture) {
-        
-        profilePicture = props.previewPicture;
-    }
-
-    if (props.pictureUrl) {
-        profilePicture = props.pictureUrl;
-    }
+    const profilePicture = client?.clientProfileImage;
 
     return (
         <>
@@ -46,4 +35,4 @@ const ProfilePicture = memo((props: ProfilePictureProps) => {
 
 ProfilePicture.displayName = "ProfilePicture";
 
-export {ProfilePicture};
+export { ProfilePicture };

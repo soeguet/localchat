@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import useSettingsStore from "../../../../../../stores/settingsStore";
 import { PreferPictureUrlCheckbox } from "./PreferPictureUrlCheckbox";
 import { handleFileChange } from "../../../../../../utils/pictureHelper";
@@ -6,10 +6,16 @@ import { SettingsProfilePicturePreviewer } from "./SettingsProfilePicturePreview
 
 function NewProfilePicturePicker() {
     const [preferPictureUrl, setPreferPictureUrl] = useState(false);
+    const urlInputRef = useRef<HTMLInputElement>(null);
 
     function togglePictureUrlSelector(checked: boolean) {
         useSettingsStore.getState().setLocalProfilePictureUrl("");
         useSettingsStore.getState().setLocalProfilePicture("");
+
+        if (urlInputRef.current) {
+            urlInputRef.current.value = "";
+        }
+
         setPreferPictureUrl(checked);
     }
 
@@ -31,6 +37,7 @@ function NewProfilePicturePicker() {
                     {preferPictureUrl ? (
                         <input
                             type="text"
+                            ref={urlInputRef}
                             placeholder="link here"
                             id="profilePicture"
                             onChange={(e) =>

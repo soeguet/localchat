@@ -1,5 +1,6 @@
 type NewSettingsButtonAreaProps = {
     onClose: () => void;
+    onSave: () => void;
 };
 
 function NewSettingsButtonArea(props: NewSettingsButtonAreaProps) {
@@ -11,7 +12,7 @@ function NewSettingsButtonArea(props: NewSettingsButtonAreaProps) {
             >
                 <button
                     data-testid="save-settings-modal-button"
-                    onClick={props.onClose}
+                    onClick={props.onSave}
                     className="mt-2 rounded-lg bg-blue-500 px-4 py-2 text-white"
                 >
                     SAVE

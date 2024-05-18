@@ -4,6 +4,7 @@ import { NewSettingsModalContainer } from "./NewSettingsModalContainer";
 type NewSettingsModalProps = {
     isOpen: boolean;
     onClose: () => void;
+    onSave: () => void;
 };
 
 /**
@@ -33,7 +34,10 @@ function NewSettingsModal(props: NewSettingsModalProps): JSX.Element {
                 className="fixed inset-0 z-10 bg-transparent backdrop:bg-black backdrop:opacity-70"
                 ref={dialogRef}
             >
-                <NewSettingsModalContainer onClose={props.onClose} />
+                <NewSettingsModalContainer
+                    onSave={props.onSave}
+                    onClose={props.onClose}
+                />
             </dialog>
         </div>
     );

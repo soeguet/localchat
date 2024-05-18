@@ -9,6 +9,7 @@ import { NewInputUsername } from "../middle/NewInputUsername";
 
 type NewSettingsModalProps = {
     onClose: () => void;
+    onSave: () => void;
 };
 
 function NewSettingsModalContainer(props: NewSettingsModalProps) {
@@ -34,7 +35,10 @@ function NewSettingsModalContainer(props: NewSettingsModalProps) {
                         <SettingsFontSizePicker />
                     </div>
                 </div>
-                <NewSettingsButtonArea onClose={props.onClose} />
+                <NewSettingsButtonArea
+                    onSave={props.onSave}
+                    onClose={props.onClose}
+                />
             </div>
         </>
     );
