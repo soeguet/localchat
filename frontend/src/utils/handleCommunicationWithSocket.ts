@@ -9,8 +9,6 @@ export function handleProfileSettingsUpdatesWithSocket() {
     const newColor = useSettingsStore.getState().localColor;
     const newProfilePicture = useSettingsStore.getState().localProfilePicture;
 
-    console.log("localName", newUsername);
-
     const clientUpdatePayload: ClientUpdatePayload = {
         payloadType: PayloadSubType.profileUpdate,
         clientUsername: newUsername || useUserStore.getState().myUsername,
@@ -19,8 +17,6 @@ export function handleProfileSettingsUpdatesWithSocket() {
         clientProfileImage:
             newProfilePicture || useUserStore.getState().myProfilePhoto,
     };
-
-    console.log("clientUpdatePayload", clientUpdatePayload);
 
     const wsReference = useWebsocketStore.getState().ws;
 

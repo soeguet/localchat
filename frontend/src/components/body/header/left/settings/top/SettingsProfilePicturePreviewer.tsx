@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import useSettingsStore from "../../../../../../stores/settingsStore";
 import { useUserStore } from "../../../../../../stores/userStore";
 import { ProfilePicture } from "../../../../../reuseable/ProfilePicture";
@@ -17,12 +16,6 @@ function SettingsProfilePicturePreviewer() {
         (state) => state.localProfilePicture
     );
 
-    useEffect(() => {
-        useSettingsStore
-            .getState()
-            .setLocalProfilePicture(useUserStore.getState().myProfilePhoto);
-    }, []);
-
     return (
         <>
             <div
@@ -32,12 +25,18 @@ function SettingsProfilePicturePreviewer() {
                 <div className="grid">
                     {profilePicture ?? profilepictureUrl ? (
                         <>
-                            <SettingsSelectedPicturePreview style={{
-                                width: "150px",
-                                height: "150px",
-                                borderColor: localColor || clientSelectedColor,
-                            }} />
-                            <span className="rounded bg-red-200 p-1 text-center text-xs text-gray-600 mt-2">
+                            <SettingsSelectedPicturePreview
+                                style={{
+                                    width: "150px",
+                                    height: "150px",
+                                    borderColor:
+                                        localColor || clientSelectedColor,
+                                }}
+                            />
+                            <span
+                                data-testid="profile-picture-preview-banner"
+                                className="mt-2 rounded bg-red-200 p-1 text-center text-xs text-gray-600"
+                            >
                                 preview
                             </span>
                         </>

@@ -5,8 +5,9 @@ import { NewProfilePicturePicker } from "./NewProfilePicturePicker";
 describe("NewProfilePicturePicker", () => {
     test("should render container", () => {
         render(<NewProfilePicturePicker />);
-        expect(
-            screen.getByTestId("profile-picture-picker-container")
-        ).toBeInTheDocument();
+        const container = screen.queryByTestId(
+            "profile-picture-picker-container"
+        );
+        expect(container).toBeInTheDocument();
     });
 });

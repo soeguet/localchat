@@ -13,8 +13,6 @@ function NewInputUsername() {
         setLocalName(useUserStore.getState().myUsername);
     }, []);
 
-    console.log("000 localName", localName);
-
     return (
         <div data-testid="settings-input-username" className="flex flex-col">
             <label htmlFor="name">{t("profile_menu_item_name")}</label>

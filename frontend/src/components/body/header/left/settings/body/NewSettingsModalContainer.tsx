@@ -6,6 +6,8 @@ import { SettingsLanguagePicker } from "../bottom/SettingsLanguagePicker";
 import { NewInputIp } from "../middle/NewInputIp";
 import { NewInputPort } from "../middle/NewInputPort";
 import { NewInputUsername } from "../middle/NewInputUsername";
+import { useState } from "react";
+import useSettingsStore from "../../../../../../stores/settingsStore";
 
 type NewSettingsModalProps = {
     onClose: () => void;
@@ -13,10 +15,17 @@ type NewSettingsModalProps = {
 };
 
 function NewSettingsModalContainer(props: NewSettingsModalProps) {
+    const [hover, setHover] = useState(false);
+    const profileColor = useSettingsStore((state) => state.localColor);
     return (
         <>
             <div
-                className="flex flex-col rounded-xl border-2 border-black bg-white p-3 transition duration-300 ease-in-out hover:border-cyan-400"
+                onMouseEnter={() => setHover(true)}
+                onMouseLeave={() => setHover(false)}
+                className="flex flex-col rounded-xl border-2 bg-white p-3 transition duration-300 ease-in-out "
+                style={{
+                    borderColor: hover ? profileColor : "black",
+                }}
                 data-testid="settings-modal-container"
             >
                 <div className="flex grow flex-col justify-start gap-5 border p-5">

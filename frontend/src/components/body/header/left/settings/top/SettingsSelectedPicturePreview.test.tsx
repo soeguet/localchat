@@ -1,7 +1,7 @@
 import { render } from "../../../../../../utils/test-utils";
 import { SettingsSelectedPicturePreview } from "./SettingsSelectedPicturePreview";
 import { screen } from "@testing-library/react";
-import { expect } from "vitest";
+import { expect, test } from "vitest";
 
 describe("SettingsSelectedPicturePreview", () => {
     test("should render", () => {
