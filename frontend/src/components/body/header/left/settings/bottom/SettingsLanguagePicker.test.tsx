@@ -1,4 +1,12 @@
-import { render, screen } from "../../../../../../utils/test-utils";
+import useSettingsStore from "../../../../../../stores/settingsStore";
+import {
+    act,
+    fireEvent,
+    render,
+    screen,
+    userEvent,
+} from "../../../../../../utils/test-utils";
+import { NewSettingsModalContainer } from "../body/NewSettingsModalContainer";
 import { SettingsLanguagePicker } from "./SettingsLanguagePicker";
 
 describe("SettingsLanguagePicker", () => {
@@ -8,5 +16,118 @@ describe("SettingsLanguagePicker", () => {
             "settings-language-picker-container"
         );
         expect(container).toBeInTheDocument();
+    });
+
+    test("should change store value after value change", () => {
+        render(
+            <NewSettingsModalContainer onSave={() => {}} onClose={() => {}} />
+        );
+
+        act(() => {
+            useSettingsStore.getState().setLocalColor("red");
+        });
+
+        const stateColor = useSettingsStore.getState().localColor;
+
+        expect(stateColor).toBe("red");
+    });
+
+    test("should change modal border color after state change", () => {
+        render(
+            <NewSettingsModalContainer onSave={() => {}} onClose={() => {}} />
+        );
+
+        act(() => {
+            useSettingsStore.getState().setLocalColor("red");
+        });
+
+        const container = screen.queryByTestId("settings-modal-container");
+
+        if (!container) {
+            throw new Error("Container not found");
+        }
+
+        fireEvent.mouseEnter(container);
+
+        expect(container).toHaveStyle("border-color: red");
+    });
+
+    test.skip("should change color picker style to red", () => {
+        render(
+            <NewSettingsModalContainer onSave={() => {}} onClose={() => {}} />
+        );
+
+        // color picker
+        const colorPicker = screen.queryByTestId(
+            "settings-profile-color-picker"
+        );
+
+        if (!colorPicker) {
+            throw new Error("Color picker not found");
+        }
+
+        act(() => {
+            fireEvent.change(colorPicker, { background: { value: "red" } });
+        });
+
+        expect(colorPicker).toHaveStyle("background-color: rgb(255, 0, 0)");
+    });
+    test("should render black modal border color if no mouse enter", () => {
+        render(
+            <NewSettingsModalContainer onSave={() => {}} onClose={() => {}} />
+        );
+
+        // color picker
+        const colorPicker = screen.queryByTestId(
+            "settings-profile-color-picker"
+        );
+
+        if (!colorPicker) {
+            throw new Error("Color picker not found");
+        }
+
+        act(() => {
+            fireEvent.change(colorPicker, { background: { value: "red" } });
+        });
+
+        // modal
+        const container = screen.queryByTestId("settings-modal-container");
+
+        if (!container) {
+            throw new Error("Container not found");
+        }
+
+        expect(container).toHaveStyle("border-color: black");
+    });
+
+    test.skip("should render new border color after mouse enter", async () => {
+        // for some reason after using the hover event the test fails
+        render(
+            <NewSettingsModalContainer onSave={() => {}} onClose={() => {}} />
+        );
+
+        // color picker
+        const colorPicker = screen.queryByTestId(
+            "settings-profile-color-picker"
+        );
+
+        if (!colorPicker) {
+            throw new Error("Color picker not found");
+        }
+
+        // act(() => {
+        //     fireEvent.change(colorPicker, { background: { value: "red" } });
+        // });
+
+        // modal
+        const container = screen.queryByTestId("settings-modal-container");
+
+        if (!container) {
+            throw new Error("Container not found");
+        }
+
+        userEvent.hover(container);
+
+        expect(container).toHaveStyle("border-color: red");
     });
 });

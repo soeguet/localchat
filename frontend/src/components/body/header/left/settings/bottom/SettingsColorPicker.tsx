@@ -12,18 +12,18 @@ function SettingsColorPicker() {
 
     const myId = useUserStore((state) => state.myId);
     const myProfileColor = useClientStore((state) => {
-        return state.clients.find((client) => client.clientDbId=== myId)?.clientColor;
+        return state.clients.find((client) => client.clientDbId === myId)
+            ?.clientColor;
     });
 
     useEffect(() => {
-        setLocalColor(myProfileColor ?? localColor);
-    }
-    , [myProfileColor]);
+        setLocalColor(myProfileColor || localColor);
+    }, [myProfileColor]);
 
     return (
         <>
             <div
-                data-testid="settings-profile-color-picker"
+                data-testid="settings-profile-color-picker-container"
                 className="flex flex-col"
             >
                 <label htmlFor="profileColor">
@@ -32,6 +32,7 @@ function SettingsColorPicker() {
                 <input
                     type="color"
                     id="profileColor"
+                    data-testid="settings-profile-color-picker"
                     onChange={(e) => {
                         setLocalColor(e.target.value);
                     }}

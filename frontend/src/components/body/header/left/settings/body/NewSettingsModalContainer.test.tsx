@@ -1,15 +1,8 @@
 import { expect, test, describe } from "vitest";
-import {
-    render,
-    screen,
-    userEvent,
-    waitFor,
-} from "../../../../../../utils/test-utils";
+import { render, screen, userEvent } from "../../../../../../utils/test-utils";
 import { NewSettingsModalContainer } from "./NewSettingsModalContainer";
 import { NewSettingsModalButton } from "./button/NewSettingsModalButton";
-import { use } from "i18next";
 import useSettingsStore from "../../../../../../stores/settingsStore";
-import { wait } from "@testing-library/user-event/dist/types/utils";
 
 beforeEach(() => {
     HTMLDialogElement.prototype.showModal = vi.fn();

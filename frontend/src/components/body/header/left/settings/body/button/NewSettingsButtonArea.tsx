@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import useSettingsStore from "../../../../../../../stores/settingsStore";
 
 type NewSettingsButtonAreaProps = {
     onClose: () => void;
@@ -7,6 +8,7 @@ type NewSettingsButtonAreaProps = {
 
 function NewSettingsButtonArea(props: NewSettingsButtonAreaProps) {
     const { t } = useTranslation();
+    const localColor = useSettingsStore((state) => state.localColor);
     return (
         <>
             <div
@@ -16,7 +18,8 @@ function NewSettingsButtonArea(props: NewSettingsButtonAreaProps) {
                 <button
                     data-testid="save-settings-modal-button"
                     onClick={props.onSave}
-                    className="mt-2 rounded-lg bg-green-800 px-4 py-2 text-white"
+                    className="mt-2 rounded-lg  px-4 py-2 text-white"
+                    style={{ backgroundColor: localColor }}
                 >
                     {t("settings_save_button")}
                 </button>

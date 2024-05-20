@@ -8,12 +8,17 @@ function SettingsLanguagePicker() {
 
     const language = useSettingsStore((state) => state.language);
     const setLanguage = useSettingsStore((state) => state.setLanguage);
-    const selectedLanguage = useSelectedLanguageStore((state) => state.selectedLanguage);
+    const selectedLanguage = useSelectedLanguageStore(
+        (state) => state.selectedLanguage
+    );
 
-    useEffect(()=>{
+    useEffect(() => {
         setLanguage(selectedLanguage);
-    },[selectedLanguage]);
+    }, [selectedLanguage]);
 
+    function handleLanguageChange(e: React.ChangeEvent<HTMLSelectElement>) {
+        setLanguage(e.target.value as "de" | "en");
+    }
 
     return (
         <>
@@ -24,7 +29,7 @@ function SettingsLanguagePicker() {
                 <select
                     id="languageSelectimn"
                     value={language}
-                    onChange={(e) => setLanguage(e.target.value)}
+                    onChange={handleLanguageChange}
                     className="mt-1 w-full rounded-md border border-gray-300 p-2"
                 >
                     <option value="de">

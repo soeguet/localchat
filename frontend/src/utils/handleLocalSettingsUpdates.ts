@@ -1,3 +1,5 @@
+import { changeLanguage } from "i18next";
+import { useSelectedLanguageStore } from "../stores/selectedLanguageStore";
 import useSettingsStore from "../stores/settingsStore";
 import { useUserStore } from "../stores/userStore";
 
@@ -10,6 +12,9 @@ export function handleLocalSettingsUpdates(): number {
     const inUsePort = useUserStore.getState().socketPort;
 
     localStorage.setItem("language", newLanguage);
+    useSelectedLanguageStore.getState().setSelectedLanguage(newLanguage);
+    changeLanguage(newLanguage);
+
     localStorage.setItem("fontSize", newFontSize.toFixed(0));
 
     // TODO validation needed

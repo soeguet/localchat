@@ -2,8 +2,8 @@ import { create, StoreApi, UseBoundStore } from "zustand";
 
 type SettingsStoreType = {
     resetAllStoreValues: () => void;
-    language: string;
-    setLanguage: (language: string) => void;
+    language: "de" | "en";
+    setLanguage: (language: "de" | "en") => void;
     fontSize: number;
     setFontSize: (size: number) => void;
     localColor: string;
@@ -24,7 +24,7 @@ const useSettingsStore: UseBoundStore<StoreApi<SettingsStoreType>> =
     create<SettingsStoreType>((set) => ({
         resetAllStoreValues: () => {
             set({
-                language: "",
+                language: "en",
                 fontSize: 0,
                 localColor: "",
                 localName: "",
@@ -34,8 +34,8 @@ const useSettingsStore: UseBoundStore<StoreApi<SettingsStoreType>> =
                 localProfilePictureUrl: "",
             });
         },
-        language: localStorage.getItem("language") || "en",
-        setLanguage: (language: string) => {
+        language: (localStorage.getItem("language") as "de" | "en") || "en",
+        setLanguage: (language: "en" | "de") => {
             set({ language });
         },
         fontSize: localStorage.getItem("fontSize")
