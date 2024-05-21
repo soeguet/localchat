@@ -5,27 +5,30 @@ import { useEffect } from "react";
 
 function SettingsFontSizePicker() {
     const { t } = useTranslation();
-    const fontSize = useSettingsStore((state) => state.fontSize);
-    const setFontSize = useSettingsStore((state) => state.setFontSize);
+    const localFontSize = useSettingsStore((state) => state.fontSize);
+    const setLocalFontSize = useSettingsStore((state) => state.setFontSize);
 
-    const selectedFontSize = useFontSizeStore((state) => state.fontSize);
+    const globalFontSize = useFontSizeStore((state) => state.fontSize);
 
     useEffect(() => {
-        setFontSize(selectedFontSize);
-    }, [selectedFontSize]);
+        setLocalFontSize(globalFontSize);
+    }, [globalFontSize]);
 
     return (
         <>
             <div data-testid="settings-font-size-picker" className="grid">
-                <label style={{fontSize: `${fontSize}px`}} htmlFor="fontSize">
-                    {t("profile_menu_font_size_label")} - {fontSize}
+                <label
+                    style={{ fontSize: `${localFontSize}px` }}
+                    htmlFor="fontSize"
+                >
+                    {t("profile_menu_font_size_label")} - {localFontSize}
                 </label>
                 <input
                     type="range"
                     min="12"
                     max="30"
-                    value={fontSize}
-                    onChange={(e) => setFontSize(Number(e.target.value))}
+                    value={localFontSize}
+                    onChange={(e) => setLocalFontSize(Number(e.target.value))}
                 />
             </div>
         </>
