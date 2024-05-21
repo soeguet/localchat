@@ -32,13 +32,13 @@ function NewSettingsModalContainer(props: NewSettingsModalProps) {
                     <NewProfilePicturePicker />
                     <div
                         data-testid="settings-input-field-container"
-                        className="flex justify-between gap-3"
+                        className="flex flex-wrap justify-start gap-3"
                     >
                         <NewInputUsername />
                         <NewInputIp />
                         <NewInputPort />
                     </div>
-                    <div className="flex justify-start gap-5">
+                    <div className="flex flex-wrap justify-start gap-5">
                         <SettingsLanguagePicker />
                         <SettingsColorPicker />
                         <SettingsFontSizePicker />
