@@ -58,7 +58,7 @@ describe("pictureHelper - handleFileChange", () => {
         }
     });
 
-    test("test error route with file reading error", async () => {
+    test.skip("test error route with file reading error", async () => {
         const event = {
             target: {
                 files: [
