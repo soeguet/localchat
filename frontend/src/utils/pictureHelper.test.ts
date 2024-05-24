@@ -1,6 +1,7 @@
-import { arrayBufferToBase64 } from "./pictureHelper";
+import { arrayBufferToBase64, handleFileChange } from "./pictureHelper";
 import { describe } from "vitest";
 import { readFileAsArrayBuffer } from "./pictureHelper";
+import { ChangeEvent } from "react";
 
 describe("pictureHelper - arrayBufferToBase64", () => {
     test("arrayBufferToBase64 function - converting ArrayBuffer to Base64 string", () => {
@@ -37,4 +38,42 @@ describe("pictureHelper - readFileAsArrayBuffer", () => {
     });
 
     // TODO more test cases needed
+});
+
+describe("pictureHelper - handleFileChange", () => {
+    test("throws an error when no file is selected", async () => {
+        const event = {
+            target: {
+                files: null,
+            },
+            message: "",
+        } as unknown as ChangeEvent<HTMLInputElement>;
+
+        try {
+            await handleFileChange(event);
+        } catch (error) {
+            expect(error).toBeInstanceOf(Error);
+
+            expect((error as Error).message).toBe("No file selected.");
+        }
+    });
+
+    test("test error route with file reading error", async () => {
+        const event = {
+            target: {
+                files: [
+                    new File(["test content"], "test.txt", {
+                        type: "text/plain",
+                    }),
+                ],
+            },
+            message: "",
+        } as unknown as ChangeEvent<HTMLInputElement>;
+
+        const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+        await handleFileChange(event);
+
+        expect(spy).toHaveBeenCalled();
+    });
 });

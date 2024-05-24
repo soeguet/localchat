@@ -7,7 +7,6 @@ import { useUserStore } from "../../stores/userStore";
 import { generateSimpleId } from "../../utils/functionality";
 import { PayloadSubType } from "../../utils/customTypes";
 
-// TODO does this need to be in this folder of the project? not sure right now
 function ReactionModal() {
     const isOpen = useReactionMenuStore((state) => state.isOpen);
     const setIsOpen = useReactionMenuStore((state) => state.setIsOpen);

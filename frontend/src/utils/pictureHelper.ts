@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react";
-import useSettingsStore from '../stores/settingsStore';
+import useSettingsStore from "../stores/settingsStore";
 
 export function arrayBufferToBase64(buffer: ArrayBuffer): string {
     let binary = "";
@@ -30,7 +30,7 @@ export function readFileAsArrayBuffer(file: File): Promise<ArrayBuffer> {
 export async function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0] || null;
     if (!file) {
-        return;
+        throw new Error("No file selected.");
     }
 
     try {
