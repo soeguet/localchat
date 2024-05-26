@@ -4,7 +4,6 @@ import { useUserStore } from "../../../../stores/userStore";
 import { MessagePayload } from "../../../../utils/customTypes";
 import { ChatMessageBubblePart } from "./ChatMessageBubblePart";
 import { ChatMessageOuterPart } from "./ChatMessageOuterPart";
-import { ReactionTriggerDiv } from "./reaction/ReactionTriggerDiv";
 
 type MessageProps = {
     messagePayload: MessagePayload;
@@ -37,7 +36,6 @@ const ChatMessageUnit = memo((props: MessageProps) => {
                     props.lastMessageTimestampSameAsThisOne
                 }
             />
-            <ReactionTriggerDiv messagePayload={props.messagePayload} />
         </div>
     );
 });

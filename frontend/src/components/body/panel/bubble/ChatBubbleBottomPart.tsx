@@ -59,16 +59,17 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
                     <div className="whitespace-pre-wrap">
                         {base64DecodedMessage}
                     </div>
-                    {/*<LinkifiedText
+                    {/* // TODO reenable links in message
+					<LinkifiedText
                         text={props.messagePayload.messageType.messageContext}
                     />*/}
 
                     {props.messagePayload.reactionType &&
                         props.messagePayload.reactionType.length > 0 && (
-                        <ReactionField
-                            messagePayload={props.messagePayload}
-                        />
-                    )}
+                            <ReactionField
+                                messagePayload={props.messagePayload}
+                            />
+                        )}
                 </div>
             </div>
         </>

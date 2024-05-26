@@ -2,6 +2,7 @@ import { useUserStore } from "../../../../stores/userStore";
 import { MessagePayload } from "../../../../utils/customTypes";
 import { ChatBubbleBottomPart } from "./ChatBubbleBottomPart";
 import { ChatBubbleTopPart } from "./ChatBubbleTopPart";
+import { ReactionTriggerDiv } from "./reaction/ReactionTriggerDiv";
 
 type ChatMessageBubblePartProps = {
     messagePayload: MessagePayload;
@@ -29,10 +30,13 @@ function ChatMessageBubblePart(props: ChatMessageBubblePartProps) {
                         props.lastMessageTimestampSameAsThisOne
                     }
                 />
-                <ChatBubbleBottomPart
-                    messagePayload={props.messagePayload}
-                    thisMessageFromThisClient={thisMessageFromThisClient}
-                />
+                <div className="flex">
+                    <ReactionTriggerDiv messagePayload={props.messagePayload} />
+                    <ChatBubbleBottomPart
+                        messagePayload={props.messagePayload}
+                        thisMessageFromThisClient={thisMessageFromThisClient}
+                    />
+                </div>
             </div>
         </>
     );
