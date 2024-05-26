@@ -1,7 +1,7 @@
-import {getClientById} from "../../../stores/clientStore";
-import {useTypingStore} from "../../../stores/typingStore";
+import { getClientById } from "../../../stores/clientStore";
+import { useTypingStore } from "../../../stores/typingStore";
 import "./TypingIndicator.css";
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * Represents a typing indicator that displays who is currently typing.
@@ -57,6 +57,7 @@ function TypingIndicator(): JSX.Element {
                 <div className="relative max-h-0 -translate-y-10">
                     <div
                         ref={typingIndicatorRef}
+                        data-testid="typing-indicator-container"
                         className="sticky bottom-0 left-0 right-0 top-full z-50 mx-auto mb-1 w-max max-w-xs transform rounded-lg border border-black bg-gray-200 p-2 text-xs shadow"
                         style={{
                             opacity: isHovered ? 0.3 : 0.7,
@@ -80,4 +81,5 @@ function TypingIndicator(): JSX.Element {
     );
 }
 
-export {TypingIndicator};
+export { TypingIndicator };
+
