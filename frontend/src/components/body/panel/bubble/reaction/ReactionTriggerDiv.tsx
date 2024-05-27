@@ -1,13 +1,7 @@
-import { lazy, Suspense, useState } from "react";
-import { useWebsocketStore } from "../../../../../stores/websocketStore";
-import {
-    MessagePayload,
-    PayloadSubType,
-} from "../../../../../utils/customTypes";
-import { generateSimpleId } from "../../../../../utils/functionality";
-import { useUserStore } from "../../../../../stores/userStore";
-import { useTranslation } from "react-i18next";
+import { lazy, useState } from "react";
 import useReactionMenuStore from "../../../../../stores/reactionMenuStore";
+import { useUserStore } from "../../../../../stores/userStore";
+import { MessagePayload } from "../../../../../utils/customTypes";
 import { ExpandEmojiSymbol } from "../../../../svgs/emoji/ExpandEmojiSymbol";
 
 const EmojiPicker = lazy(() => import("emoji-picker-react"));
@@ -54,7 +48,7 @@ function ReactionTriggerDiv({ messagePayload }: ReactionTriggerDivProps) {
     return (
         <>
             <div
-                className={`cursor-pointer transition-all duration-500 ease-in-out ${menuSvgDiabled}`}
+                className="cursor-pointer opacity-0 transition-all duration-500 ease-in-out group-hover/message:opacity-100"
                 onClick={onClickMenu}
             >
                 <ExpandEmojiSymbol />

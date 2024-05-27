@@ -5,6 +5,8 @@ import { MessagePayload } from "../../../../utils/customTypes";
 import { getTimeWithHHmmFormat } from "../../../../utils/time";
 import { ProfilePicture } from "../../../reuseable/ProfilePicture";
 import { ChatBubbleMenu } from "./ChatBubbleMenu";
+import { ExpandEmojiSymbol } from "../../../svgs/emoji/ExpandEmojiSymbol";
+import { BubbleMessageMenuSvg } from "../../../svgs/bubble/BubbleMessageMenuSvg";
 
 type ChatMessageOuterPartProps = {
     messagePayload: MessagePayload;
@@ -14,6 +16,9 @@ type ChatMessageOuterPartProps = {
 
 function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
     const [showMenu, setShowMenu] = useState(false);
+    const menuAlignment = props.thisMessageFromThisClient
+        ? "left-0"
+        : "right-0";
     const clientColor = useClientStore(
         (state) =>
             state.clients.find(
@@ -43,7 +48,7 @@ function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
         <>
             <div
                 onClick={() => setShowMenu(!showMenu)}
-                className="self-stretch cursor-pointer mx-2 flex flex-col items-center"
+                className="relative mx-2 flex cursor-pointer flex-col items-center self-stretch"
             >
                 <ProfilePicture
                     clientDbId={props.messagePayload.clientType.clientDbId}
@@ -58,6 +63,14 @@ function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
                         opacity: props.lastMessageFromThisClientId ? "0" : "1",
                     }}
                 />
+                {props.lastMessageFromThisClientId && (
+                    <div
+                        className={`absolute ${menuAlignment} opacity-0 transition-all duration-500 ease-in-out group-hover/message:opacity-100`}
+                    >
+                        <BubbleMessageMenuSvg />
+                    </div>
+                )}
+
                 <ChatBubbleMenu
                     showMenu={showMenu}
                     setShowMenu={setShowMenu}

@@ -22,7 +22,7 @@ const ChatMessageUnit = memo((props: MessageProps) => {
 
     return (
         <div
-            className={`flex items-end ${messageOnWhichSideAligned} ${howMuchMarginToMessageAbove}`}
+            className={`group/message flex items-end ${messageOnWhichSideAligned} ${howMuchMarginToMessageAbove}`}
         >
             <ChatMessageOuterPart
                 messagePayload={props.messagePayload}

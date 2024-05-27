@@ -17,6 +17,7 @@ function ChatMessageBubblePart(props: ChatMessageBubblePartProps) {
         props.messagePayload.clientType.clientDbId === thisClientId;
 
     const alignChatLeftOrRight = `${thisMessageFromThisClient ? "items-end" : "items-start"}`;
+    const flexOrder = `${thisMessageFromThisClient ? "flex-row" : "flex-row-reverse"}`;
 
     return (
         <>
@@ -30,7 +31,7 @@ function ChatMessageBubblePart(props: ChatMessageBubblePartProps) {
                         props.lastMessageTimestampSameAsThisOne
                     }
                 />
-                <div className="flex">
+                <div className={`flex ${flexOrder}`}>
                     <ReactionTriggerDiv messagePayload={props.messagePayload} />
                     <ChatBubbleBottomPart
                         messagePayload={props.messagePayload}
