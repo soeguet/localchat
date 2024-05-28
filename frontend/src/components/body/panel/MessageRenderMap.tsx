@@ -1,14 +1,16 @@
-import {MessagePayload} from "../../../utils/customTypes";
-import {Fragment, useDeferredValue, useEffect} from "react";
-import {ChatMessageUnit} from "./bubble/ChatMessageUnit";
-import {useUnseenMessageCountStore} from "../../../stores/unseenMessageCountStore";
-import {checkIfScrollToBottomIsNeeded} from "../../../utils/scrollToBottomNeeded";
-import {scrollToBottom} from "../../../utils/functionality";
-import {useMessageMapStore} from "../../../stores/messageMapStore";
-import {UnreadMessagesBelowBanner} from "./UnreadMessagesBelowBanner";
+import { Fragment, useDeferredValue, useEffect } from "react";
+import { useMessageMapStore } from "../../../stores/messageMapStore";
+import { useUnseenMessageCountStore } from "../../../stores/unseenMessageCountStore";
+import { useUserStore } from "../../../stores/userStore";
+import { MessagePayload } from "../../../utils/customTypes";
+import { scrollToBottom } from "../../../utils/functionality";
+import { checkIfScrollToBottomIsNeeded } from "../../../utils/scrollToBottomNeeded";
+import { UnreadMessagesBelowBanner } from "./UnreadMessagesBelowBanner";
+import { ChatMessageUnit } from "./bubble/ChatMessageUnit";
 
 function MessageRenderMap() {
     const messageMap = useMessageMapStore((state) => state.messageMap);
+    const thisClientId = useUserStore.getState().myId;
     const newMap = useDeferredValue(messageMap);
     const idOfTheFirstUnreadMessage = useUnseenMessageCountStore(
         (state) => state.unseenMessagesIdList[0]
@@ -23,7 +25,9 @@ function MessageRenderMap() {
         if (lastMessage[1].clientType.clientDbId === undefined) {
             return;
         }
-        if (checkIfScrollToBottomIsNeeded(lastMessage[1].clientType.clientDbId)) {
+        if (
+            checkIfScrollToBottomIsNeeded(lastMessage[1].clientType.clientDbId)
+        ) {
             scrollToBottom().then(() => {
                 useUnseenMessageCountStore.getState().resetUnseenMessageCount();
             });
@@ -38,6 +42,8 @@ function MessageRenderMap() {
                 Array.from(newMap.entries()).map((value, index, array) => {
                     let lastMessageFromThisClientId = false;
                     let lastMessageTimestampSameAsThisOne = false;
+                    const thisMessageFromThisClient =
+                        value[1].clientType.clientDbId === thisClientId;
 
                     const thisIsTheFirstUnreadMessage =
                         value[1].messageType.messageDbId ===
@@ -47,9 +53,10 @@ function MessageRenderMap() {
                         const lastMessage: [string, MessagePayload] =
                             array[index - 1];
                         if (
-                            lastMessage[1].clientType.clientDbId !== undefined &&
+                            lastMessage[1].clientType.clientDbId !==
+                                undefined &&
                             lastMessage[1].clientType.clientDbId ===
-                            value[1].clientType.clientDbId
+                                value[1].clientType.clientDbId
                         ) {
                             lastMessageFromThisClientId = true;
                         }
@@ -76,6 +83,9 @@ function MessageRenderMap() {
                                 lastMessageTimestampSameAsThisOne={
                                     lastMessageTimestampSameAsThisOne
                                 }
+                                thisMessageFromThisClient={
+                                    thisMessageFromThisClient
+                                }
                             />
                         </Fragment>
                     );
@@ -84,4 +94,4 @@ function MessageRenderMap() {
     );
 }
 
-export {MessageRenderMap};
+export { MessageRenderMap };

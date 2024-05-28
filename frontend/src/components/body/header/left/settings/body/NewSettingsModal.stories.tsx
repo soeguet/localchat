@@ -4,9 +4,10 @@ export default {
     component: NewSettingsModal,
 };
 
-export const Primary = {
+export const Default = {
     args: {
         label: "Settings Modal",
         primary: true,
+        isOpen: true,
     },
 };
