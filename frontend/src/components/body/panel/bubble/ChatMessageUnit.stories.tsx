@@ -24,7 +24,7 @@ export default {
     ],
 };
 
-export const Default = {
+export const Left = {
     args: {
         title: "ChatMessageUnit",
         primary: true,
@@ -48,11 +48,26 @@ export const Default = {
     },
 };
 
-export const OtherClient = {
+export const LeftLastMessage = {
     args: {
-        ...Default.args,
+        ...Left.args,
+        lastMessageFromThisClientId: true,
+    },
+};
+
+export const LeftLastTimeStamp = {
+    args: {
+        ...Left.args,
+        lastMessageFromThisClientId: true,
+        lastMessageTimestampSameAsThisOne: true,
+    },
+};
+
+export const Right = {
+    args: {
+        ...Left.args,
         messagePayload: {
-            ...Default.args.messagePayload,
+            ...Left.args.messagePayload,
             clientType: {
                 clientDbId: "AAA",
             },
@@ -63,19 +78,17 @@ export const OtherClient = {
     },
 };
 
-export const ThisClient = {
+export const RightLastMessage = {
     args: {
-        ...Default.args,
-        title: "ThisClient - Default",
-        label: "this client what is the label even for?",
-        messagePayload: {
-            ...Default.args.messagePayload,
-            clientType: {
-                clientDbId: "AAA",
-            },
-        },
-        lastMessageFromThisClientId: false,
-        lastMessageTimestampSameAsThisOne: false,
-        thisMessageFromThisClient: true,
+        ...Right.args,
+        lastMessageFromThisClientId: true,
+    },
+};
+
+export const RightLastTimeStamp = {
+    args: {
+        ...Right.args,
+        lastMessageFromThisClientId: true,
+        lastMessageTimestampSameAsThisOne: true,
     },
 };

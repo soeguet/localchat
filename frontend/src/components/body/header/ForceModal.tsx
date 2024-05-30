@@ -8,12 +8,24 @@ import { useUserStore } from "../../../stores/userStore";
 function ForceModal() {
     const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
-    const forceModalRef = useRef<HTMLDivElement>(null);
+    const forceModalRef = useRef<HTMLDialogElement>(null);
+    const thisClientColor = useUserStore((state) => state.myColor);
+
+    useEffect(() => {
+        if (forceModalRef == null || forceModalRef.current === null) {
+            return;
+        }
+        if (isOpen) {
+            forceModalRef.current.showModal();
+        } else if (forceModalRef.current.open) {
+            forceModalRef.current.close();
+        }
+    }, [isOpen]);
 
     const clientsList = useClientStore((state) => state.clients);
     const websocket = useWebsocketStore((state) => state.ws);
 
-    const clientDbId = useUserStore((state) => state.myId);
+    const thisClientId = useUserStore((state) => state.myId);
 
     function forceClient(clientDbId: string) {
         if (websocket !== null) {
@@ -60,6 +72,10 @@ function ForceModal() {
         };
     }, [isOpen]);
 
+    if (clientsList.length === 0) {
+        return null;
+    }
+
     // TODO rewrite as dialog
     return (
         <>
@@ -72,32 +88,66 @@ function ForceModal() {
                 {t("menu_item_force")}
             </button>
             {isOpen && (
-                <div className="fixed inset-0 z-20 flex items-center justify-center bg-black bg-opacity-50">
-                    <div
-                        ref={forceModalRef}
-                        className="w-full divide-y-2 divide-gray-400 rounded-lg border-2 border-blue-300 bg-white p-4 text-black sm:w-3/4 md:w-3/4 lg:w-1/2 xl:w-1/2"
+                <dialog
+                    ref={forceModalRef}
+                    className="size-2/3 rounded-lg p-4 text-black"
+                    style={{
+                        border: "2px solid",
+                        borderColor: thisClientColor,
+                    }}
+                >
+                    <button
+                        className="absolute right-2 top-2 size-7 rounded-xl border border-gray-500 bg-gray-300  text-xs transition ease-in-out hover:bg-gray-200"
+                        onClick={() => setIsOpen(false)}
                     >
-                        {clientsList.map((client) => {
-                            if (client.clientDbId === clientDbId) return;
-                            return (
-                                <div
-                                    key={client.clientDbId}
-                                    className="flex items-center justify-between"
+                        x
+                    </button>
+                    <table className="min-w-full divide-y divide-gray-500 ">
+                        <thead>
+                            <tr>
+                                <th
+                                    scope="col"
+                                    className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3"
                                 >
-                                    <span>{client.clientUsername}</span>
-                                    <button
-                                        className="rounded bg-blue-500 px-2 py-1 font-bold text-white hover:bg-blue-700"
-                                        onClick={() =>
-                                            forceClient(client.clientDbId)
-                                        }
+                                    username
+                                </th>
+                                <th
+                                    scope="col"
+                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                >
+                                    action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody className="bg-white">
+                            {clientsList.map((client) => {
+                                if (client.clientDbId === thisClientId) return;
+                                return (
+                                    <tr
+                                        key={client.clientUsername}
+                                        className="even:bg-gray-200"
                                     >
-                                        {t("menu_item_force")}
-                                    </button>
-                                </div>
-                            );
-                        })}
-                    </div>
-                </div>
+                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3">
+                                            {client.clientUsername}
+                                        </td>
+                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3">
+                                            <button
+                                                className="rounded bg-blue-500 px-2 py-1 font-bold text-white hover:bg-blue-700"
+                                                onClick={() =>
+                                                    forceClient(
+                                                        client.clientDbId
+                                                    )
+                                                }
+                                            >
+                                                {t("menu_item_force")}
+                                            </button>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </dialog>
             )}
         </>
     );

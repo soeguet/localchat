@@ -5,13 +5,12 @@ import { MessagePayload } from "../../../../utils/customTypes";
 import { getTimeWithHHmmFormat } from "../../../../utils/time";
 import { ProfilePicture } from "../../../reuseable/ProfilePicture";
 import { ChatBubbleMenu } from "./ChatBubbleMenu";
-import { ExpandEmojiSymbol } from "../../../svgs/emoji/ExpandEmojiSymbol";
 import { BubbleMessageMenuSvg } from "../../../svgs/bubble/BubbleMessageMenuSvg";
-
 type ChatMessageOuterPartProps = {
     messagePayload: MessagePayload;
     lastMessageFromThisClientId: boolean;
     thisMessageFromThisClient: boolean;
+    lastMessageTimestampSameAsThisOne: boolean;
 };
 
 function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
@@ -19,6 +18,9 @@ function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
     const menuAlignment = props.thisMessageFromThisClient
         ? "left-0"
         : "right-0";
+    const menuTopMargin = props.lastMessageTimestampSameAsThisOne
+        ? "top-1"
+        : "top-6";
     const clientColor = useClientStore(
         (state) =>
             state.clients.find(
@@ -65,7 +67,7 @@ function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
                 />
                 {props.lastMessageFromThisClientId && (
                     <div
-                        className={`absolute ${menuAlignment} opacity-0 transition-all duration-500 ease-in-out group-hover/message:opacity-100`}
+                        className={`absolute ${menuAlignment} ${menuTopMargin} opacity-0 transition-all duration-500 ease-in-out group-hover/message:opacity-100`}
                     >
                         <BubbleMessageMenuSvg />
                     </div>

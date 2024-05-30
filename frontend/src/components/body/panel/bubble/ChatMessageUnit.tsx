@@ -22,6 +22,9 @@ const ChatMessageUnit = memo((props: MessageProps) => {
                 messagePayload={props.messagePayload}
                 lastMessageFromThisClientId={props.lastMessageFromThisClientId}
                 thisMessageFromThisClient={props.thisMessageFromThisClient}
+                lastMessageTimestampSameAsThisOne={
+                    props.lastMessageTimestampSameAsThisOne
+                }
             />
             <ChatMessageBubblePart
                 messagePayload={props.messagePayload}
