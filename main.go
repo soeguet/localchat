@@ -25,9 +25,10 @@ func main() {
 
 	// Create application with options
 	if err := wails.Run(&options.App{
-		Title:  "localchat",
-		Width:  1024,
-		Height: 768,
+		Title:                    "localchat",
+		Width:                    1024,
+		Height:                   768,
+		EnableDefaultContextMenu: true,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
