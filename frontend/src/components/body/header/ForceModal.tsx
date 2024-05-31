@@ -79,7 +79,7 @@ function ForceModal() {
     return (
         <>
             <button
-                className="block w-full px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
+                className="block w-full px-4 py-2 text-left text-sm  text-gray-800 hover:bg-gray-100"
                 onClick={() => {
                     setIsOpen(!isOpen);
                 }}
@@ -89,64 +89,71 @@ function ForceModal() {
             {isOpen && (
                 <dialog
                     ref={forceModalRef}
-                    className="myTransition size-2/3 rounded-lg border-2 border-transparent p-4 text-black"
-                    onMouseEnter={() => setHover(true)}
-                    onMouseLeave={() => setHover(false)}
+                    className="myTransition size-2/3 rounded-lg border-2 border-transparent p-4 text-black backdrop:bg-black backdrop:bg-opacity-70"
                     style={{
                         borderColor: hover ? thisClientColor : "",
                     }}
                 >
-                    <button
-                        className="absolute right-2 top-2 size-7 rounded-xl border border-gray-500 bg-gray-300  text-xs transition ease-in-out hover:bg-gray-200"
-                        onClick={() => setIsOpen(false)}
+                    <div
+                        className="size-full"
+                        onMouseEnter={() => setHover(true)}
+                        onMouseLeave={() => setHover(false)}
                     >
-                        x
-                    </button>
-                    <table className="min-w-full divide-y divide-gray-500 ">
-                        <thead>
-                            <tr>
-                                <th
-                                    scope="col"
-                                    className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3"
-                                >
-                                    username
-                                </th>
-                                <th
-                                    scope="col"
-                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                >
-                                    action
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody className="bg-white">
-                            {clientsList.map((client) => {
-                                if (client.clientDbId === thisClientId) return;
-                                return (
-                                    <tr
-                                        key={client.clientUsername}
-                                        className=" group/force-name myTransition border border-transparent even:bg-gray-200 hover:border-gray-200 hover:bg-gray-100"
+                        <button
+                            className="absolute right-2 top-2 size-7 rounded-xl border border-gray-500 bg-gray-300  text-xs transition ease-in-out hover:border-slate-500 hover:bg-slate-300"
+                            onClick={() => setIsOpen(false)}
+                        >
+                            x
+                        </button>
+                        <table className="min-w-full divide-y divide-gray-500 ">
+                            <thead>
+                                <tr>
+                                    <th
+                                        scope="col"
+                                        className="py-3.5 pl-4 pr-3 text-left font-semibold text-gray-900"
                                     >
-                                        <td className="myTransition whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 group-hover/force-name:text-blue-400 sm:pl-3">
-                                            {client.clientUsername}
-                                        </td>
-                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3">
-                                            <button
-                                                className="rounded bg-blue-500 px-2 py-1 font-bold text-white hover:bg-blue-700"
-                                                onClick={() =>
-                                                    forceClient(
-                                                        client.clientDbId
-                                                    )
-                                                }
+                                        username
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-3 py-3.5 text-left  font-semibold text-gray-900"
+                                    >
+                                        action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody className="bg-white">
+                                {clientsList.map((client) => {
+                                    if (client.clientDbId === thisClientId)
+                                        return;
+                                    return (
+                                        <tr
+                                            key={client.clientDbId}
+                                            className=" group/force-name myTransition border border-transparent even:bg-gray-200 hover:border-gray-200 hover:bg-gray-100"
+                                        >
+                                            <td
+                                                className={`myTransition whitespace-nowrap py-4 pl-4 pr-3 text-gray-900 group-hover/force-name:text-${thisClientColor ? thisClientColor : "sky"}-400`}
                                             >
-                                                {t("menu_item_force")}
-                                            </button>
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
+                                                {client.clientUsername}
+                                            </td>
+                                            <td className="whitespace-nowrap py-4 pl-4 pr-3  font-medium text-gray-900 sm:pl-3">
+                                                <button
+                                                    className="rounded bg-blue-500 px-2 py-1 text-white hover:bg-blue-700"
+                                                    onClick={() =>
+                                                        forceClient(
+                                                            client.clientDbId
+                                                        )
+                                                    }
+                                                >
+                                                    {t("menu_item_force")}
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
                 </dialog>
             )}
         </>

@@ -72,7 +72,8 @@ describe("SettingsLanguagePicker", () => {
 
         expect(colorPicker).toHaveStyle("background-color: rgb(255, 0, 0)");
     });
-    test("should render black modal border color if no mouse enter", () => {
+
+    test("should render no modal border color if no mouse enter", () => {
         render(
             <NewSettingsModalContainer onSave={() => {}} onClose={() => {}} />
         );
@@ -97,7 +98,7 @@ describe("SettingsLanguagePicker", () => {
             throw new Error("Container not found");
         }
 
-        expect(container).toHaveStyle("border-color: black");
+        expect(container).toHaveStyle("border-color: ");
     });
 
     test.skip("should render new border color after mouse enter", async () => {

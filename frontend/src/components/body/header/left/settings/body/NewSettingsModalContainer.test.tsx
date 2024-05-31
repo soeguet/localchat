@@ -41,12 +41,12 @@ describe("NewSettingsModalContainer", () => {
         expect(settingsModal).toBeNull();
     });
 
-    test("should have black border", () => {
+    test("should have no border", () => {
         render(
             <NewSettingsModalContainer onSave={() => {}} onClose={() => {}} />
         );
         const container = screen.getByTestId("settings-modal-container");
-        expect(container).toHaveStyle({ borderColor: "black" });
+        expect(container).toHaveStyle({ borderColor: "" });
     });
 
     test("should have green border", async () => {

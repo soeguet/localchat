@@ -8,7 +8,18 @@ type NewSettingsButtonAreaProps = {
 
 function NewSettingsButtonArea(props: NewSettingsButtonAreaProps) {
     const { t } = useTranslation();
-    const localColor = useSettingsStore((state) => state.localColor);
+    let localColor = useSettingsStore((state) => state.localColor);
+
+    if (
+        localColor === null ||
+        localColor === undefined ||
+        localColor === "white" ||
+        localColor.includes("#f") ||
+        localColor.includes("#d")
+    ) {
+        localColor = "#3584e4";
+    }
+
     return (
         <>
             <div
