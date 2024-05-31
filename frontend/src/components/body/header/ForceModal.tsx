@@ -6,10 +6,15 @@ import { PayloadSubType } from "../../../utils/customTypes";
 import { useUserStore } from "../../../stores/userStore";
 
 function ForceModal() {
+    const clientsList = useClientStore((state) => state.clients);
+    if (clientsList.length === 0) {
+        return null;
+    }
     const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
     const forceModalRef = useRef<HTMLDialogElement>(null);
-    const thisClientColor = useUserStore((state) => state.myColor);
+    // const thisClientColor: string = useUserStore((state) => state.myColor);
+    const thisClientColor: string = "red";
 
     useEffect(() => {
         if (forceModalRef == null || forceModalRef.current === null) {
@@ -22,7 +27,6 @@ function ForceModal() {
         }
     }, [isOpen]);
 
-    const clientsList = useClientStore((state) => state.clients);
     const websocket = useWebsocketStore((state) => state.ws);
 
     const thisClientId = useUserStore((state) => state.myId);
@@ -72,10 +76,6 @@ function ForceModal() {
         };
     }, [isOpen]);
 
-    if (clientsList.length === 0) {
-        return null;
-    }
-
     // TODO rewrite as dialog
     return (
         <>
@@ -90,11 +90,7 @@ function ForceModal() {
             {isOpen && (
                 <dialog
                     ref={forceModalRef}
-                    className="size-2/3 rounded-lg p-4 text-black"
-                    style={{
-                        border: "2px solid",
-                        borderColor: thisClientColor,
-                    }}
+                    className={`myTransition size-2/3 rounded-lg border-2 p-4 text-black ${thisClientColor && "hover:border-" + thisClientColor + "-500"}`}
                 >
                     <button
                         className="absolute right-2 top-2 size-7 rounded-xl border border-gray-500 bg-gray-300  text-xs transition ease-in-out hover:bg-gray-200"
@@ -125,9 +121,9 @@ function ForceModal() {
                                 return (
                                     <tr
                                         key={client.clientUsername}
-                                        className="even:bg-gray-200"
+                                        className=" group/force-name myTransition border border-transparent even:bg-gray-200 hover:border-gray-200 hover:bg-gray-100"
                                     >
-                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3">
+                                        <td className="myTransition whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 group-hover/force-name:text-blue-400 sm:pl-3">
                                             {client.clientUsername}
                                         </td>
                                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3">
