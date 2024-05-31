@@ -22,9 +22,9 @@ function NewSettingsModalContainer(props: NewSettingsModalProps) {
             <div
                 onMouseEnter={() => setHover(true)}
                 onMouseLeave={() => setHover(false)}
-                className="flex flex-col rounded-xl border-2 bg-white p-3 transition duration-300 ease-in-out "
+                className="flex flex-col rounded-xl border-2 border-transparent bg-white p-3 transition duration-300 ease-in-out "
                 style={{
-                    borderColor: hover ? profileColor : "black",
+                    borderColor: hover ? profileColor : "",
                 }}
                 data-testid="settings-modal-container"
             >

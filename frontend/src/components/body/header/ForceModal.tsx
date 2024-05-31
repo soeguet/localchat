@@ -10,11 +10,11 @@ function ForceModal() {
     if (clientsList.length === 0) {
         return null;
     }
+    const [hover, setHover] = useState(false);
     const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
     const forceModalRef = useRef<HTMLDialogElement>(null);
-    // const thisClientColor: string = useUserStore((state) => state.myColor);
-    const thisClientColor: string = "red";
+    const thisClientColor: string = useUserStore((state) => state.myColor);
 
     useEffect(() => {
         if (forceModalRef == null || forceModalRef.current === null) {
@@ -76,7 +76,6 @@ function ForceModal() {
         };
     }, [isOpen]);
 
-    // TODO rewrite as dialog
     return (
         <>
             <button
@@ -90,7 +89,12 @@ function ForceModal() {
             {isOpen && (
                 <dialog
                     ref={forceModalRef}
-                    className={`myTransition size-2/3 rounded-lg border-2 p-4 text-black ${thisClientColor && "hover:border-" + thisClientColor + "-500"}`}
+                    className="myTransition size-2/3 rounded-lg border-2 border-transparent p-4 text-black"
+                    onMouseEnter={() => setHover(true)}
+                    onMouseLeave={() => setHover(false)}
+                    style={{
+                        borderColor: hover ? thisClientColor : "",
+                    }}
                 >
                     <button
                         className="absolute right-2 top-2 size-7 rounded-xl border border-gray-500 bg-gray-300  text-xs transition ease-in-out hover:bg-gray-200"
