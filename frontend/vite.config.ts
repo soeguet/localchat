@@ -7,10 +7,7 @@ import react from "@vitejs/plugin-react"; // https://vitejs.dev/config/
 
 export default defineConfig({
     build: {
-        sourcemap: true, // aktiviert die Generierung von Source Maps
-        // Weitere Optionen zur Konfiguration der Source Maps:
-        // sourcemap: 'inline', // Generiert inline Source Maps
-        // sourcemap: 'hidden', // Generiert keine Source Maps
+        sourcemap: true,
     },
     plugins: [
         react(),

@@ -118,7 +118,6 @@ func (a *App) Notification(sender string, message string) {
 func (a *App) GetLocalChatEnvVars() string {
 	jsonString, err := GetLocalChatEnvVars()
 	if err != nil {
-		// Fehlerbehandlung
 		panic(err)
 	}
 	return jsonString

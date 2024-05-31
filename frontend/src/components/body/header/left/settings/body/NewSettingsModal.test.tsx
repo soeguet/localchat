@@ -1,7 +1,7 @@
 import { expect, test, describe } from "vitest";
-import { render, screen, userEvent } from "../../../../utils/test-utils";
+import { render, screen, userEvent } from "../../../../../../utils/test-utils";
 import { NewSettingsModal } from "./NewSettingsModal";
-import { NewSettingsModalButton } from "./NewSettingsModalButton";
+import { NewSettingsModalButton } from "./button/NewSettingsModalButton";
 
 beforeEach(() => {
     HTMLDialogElement.prototype.showModal = vi.fn();
@@ -9,7 +9,13 @@ beforeEach(() => {
 
 describe("NewSettingsModal", () => {
     test("should render if directly called", () => {
-        render(<NewSettingsModal isOpen={true} onClose={() => {}} />);
+        render(
+            <NewSettingsModal
+                isOpen={true}
+                onSave={() => {}}
+                onClose={() => {}}
+            />
+        );
         const settingsModal = screen.getByTestId("settings-modal");
         expect(settingsModal).toBeInTheDocument();
     });

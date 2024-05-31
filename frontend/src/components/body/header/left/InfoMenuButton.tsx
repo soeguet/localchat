@@ -7,7 +7,9 @@ function InfoMenuButton() {
     const { t } = useTranslation();
     const [isModalOpen, setModalOpen] = useState(false);
 
-    const openModal = () => setModalOpen(true);
+    const openModal = () => {
+        setModalOpen(true);
+    };
     const closeModal = () => setModalOpen(false);
 
     return (

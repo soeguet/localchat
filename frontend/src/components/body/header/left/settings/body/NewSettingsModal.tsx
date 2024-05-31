@@ -4,9 +4,16 @@ import { NewSettingsModalContainer } from "./NewSettingsModalContainer";
 type NewSettingsModalProps = {
     isOpen: boolean;
     onClose: () => void;
+    onSave: () => void;
 };
 
-function NewSettingsModal(props: NewSettingsModalProps) {
+/**
+ * Renders a modal component for displaying settings.
+ *
+ * @param {NewSettingsModalProps} props - The component props.
+ * @returns {JSX.Element} The rendered modal component.
+ */
+function NewSettingsModal(props: NewSettingsModalProps): JSX.Element {
     const dialogRef = useRef<HTMLDialogElement>(null);
 
     useEffect(() => {
@@ -21,15 +28,18 @@ function NewSettingsModal(props: NewSettingsModalProps) {
     }, [props.isOpen]);
 
     return (
-        <>
+        <div className="w-full">
             <dialog
                 data-testid="settings-modal"
-                className="z-10 size-3/4 bg-transparent "
+                className="fixed inset-0 z-10 bg-transparent backdrop:bg-black backdrop:opacity-70"
                 ref={dialogRef}
             >
-                <NewSettingsModalContainer onClose={props.onClose} />
+                <NewSettingsModalContainer
+                    onSave={props.onSave}
+                    onClose={props.onClose}
+                />
             </dialog>
-        </>
+        </div>
     );
 }
 

@@ -9,3 +9,8 @@
 body {
     font-size: var(--user-font-size);
 }
+
+.myTransition {
+    transition: all 300ms ease-in-out;
+}
+

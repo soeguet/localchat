@@ -1,35 +1,20 @@
-import { lazy, Suspense, useState } from "react";
-import { useWebsocketStore } from "../../../../../stores/websocketStore";
-import {
-    MessagePayload,
-    PayloadSubType,
-} from "../../../../../utils/customTypes";
-import { generateSimpleId } from "../../../../../utils/functionality";
-import { useUserStore } from "../../../../../stores/userStore";
-import { useTranslation } from "react-i18next";
 import useReactionMenuStore from "../../../../../stores/reactionMenuStore";
-
-const EmojiPicker = lazy(() => import("emoji-picker-react"));
-
+import { MessagePayload } from "../../../../../utils/customTypes";
+import { ExpandEmojiSymbol } from "../../../../svgs/emoji/ExpandEmojiSymbol";
 type ReactionTriggerDivProps = {
     messagePayload: MessagePayload;
 };
 
 function ReactionTriggerDiv({ messagePayload }: ReactionTriggerDivProps) {
-    const { t } = useTranslation();
-    const [reactionOpen, setReactionOpen] = useState(false);
-    const [reactionVisible, setReactionVisible] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    function onClickMenu(e: React.MouseEvent<HTMLDivElement>) {
+        handleOpenEmojiPicker(e);
+    }
 
-    const messageFromThisClient =
-        messagePayload.clientType.clientDbId === useUserStore.getState().myId;
+    function handleOpenEmojiPicker(e: React.MouseEvent<HTMLDivElement>) {
+        if (useReactionMenuStore.getState().isOpen) {
+            return;
+        }
 
-    const handleOpenEmojiPicker = (e: any) => {
-        // setIsLoading(true);
-        // setReactionOpen(!reactionOpen);
-        // setTimeout(() => setIsLoading(false), 20);
-
-        console.log("e", e);
         useReactionMenuStore.getState().setIsOpen(true);
         useReactionMenuStore.getState().setPosition({
             x: e.pageX - 324 / 2,
@@ -38,92 +23,15 @@ function ReactionTriggerDiv({ messagePayload }: ReactionTriggerDivProps) {
         useReactionMenuStore
             .getState()
             .setMessageDbId(messagePayload.messageType.messageDbId);
-    };
+    }
 
     return (
         <>
             <div
-                className="self-stretch px-1"
-                onMouseEnter={() => setReactionVisible(true)}
-                onMouseLeave={() => {
-                    setReactionVisible(false);
-                    setReactionOpen(false);
-                }}
+                className="cursor-pointer opacity-0 transition-all duration-500 ease-in-out group-hover/message:opacity-100"
+                onClick={onClickMenu}
             >
-                {reactionVisible &&
-                    (reactionOpen ? (
-                        isLoading ? (
-                            <div>Loading...</div>
-                        ) : (
-                            <Suspense
-                                fallback={<div>{t("loading_label")}</div>}
-                            >
-                                <div className="relative">
-                                    <div
-                                        className={`absolute ${
-                                            messageFromThisClient
-                                                ? "-translate-x-full pr-3"
-                                                : ""
-                                        } z-50`}
-                                    >
-                                        <EmojiPicker
-                                            reactionsDefaultOpen={true}
-                                            allowExpandReactions={true}
-                                            onReactionClick={(emoji) => {
-                                                useWebsocketStore
-                                                    .getState()
-                                                    .ws?.send(
-                                                        JSON.stringify({
-                                                            payloadType:
-                                                                PayloadSubType.reaction,
-                                                            reactionDbId:
-                                                                generateSimpleId(),
-                                                            reactionMessageId:
-                                                                messagePayload
-                                                                    .messageType
-                                                                    .messageDbId,
-                                                            reactionContext:
-                                                                emoji.emoji,
-                                                            reactionClientId:
-                                                                useUserStore.getState()
-                                                                    .myId,
-                                                        })
-                                                    );
-                                            }}
-                                            onEmojiClick={(emoji) => {
-                                                useWebsocketStore
-                                                    .getState()
-                                                    .ws?.send(
-                                                        JSON.stringify({
-                                                            payloadType:
-                                                                PayloadSubType.reaction,
-                                                            reactionDbId:
-                                                                generateSimpleId(),
-                                                            reactionMessageId:
-                                                                messagePayload
-                                                                    .messageType
-                                                                    .messageDbId,
-                                                            reactionContext:
-                                                                emoji.emoji,
-                                                            reactionClientId:
-                                                                useUserStore.getState()
-                                                                    .myId,
-                                                        })
-                                                    );
-                                            }}
-                                        />
-                                    </div>
-                                </div>
-                            </Suspense>
-                        )
-                    ) : (
-                        <div
-                            className="border-gray cursor-pointer rounded-full border-2 bg-gray-200 p-2 px-3 text-xs"
-                            onClick={handleOpenEmojiPicker}
-                        >
-                            😁
-                        </div>
-                    ))}
+                <ExpandEmojiSymbol />
             </div>
         </>
     );

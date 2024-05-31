@@ -1,9 +1,9 @@
-import {FormEvent, useEffect, useState} from "react";
-import {useUserStore} from "../../stores/userStore";
-import {useTranslation} from "react-i18next";
+import { FormEvent, useEffect, useState } from "react";
+import { useUserStore } from "../../stores/userStore";
+import { useTranslation } from "react-i18next";
 
 function Form() {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const setClientName = useUserStore((state) => state.setMyUsername);
     const setSocketIp = useUserStore((state) => state.setSocketIp);
     const setSocketPort = useUserStore((state) => state.setSocketPort);
@@ -23,6 +23,45 @@ function Form() {
         setLocalSocketPort(socketPort);
     }, [clientName, socketIp, socketPort]);
 
+    function validateStateVariables() {
+        // regex for ip address
+        const ipRegex = new RegExp(
+            "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+        );
+
+        // check if localsocketip is a valid ip address
+        if (!ipRegex.test(localSocketIp)) {
+            return false;
+        }
+
+        // check if localsocketport is a valid port
+        if (isNaN(parseInt(localSocketPort))) {
+            return false;
+        }
+
+        // check if port is smaller than 0 or greater than 65535
+        if (
+            parseInt(localSocketPort) < 0 ||
+            parseInt(localSocketPort) > 65535
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    function checkIfStateVariablesAreEmpty() {
+        if (
+            localClientName === "" ||
+            localSocketIp === "" ||
+            localSocketPort === ""
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * Saves the environment variables.
      * @param e - The form event.
@@ -31,12 +70,13 @@ function Form() {
         e.preventDefault();
         setIsClickable(false);
 
-        // TODO validation for the inputs needed
-        if (
-            localClientName === "" ||
-            localSocketIp === "" ||
-            localSocketPort === ""
-        ) {
+        // validate the state variables
+        if (!validateStateVariables()) {
+            setIsClickable(true);
+            return;
+        }
+
+        if (checkIfStateVariablesAreEmpty()) {
             setIsClickable(true);
             return;
         }
@@ -73,11 +113,6 @@ function Form() {
                                         <input
                                             type="text"
                                             value={localClientName}
-                                            onBlur={(e) => {
-                                                if (e.target.value === "") {
-                                                    //TODO add validation
-                                                }
-                                            }}
                                             name="client-name"
                                             placeholder={t(
                                                 "client_name_placeholder"
@@ -87,7 +122,8 @@ function Form() {
                                                     e.target.value
                                                 )
                                             }
-                                            className="block w-full rounded-md border-0 px-3 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            className="block
+                                            w-full rounded-md border-0 px-3 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 hover:bg-blue-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
                                 </div>
@@ -108,7 +144,8 @@ function Form() {
                                             onChange={(e) =>
                                                 setLocalSocketIp(e.target.value)
                                             }
-                                            className="block w-full rounded-md border-0 px-3 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            className="block
+                                            w-full rounded-md border-0 px-3 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 hover:bg-blue-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
                                 </div>
@@ -131,7 +168,7 @@ function Form() {
                                                     e.target.value
                                                 )
                                             }
-                                            className="block w-full rounded-md border-0 px-3 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            className="block w-full rounded-md border-0 px-3 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 hover:bg-blue-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
                                 </div>
@@ -162,4 +199,4 @@ function Form() {
     );
 }
 
-export  { Form };
+export { Form };
