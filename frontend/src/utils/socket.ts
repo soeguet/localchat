@@ -1,18 +1,22 @@
-import {Notification} from "../../wailsjs/go/main/App";
-import {getClientById} from "../stores/clientStore";
-import {Reply, useReplyStore} from "../stores/replyStore";
-import {useUserStore} from "../stores/userStore";
-import {useWebsocketStore} from "../stores/websocketStore";
-import {generateSimpleId} from "./functionality";
-import {useDoNotDisturbStore} from "../stores/doNotDisturbStore";
-import {getTimeWithHHmmFormat} from "./time";
-import {AuthenticationPayload, CallbackProps, MessagePayload, PayloadSubType,} from "./customTypes";
-import {utf8ToBase64} from "./encoder";
+import { Notification } from "../../wailsjs/go/main/App";
+import { getClientById } from "../stores/clientStore";
+import { Reply, useReplyStore } from "../stores/replyStore";
+import { useUserStore } from "../stores/userStore";
+import { useWebsocketStore } from "../stores/websocketStore";
+import { generateSimpleId } from "./functionality";
+import { useDoNotDisturbStore } from "../stores/doNotDisturbStore";
+import { getTimeWithHHmmFormat } from "./time";
+import {
+    AuthenticationPayload,
+    CallbackProps,
+    MessagePayload,
+    PayloadSubType,
+} from "./customTypes";
+import { utf8ToBase64 } from "./encoder";
 
 let socket: WebSocket;
 
 export const initWebSocket = (callbacks: CallbackProps) => {
-
     socket = new WebSocket(
         `ws://${useUserStore.getState().socketIp}:${useUserStore.getState().socketPort}/chat`
     );
@@ -111,4 +115,10 @@ function retrieveMessageListFromSocket() {
     socket.send(JSON.stringify(payload));
 }
 
-export {closeWebSocket, sendClientMessageToWebsocket, socket, retrieveMessageListFromSocket};
+export {
+    closeWebSocket,
+    sendClientMessageToWebsocket,
+    socket,
+    retrieveMessageListFromSocket,
+};
+

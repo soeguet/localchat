@@ -16,6 +16,7 @@ export const de_translation = {
     unknown: "Unbekannt",
     menu_item_reply: "Antworten",
     menu_item_edit: "Bearbeiten",
+    menu_item_delete: "Löschen",
     button_send: "Senden",
     chat_input_placeholder: "Nachricht eingeben..",
     button_unread: "Ungelesene Nachrichten",

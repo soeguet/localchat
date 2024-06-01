@@ -48,6 +48,7 @@ export type ClientEntity = {
 };
 
 export type MessageEntity = {
+    deleted: false;
     messageDbId: string;
     messageContext: string;
     messageTime: string;

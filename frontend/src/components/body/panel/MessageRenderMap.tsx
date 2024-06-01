@@ -7,6 +7,7 @@ import { scrollToBottom } from "../../../utils/functionality";
 import { checkIfScrollToBottomIsNeeded } from "../../../utils/scrollToBottomNeeded";
 import { UnreadMessagesBelowBanner } from "./UnreadMessagesBelowBanner";
 import { ChatMessageUnit } from "./bubble/ChatMessageUnit";
+import { DeletedMessage } from "./DeletedMessage";
 
 function MessageRenderMap() {
     const messageMap = useMessageMapStore((state) => state.messageMap);
@@ -53,6 +54,7 @@ function MessageRenderMap() {
                         const lastMessage: [string, MessagePayload] =
                             array[index - 1];
                         if (
+                            !lastMessage[1].messageType.deleted &&
                             lastMessage[1].clientType.clientDbId !==
                                 undefined &&
                             lastMessage[1].clientType.clientDbId ===
@@ -75,18 +77,27 @@ function MessageRenderMap() {
                                     thisIsTheFirstUnreadMessage
                                 }
                             />
-                            <ChatMessageUnit
-                                messagePayload={value[1]}
-                                lastMessageFromThisClientId={
-                                    lastMessageFromThisClientId
-                                }
-                                lastMessageTimestampSameAsThisOne={
-                                    lastMessageTimestampSameAsThisOne
-                                }
-                                thisMessageFromThisClient={
-                                    thisMessageFromThisClient
-                                }
-                            />
+
+                            {value[1].messageType.deleted ? (
+                                <DeletedMessage
+                                    thisMessageFromThisClient={
+                                        thisMessageFromThisClient
+                                    }
+                                />
+                            ) : (
+                                <ChatMessageUnit
+                                    messagePayload={value[1]}
+                                    lastMessageFromThisClientId={
+                                        lastMessageFromThisClientId
+                                    }
+                                    lastMessageTimestampSameAsThisOne={
+                                        lastMessageTimestampSameAsThisOne
+                                    }
+                                    thisMessageFromThisClient={
+                                        thisMessageFromThisClient
+                                    }
+                                />
+                            )}
                         </Fragment>
                     );
                 })}

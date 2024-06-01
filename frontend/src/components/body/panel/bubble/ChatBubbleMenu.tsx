@@ -41,12 +41,20 @@ function ChatBubbleMenu(props: ChatBubbleMenuProps) {
                         {t("menu_item_reply")}
                     </button>
                     {props.thisMessageFromThisClient && (
-                        <button
-                            className="block w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-100"
-                            onClick={() => console.log("Editing")}
-                        >
-                            {t("menu_item_edit")}
-                        </button>
+                        <>
+                            <button
+                                className="block w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-100"
+                                onClick={() => console.log("Editing")}
+                            >
+                                {t("menu_item_edit")}
+                            </button>
+                            <button
+                                className="block w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-100"
+                                onClick={() => console.log("Deleting")}
+                            >
+                                {t("menu_item_delete")}
+                            </button>
+                        </>
                     )}
                 </div>
             )}
