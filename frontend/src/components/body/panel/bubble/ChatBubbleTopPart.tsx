@@ -1,6 +1,6 @@
 import { useClientStore } from "../../../../stores/clientStore";
 import { useFontSizeStore } from "../../../../stores/fontSizeStore";
-import { MessagePayload } from "../../../../utils/customTypes";
+import type { MessagePayload } from "../../../../utils/customTypes";
 import { ChatMessageSenderName } from "./ChatMessageSenderName";
 import { ChatMessageTimestamp } from "./ChatMessageTimestamp";
 
@@ -14,7 +14,8 @@ function ChatBubbleTopPart(props: ChatBubbleTopPartProps) {
     const messageSenderUsername = useClientStore(
         (state) =>
             state.clients.find(
-                (c) => c.clientDbId === props.messagePayload.clientType.clientDbId
+                (c) =>
+                    c.clientDbId === props.messagePayload.clientType.clientDbId
             )?.clientUsername
     );
     const fontSize = useFontSizeStore((state) => state.fontSize);
@@ -23,8 +24,13 @@ function ChatBubbleTopPart(props: ChatBubbleTopPartProps) {
             <div
                 style={{
                     fontSize: `${fontSize - 5}px`,
-                }}
-            >
+                }}>
+                {props.messagePayload.messageType.edited && (
+                    <span className="text-xs text-gray-500 mx-2 text-amber-700">
+                        edited
+                    </span>
+                )}
+
                 <ChatMessageSenderName
                     messageSenderUsername={messageSenderUsername || "Unknown"}
                     lastMessageFromThisClientId={

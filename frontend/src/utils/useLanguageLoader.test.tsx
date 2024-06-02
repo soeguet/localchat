@@ -4,18 +4,16 @@ import {expect} from "vitest";
 import {useSelectedLanguageStore} from "../stores/selectedLanguageStore";
 
 beforeEach(() => {
-    const localStorageMock = (function () {
+    const localStorageMock = (() => {
         let store = {
             language: "en",
         };
         return {
-            getItem: function (key: "language") {
-                return store[key] || null;
-            },
-            setItem: function (key: "language", value: "de" | "en" | "") {
+            getItem: (key: "language") => store[key] || null,
+            setItem: (key: "language", value: "de" | "en" | "") => {
                 store[key] = value.toString();
             },
-            clear: function () {
+            clear: () => {
                 store = {
                     language: "",
                 };

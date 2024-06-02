@@ -7,7 +7,7 @@ import { useRefStore } from "../../stores/refStore";
 import { useDoNotDisturbStore } from "../../stores/doNotDisturbStore";
 import { useUnseenMessageCountStore } from "../../stores/unseenMessageCountStore";
 import { useUserStore } from "../../stores/userStore";
-import {
+import type {
     ClientEntity,
     ClientListPayload,
     MessagePayload,

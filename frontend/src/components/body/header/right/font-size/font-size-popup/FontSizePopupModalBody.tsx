@@ -1,4 +1,4 @@
-import {ReactNode, useRef} from "react";
+import {type ReactNode, useRef} from "react";
 import {useClosePopupOnClickEffect} from "../../../../../../hooks/popups/useClosePopupOnClickEffect";
 
 type FontSizePopupModalBodyProps = {

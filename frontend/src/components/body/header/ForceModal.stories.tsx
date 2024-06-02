@@ -1,4 +1,4 @@
-import { StoryFn } from "@storybook/react/*";
+import type { StoryFn } from "@storybook/react/*";
 import { useClientStore } from "../../../stores/clientStore";
 import { ForceModal } from "./ForceModal";
 import { useUserStore } from "../../../stores/userStore";

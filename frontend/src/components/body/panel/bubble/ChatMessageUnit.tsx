@@ -1,6 +1,6 @@
-import { memo } from "react";
+import { memo, useState } from "react";
 import "./ChatMessageUnit.css";
-import { MessagePayload } from "../../../../utils/customTypes";
+import type { MessagePayload } from "../../../../utils/customTypes";
 import { ChatMessageBubblePart } from "./ChatMessageBubblePart";
 import { ChatMessageOuterPart } from "./ChatMessageOuterPart";
 type MessageProps = {
@@ -11,23 +11,32 @@ type MessageProps = {
 };
 
 const ChatMessageUnit = memo((props: MessageProps) => {
-    const messageOnWhichSideAligned = `${props.thisMessageFromThisClient ? "flex-row-reverse" : ""}`;
-    const howMuchMarginToMessageAbove = `${!props.lastMessageFromThisClientId && !props.lastMessageTimestampSameAsThisOne ? "mt-3" : "mt-1"}`;
+    const messageOnWhichSideAligned = `${props.thisMessageFromThisClient ? "flex-row-reverse" : ""
+        }`;
+    const howMuchMarginToMessageAbove = `${!props.lastMessageFromThisClientId &&
+            !props.lastMessageTimestampSameAsThisOne
+            ? "mt-3"
+            : "mt-1"
+        }`;
+    const [enableMessageEditingMode, setEnableMessageEditingMode] =
+        useState(false);
 
     return (
         <div
-            className={`group/message flex items-end ${messageOnWhichSideAligned} ${howMuchMarginToMessageAbove}`}
-        >
+            className={`group/message flex items-end ${messageOnWhichSideAligned} ${howMuchMarginToMessageAbove}`}>
             <ChatMessageOuterPart
-                messagePayload={props.messagePayload}
-                lastMessageFromThisClientId={props.lastMessageFromThisClientId}
-                thisMessageFromThisClient={props.thisMessageFromThisClient}
                 lastMessageTimestampSameAsThisOne={
                     props.lastMessageTimestampSameAsThisOne
                 }
+                messagePayload={props.messagePayload}
+                lastMessageFromThisClientId={props.lastMessageFromThisClientId}
+                thisMessageFromThisClient={props.thisMessageFromThisClient}
+                setEnableMessageEditingMode={setEnableMessageEditingMode}
             />
             <ChatMessageBubblePart
                 messagePayload={props.messagePayload}
+                enableMessageEditingMode={enableMessageEditingMode}
+                setEnableMessageEditingMode={setEnableMessageEditingMode}
                 thisMessageFromThisClient={props.thisMessageFromThisClient}
                 lastMessageFromThisClientId={props.lastMessageFromThisClientId}
                 lastMessageTimestampSameAsThisOne={

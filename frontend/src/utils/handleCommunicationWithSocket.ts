@@ -1,7 +1,7 @@
 import useSettingsStore from "../stores/settingsStore";
 import { useUserStore } from "../stores/userStore";
 import { useWebsocketStore } from "../stores/websocketStore";
-import { ClientUpdatePayload, PayloadSubType } from "./customTypes";
+import { type ClientUpdatePayload, PayloadSubType } from "./customTypes";
 
 export function handleProfileSettingsUpdatesWithSocket() {
     // the socket is keeping track of the client id (cannot be changed by user), username, profile color and profile picture

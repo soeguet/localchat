@@ -1,12 +1,14 @@
 export enum PayloadSubType {
-    auth,
-    message,
-    clientList,
-    profileUpdate,
-    messageList,
-    typing,
-    force,
-    reaction,
+    auth = 0,
+    message = 1,
+    clientList = 2,
+    profileUpdate = 3,
+    messageList = 4,
+    typing = 5,
+    force = 6,
+    reaction = 7,
+    delete = 8,
+    edit = 9,
 }
 
 /**
@@ -49,6 +51,7 @@ export type ClientEntity = {
 
 export type MessageEntity = {
     deleted: false;
+    edited: false;
     messageDbId: string;
     messageContext: string;
     messageTime: string;

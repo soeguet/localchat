@@ -3,18 +3,16 @@ import {describe, expect, it} from "vitest";
 import {i18n} from "./i18n";
 
 beforeEach(() => {
-    const localStorageMock = (function () {
+    const localStorageMock = (() => {
         let store = {
             "language": "de",
         };
         return {
-            getItem: function (key: "language") {
-                return store[key] || null;
-            },
-            setItem: function (key: "language", value: "de" | "en" | "") {
+            getItem: (key: "language") => store[key] || null,
+            setItem: (key: "language", value: "de" | "en" | "") => {
                 store[key] = value.toString();
             },
-            clear: function () {
+            clear: () => {
                 store = {
                     "language": "",
                 };

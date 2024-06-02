@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import type { ChangeEvent } from "react";
 import useSettingsStore from "../stores/settingsStore";
 
 export function arrayBufferToBase64(buffer: ArrayBuffer): string {

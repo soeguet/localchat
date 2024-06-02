@@ -1,4 +1,4 @@
-import { StoreApi, UseBoundStore, create } from "zustand";
+import { type StoreApi, type UseBoundStore, create } from "zustand";
 
 type useReactionMenuStoreType = {
     isOpen: boolean;

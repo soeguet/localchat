@@ -1,4 +1,4 @@
-import {MessagePayload} from "./customTypes";
+import type {MessagePayload} from "./customTypes";
 import {useUserStore} from "../stores/userStore";
 import {Notification} from "../../wailsjs/go/main/App";
 import {useClientStore} from "../stores/clientStore";

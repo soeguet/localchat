@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useClientStore } from "../../../../stores/clientStore";
 import { useReplyStore } from "../../../../stores/replyStore";
-import { MessagePayload } from "../../../../utils/customTypes";
+import type { MessagePayload } from "../../../../utils/customTypes";
 import { getTimeWithHHmmFormat } from "../../../../utils/time";
 import { ProfilePicture } from "../../../reuseable/ProfilePicture";
 import { ChatBubbleMenu } from "./ChatBubbleMenu";
@@ -11,6 +11,7 @@ type ChatMessageOuterPartProps = {
     lastMessageFromThisClientId: boolean;
     thisMessageFromThisClient: boolean;
     lastMessageTimestampSameAsThisOne: boolean;
+    setEnableMessageEditingMode: (enable: boolean) => void;
 };
 
 function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
@@ -50,8 +51,8 @@ function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
         <>
             <div
                 onClick={() => setShowMenu(!showMenu)}
-                className="relative mx-2 flex cursor-pointer flex-col items-center self-stretch"
-            >
+                onKeyUp={() => setShowMenu(!showMenu)}
+                className="relative mx-2 flex cursor-pointer flex-col items-center self-stretch">
                 <ProfilePicture
                     clientDbId={props.messagePayload.clientType.clientDbId}
                     style={{
@@ -67,13 +68,15 @@ function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
                 />
                 {props.lastMessageFromThisClientId && (
                     <div
-                        className={`absolute ${menuAlignment} ${menuTopMargin} opacity-0 transition-all duration-500 ease-in-out group-hover/message:opacity-100`}
-                    >
+                        className={`absolute ${menuAlignment} ${menuTopMargin} opacity-0 transition-all duration-500 ease-in-out group-hover/message:opacity-100`}>
                         <BubbleMessageMenuSvg />
                     </div>
                 )}
-
                 <ChatBubbleMenu
+                    setEnableMessageEditingMode={
+                        props.setEnableMessageEditingMode
+                    }
+                    messagePayload={props.messagePayload}
                     showMenu={showMenu}
                     setShowMenu={setShowMenu}
                     thisMessageFromThisClient={props.thisMessageFromThisClient}

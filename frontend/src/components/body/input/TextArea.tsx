@@ -1,5 +1,6 @@
 import {useTranslation} from "react-i18next";
-import React, {useEffect, useRef} from "react";
+import type React from "react";
+import {useEffect, useRef} from "react";
 import {useReplyStore} from "../../../stores/replyStore";
 
 type TextAreaProps = {

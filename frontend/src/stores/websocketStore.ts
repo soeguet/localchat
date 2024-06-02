@@ -1,4 +1,4 @@
-import {create, StoreApi, UseBoundStore} from "zustand";
+import {create, type StoreApi, type UseBoundStore} from "zustand";
 
 type WebsocketStoreType = {
     ws: WebSocket | null;

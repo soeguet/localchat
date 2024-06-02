@@ -1,9 +1,10 @@
 import {getTimeWithHHmmFormat} from "./time";
-import {MessagePayload} from "./customTypes";
+import type {MessagePayload} from "./customTypes";
 import {Notification} from "../../wailsjs/go/main/App";
 import {useUserStore} from "../stores/userStore";
 import {WindowShow} from "../../wailsjs/runtime";
-import React, {Dispatch} from "react";
+import type React from "react";
+import type {Dispatch} from "react";
 import {useClientStore} from "../stores/clientStore";
 import {base64ToUtf8} from "./encoder";
 

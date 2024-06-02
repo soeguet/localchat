@@ -1,6 +1,6 @@
 import { useClientStore } from "../../../stores/clientStore";
 import { useFontSizeStore } from "../../../stores/fontSizeStore";
-import { MessagePayload } from "../../../utils/customTypes";
+import type { MessagePayload } from "../../../utils/customTypes";
 import { LinkifiedText } from "./LinkifiedText";
 import {base64ToUtf8} from "../../../utils/encoder";
 

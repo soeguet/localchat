@@ -1,6 +1,6 @@
 import { cleanup, render } from "@testing-library/react";
 import { afterEach } from "vitest";
-import { ReactElement } from "react";
+import type { ReactElement } from "react";
 
 afterEach(() => {
     cleanup();

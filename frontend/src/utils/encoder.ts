@@ -1,3 +1,4 @@
+// TODO check if this is deprecated
 export function utf8ToBase64(str: string) {
     const uint8Array = new TextEncoder().encode(str);
     const stringFromUint8Array = String.fromCharCode(...uint8Array);

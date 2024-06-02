@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { type FormEvent, useEffect, useState } from "react";
 import { useUserStore } from "../../stores/userStore";
 import { useTranslation } from "react-i18next";
 
@@ -25,9 +25,7 @@ function Form() {
 
     function validateStateVariables() {
         // regex for ip address
-        const ipRegex = new RegExp(
-            "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
-        );
+        const ipRegex = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
 
         // check if localsocketip is a valid ip address
         if (!ipRegex.test(localSocketIp)) {
@@ -35,14 +33,14 @@ function Form() {
         }
 
         // check if localsocketport is a valid port
-        if (isNaN(parseInt(localSocketPort))) {
+        if (isNaN(Number.parseInt(localSocketPort))) {
             return false;
         }
 
         // check if port is smaller than 0 or greater than 65535
         if (
-            parseInt(localSocketPort) < 0 ||
-            parseInt(localSocketPort) > 65535
+            Number.parseInt(localSocketPort) < 0 ||
+            Number.parseInt(localSocketPort) > 65535
         ) {
             return false;
         }
