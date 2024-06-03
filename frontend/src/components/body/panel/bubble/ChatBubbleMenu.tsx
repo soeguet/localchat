@@ -55,7 +55,7 @@ function ChatBubbleMenu(props: ChatBubbleMenuProps) {
                     className={`absolute ${props.thisMessageFromThisClient
                             ? "right-0 mr-20"
                             : "left-0 ml-20"
-                        } z-20 mt-2 w-48 rounded-md border-2 bg-white py-1 shadow-xl`}
+                        } z-50 mt-2 w-48 rounded-md border-2 border-gray-500 bg-white py-1 shadow-xl shadow-black/50`}
                     data-testid="chat-bubble-menu"
                     ref={menuRef}>
                     <button

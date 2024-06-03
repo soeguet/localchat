@@ -1,4 +1,4 @@
-import { type FormEvent, useState } from "react";
+import { useState } from "react";
 import {
     PayloadSubType,
     type MessagePayload,
@@ -34,17 +34,18 @@ function EditMessageMode(props: EditMessageModeProps) {
 
     return (
         <>
-            <div className="bg-gray-300/90 text-black shadow-xl rounded-xl">
+            <div className="bg-gray-300/90 text-black shadow-xl rounded-xl ">
                 <div className="px-3 pt-2">
                     <textarea
+                        className="w-full peer=hover/edit:animate-pulse h-20 p-2 rounded-xl bg-white/90 text-black"
+                        value={message}
                         onChange={(event) => {
                             setMessage(event.target.value);
-                        }}>
-                        {message}
-                    </textarea>
+                        }}
+                    />
                 </div>
 
-                <div className="flex gap-3 text-xs mt-4 p-2">
+                <div className="flex justify-center gap-3 text-xs p-2">
                     <button
                         type="button"
                         onClick={onChangedMessageSubmit}

@@ -26,9 +26,7 @@ function ChatBubbleTopPart(props: ChatBubbleTopPartProps) {
                     fontSize: `${fontSize - 5}px`,
                 }}>
                 {props.messagePayload.messageType.edited && (
-                    <span className="text-xs text-gray-500 mx-2 text-amber-700">
-                        edited
-                    </span>
+                    <span className="text-xs mx-2 text-amber-700">edited</span>
                 )}
 
                 <ChatMessageSenderName
