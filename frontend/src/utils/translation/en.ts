@@ -43,4 +43,7 @@ export const en_translation = {
     loading_label: "Loading..",
     settings_save_button: "SAVE",
     settings_cancel_button: "CANCEL",
+    edited_label: "edited",
+    save_edit_button: "Save",
+    cancel_edit_button: "Cancel",
 };

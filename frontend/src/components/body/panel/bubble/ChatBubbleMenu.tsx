@@ -52,16 +52,19 @@ function ChatBubbleMenu(props: ChatBubbleMenuProps) {
         <>
             {props.showMenu && (
                 <div
-                    className={`absolute ${props.thisMessageFromThisClient
+                    className={`absolute ${
+                        props.thisMessageFromThisClient
                             ? "right-0 mr-20"
                             : "left-0 ml-20"
-                        } z-50 mt-2 w-48 rounded-md border-2 border-gray-500 bg-white py-1 shadow-xl shadow-black/50`}
+                    } z-50 mt-2 w-48 rounded-md border-2 border-gray-500 bg-white py-1 shadow-xl shadow-black/50`}
                     data-testid="chat-bubble-menu"
-                    ref={menuRef}>
+                    ref={menuRef}
+                >
                     <button
                         type="button"
                         className="block w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-100"
-                        onClick={props.activateReplyMessage}>
+                        onClick={props.activateReplyMessage}
+                    >
                         {t("menu_item_reply")}
                     </button>
                     {props.thisMessageFromThisClient && (
@@ -69,15 +72,18 @@ function ChatBubbleMenu(props: ChatBubbleMenuProps) {
                             <button
                                 type="button"
                                 className="block w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-100"
+                                data-testid="edit-message-button"
                                 onClick={() =>
                                     props.setEnableMessageEditingMode(true)
-                                }>
+                                }
+                            >
                                 {t("menu_item_edit")}
                             </button>
                             <button
                                 type="button"
                                 className="block w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-100"
-                                onClick={deletePayloadToSocket}>
+                                onClick={deletePayloadToSocket}
+                            >
                                 {t("menu_item_delete")}
                             </button>
                         </>

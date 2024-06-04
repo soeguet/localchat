@@ -4,13 +4,14 @@ type ChatMessageSenderNameProps = {
 };
 
 function ChatMessageSenderName(props: ChatMessageSenderNameProps) {
+    if (props.lastMessageFromThisClientId) {
+        return;
+    }
     return (
         <>
-            {!props.lastMessageFromThisClientId && (
-                <span className="font-semibold">
-                    {props.messageSenderUsername}
-                </span>
-            )}{" "}
+            <span className="mr-2 font-semibold">
+                {props.messageSenderUsername}
+            </span>
         </>
     );
 }

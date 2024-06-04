@@ -61,7 +61,9 @@ function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
             <div
                 onClick={() => setShowMenu(!showMenu)}
                 onKeyUp={() => setShowMenu(!showMenu)}
-                className="relative mx-2 flex cursor-pointer flex-col items-center self-stretch">
+                data-testid="chat-message-outer-part-container"
+                className="relative mx-2 flex cursor-pointer flex-col items-center self-stretch"
+            >
                 {/* need the padding on invisible profile picture, else messages will not be aligned -> handle via opacity */}
                 <ProfilePicture
                     clientDbId={props.messagePayload.clientType.clientDbId}
@@ -79,7 +81,8 @@ function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
                 {/* if profile picture is not visible -> show menu symbol */}
                 {props.lastMessageFromThisClientId && (
                     <div
-                        className={`absolute ${menuAlignment} ${menuTopMargin} opacity-0 transition-all duration-500 ease-in-out group-hover/message:opacity-100`}>
+                        className={`absolute ${menuAlignment} ${menuTopMargin} opacity-0 transition-all duration-500 ease-in-out group-hover/message:opacity-100`}
+                    >
                         <BubbleMessageMenuSvg />
                     </div>
                 )}

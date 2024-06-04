@@ -1,6 +1,5 @@
 import { type ReactNode, useEffect, useRef, useState } from "react";
 import { useUserStore } from "../../../../stores/userStore";
-import { ClientName } from "./ClientName";
 
 type InfoMenuModalProps = {
     isOpen: boolean;
@@ -36,11 +35,14 @@ const InfoMenuModal = (props: InfoMenuModalProps) => {
         >
             <div
                 onMouseOver={() => setHover(true)}
+                onFocus={() => setHover(true)}
                 onMouseOut={() => setHover(false)}
+                onBlur={() => setHover(false)}
                 className="relative flex size-full flex-col rounded-xl p-3"
             >
                 <button
-                    className="absolute right-1 top-1 rounded-full border border-gray-500 bg-gray-300 px-3 pb-1 transition ease-in-out hover:bg-gray-200"
+                    type="button"
+                    className="myTransition absolute right-3 top-0 select-none text-center text-2xl hover:text-3xl hover:font-bold"
                     onClick={props.onClose}
                 >
                     x

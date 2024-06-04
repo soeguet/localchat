@@ -14,7 +14,7 @@ function ReactionField(props: ReactionFieldProps) {
 
     return (
         <div className={`absolute ${side}`}>
-            <div className="translate-y-1 cursor-pointer select-none whitespace-nowrap rounded-full border-2 bg-white p-1 text-center text-xs text-gray-600">
+            <div className="flex translate-y-1 cursor-pointer select-none whitespace-nowrap rounded-full border-2 bg-white p-1 text-center text-sm text-gray-600">
                 {[
                     ...new Set(
                         props.messagePayload.reactionType?.map(
@@ -24,9 +24,12 @@ function ReactionField(props: ReactionFieldProps) {
                 ].map((reactionContext, index) => {
                     if (index > 3) return null;
                     return (
-                        <span key={reactionContext + index} className="mr-1">
+                        <div
+                            className="mr-1 hover:animate-spin"
+                            key={reactionContext}
+                        >
                             {reactionContext}
-                        </span>
+                        </div>
                     );
                 })}
                 <span className="px-2">

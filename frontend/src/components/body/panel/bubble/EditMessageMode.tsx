@@ -5,12 +5,14 @@ import {
 } from "../../../../utils/customTypes";
 import { base64ToUtf8, utf8ToBase64 } from "../../../../utils/encoder";
 import { useWebsocketStore } from "../../../../stores/websocketStore";
+import { useTranslation } from "react-i18next";
 
 type EditMessageModeProps = {
     messagePayload: MessagePayload;
     setEnableMessageEditingMode: (enable: boolean) => void;
 };
 function EditMessageMode(props: EditMessageModeProps) {
+    const { t } = useTranslation();
     const [message, setMessage] = useState(
         base64ToUtf8(props.messagePayload.messageType.messageContext)
     );
@@ -34,10 +36,11 @@ function EditMessageMode(props: EditMessageModeProps) {
 
     return (
         <>
-            <div className="bg-gray-300/90 text-black shadow-xl rounded-xl ">
+            <div className="rounded-xl bg-gray-300/90 text-black shadow-xl">
                 <div className="px-3 pt-2">
                     <textarea
-                        className="w-full peer=hover/edit:animate-pulse h-20 p-2 rounded-xl bg-white/90 text-black"
+                        data-testid="edit-message-textarea"
+                        className="peer=hover/edit:animate-pulse h-20 w-full rounded-xl bg-white/90 p-2 text-black"
                         value={message}
                         onChange={(event) => {
                             setMessage(event.target.value);
@@ -45,13 +48,14 @@ function EditMessageMode(props: EditMessageModeProps) {
                     />
                 </div>
 
-                <div className="flex justify-center gap-3 text-xs p-2">
+                <div className="flex justify-center gap-3 p-2 text-xs">
                     <button
                         type="button"
                         onClick={onChangedMessageSubmit}
                         onKeyDown={onChangedMessageSubmit}
-                        className="p-2 px-3 bg-emerald-700 text-white rounded-xl">
-                        SAVE
+                        className="rounded-xl bg-emerald-700 p-2 px-3 text-white"
+                    >
+                        {t("save_edit_button")}
                     </button>
                     <button
                         type="button"
@@ -61,8 +65,9 @@ function EditMessageMode(props: EditMessageModeProps) {
                         onKeyDown={() => {
                             props.setEnableMessageEditingMode(false);
                         }}
-                        className="p-2 px-3 bg-amber-700 rounded-xl text-white">
-                        CANCEL
+                        className="rounded-xl bg-amber-700 p-2 px-3 text-white"
+                    >
+                        {t("cancel_edit_button")}
                     </button>
                 </div>
             </div>
