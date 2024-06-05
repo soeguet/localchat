@@ -1,10 +1,7 @@
 import { useTranslation } from "react-i18next";
 import useSettingsStore from "../../../../../../../stores/settingsStore";
 
-type NewSettingsButtonAreaProps = {
-    onClose: () => void;
-    onSave: () => void;
-};
+type NewSettingsButtonAreaProps = { onClose: () => void; onSave: () => void };
 
 function NewSettingsButtonArea(props: NewSettingsButtonAreaProps) {
     const { t } = useTranslation();

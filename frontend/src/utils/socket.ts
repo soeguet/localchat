@@ -1,20 +1,25 @@
-import {Notification} from "../../wailsjs/go/main/App";
-import {getClientById} from "../stores/clientStore";
-import {Reply, useReplyStore} from "../stores/replyStore";
-import {useUserStore} from "../stores/userStore";
-import {useWebsocketStore} from "../stores/websocketStore";
-import {generateSimpleId} from "./functionality";
-import {useDoNotDisturbStore} from "../stores/doNotDisturbStore";
-import {getTimeWithHHmmFormat} from "./time";
-import {AuthenticationPayload, CallbackProps, MessagePayload, PayloadSubType,} from "./customTypes";
-import {utf8ToBase64} from "./encoder";
+import { Notification } from "../../wailsjs/go/main/App";
+import { getClientById } from "../stores/clientStore";
+import { type Reply, useReplyStore } from "../stores/replyStore";
+import { useUserStore } from "../stores/userStore";
+import { useWebsocketStore } from "../stores/websocketStore";
+import { generateSimpleId } from "./functionality";
+import { useDoNotDisturbStore } from "../stores/doNotDisturbStore";
+import { getTimeWithHHmmFormat } from "./time";
+import {
+    type AuthenticationPayload,
+    type CallbackProps,
+    type MessagePayload,
+    PayloadSubType,
+} from "./customTypes";
+import { utf8ToBase64 } from "./encoder";
 
 let socket: WebSocket;
 
 export const initWebSocket = (callbacks: CallbackProps) => {
-
     socket = new WebSocket(
-        `ws://${useUserStore.getState().socketIp}:${useUserStore.getState().socketPort}/chat`
+        `ws://${useUserStore.getState().socketIp}:${useUserStore.getState().socketPort
+        }/chat`
     );
 
     socket.onopen = async () => {
@@ -71,7 +76,7 @@ function sendClientMessageToWebsocket(message: string): void {
         username === "" ||
         id === ""
     ) {
-        throw new Error("username or id is null" + username + id);
+        throw new Error(`username or id is null${username}${id}`);
     }
 
     const base64EncodedMessage = utf8ToBase64(message);
@@ -83,6 +88,8 @@ function sendClientMessageToWebsocket(message: string): void {
         },
         messageType: {
             messageContext: base64EncodedMessage,
+            deleted: false,
+            edited: false,
             messageTime: getTimeWithHHmmFormat(new Date()),
             messageDate: new Date().toDateString(),
             messageDbId: generateSimpleId(),
@@ -111,4 +118,9 @@ function retrieveMessageListFromSocket() {
     socket.send(JSON.stringify(payload));
 }
 
-export {closeWebSocket, sendClientMessageToWebsocket, socket, retrieveMessageListFromSocket};
+export {
+    closeWebSocket,
+    sendClientMessageToWebsocket,
+    socket,
+    retrieveMessageListFromSocket,
+};

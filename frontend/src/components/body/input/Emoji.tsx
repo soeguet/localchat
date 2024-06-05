@@ -1,6 +1,6 @@
-import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
+import EmojiPicker, { type EmojiClickData } from "emoji-picker-react";
 import {memo, useEffect, useRef, useState} from "react";
-import React from "react";
+import type React from "react";
 
 type EmojiProps = {
     setMessage: React.Dispatch<React.SetStateAction<string>>;

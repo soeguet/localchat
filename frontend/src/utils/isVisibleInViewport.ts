@@ -1,7 +1,7 @@
 export const isVisibleInViewport = (
     el: HTMLElement,
     parentEl: HTMLElement,
-    partiallyVisible: boolean = false
+    partiallyVisible = false
 ): boolean => {
     const rect = el.getBoundingClientRect();
     const parentRect = parentEl.getBoundingClientRect();

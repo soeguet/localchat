@@ -1,6 +1,6 @@
-import React, {memo} from "react";
+import React, { memo } from "react";
 import { useReplyStore } from "../../../stores/replyStore";
-import {base64ToUtf8} from "../../../utils/encoder";
+import { base64ToUtf8 } from "../../../utils/encoder";
 
 const Reply = memo(() => {
     const replyMessage = useReplyStore((state) => state.replyMessage);
@@ -29,10 +29,11 @@ const Reply = memo(() => {
                         </p>
                     </div>
                     <button
+                        type="button"
                         className="ml-4 text-gray-500 hover:text-gray-700"
                         onClick={() => setReplyMessage(null)}
                     >
-                        <i className="fas fa-times">✖</i>
+                        <div className="hover:animate-spin">✖</div>
                     </button>
                 </div>
             )}
@@ -42,4 +43,5 @@ const Reply = memo(() => {
 
 Reply.displayName = "Reply";
 
-export {Reply};
+export { Reply };
+

@@ -1,7 +1,7 @@
 import { arrayBufferToBase64, handleFileChange } from "./pictureHelper";
 import { describe } from "vitest";
 import { readFileAsArrayBuffer } from "./pictureHelper";
-import { ChangeEvent } from "react";
+import type { ChangeEvent } from "react";
 
 describe("pictureHelper - arrayBufferToBase64", () => {
     test("arrayBufferToBase64 function - converting ArrayBuffer to Base64 string", () => {

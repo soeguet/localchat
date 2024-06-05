@@ -1,8 +1,8 @@
-import {useFontSizeStore} from "../../../../../../stores/fontSizeStore";
-import {FontSizeAdjustButton} from "../font-size-elements/FontSizeAdjustButton";
-import {useSetFontSizeLocalStorage} from "../../flag/hooks/useSetFontSizeLocalStorage";
-import {FontSizePopupHeader} from "./FontSizePopupHeader";
-import {FontSizePopupModalBody} from "./FontSizePopupModalBody";
+import { useFontSizeStore } from "../../../../../../stores/fontSizeStore";
+import { FontSizeAdjustButton } from "../font-size-elements/FontSizeAdjustButton";
+import { useSetFontSizeLocalStorage } from "../../flag/hooks/useSetFontSizeLocalStorage";
+import { FontSizePopupHeader } from "./FontSizePopupHeader";
+import { FontSizePopupModalBody } from "./FontSizePopupModalBody";
 
 type FontSizePopupProps = {
     showPopup: boolean;
@@ -10,7 +10,7 @@ type FontSizePopupProps = {
 };
 
 const FontSizePopup = (props: FontSizePopupProps) => {
-    const {fontSize, setFontSize} = useFontSizeStore();
+    const { fontSize, setFontSize } = useFontSizeStore();
 
     useSetFontSizeLocalStorage(fontSize);
 
@@ -20,8 +20,8 @@ const FontSizePopup = (props: FontSizePopupProps) => {
                 showPopup={props.showPopup}
                 setShowPopup={props.setShowPopup}
             >
-                <FontSizePopupHeader fontSize={fontSize}/>
-                <div className="flex items-center justify-start gap-2">
+                <FontSizePopupHeader fontSize={fontSize} />
+                <div className="mb-2 flex items-center justify-start gap-2">
                     <FontSizeAdjustButton
                         onClick={() =>
                             setFontSize(fontSize - 1 < 12 ? 12 : fontSize - 1)
@@ -48,8 +48,9 @@ const FontSizePopup = (props: FontSizePopupProps) => {
                     </FontSizeAdjustButton>
 
                     <button
+                        type="button"
                         onClick={() => props.setShowPopup(false)}
-                        className="ml-3 rounded-full bg-gray-200 px-3 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
+                        className="p-2 hover:animate-spin hover:text-amber-700"
                     >
                         🗙
                     </button>
@@ -59,4 +60,5 @@ const FontSizePopup = (props: FontSizePopupProps) => {
     );
 };
 
-export {FontSizePopup};
+export { FontSizePopup };
+

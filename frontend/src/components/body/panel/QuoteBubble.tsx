@@ -1,8 +1,8 @@
 import { useClientStore } from "../../../stores/clientStore";
 import { useFontSizeStore } from "../../../stores/fontSizeStore";
-import { MessagePayload } from "../../../utils/customTypes";
+import type { MessagePayload } from "../../../utils/customTypes";
 import { LinkifiedText } from "./LinkifiedText";
-import {base64ToUtf8} from "../../../utils/encoder";
+import { base64ToUtf8 } from "../../../utils/encoder";
 
 type QuoteBubbleProps = {
     payload: MessagePayload;
@@ -21,8 +21,15 @@ function QuoteBubble(props: QuoteBubbleProps) {
             (c) => c.clientDbId === props.payload.clientType.clientDbId
         )?.clientUsername;
 
+    if (
+        props.payload.quoteType === undefined ||
+        !props.payload.quoteType.quoteMessageContext
+    ) {
+        return;
+    }
+
     const base64DecodedQuoteMessage = base64ToUtf8(
-        props.payload.quoteType!.quoteMessageContext
+        props.payload.quoteType.quoteMessageContext
     );
 
     return (
@@ -30,6 +37,7 @@ function QuoteBubble(props: QuoteBubbleProps) {
             {props.payload.quoteType && (
                 <div
                     className="my-1 rounded-md border-l-4 border-blue-300 bg-gray-100 bg-opacity-70 p-2"
+                    data-testid="quote-bubble"
                     style={{
                         fontSize: `${fontSize - 3}px`,
                     }}

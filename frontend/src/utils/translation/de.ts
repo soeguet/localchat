@@ -16,6 +16,7 @@ export const de_translation = {
     unknown: "Unbekannt",
     menu_item_reply: "Antworten",
     menu_item_edit: "Bearbeiten",
+    menu_item_delete: "Löschen",
     button_send: "Senden",
     chat_input_placeholder: "Nachricht eingeben..",
     button_unread: "Ungelesene Nachrichten",
@@ -42,4 +43,7 @@ export const de_translation = {
     loading_label: "Lade..",
     settings_save_button: "SPEICHERN",
     settings_cancel_button: "ABBRECHEN",
+    edited_label: "bearbeitet",
+    save_edit_button: "Speichern",
+    cancel_edit_button: "Abbrechen",
 };

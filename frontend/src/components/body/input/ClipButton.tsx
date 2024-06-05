@@ -1,13 +1,16 @@
-import React, {memo} from "react";
+import { memo } from "react";
 import {
     checkIfMessageIsToBeAddedToTheUnseenMessagesList,
     checkIfNotificationIsNeeded,
 } from "../../../hooks/socket/utils";
-import {MessagePayload, PayloadSubType} from "../../../utils/customTypes";
-import {checkIfScrollToBottomIsNeeded} from "../../../utils/scrollToBottomNeeded";
-import {useMessageMapStore} from "../../../stores/messageMapStore";
-import {generateSimpleId} from "../../../utils/functionality";
-import {utf8ToBase64} from "../../../utils/encoder";
+import { useMessageMapStore } from "../../../stores/messageMapStore";
+import {
+    type MessagePayload,
+    PayloadSubType,
+} from "../../../utils/customTypes";
+import { utf8ToBase64 } from "../../../utils/encoder";
+import { generateSimpleId } from "../../../utils/functionality";
+import { checkIfScrollToBottomIsNeeded } from "../../../utils/scrollToBottomNeeded";
 
 const ClipButton = memo(() => {
     function handleClipClick() {
@@ -16,6 +19,8 @@ const ClipButton = memo(() => {
                 payloadType: PayloadSubType.message,
                 messageType: {
                     messageContext: utf8ToBase64("This is a test message"),
+                    deleted: false,
+                    edited: false,
                     messageTime: "12:34",
                     messageDate: "2021-12-12",
                     messageDbId: generateSimpleId(),
@@ -29,7 +34,7 @@ const ClipButton = memo(() => {
                     quoteMessageContext: utf8ToBase64("replyMessage.message"),
                     quoteTime: "replyMessage.time",
                     quoteDate: "replyMessage.date",
-                }
+                },
             };
 
             useMessageMapStore.getState().onMessage(messagePayload);
@@ -51,9 +56,9 @@ const ClipButton = memo(() => {
     return (
         <>
             <button
+                type="button"
                 onClick={handleClipClick}
-                className="mx-1 my-auto text-gray-500 hover:text-gray-700 focus:outline-none"
-            >
+                className="mx-1 my-auto text-gray-500 hover:text-gray-700 focus:outline-none">
                 <i className="far fa-paperclip">📎</i>
             </button>
         </>
@@ -62,4 +67,4 @@ const ClipButton = memo(() => {
 
 ClipButton.displayName = "ClipButton";
 
-export {ClipButton};
+export { ClipButton };

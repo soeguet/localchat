@@ -1,4 +1,9 @@
-import { MessagePayload, PayloadSubType } from "./customTypes";
+import { Notification } from "../../wailsjs/go/main/App";
+import {
+    WindowMinimise,
+    WindowShow,
+    WindowUnminimise,
+} from "../../wailsjs/runtime";
 import {
     checkIfMessageIsToBeAddedToTheUnseenMessagesList,
     checkIfNotificationIsNeeded,
@@ -6,23 +11,19 @@ import {
     handleClientListPayload,
     updateThisClientsCachedDataWithNewPayloadData,
 } from "../hooks/socket/utils";
-import { checkIfScrollToBottomIsNeeded } from "./scrollToBottomNeeded";
 import { useDoNotDisturbStore } from "../stores/doNotDisturbStore";
-import { Notification } from "../../wailsjs/go/main/App";
-import {
-    WindowMinimise,
-    WindowShow,
-    WindowUnminimise,
-} from "../../wailsjs/runtime";
 import { useMessageMapStore } from "../stores/messageMapStore";
-import { useUserStore } from "../stores/userStore";
 import { useTypingStore } from "../stores/typingStore";
+import { useUserStore } from "../stores/userStore";
+import { type MessagePayload, PayloadSubType } from "./customTypes";
 import { notifyClientIfReactionTarget } from "./reactionHandler";
+import { checkIfScrollToBottomIsNeeded } from "./scrollToBottomNeeded";
 import { retrieveMessageListFromSocket } from "./socket";
 
 export function handleIncomingMessages(event: MessageEvent) {
     const dataAsObject = JSON.parse(event.data);
 
+    // MAIN SWITCH STATEMENT
     switch (dataAsObject.payloadType) {
         // normal chat messages
         // PayloadSubType.message == 1
@@ -111,9 +112,14 @@ export function handleIncomingMessages(event: MessageEvent) {
         case PayloadSubType.reaction:
             // updated message from socket with reactions
             useMessageMapStore.getState().onUpdateMessage(dataAsObject);
-
             notifyClientIfReactionTarget(dataAsObject as MessagePayload);
+            break;
 
+        // PayloadSubType.delete == 8
+        case PayloadSubType.delete:
+        // PayloadSubType.delete == 9
+        case PayloadSubType.edit:
+            useMessageMapStore.getState().onUpdateMessage(dataAsObject);
             break;
 
         // unknown payload type

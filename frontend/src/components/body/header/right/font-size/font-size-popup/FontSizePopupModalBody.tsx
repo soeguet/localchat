@@ -1,5 +1,5 @@
-import {ReactNode, useRef} from "react";
-import {useClosePopupOnClickEffect} from "../../../../../../hooks/popups/useClosePopupOnClickEffect";
+import { type ReactNode, useRef } from "react";
+import { useClosePopupOnClickEffect } from "../../../../../../hooks/popups/useClosePopupOnClickEffect";
 
 type FontSizePopupModalBodyProps = {
     showPopup: boolean;
@@ -21,7 +21,7 @@ function FontSizePopupModalBody(props: FontSizePopupModalBodyProps) {
                     <div
                         data-testid="font-size-popup"
                         ref={fontSizeRef}
-                        className="absolute right-10 top-24 z-20 -mt-2 rounded-lg border-2 bg-white p-4 py-1 shadow-xl"
+                        className="absolute right-10 top-24 z-20 -mt-2 rounded-lg border-2 border-black bg-white p-4 py-1 shadow-xl shadow-gray-600/50"
                     >
                         {props.children}
                     </div>
@@ -31,4 +31,5 @@ function FontSizePopupModalBody(props: FontSizePopupModalBodyProps) {
     );
 }
 
-export {FontSizePopupModalBody};
+export { FontSizePopupModalBody };
+

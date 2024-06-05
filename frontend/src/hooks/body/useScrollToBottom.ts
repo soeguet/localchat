@@ -1,4 +1,5 @@
-import React, {useEffect} from "react";
+import type React from "react";
+import {useEffect} from "react";
 import {useMessageMapStore} from "../../stores/messageMapStore";
 
 export function useScrollToBottom(ref: React.RefObject<HTMLDivElement>) {

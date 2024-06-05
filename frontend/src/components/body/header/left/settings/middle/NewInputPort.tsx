@@ -9,7 +9,7 @@ function NewInputPort() {
     useEffect(() => {
         const localPort = useUserStore.getState().socketPort;
         setLocalPort(localPort);
-    }, []);
+    }, [setLocalPort]);
 
     return (
         <div className="flex flex-col">
@@ -26,4 +26,3 @@ function NewInputPort() {
 }
 
 export { NewInputPort };
-
