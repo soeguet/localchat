@@ -2,9 +2,17 @@
     "compilerOptions": {
         "target": "ES2015",
         "useDefineForClassFields": true,
-        "lib": ["DOM", "DOM.Iterable", "ES2015"],
-        "types": ["vitest/globals", "vitest/importMeta"],
+        "lib": [
+            "DOM",
+            "DOM.Iterable",
+            "ES2015"
+        ],
+        "types": [
+            "vitest/globals",
+            "vitest/importMeta"
+        ],
         "allowJs": false,
+        "noImplicitAny": false,
         "skipLibCheck": true,
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,

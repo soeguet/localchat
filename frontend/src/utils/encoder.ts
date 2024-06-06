@@ -12,3 +12,12 @@ export function base64ToUtf8(base64: string) {
     );
     return new TextDecoder().decode(uint8Array);
 }
+
+export function encodeFileToBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = (error) => reject(error);
+    });
+}

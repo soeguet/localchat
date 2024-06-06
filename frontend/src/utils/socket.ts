@@ -12,13 +12,15 @@ import {
     type MessagePayload,
     PayloadSubType,
 } from "./customTypes";
-import { utf8ToBase64 } from "./encoder";
+import { encodeFileToBase64, utf8ToBase64 } from "./encoder";
+import { useImageStore } from "../stores/imageStore";
 
 let socket: WebSocket;
 
 export const initWebSocket = (callbacks: CallbackProps) => {
     socket = new WebSocket(
-        `ws://${useUserStore.getState().socketIp}:${useUserStore.getState().socketPort
+        `ws://${useUserStore.getState().socketIp}:${
+            useUserStore.getState().socketPort
         }/chat`
     );
 
@@ -64,10 +66,11 @@ function closeWebSocket() {
     useWebsocketStore.getState().setWs(null);
 }
 
-function sendClientMessageToWebsocket(message: string): void {
+async function sendClientMessageToWebsocket(message: string): Promise<void> {
     const replyMessage: Reply | null = useReplyStore.getState().replyMessage;
     const id = useUserStore.getState().myId;
     const username = getClientById(id)?.clientUsername;
+    const selectedImage = useImageStore.getState().selectedImage;
 
     if (
         username === null ||
@@ -105,6 +108,15 @@ function sendClientMessageToWebsocket(message: string): void {
             quoteTime: replyMessage.time,
             quoteDate: replyMessage.date,
         };
+    }
+
+    if (selectedImage) {
+        payload.imageType = {
+            imageDbId: generateSimpleId(),
+            type: selectedImage.type,
+            data: await encodeFileToBase64(selectedImage),
+        };
+        useImageStore.getState().setSelectedImage(null);
     }
 
     socket.send(JSON.stringify(payload));

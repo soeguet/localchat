@@ -15,35 +15,35 @@ import ReactionModal from "./ReactionModal";
  * Renders the chat interface and handles message handling and sending.
  */
 function Chat() {
-    // this client state
-    const clientDbId = useUserStore((state) => state.myId);
-    const thisClient = useClientStore((state) =>
-        state.clients.find((c) => c.clientDbId === clientDbId)
-    );
+	// this client state
+	const clientDbId = useUserStore((state) => state.myId);
+	const thisClient = useClientStore((state) =>
+		state.clients.find((c) => c.clientDbId === clientDbId),
+	);
 
-    useWebsocketConnection();
+	useWebsocketConnection();
 
-    useWindowFocussedListener();
+	useWindowFocussedListener();
 
-    if (thisClient === undefined) {
-        return <ClientNotFoundPage />;
-    }
+	if (thisClient === undefined) {
+		return <ClientNotFoundPage />;
+	}
 
-    return (
-        <>
-            <main
-                data-testid="chat-main"
-                className="flex h-screen flex-col justify-evenly"
-            >
-                <Header />
-                <ChatPanel />
-                <TypingIndicator />
-                <ScrollToBottomButton />
-                <ChatInputSection />
-                <ReactionModal />
-            </main>
-        </>
-    );
+	return (
+		<>
+			<main
+				data-testid="chat-main"
+				className="flex h-screen flex-col justify-evenly"
+			>
+				<Header />
+				<ChatPanel />
+				<TypingIndicator />
+				<ScrollToBottomButton />
+				<ChatInputSection />
+				<ReactionModal />
+			</main>
+		</>
+	);
 }
 
 export { Chat };

@@ -46,4 +46,5 @@ export const en_translation = {
     edited_label: "edited",
     save_edit_button: "Save",
     cancel_edit_button: "Cancel",
+    menu_attachment_image: "📷 Image",
 };

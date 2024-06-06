@@ -6,6 +6,7 @@ import { sendClientMessageToWebsocket } from "../../../utils/socket";
 import { ClipButton } from "./ClipButton";
 import { Emoji } from "./Emoji";
 import { Reply } from "./Reply";
+import { Image } from "./Image";
 import { SendButton } from "./SendButton";
 import { TextArea } from "./TextArea";
 
@@ -14,13 +15,13 @@ function ChatInputSection() {
         useTypingHook();
     const [message, setMessage] = useState("");
 
-    const handleSendMessage = useCallback(() => {
+    const handleSendMessage = useCallback(async () => {
         if (message.trim().length === 0) {
             return;
         }
         if (message) {
             const { replyMessage, setReplyMessage } = useReplyStore.getState();
-            sendClientMessageToWebsocket(message);
+            await sendClientMessageToWebsocket(message);
 
             // reset replyMessage state AFTER sending the message. we need that state for the message payload
             if (replyMessage !== null) {
@@ -77,6 +78,7 @@ function ChatInputSection() {
                 <ClipButton />
                 <div className="mx-2 my-auto flex flex-1 flex-col gap-2">
                     <Reply />
+                    <Image />
                     <TextArea
                         message={message}
                         setMessage={setMessage}
