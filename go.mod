@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/gen2brain/beeep v0.0.0-20240516210008-9c006672e7f4
-	github.com/wailsapp/wails/v2 v2.8.2
+	github.com/wailsapp/wails/v2 v2.8.1
 )
 
 require (

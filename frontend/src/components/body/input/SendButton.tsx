@@ -19,7 +19,7 @@ const SendButton = memo(
                 }}>
                 {t("button_send")}
             </button>
-        );
+       );
     }
 );
 

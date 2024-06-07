@@ -5,6 +5,7 @@ import { QuoteBubble } from "../QuoteBubble";
 import { base64ToUtf8 } from "../../../../utils/encoder";
 import { ReactionField } from "./reaction/ReactionField";
 import { EditMessageMode } from "./EditMessageMode";
+import PictureBubblePanel from "./picture/PictureBubblePanel";
 
 type ChatBubbleBottomPartProps = {
     messagePayload: MessagePayload;
@@ -68,6 +69,9 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
                             : "",
                         borderWidth: thisMessageUnseen ? "2px" : "1px",
                     }}>
+
+                        <PictureBubblePanel messagePayload={props.messagePayload} />
+                        
                     <QuoteBubble payload={props.messagePayload} />
                     {props.enableMessageEditingMode ? (
                         <EditMessageMode
