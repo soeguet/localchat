@@ -1,24 +1,29 @@
 import type { MessagePayload } from "../../../../../utils/customTypes";
-import { decodeBase64ToFile } from "../../../../../utils/encoder";
 
 type PictureBubblePanelProps = {
-        messagePayload: MessagePayload;
+    messagePayload: MessagePayload;
+};
 
-}
- 
-function PictureBubblePanel(props: PictureBubblePanelProps){
- console.log(props.messagePayload.imageType)
-    if (props.messagePayload.imageType?.data === undefined || props.messagePayload.imageType?.data === null || props.messagePayload.imageType.data ==="") {
+function PictureBubblePanel(props: PictureBubblePanelProps) {
+    if (
+        props.messagePayload.imageType?.data === undefined ||
+        props.messagePayload.imageType?.data === null ||
+        props.messagePayload.imageType.data === ""
+    ) {
         return;
     }
 
     return (
         <>
-            <div>
-                <img src={props.messagePayload.imageType?.data} alt="message" className="w-64 h-64" />
+            <div className="flex h-full w-full items-center justify-center rounded-lg border-x-4 border-gray-200 bg-white/60 px-5 py-1">
+                <img
+                    src={props.messagePayload.imageType.data}
+                    alt="message"
+                    className="h-64 w-64"
+                />
             </div>
         </>
     );
 }
- 
+
 export default PictureBubblePanel;
