@@ -25,6 +25,20 @@ export type AuthenticationPayload = {
 
 /**
  * [[ RESULTING TYPE ]]
+ * export type ImageEntity = {
+ * 	  imageDbId: string;
+ *    type: string;
+ *    data: string; // base64
+ * };
+ */
+export type ImageEntity = {
+    imageDbId: string;
+    type: string;
+    data: string;
+};
+
+/**
+ * [[ RESULTING TYPE ]]
  *  export type ClientUpdatePayload = {
  *     payloadType: PayloadSubType.auth;
  *     clientDbId: string;
@@ -128,6 +142,11 @@ export type ReactionEntity = {
  *          reactionContext: string;
  *          reactionClientId: string;
  *      }[];
+ *      imageType?: {
+ *      	imageDbId: string;
+ *      	type: string;
+ *      	data: string;
+ *      };
  *    };
  */
 export type MessagePayload = {
@@ -136,6 +155,7 @@ export type MessagePayload = {
     clientType: Pick<ClientEntity, "clientDbId">;
     quoteType?: QuoteEntity;
     reactionType?: Omit<ReactionEntity, "reactionDbId">[];
+    imageType?: ImageEntity;
 };
 
 export type MessageListPayload = {
