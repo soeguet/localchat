@@ -48,4 +48,7 @@ export const de_translation = {
 	cancel_edit_button: "Abbrechen",
 	menu_attachment_image: "📷 Bild",
 	deleted_message: "Nachricht gelöscht",
+	settings_label_availability: "Verfügbarkeit",
+	availability_warning:
+		"Wenn Sie den Verfügbarkeitsmodus aktivieren, werden Sie umgehend bei Hilfeanforderungen benachrichtigt.",
 };

@@ -48,4 +48,7 @@ export const en_translation = {
 	cancel_edit_button: "Cancel",
 	menu_attachment_image: "📷 Image",
 	deleted_message: "Message deleted",
+	settings_label_availability: "Availability",
+	availability_warning:
+		"By opting into availability mode, you will be prompted for immediate help requests.",
 };
