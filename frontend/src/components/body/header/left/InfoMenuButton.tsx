@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { InfoMenuModal } from "./InfoMenuModal";
 import packageInfo from "../../../../../package.json";
+import { InfoIconSvg } from "../../../svgs/icons/InfoIconSvg";
 
 function InfoMenuButton() {
 	const { t } = useTranslation();
@@ -17,8 +18,9 @@ function InfoMenuButton() {
 			<button
 				type="button"
 				data-testid="info-menu-modal-button"
-				className=" block w-full border-t-2 px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
+				className="flex gap-2 items-center align-middle w-full border-t-2 px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
 				onClick={openModal}>
+				<InfoIconSvg />
 				{t("menu_item_info")}
 			</button>
 

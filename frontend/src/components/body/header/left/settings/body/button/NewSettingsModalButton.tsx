@@ -4,6 +4,7 @@ import useSettingsStore from "../../../../../../../stores/settingsStore";
 import { handleProfileSettingsUpdatesWithSocket } from "../../../../../../../utils/handleCommunicationWithSocket";
 import { handleLocalSettingsUpdates } from "../../../../../../../utils/handleLocalSettingsUpdates";
 import { useTranslation } from "react-i18next";
+import { SettingsIconSvg } from "../../../../../../svgs/icons/SettingsIconSvg";
 
 function NewSettingsModalButton() {
 	const { t } = useTranslation();
@@ -27,10 +28,11 @@ function NewSettingsModalButton() {
 			<button
 				type="button"
 				data-testid="settings-menu-button"
-				className="block w-full px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
+				className="flex gap-2 items-center w-full px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
 				onClick={() => {
 					setIsOpened(true);
 				}}>
+				<SettingsIconSvg />
 				{t("menu_item_profile")}
 			</button>
 
