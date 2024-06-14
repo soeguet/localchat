@@ -39,7 +39,7 @@ const useUserStore: UseBoundStore<StoreApi<UserStore>> = create((set) => ({
 	setSocketIp: (newIp: string) => set({ socketIp: newIp }),
 	setSocketPort: (newPort: string) => set({ socketPort: newPort }),
 	setClientOs: (newOs: string) => set({ clientOs: newOs }),
-	availability: false,
+	availability: true,
 	setAvailability: (availability: boolean) =>
 		set({ availability: availability }),
 }));

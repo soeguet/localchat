@@ -21,7 +21,7 @@ function AvailabilityCheckbox() {
 					/>
 				</div>
 				{availability && (
-					<div className="text-amber-500 text-sm text-wrap">
+					<div className="text-amber-500 text-sm max-w-96 text-wrap">
 						{t("availability_warning")}
 					</div>
 				)}

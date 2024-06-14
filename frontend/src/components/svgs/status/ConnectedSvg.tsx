@@ -10,8 +10,8 @@ function ConnectedSvg() {
 				data-testid="connected-svg"
 				viewBox="-2.4 -2.4 28.8 28.8"
 				className="border-2 border-black rounded-full"
-				width="2em"
-				height="2em">
+				width="3.5em"
+				height="3.5em">
 				<title>{t("title_svg_connected")}</title>
 				<rect
 					width={28.8}
@@ -46,7 +46,7 @@ function ConnectedSvg() {
 						strokeWidth: 2,
 					}}
 				/>
-			</svg>{" "}
+			</svg>
 		</>
 	);
 }

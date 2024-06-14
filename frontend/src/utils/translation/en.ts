@@ -62,5 +62,7 @@ export const en_translation = {
 		"Opens a modal that allows you to send warnings to other users. You can bring their chat program to the foreground and send desktop notifications.",
 	title_svg_reload: "Grants you the opportunity to reload the app.",
 	title_svg_change_font_size: "Changes the font size of the app.",
+	title_svg_availability:
+		"You agreed to receive help requests immediately and to get them in a timely manner.",
 	font_size_preview_label: "Font Size Preview:",
 };
