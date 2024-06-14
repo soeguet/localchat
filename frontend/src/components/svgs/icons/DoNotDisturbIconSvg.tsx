@@ -1,4 +1,7 @@
+import { useTranslation } from "react-i18next";
+
 function DoNotDisturbIconSvg() {
+	const { t } = useTranslation();
 	return (
 		<>
 			<svg
@@ -7,7 +10,7 @@ function DoNotDisturbIconSvg() {
 				width="2em"
 				height="2em"
 				viewBox="0 0 500 500">
-				<title>Do Not Disturb</title>
+				<title>{t("title_svg_do_not_disturb")}</title>
 				<path
 					d="M482 232c0 128-104 232-232 232S18 360 18 232 122 0 250 0s232 104 232 232z"
 					style={{

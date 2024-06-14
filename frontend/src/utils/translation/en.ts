@@ -51,4 +51,16 @@ export const en_translation = {
 	settings_label_availability: "Availability",
 	availability_warning:
 		"By opting into availability mode, you will be prompted for immediate help requests.",
+	title_svg_settings:
+		"Opens the settings menu and lets you change the app settings.",
+	title_svg_connected: "You are connected to the websocket server.",
+	title_svg_info:
+		"Opens an info modal, containing information about the app.",
+	title_svg_do_not_disturb:
+		"Prevents notifications from being displayed for 5 minutes. Will be reset automatically.",
+	title_svg_force_warning:
+		"Opens a modal that allows you to send warnings to other users. You can bring their chat program to the foreground and send desktop notifications.",
+	title_svg_reload: "Grants you the opportunity to reload the app.",
+	title_svg_change_font_size: "Changes the font size of the app.",
+	font_size_preview_label: "Font Size Preview:",
 };

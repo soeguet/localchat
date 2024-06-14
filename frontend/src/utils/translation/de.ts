@@ -51,4 +51,16 @@ export const de_translation = {
 	settings_label_availability: "Verfügbarkeit",
 	availability_warning:
 		"Wenn Sie den Verfügbarkeitsmodus aktivieren, werden Sie umgehend bei Hilfeanforderungen benachrichtigt.",
+	title_svg_settings:
+		"Öffnet das Einstellungsmenü und erlaubt es Ihnen, die App Einstellungen zu ändern.",
+	title_svg_connected: "Sie sind mit dem Websocket Server verbunden.",
+	title_svg_info:
+		"Öffnet ein Info-Modal, das Informationen über die App enthält.",
+	title_svg_do_not_disturb:
+		"Verhindert für 5 Minuten, dass Benachrichtigungen angezeigt werden. Wird automatisch zurückgesetzt.",
+	title_svg_force_warning:
+		"Öffnet ein Modal, mit dem Sie Warnungen an andere Nutzer senden können. Sie können das Chatprogramm des Nutzers in den Vordergrund bringen und Desktop-Benachrichtigungen senden.",
+	title_svg_reload: "Gibt Ihnen die Möglichkeit, die App neu zu laden.",
+	title_svg_change_font_size: "Ändert Sie die Schriftgröße der App.",
+	font_size_preview_label: "Vorschau der Schriftgröße:",
 };

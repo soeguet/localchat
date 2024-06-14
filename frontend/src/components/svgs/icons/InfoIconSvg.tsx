@@ -1,4 +1,7 @@
+import { useTranslation } from "react-i18next";
+
 function InfoIconSvg() {
+	const { t } = useTranslation();
 	return (
 		<>
 			<svg
@@ -7,7 +10,7 @@ function InfoIconSvg() {
 				viewBox="0 0 512 512"
 				width="2em"
 				height="2em">
-				<title>Info</title>
+				<title>{t("title_svg_info")}</title>
 				<circle
 					cx={256}
 					cy={256}

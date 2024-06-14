@@ -1,16 +1,18 @@
-import { svgSize } from "../../../utils/variables";
+import { useTranslation } from "react-i18next";
 
 function ConnectedSvg() {
+	const { t } = useTranslation();
 	return (
 		<>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				data-name="Line Color"
+				data-testid="connected-svg"
 				viewBox="-2.4 -2.4 28.8 28.8"
 				className="border-2 border-black rounded-full"
-				width="2.5em"
-				height="2.5em">
-				<title>connected</title>
+				width="2em"
+				height="2em">
+				<title>{t("title_svg_connected")}</title>
 				<rect
 					width={28.8}
 					height={28.8}
@@ -50,4 +52,3 @@ function ConnectedSvg() {
 }
 
 export { ConnectedSvg };
-

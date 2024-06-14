@@ -1,4 +1,7 @@
+import { useTranslation } from "react-i18next";
+
 function ForceIconSvg() {
+	const { t } = useTranslation();
 	return (
 		<>
 			<svg
@@ -7,7 +10,7 @@ function ForceIconSvg() {
 				viewBox="0 0 512 512"
 				width="2em"
 				height="2em">
-				<title>Force</title>
+				<title>{t("title_svg_force_warning")}</title>
 				<path
 					d="M256 314.062c26.286 0 47.505 21.219 47.505 47.505S282.286 409.072 256 409.072s-47.505-21.219-47.505-47.505 21.219-47.505 47.505-47.505zM219.052 102.928h73.897v174.186h-73.897z"
 					style={{
