@@ -1,26 +1,28 @@
 import { memo } from "react";
-import { useTranslation } from "react-i18next";
+import { SendButtonSvg } from "../../svgs/input/SendButtonSvg";
 
 type SendButtonProps = {
-    handleSendMessage: () => void;
-    sendTypingStatus: (status: boolean) => void;
+	handleSendMessage: () => void;
+	sendTypingStatus: (status: boolean) => void;
 };
 
 const SendButton = memo(
-    ({ handleSendMessage, sendTypingStatus }: SendButtonProps) => {
-        const { t } = useTranslation();
-        return (
-            <button
-                type="button"
-                className="my-auto rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none"
-                onClick={() => {
-                    handleSendMessage();
-                    sendTypingStatus(false);
-                }}>
-                {t("button_send")}
-            </button>
-       );
-    }
+	({ handleSendMessage, sendTypingStatus }: SendButtonProps) => {
+		return (
+			<div
+				className="flex h-full cursor-pointer items-center"
+				onClick={() => {
+					handleSendMessage();
+					sendTypingStatus(false);
+				}}
+				onKeyDown={() => {
+					handleSendMessage();
+					sendTypingStatus(false);
+				}}>
+				<SendButtonSvg />
+			</div>
+		);
+	}
 );
 
 SendButton.displayName = "SendButton";

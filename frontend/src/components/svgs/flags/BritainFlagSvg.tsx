@@ -1,11 +1,11 @@
 import { useTranslation } from "react-i18next";
-import { svgSize } from "../../../utils/variables";
 
 function BritainFlagSvg() {
 	const { t } = useTranslation();
 	return (
 		<svg
-			style={svgSize}
+			width="2.1em"
+			height="2.1em"
 			version="1.1"
 			id="Layer_1"
 			xmlns="http://www.w3.org/2000/svg"
@@ -68,4 +68,3 @@ function BritainFlagSvg() {
 }
 
 export { BritainFlagSvg };
-

@@ -12,12 +12,12 @@ function HeaderMiddle() {
 	return (
 		<div data-testid="header-middle">
 			{isConnected ? (
-				<div className="flex">
+				<div className="flex gap-2 items-center h-full">
 					{availability && <AvailabilitySvg />}
 					<ConnectedSvg />
 				</div>
 			) : (
-				<div className="flex">
+				<div className="flex gap-2 items-center h-full">
 					<DisconnectedSvg />
 					<ReconnectButton />
 				</div>
@@ -27,4 +27,3 @@ function HeaderMiddle() {
 }
 
 export { HeaderMiddle };
-

@@ -1,11 +1,11 @@
 import { useTranslation } from "react-i18next";
-import { svgSize } from "../../../utils/variables";
 
 function FontSizeSvg() {
 	const { t } = useTranslation();
 	return (
 		<svg
-			style={svgSize}
+			width="2.1em"
+			height="2.1em"
 			viewBox="-1.5 -1.5 18.00 18.00"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg">
@@ -39,4 +39,3 @@ function FontSizeSvg() {
 }
 
 export { FontSizeSvg };
-

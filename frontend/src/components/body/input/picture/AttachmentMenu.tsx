@@ -10,7 +10,7 @@ function AttachmentMenu(props: AttachmentMenuProps) {
 	const { t } = useTranslation();
 	const setSelectedImage = useImageStore((state) => state.setSelectedImage);
 
-	const fileInputRef = useRef(null);
+	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	const handleLabelClick = () => {
 		if (fileInputRef.current) {
@@ -28,14 +28,14 @@ function AttachmentMenu(props: AttachmentMenuProps) {
 	}
 	return (
 		<>
-			<div className="absolute -top-24 -left-10 z-50 mt-2 w-48 rounded-md border-2 border-gray-500 bg-white py-1 shadow-xl shadow-black/50">
+			<div className="absolute -left-10 -top-24 z-50 mt-2 w-48 rounded-md border-2 border-gray-500 bg-white py-1 shadow-xl shadow-black/50">
 				{/* button alternative */}
 
-				<div className="flex gap-3 items-center hover:bg-gray-100">
+				<div className="flex items-center gap-3 hover:bg-gray-100">
 					{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
 					<label
 						htmlFor="hiddenFileInput"
-						className="flex items-center gap-3 cursor-pointer w-full px-4 py-1"
+						className="flex w-full cursor-pointer items-center gap-3 px-4 py-1"
 						onClick={handleLabelClick}>
 						<CameraSvg />
 						{t("menu_attachment_image")}

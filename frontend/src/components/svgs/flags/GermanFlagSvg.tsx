@@ -1,12 +1,12 @@
 import { useTranslation } from "react-i18next";
-import { svgSize } from "../../../utils/variables";
 
 function GermanFlagSvg() {
 	const { t } = useTranslation();
 	return (
 		<svg
 			data-testid="german-flag-svg"
-			style={svgSize}
+			width="2.1em"
+			height="2.1em"
 			viewBox="-3.6 -3.6 43.20 43.20"
 			xmlns="http://www.w3.org/2000/svg"
 			aria-hidden="true"
@@ -47,4 +47,3 @@ function GermanFlagSvg() {
 }
 
 export { GermanFlagSvg };
-

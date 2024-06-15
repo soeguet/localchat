@@ -9,9 +9,9 @@ function ConnectedSvg() {
 				data-name="Line Color"
 				data-testid="connected-svg"
 				viewBox="-2.4 -2.4 28.8 28.8"
-				className="border-2 border-black rounded-full"
-				width="3.5em"
-				height="3.5em">
+				className="rounded-full border-2 border-black"
+				width="2.5em"
+				height="2.5em">
 				<title>{t("title_svg_connected")}</title>
 				<rect
 					width={28.8}

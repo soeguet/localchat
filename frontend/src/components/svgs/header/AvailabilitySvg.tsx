@@ -11,8 +11,8 @@ function AvailabilitySvg() {
 			strokeWidth={0}
 			viewBox="-4.99 -4.99 43.24 43.24"
 			className="border-2 border-black rounded-full"
-			width="3.5em"
-			height="3.5em">
+			width="2.5em"
+			height="2.5em">
 			<title>{t("title_svg_availability")}</title>
 			<rect
 				width={43.24}
