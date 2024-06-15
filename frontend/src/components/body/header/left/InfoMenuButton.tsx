@@ -18,9 +18,11 @@ function InfoMenuButton() {
 			<button
 				type="button"
 				data-testid="info-menu-modal-button"
-				className="flex gap-2 items-center align-middle w-full border-t-2 px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
+				className="group flex w-full items-center gap-2 border-t-2 px-4 py-2 text-left align-middle text-sm text-gray-800 hover:bg-gray-100"
 				onClick={openModal}>
-				<InfoIconSvg />
+				<div className="group-hover:animate-bounce">
+					<InfoIconSvg />
+				</div>
 				{t("menu_item_info")}
 			</button>
 

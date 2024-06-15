@@ -5,6 +5,7 @@ function GermanFlagNoCircle() {
 	return (
 		<>
 			<svg
+				data-testid="german-flag-svg"
 				xmlns="http://www.w3.org/2000/svg"
 				className="rounded-full bg-white p-0.5"
 				xmlSpace="preserve"
