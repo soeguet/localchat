@@ -46,7 +46,7 @@ export const de_translation = {
 	edited_label: "bearbeitet",
 	save_edit_button: "Speichern",
 	cancel_edit_button: "Abbrechen",
-	menu_attachment_image: "📷 Bild",
+	menu_attachment_image: " Bild",
 	deleted_message: "Nachricht gelöscht",
 	settings_label_availability: "Verfügbarkeit",
 	availability_warning:
@@ -64,5 +64,11 @@ export const de_translation = {
 	title_svg_change_font_size: "Ändert Sie die Schriftgröße der App.",
 	title_svg_availability:
 		"Sie Erklaeren sich bereit auf Hilfeanforderungen zu reagieren und diese zu erhalten.",
+	title_svg_disconnected: "Sie sind nicht mit dem Server verbunden.",
+	title_svg_germany_flag: "Ändert die App Sprache auf Deutsch.",
+	title_svg_english_flag: "Ändert die App Sprache auf Englisch.",
+	title_svg_paper_clip: "Fügen Sie diverse Daten in Ihrem Chat hinzu.",
+	title_svg_emoji_menu: "Öffnet das Emoji Menü.",
+	title_svg_camera: "Wählen Sie ein Bild aus.",
 	font_size_preview_label: "Vorschau der Schriftgröße:",
 };

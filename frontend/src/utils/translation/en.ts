@@ -46,7 +46,7 @@ export const en_translation = {
 	edited_label: "edited",
 	save_edit_button: "Save",
 	cancel_edit_button: "Cancel",
-	menu_attachment_image: "📷 Image",
+	menu_attachment_image: " Image",
 	deleted_message: "Message deleted",
 	settings_label_availability: "Availability",
 	availability_warning:
@@ -64,5 +64,11 @@ export const en_translation = {
 	title_svg_change_font_size: "Changes the font size of the app.",
 	title_svg_availability:
 		"You agreed to receive help requests immediately and to get them in a timely manner.",
+	title_svg_disconnected: "You are not connected to the server.",
+	title_svg_germany_flag: "Change the app language to German.",
+	title_svg_english_flag: "Change the app language to English",
+	title_svg_paper_clip: "Add data to your chat.",
+	title_svg_emoji_menu: "Opens the emoji menu.",
+	title_svg_camera: "Select an image from your computer.",
 	font_size_preview_label: "Font Size Preview:",
 };

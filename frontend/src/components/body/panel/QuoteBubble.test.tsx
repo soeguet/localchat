@@ -2,123 +2,125 @@ import { expect, test, describe } from "vitest";
 import { useMessageMapStore } from "../../../stores/messageMapStore";
 import { useUserStore } from "../../../stores/userStore";
 import {
-    type MessagePayload,
-    PayloadSubType,
+	type MessagePayload,
+	PayloadSubType,
 } from "../../../utils/customTypes";
 import { ChatPanel } from "./ChatPanel";
 import { render, screen, waitFor } from "../../../utils/test-utils";
 import { useClientStore } from "../../../stores/clientStore";
 
 describe("QuoteBubble", () => {
-    test("render quote bubble for this client", async () => {
-        const id = "111";
-        const messagePayload: MessagePayload = {
-            payloadType: PayloadSubType.message,
-            clientType: {
-                clientDbId: id,
-            },
-            messageType: {
-                deleted: false,
+	test("render quote bubble for this client", async () => {
+		const id = "111";
+		const messagePayload: MessagePayload = {
+			payloadType: PayloadSubType.message,
+			clientType: {
+				clientDbId: id,
+			},
+			messageType: {
+				deleted: false,
 
-                messageDate: "2021-10-10",
-                messageTime: "12:00",
-                messageContext: "aGVubG8=",
-                messageDbId: "111",
-                edited: false,
-            },
-            quoteType: {
-                quoteMessageContext: "aGVubG8=",
-                quoteTime: "12:00",
-                quoteDate: "2021-10-10",
-                quoteDbId: "111",
-                quoteClientId: "111",
-            },
-            reactionType: [],
-        };
+				messageDate: "2021-10-10",
+				messageTime: "12:00",
+				messageContext: "aGVubG8=",
+				messageDbId: "111",
+				edited: false,
+			},
+			quoteType: {
+				quoteMessageContext: "aGVubG8=",
+				quoteTime: "12:00",
+				quoteDate: "2021-10-10",
+				quoteDbId: "111",
+				quoteClientId: "111",
+			},
+			reactionType: [],
+		};
 
-        useMessageMapStore.getState().onMessage(messagePayload);
-        useUserStore.getState().setMyId(id);
-        useUserStore.getState().setMyUsername("TestUser");
-        render(<ChatPanel />);
-        const container = await screen.findByTestId("quote-bubble");
-        expect(container).toBeInTheDocument();
-    });
+		useMessageMapStore.getState().onMessage(messagePayload);
+		useUserStore.getState().setMyId(id);
+		useUserStore.getState().setMyUsername("TestUser");
+		render(<ChatPanel />);
+		const container = await screen.findByTestId("quote-bubble");
+		expect(container).toBeInTheDocument();
+	});
 
-    test("render quote bubble for all clients and verify both usernames in the dom", async () => {
-        const id = "111";
-        const otherId = "222";
-        const messagePayload: MessagePayload = {
-            payloadType: PayloadSubType.message,
-            clientType: {
-                clientDbId: id,
-            },
-            messageType: {
-                deleted: false,
+	test("render quote bubble for all clients and verify both usernames in the dom", async () => {
+		const id = "111";
+		const otherId = "222";
+		const messagePayload: MessagePayload = {
+			payloadType: PayloadSubType.message,
+			clientType: {
+				clientDbId: id,
+			},
+			messageType: {
+				deleted: false,
 
-                messageDate: "2021-10-10",
-                messageTime: "12:00",
-                messageContext: "aGVubG8=",
-                messageDbId: "111",
-                edited: false,
-            },
-            quoteType: {
-                quoteMessageContext: "aGVubG8=",
-                quoteTime: "12:00",
-                quoteDate: "2021-10-10",
-                quoteDbId: "222",
-                quoteClientId: "111",
-            },
-            reactionType: [],
-        };
-        const messagePayload2: MessagePayload = {
-            payloadType: PayloadSubType.message,
-            clientType: {
-                clientDbId: otherId,
-            },
-            messageType: {
-                deleted: false,
+				messageDate: "2021-10-10",
+				messageTime: "12:00",
+				messageContext: "aGVubG8=",
+				messageDbId: "111",
+				edited: false,
+			},
+			quoteType: {
+				quoteMessageContext: "aGVubG8=",
+				quoteTime: "12:00",
+				quoteDate: "2021-10-10",
+				quoteDbId: "222",
+				quoteClientId: "111",
+			},
+			reactionType: [],
+		};
+		const messagePayload2: MessagePayload = {
+			payloadType: PayloadSubType.message,
+			clientType: {
+				clientDbId: otherId,
+			},
+			messageType: {
+				deleted: false,
 
-                messageDate: "2021-10-10",
-                messageTime: "12:00",
-                messageContext: "aGVubG8=",
-                messageDbId: "222",
-                edited: false,
-            },
-            quoteType: {
-                quoteMessageContext: "aGVubG8=",
-                quoteTime: "12:00",
-                quoteDate: "2021-10-10",
-                quoteDbId: "111",
-                quoteClientId: "222",
-            },
-            reactionType: [],
-        };
+				messageDate: "2021-10-10",
+				messageTime: "12:00",
+				messageContext: "aGVubG8=",
+				messageDbId: "222",
+				edited: false,
+			},
+			quoteType: {
+				quoteMessageContext: "aGVubG8=",
+				quoteTime: "12:00",
+				quoteDate: "2021-10-10",
+				quoteDbId: "111",
+				quoteClientId: "222",
+			},
+			reactionType: [],
+		};
 
-        useMessageMapStore.getState().onMessage(messagePayload);
-        useMessageMapStore.getState().onMessage(messagePayload2);
-        useUserStore.getState().setMyId(id);
-        useUserStore.getState().setMyUsername("TestUser");
-        useClientStore.getState().setClients([
-            {
-                clientDbId: id,
-                clientUsername: "TestUser",
-            },
-            {
-                clientDbId: otherId,
-                clientUsername: "TestUser2",
-            },
-        ]);
+		useMessageMapStore.getState().onMessage(messagePayload);
+		useMessageMapStore.getState().onMessage(messagePayload2);
+		useUserStore.getState().setMyId(id);
+		useUserStore.getState().setMyUsername("TestUser");
+		useClientStore.getState().setClients([
+			{
+				clientDbId: id,
+				clientUsername: "TestUser",
+				availability: true,
+			},
+			{
+				clientDbId: otherId,
+				clientUsername: "TestUser2",
+				availability: true,
+			},
+		]);
 
-        render(<ChatPanel />);
-        await waitFor(async () => {
-            const container = await screen.findAllByTestId("quote-bubble");
-            expect(container.length).toBe(2);
-            const testUser1 = await screen.findByText("TestUser");
-            expect(testUser1).toBeInTheDocument();
-            const testUser2 = await screen.findByText("TestUser2");
-            expect(testUser2).toBeInTheDocument();
-        });
-    });
+		render(<ChatPanel />);
+		await waitFor(async () => {
+			const container = await screen.findAllByTestId("quote-bubble");
+			expect(container.length).toBe(2);
+			const testUser1 = await screen.findByText("TestUser");
+			expect(testUser1).toBeInTheDocument();
+			const testUser2 = await screen.findByText("TestUser2");
+			expect(testUser2).toBeInTheDocument();
+		});
+	});
 });
 
 // import { useClientStore } from "../../../stores/clientStore";
