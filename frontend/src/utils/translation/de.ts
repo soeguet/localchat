@@ -77,4 +77,5 @@ export const de_translation = {
 	font_size_preview_label: "Vorschau der Schriftgröße:",
 	emergency_validation_text: "Möchten Sie den Notfall Chat initialisieren?",
 	emergency_validation_button_start: "Start",
+	emergency_chat_menu_item_end: "Notfall Chat beenden",
 };

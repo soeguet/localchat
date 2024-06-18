@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useEmergencyStore } from "../../../../stores/emergencyStore";
+import { useUserStore } from "../../../../stores/userStore";
 
 type EmergencyTriggerDivProps = {
 	children: React.ReactNode;
@@ -15,19 +16,23 @@ function EmergencyTriggerDiv(props: EmergencyTriggerDivProps) {
 			<div
 				className={`relative cursor-pointer  ${emergency && "animate-pulse"}`}
 				onClick={() => {
-					console.log("clicked");
+					if (useEmergencyStore.getState().emergency) {
+						useEmergencyStore.getState().setChatVisible(true);
+						return null;
+					}
 					setEmergencyValidationVisible(!emergencyValidationVisible);
 				}}>
 				{props.children}
 				{emergencyValidationVisible && (
-					<div className="fixed overflow-hidden top-[5rem] shadow-black/50 shadow-lg left-1/2 -translate-x-1/2 z-50 transition duration-300 ease-in-out">
-						<div className="gap-3 size-full items-center justify-center rounded-md border border-black bg-white p-2 text-white">
-							<div className="text-black text-nowrap p-2">
+					<div className="fixed left-1/2 top-[5rem] z-50 -translate-x-1/2 overflow-hidden shadow-lg shadow-black/50 transition duration-300 ease-in-out">
+						<div className="size-full items-center justify-center gap-3 rounded-md border border-black bg-white p-2 text-white">
+							<div className="text-nowrap p-2 text-black">
 								{t("emergency_validation_text")}
 							</div>
-							<div className="flex gap-5 m-2">
-								<div
-									className="text-lg rounded-full bg-green-300/50 text-center border-gray-600 font-semibold border p-1 w-full text-gray-800 cursor-pointer"
+							<div className="m-2 flex gap-5">
+								<button
+									type="button"
+									className="w-full cursor-pointer rounded-full border border-b-4 border-gray-600/50 bg-green-300 p-1 text-center text-lg font-semibold text-gray-800 hover:bg-green-300/50"
 									onClick={() => {
 										setEmergencyValidationVisible(
 											!emergencyValidationVisible,
@@ -35,18 +40,27 @@ function EmergencyTriggerDiv(props: EmergencyTriggerDivProps) {
 										useEmergencyStore
 											.getState()
 											.setEmergency(true);
+										useEmergencyStore
+											.getState()
+											.setChatVisible(true);
+										useEmergencyStore
+											.getState()
+											.setEmergencyInitiatorId(
+												useUserStore.getState().myId,
+											);
 									}}>
 									{t("emergency_validation_button_start")}
-								</div>
-								<div
-									className="text-lg rounded-full bg-gray-300/50 text-center border-gray-600 font-semibold border p-1 w-full text-gray-800 cursor-pointer"
+								</button>
+								<button
+									type="button"
+									className="w-full cursor-pointer rounded-full border border-b-4 border-gray-600/50 bg-gray-300/50 p-1 text-center text-lg font-semibold text-gray-800 hover:bg-gray-100/50"
 									onClick={() => {
 										setEmergencyValidationVisible(
 											!emergencyValidationVisible,
 										);
 									}}>
 									{t("profile_menu_cancel_button")}
-								</div>
+								</button>
 							</div>
 						</div>
 					</div>
