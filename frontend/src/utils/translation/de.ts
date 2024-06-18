@@ -75,4 +75,6 @@ export const de_translation = {
 	title_svg_american_flag: "Ändert die App Sprache auf Englisch.",
 	title_svg_german_flag: "Ändert die App Sprache auf Deutsch.",
 	font_size_preview_label: "Vorschau der Schriftgröße:",
+	emergency_validation_text: "Möchten Sie den Notfall Chat initialisieren?",
+	emergency_validation_button_start: "Start",
 };

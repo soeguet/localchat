@@ -1,7 +1,10 @@
 import { useTranslation } from "react-i18next";
+import { useEmergencyStore } from "../../../stores/emergencyStore";
 
 function AvailabilitySvg() {
 	const { t } = useTranslation();
+	const isEmergency = useEmergencyStore((state) => state.emergency);
+
 	return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -10,7 +13,7 @@ function AvailabilitySvg() {
 			stroke="#b11b1b"
 			strokeWidth={0}
 			viewBox="-4.99 -4.99 43.24 43.24"
-			className="border-2 border-black rounded-full"
+			className={`border-2 border-black rounded-full ${isEmergency && "animate-pulse"}`}
 			width="2.5em"
 			height="2.5em">
 			<title>{t("title_svg_availability")}</title>

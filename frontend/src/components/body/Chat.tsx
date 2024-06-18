@@ -9,6 +9,7 @@ import { useWindowFocussedListener } from "../../hooks/body/useWindowFocussedLis
 import { TypingIndicator } from "./panel/TypingIndicator";
 import { ScrollToBottomButton } from "./panel/ScrollToBottomButton";
 import ReactionModal from "./ReactionModal";
+import { EmergencyContainer } from "./emergency/EmergencyContainer";
 
 /**
  * The main part of the application.
@@ -33,14 +34,14 @@ function Chat() {
 		<>
 			<main
 				data-testid="chat-main"
-				className="flex h-screen flex-col justify-evenly"
-			>
+				className="relative flex h-screen flex-col justify-evenly">
 				<Header />
 				<ChatPanel />
 				<TypingIndicator />
 				<ScrollToBottomButton />
 				<ChatInputSection />
 				<ReactionModal />
+				<EmergencyContainer />
 			</main>
 		</>
 	);
