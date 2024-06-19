@@ -19,14 +19,29 @@ const ProfilePicture = memo((props: ProfilePictureProps) => {
 	);
 
 	const profilePicture = client?.clientProfileImage;
+	const picturePresent = () => {
+		if (
+			profilePicture === undefined ||
+			profilePicture === null ||
+			profilePicture === ""
+		) {
+			return false;
+		}
+		return true;
+	};
+	const urlPresent = () => {
+		if (
+			props.pictureUrl === undefined ||
+			props.pictureUrl === null ||
+			props.pictureUrl === ""
+		) {
+			return false;
+		}
+		return true;
+	};
 
-	// TODO test this
 	// default profile picture
-	if (
-		profilePicture === undefined ||
-		profilePicture === null ||
-		profilePicture === ""
-	) {
+	if (!picturePresent() && !urlPresent()) {
 		return (
 			<img
 				data-testid="dummy-profile-picture"
