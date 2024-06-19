@@ -63,7 +63,7 @@ export const de_translation = {
 	title_svg_reload: "Gibt Ihnen die Möglichkeit, die App neu zu laden.",
 	title_svg_change_font_size: "Ändert Sie die Schriftgröße der App.",
 	title_svg_availability:
-		"Sie Erklaeren sich bereit auf Hilfeanforderungen zu reagieren und diese zu erhalten.",
+		"Sie erklären sich bereit auf Hilfeanforderungen zu reagieren und diese zu erhalten.\n\nKlick: Starte einen Notfall Chat.",
 	title_svg_disconnected: "Sie sind nicht mit dem Server verbunden.",
 	title_svg_germany_flag: "Ändert die App Sprache auf Deutsch.",
 	title_svg_english_flag: "Ändert die App Sprache auf Englisch.",

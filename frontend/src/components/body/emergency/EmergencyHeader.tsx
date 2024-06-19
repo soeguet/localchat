@@ -6,10 +6,11 @@ import { EmergencyChatMenu } from "./EmergencyChatMenu";
 function EmergencyHeader() {
 	const myColor = useUserStore((state) => state.myColor);
 	const headerColor = myColor ? `${myColor}` : "bg-amber-900/80";
+
 	return (
 		<>
 			<div
-				className="relative w-full p-2 font-bold text-white"
+				className="relative w-full cursor-default select-none p-2 font-bold text-white"
 				style={{
 					backgroundColor: headerColor,
 				}}>

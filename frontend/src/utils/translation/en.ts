@@ -63,7 +63,7 @@ export const en_translation = {
 	title_svg_reload: "Grants you the opportunity to reload the app.",
 	title_svg_change_font_size: "Changes the font size of the app.",
 	title_svg_availability:
-		"You agreed to receive help requests immediately and to get them in a timely manner.",
+		"You agreed to receive help requests immediately and to get them in a timely manner.\n\nClick:Start a new emergency chat.",
 	title_svg_disconnected: "You are not connected to the server.",
 	title_svg_germany_flag: "Change the app language to German.",
 	title_svg_english_flag: "Change the app language to English",

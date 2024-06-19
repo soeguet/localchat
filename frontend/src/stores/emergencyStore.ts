@@ -1,6 +1,7 @@
 import { type StoreApi, type UseBoundStore, create } from "zustand";
+import type { PayloadSubType } from "../utils/customTypes";
 
-type useStoreType = {
+type EmergencyStoreType = {
 	emergencyInitiatorId: string;
 	setEmergencyInitiatorId: (emergencyInitiatorId: string) => void;
 	emergency: boolean;
@@ -9,8 +10,8 @@ type useStoreType = {
 	setChatVisible: (chatVisible: boolean) => void;
 };
 
-const useEmergencyStore: UseBoundStore<StoreApi<useStoreType>> =
-	create<useStoreType>((set) => ({
+const useEmergencyStore: UseBoundStore<StoreApi<EmergencyStoreType>> =
+	create<EmergencyStoreType>((set) => ({
 		emergencyInitiatorId: "",
 		setEmergencyInitiatorId: (emergencyInitiatorId: string) =>
 			set({ emergencyInitiatorId: emergencyInitiatorId }),

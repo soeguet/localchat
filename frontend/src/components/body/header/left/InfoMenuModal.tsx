@@ -1,6 +1,7 @@
 import { type ReactNode, useEffect, useRef, useState } from "react";
 import { useUserStore } from "../../../../stores/userStore";
 import { CloseButton } from "../../../svgs/ui/CloseButton";
+import { useEmergencyStore } from "../../../../stores/emergencyStore";
 
 type InfoMenuModalProps = {
 	isOpen: boolean;

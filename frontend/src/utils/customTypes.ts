@@ -9,7 +9,25 @@ export enum PayloadSubType {
 	reaction = 7,
 	delete = 8,
 	edit = 9,
+	emergencyInit = 10,
+	emergencyMessage = 11,
 }
+
+export type EmergencyInitPayload = {
+	payloadType: PayloadSubType.emergencyInit;
+	active: boolean;
+	emergencyChatId: string;
+	initiatorClientDbId: string;
+};
+
+export type EmergencyMessagePayload = {
+	payloadType: PayloadSubType.emergencyMessage;
+	emergencyChatId: string;
+	clientDbId: string;
+	messageDbId: string;
+	time: string;
+	message: string;
+};
 
 /**
  * [[ RESULTING TYPE ]]
