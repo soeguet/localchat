@@ -1,8 +1,13 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { MenuDotsSvg } from "../../svgs/emergency/MenuDotsSvg";
 import { useTranslation } from "react-i18next";
 import { useEmergencyStore } from "../../../stores/emergencyStore";
 import { useUserStore } from "../../../stores/userStore";
+import {
+	type EmergencyInitPayload,
+	PayloadSubType,
+} from "../../../utils/customTypes";
+import { useWebsocketStore } from "../../../stores/websocketStore";
 
 function EmergencyChatMenu() {
 	const { t } = useTranslation();
@@ -13,14 +18,41 @@ function EmergencyChatMenu() {
 		(state) => state.emergencyInitiatorId,
 	);
 	const thisClientId = useUserStore((state) => state.myId);
-	const emergencyInitiatorThisClient = useMemo(() => {
+	const emergencyInitiatorThisClient = () => {
+		console.log("emergencyInitiatorId", emergencyInitiatorId);
+		console.log("thisClientId", thisClientId);
 		return emergencyInitiatorId === thisClientId;
-	}, [emergencyInitiatorId, thisClientId]);
+	};
+
+	function handleEndEmergencyChatModeMenuItemClick() {
+		setShowMenu(false);
+
+		// (alias) type EmergencyInitPayload = {
+		// 	payloadType: PayloadSubType.emergencyInit;
+		// 	active: boolean;
+		// 	emergencyChatId: string;
+		// 	initiatorClientDbId: string;
+		// }
+		const cancelEmergencyChatModePaylad: EmergencyInitPayload = {
+			payloadType: PayloadSubType.emergencyInit,
+			initiatorClientDbId: "",
+			active: false,
+			emergencyChatId: "",
+		};
+
+		const ws = useWebsocketStore.getState().ws;
+
+		if (!ws) {
+			throw new Error("ws not initialized");
+		}
+
+		ws.send(JSON.stringify(cancelEmergencyChatModePaylad));
+	}
 
 	return (
 		<>
 			<div className="relative" onClick={() => setShowMenu(!showMenu)}>
-				{emergencyInitiatorThisClient && (
+				{emergencyInitiatorThisClient() && (
 					<div className="grow cursor-pointer hover:animate-bounce">
 						<MenuDotsSvg />
 					</div>
@@ -28,11 +60,7 @@ function EmergencyChatMenu() {
 				{showMenu && (
 					<div
 						className="text-nowrap absolute right-0 top-12 grow cursor-pointer rounded-xl border border-black bg-white p-3 text-base font-normal text-black shadow-lg shadow-black/30 hover:bg-amber-50"
-						onClick={() => {
-							useEmergencyStore.getState().setChatVisible(false);
-							useEmergencyStore.getState().setEmergency(false);
-							setShowMenu(false);
-						}}>
+						onClick={handleEndEmergencyChatModeMenuItemClick}>
 						{t("emergency_chat_menu_item_end")}
 					</div>
 				)}

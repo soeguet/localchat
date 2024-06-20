@@ -1,5 +1,4 @@
 import { type StoreApi, type UseBoundStore, create } from "zustand";
-import type { PayloadSubType } from "../utils/customTypes";
 
 type EmergencyStoreType = {
 	emergencyInitiatorId: string;

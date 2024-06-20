@@ -16,7 +16,11 @@ import { useEmergencyStore } from "../stores/emergencyStore";
 import { useMessageMapStore } from "../stores/messageMapStore";
 import { useTypingStore } from "../stores/typingStore";
 import { useUserStore } from "../stores/userStore";
-import { type MessagePayload, PayloadSubType } from "./customTypes";
+import {
+	type MessagePayload,
+	PayloadSubType,
+	type EmergencyInitPayload,
+} from "./customTypes";
 import { notifyClientIfReactionTarget } from "./reactionHandler";
 import { checkIfScrollToBottomIsNeeded } from "./scrollToBottomNeeded";
 import { retrieveMessageListFromSocket } from "./socket";
@@ -124,10 +128,16 @@ export function handleIncomingMessages(event: MessageEvent) {
 			break;
 
 		// PayloadSubType.emergencyInit == 10
-		case PayloadSubType.emergencyInit:
-			useEmergencyStore.getState().setEmergency(dataAsObject.active);
+		case PayloadSubType.emergencyInit: {
+			const payload = dataAsObject as EmergencyInitPayload;
+
+			useEmergencyStore
+				.getState()
+				.setEmergencyInitiatorId(payload.initiatorClientDbId);
+			useEmergencyStore.getState().setEmergency(payload.active);
 			useEmergencyStore.getState().setChatVisible(true);
 			break;
+		}
 		// unknown payload type
 		default:
 			throw new Error("Unknown payload type");
