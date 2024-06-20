@@ -1,4 +1,5 @@
 import { type StoreApi, type UseBoundStore, create } from "zustand";
+import type { EmergencyMessage } from "../utils/customTypes";
 
 type EmergencyStoreType = {
 	emergencyInitiatorId: string;
@@ -7,6 +8,10 @@ type EmergencyStoreType = {
 	setEmergency: (emergency: boolean) => void;
 	chatVisible: boolean;
 	setChatVisible: (chatVisible: boolean) => void;
+	emergencyChatId: string;
+	setEmergencyChatId: (emergencyChatId: string) => void;
+	emergencyMessages: EmergencyMessage[];
+	setEmergencyMessage: (emergencyMessage: EmergencyMessage[]) => void;
 };
 
 const useEmergencyStore: UseBoundStore<StoreApi<EmergencyStoreType>> =
@@ -19,6 +24,12 @@ const useEmergencyStore: UseBoundStore<StoreApi<EmergencyStoreType>> =
 		chatVisible: false,
 		setChatVisible: (chatVisible: boolean) =>
 			set({ chatVisible: chatVisible }),
+		emergencyChatId: "",
+		setEmergencyChatId: (emergencyChatId: string) =>
+			set({ emergencyChatId: emergencyChatId }),
+		emergencyMessages: [],
+		setEmergencyMessage: (emergencyMessage: EmergencyMessage[]) =>
+			set({ emergencyMessages: emergencyMessage }),
 	}));
 
 export { useEmergencyStore };

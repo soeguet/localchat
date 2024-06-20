@@ -31,6 +31,18 @@ export type EmergencyMessagePayload = {
 
 /**
  * [[ RESULTING TYPE ]]
+ * export type EmergencyMessagePayload = {
+ *	  emergencyChatId: string;
+ *	  clientDbId: string;
+ *	  messageDbId: string;
+ *	  time: string;
+ *	  message: string;
+ * };
+ */
+export type EmergencyMessage = Omit<EmergencyMessagePayload, "payloadType">;
+
+/**
+ * [[ RESULTING TYPE ]]
  *  export type AuthenticationPayload = {
  *     payloadType: PayloadSubType.auth;
  *     clientUsername: string;

@@ -19,20 +19,12 @@ function EmergencyChatMenu() {
 	);
 	const thisClientId = useUserStore((state) => state.myId);
 	const emergencyInitiatorThisClient = () => {
-		console.log("emergencyInitiatorId", emergencyInitiatorId);
-		console.log("thisClientId", thisClientId);
 		return emergencyInitiatorId === thisClientId;
 	};
 
 	function handleEndEmergencyChatModeMenuItemClick() {
 		setShowMenu(false);
 
-		// (alias) type EmergencyInitPayload = {
-		// 	payloadType: PayloadSubType.emergencyInit;
-		// 	active: boolean;
-		// 	emergencyChatId: string;
-		// 	initiatorClientDbId: string;
-		// }
 		const cancelEmergencyChatModePaylad: EmergencyInitPayload = {
 			payloadType: PayloadSubType.emergencyInit,
 			initiatorClientDbId: "",

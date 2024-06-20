@@ -20,6 +20,8 @@ import {
 	type MessagePayload,
 	PayloadSubType,
 	type EmergencyInitPayload,
+	EmergencyMessagePayload,
+	EmergencyMessage,
 } from "./customTypes";
 import { notifyClientIfReactionTarget } from "./reactionHandler";
 import { checkIfScrollToBottomIsNeeded } from "./scrollToBottomNeeded";
@@ -136,10 +138,53 @@ export function handleIncomingMessages(event: MessageEvent) {
 				.setEmergencyInitiatorId(payload.initiatorClientDbId);
 			useEmergencyStore.getState().setEmergency(payload.active);
 			useEmergencyStore.getState().setChatVisible(true);
+			useEmergencyStore
+				.getState()
+				.setEmergencyChatId(payload.emergencyChatId);
+			break;
+		}
+
+		case PayloadSubType.emergencyMessage: {
+			const payload = dataAsObject as EmergencyMessagePayload;
+			console.log("EMERGENCY MESSAGE", payload);
+
+			if (
+				useEmergencyStore.getState().emergencyChatId !==
+				payload.emergencyChatId
+			) {
+				console.error("EMERGENCY MESSAGE FROM WRONG CHAT", payload);
+				return;
+			}
+
+			const emergencyMessageArray: EmergencyMessage[] =
+				useEmergencyStore.getState().emergencyMessages;
+
+			// prevent duplicate messages
+			for (let i = 0; i < emergencyMessageArray.length; i++) {
+				if (
+					emergencyMessageArray[i].messageDbId === payload.messageDbId
+				) {
+					console.error("DUPLICATE EMERGENCY MESSAGE", payload);
+					return;
+				}
+			}
+
+			const emergencyMessage: EmergencyMessage = {
+				emergencyChatId: payload.emergencyChatId,
+				messageDbId: payload.messageDbId,
+				message: payload.message,
+				time: payload.time,
+				clientDbId: payload.clientDbId,
+			};
+			emergencyMessageArray.push(emergencyMessage);
+			useEmergencyStore
+				.getState()
+				.setEmergencyMessage(emergencyMessageArray);
 			break;
 		}
 		// unknown payload type
 		default:
+			console.error("Unknown payload type", dataAsObject);
 			throw new Error("Unknown payload type");
 	}
 }
