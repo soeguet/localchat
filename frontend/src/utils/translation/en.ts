@@ -74,6 +74,7 @@ export const en_translation = {
 	title_svg_unread_messages: "You have {{count}} unread message(s).",
 	title_svg_american_flag: "Change the app language to English.",
 	title_svg_german_flag: "Change the app language to German.",
+	title_svg_help_caller: "Client who requested help.",
 	font_size_preview_label: "Font Size Preview:",
 	emergency_validation_text: "Do you want to initialize the emergency chat?",
 	emergency_validation_button_start: "Start",

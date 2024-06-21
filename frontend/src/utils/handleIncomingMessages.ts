@@ -27,7 +27,6 @@ import {
 import { preventDuplicateEmergencyMessages } from "./emergencyArrayHelper";
 import { notifyClientIfReactionTarget } from "./reactionHandler";
 import { checkIfScrollToBottomIsNeeded } from "./scrollToBottomNeeded";
-import { retrieveMessageListFromSocket } from "./socket";
 
 export async function handleIncomingMessages(event: MessageEvent) {
 	const dataAsObject = JSON.parse(event.data);
@@ -57,8 +56,7 @@ export async function handleIncomingMessages(event: MessageEvent) {
 
 		// update the client list with new data
 		// PayloadSubType.clientList == 2
-		// PayloadSubType.profileUpdate == 3
-		case PayloadSubType.clientList || PayloadSubType.profileUpdate:
+		case PayloadSubType.clientList:
 			// console.table(dataAsObject.clients);
 			if (
 				dataAsObject.clients === undefined ||
@@ -70,8 +68,24 @@ export async function handleIncomingMessages(event: MessageEvent) {
 			handleClientListPayload(event.data);
 			updateThisClientsCachedDataWithNewPayloadData(event.data);
 
+			// TODO this seems fishy, need to ask somewhere else for all messages
+
 			// AFTER receiving the client list, ask for the message list
-			retrieveMessageListFromSocket();
+			// retrieveMessageListFromSocket();
+			break;
+
+		// PayloadSubType.profileUpdate == 3
+		case PayloadSubType.profileUpdate:
+			// console.table(dataAsObject.clients);
+			if (
+				dataAsObject.clients === undefined ||
+				dataAsObject.clients === null ||
+				dataAsObject.clients.length === 0
+			) {
+				throw new Error("Client list is empty");
+			}
+			handleClientListPayload(event.data);
+			updateThisClientsCachedDataWithNewPayloadData(event.data);
 
 			break;
 
@@ -143,6 +157,10 @@ export async function handleIncomingMessages(event: MessageEvent) {
 			useEmergencyStore
 				.getState()
 				.setEmergencyChatId(payload.emergencyChatId);
+
+			if (!payload.active) {
+				useEmergencyStore.getState().setEmergencyMessages([]);
+			}
 			break;
 		}
 

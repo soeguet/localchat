@@ -14,9 +14,9 @@ function EmergencyTriggerDiv(props: EmergencyTriggerDivProps) {
 			<div
 				className={`relative cursor-pointer  ${emergency && "animate-pulse"}`}
 				onClick={() => {
-					if (useEmergencyStore.getState().emergency) {
+					if (emergency) {
 						useEmergencyStore.getState().setChatVisible(true);
-						return null;
+						return;
 					}
 					setEmergencyValidationVisible(!emergencyValidationVisible);
 				}}>

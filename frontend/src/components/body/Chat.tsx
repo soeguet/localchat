@@ -29,6 +29,7 @@ function Chat() {
 	if (thisClient === undefined) {
 		return <ClientNotFoundPage />;
 	}
+	console.log("Chat.tsx");
 
 	return (
 		<>

@@ -1,6 +1,10 @@
 import { useEffect } from "react";
 import { useWebsocketStore } from "../../stores/websocketStore";
-import { closeWebSocket, initWebSocket } from "../../utils/socket";
+import {
+	closeWebSocket,
+	initWebSocket,
+	retrieveMessageListFromSocket,
+} from "../../utils/socket";
 import { useUserStore } from "../../stores/userStore";
 import { handleIncomingMessages } from "../../utils/handleIncomingMessages";
 
@@ -13,7 +17,10 @@ function useWebsocketConnection() {
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		initWebSocket({
-			onOpen: () => setIsConnected(true),
+			onOpen: () => {
+				setIsConnected(true);
+				retrieveMessageListFromSocket();
+			},
 			onClose: () => {
 				setIsConnected(false);
 				closeWebSocket();
