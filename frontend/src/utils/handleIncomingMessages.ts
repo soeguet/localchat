@@ -20,14 +20,16 @@ import {
 	type MessagePayload,
 	PayloadSubType,
 	type EmergencyInitPayload,
-	EmergencyMessagePayload,
-	EmergencyMessage,
+	type EmergencyMessagePayload,
+	type EmergencyMessage,
+	type AllEmergencyMessagesPayload,
 } from "./customTypes";
+import { preventDuplicateEmergencyMessages } from "./emergencyArrayHelper";
 import { notifyClientIfReactionTarget } from "./reactionHandler";
 import { checkIfScrollToBottomIsNeeded } from "./scrollToBottomNeeded";
 import { retrieveMessageListFromSocket } from "./socket";
 
-export function handleIncomingMessages(event: MessageEvent) {
+export async function handleIncomingMessages(event: MessageEvent) {
 	const dataAsObject = JSON.parse(event.data);
 
 	// MAIN SWITCH STATEMENT
@@ -146,7 +148,6 @@ export function handleIncomingMessages(event: MessageEvent) {
 
 		case PayloadSubType.emergencyMessage: {
 			const payload = dataAsObject as EmergencyMessagePayload;
-			console.log("EMERGENCY MESSAGE", payload);
 
 			if (
 				useEmergencyStore.getState().emergencyChatId !==
@@ -159,14 +160,13 @@ export function handleIncomingMessages(event: MessageEvent) {
 			const emergencyMessageArray: EmergencyMessage[] =
 				useEmergencyStore.getState().emergencyMessages;
 
-			// prevent duplicate messages
-			for (let i = 0; i < emergencyMessageArray.length; i++) {
-				if (
-					emergencyMessageArray[i].messageDbId === payload.messageDbId
-				) {
-					console.error("DUPLICATE EMERGENCY MESSAGE", payload);
-					return;
-				}
+			const result = await preventDuplicateEmergencyMessages(
+				emergencyMessageArray,
+				payload,
+			);
+
+			if (result === 1) {
+				return;
 			}
 
 			const emergencyMessage: EmergencyMessage = {
@@ -176,10 +176,37 @@ export function handleIncomingMessages(event: MessageEvent) {
 				time: payload.time,
 				clientDbId: payload.clientDbId,
 			};
-			emergencyMessageArray.push(emergencyMessage);
+			const newArray = [...emergencyMessageArray, emergencyMessage];
+			useEmergencyStore.getState().setEmergencyMessages(newArray);
+			break;
+		}
+		case PayloadSubType.allEmergencyMessages: {
+			const payload: AllEmergencyMessagesPayload =
+				dataAsObject as AllEmergencyMessagesPayload;
+
+			if (
+				useEmergencyStore.getState().emergencyChatId !==
+				payload.emergencyChatId
+			) {
+				console.error("EMERGENCY MESSAGE FROM WRONG CHAT", payload);
+				return;
+			}
+
+			const currentEmergencyChatId =
+				useEmergencyStore.getState().emergencyChatId;
+
+			if (currentEmergencyChatId !== payload.emergencyChatId) {
+				console.error("EMERGENCY MESSAGE FROM WRONG CHAT", payload);
+				return;
+			}
+
+			const emergencyMessageArray: EmergencyMessage[] =
+				payload.emergencyMessages;
+
 			useEmergencyStore
 				.getState()
-				.setEmergencyMessage(emergencyMessageArray);
+				.setEmergencyMessages(emergencyMessageArray);
+
 			break;
 		}
 		// unknown payload type

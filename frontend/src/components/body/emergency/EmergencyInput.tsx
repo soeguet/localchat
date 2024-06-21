@@ -30,7 +30,6 @@ function EmergencyInput() {
 			time: getTimeWithHHmmFormat(new Date()),
 			message: utf8ToBase64(textAreaRef.current.value),
 		};
-		console.log(payload);
 
 		if (
 			payload.emergencyChatId === "" ||

@@ -18,8 +18,8 @@ function useWebsocketConnection() {
 				setIsConnected(false);
 				closeWebSocket();
 			},
-			onMessage: (event) => {
-				handleIncomingMessages(event);
+			onMessage: async (event) => {
+				await handleIncomingMessages(event);
 			},
 			onError: (event) => {
 				console.error(event);

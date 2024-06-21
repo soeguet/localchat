@@ -19,7 +19,6 @@ function AttachmentMenu(props: AttachmentMenuProps) {
 	};
 
 	function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
-		console.log("handleImageChange");
 		if (e.target.files && e.target.files.length > 0) {
 			const file = e.target.files[0];
 			setSelectedImage(file);
@@ -32,7 +31,6 @@ function AttachmentMenu(props: AttachmentMenuProps) {
 				{/* button alternative */}
 
 				<div className="flex items-center gap-3 hover:bg-gray-100">
-					{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
 					<label
 						htmlFor="hiddenFileInput"
 						className="flex w-full cursor-pointer items-center gap-3 px-4 py-1"

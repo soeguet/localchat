@@ -5,8 +5,6 @@ function EmergencyChat() {
 	const emergencyMessages = useEmergencyStore(
 		(state) => state.emergencyMessages,
 	);
-	console.log("EMERGENCY MESSAGES", emergencyMessages);
-	console.log(emergencyMessages.length);
 	return (
 		<>
 			<div className="h-full w-full grow">

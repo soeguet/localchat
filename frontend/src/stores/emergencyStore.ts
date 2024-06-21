@@ -11,7 +11,7 @@ type EmergencyStoreType = {
 	emergencyChatId: string;
 	setEmergencyChatId: (emergencyChatId: string) => void;
 	emergencyMessages: EmergencyMessage[];
-	setEmergencyMessage: (emergencyMessage: EmergencyMessage[]) => void;
+	setEmergencyMessages: (emergencyMessage: EmergencyMessage[]) => void;
 };
 
 const useEmergencyStore: UseBoundStore<StoreApi<EmergencyStoreType>> =
@@ -28,7 +28,7 @@ const useEmergencyStore: UseBoundStore<StoreApi<EmergencyStoreType>> =
 		setEmergencyChatId: (emergencyChatId: string) =>
 			set({ emergencyChatId: emergencyChatId }),
 		emergencyMessages: [],
-		setEmergencyMessage: (emergencyMessage: EmergencyMessage[]) =>
+		setEmergencyMessages: (emergencyMessage: EmergencyMessage[]) =>
 			set({ emergencyMessages: emergencyMessage }),
 	}));
 
