@@ -80,4 +80,6 @@ export const de_translation = {
 	emergency_validation_button_start: "Start",
 	emergency_chat_menu_item_end: "Notfall Chat beenden",
 	emergency_chat_header_dots_menu: "Menü Optionen für den Notfall Chat",
+	emergency_chat_header_text: "{{initiatorName}} - Notfall Chat",
+	emergency_chat_init_text: "{{initiatorName}} benötigt deine Hilfe!",
 };
