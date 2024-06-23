@@ -2,6 +2,7 @@ import { useEmergencyStore } from "../../../stores/emergencyStore";
 import { useEffect, useRef } from "react";
 import { EmergencyInitBanner } from "./EmergencyInitBanner";
 import { EmergencyMessageOnPanel } from "./messages/EmergencyMessageOnPanel";
+import { useEmergencyNotifications } from "./useEmergencyNotifications";
 
 function EmergencyChat() {
 	const chatContainerRef = useRef<HTMLDivElement>(null);
@@ -9,7 +10,7 @@ function EmergencyChat() {
 		(state) => state.emergencyMessages,
 	);
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: main reason for this is the message array
+	// biome-ignore lint/correctness/useExhaustiveDependencies:
 	useEffect(() => {
 		const container = chatContainerRef.current;
 		if (container === null) {
@@ -18,6 +19,10 @@ function EmergencyChat() {
 		container.scrollTop = container.scrollHeight;
 	}, [emergencyMessages, chatContainerRef]);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: need this for notifications only
+	useEffect(() => {
+		useEmergencyNotifications();
+	}, [emergencyMessages]);
 	return (
 		<>
 			<div

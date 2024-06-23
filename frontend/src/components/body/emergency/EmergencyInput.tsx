@@ -14,6 +14,23 @@ import { useEmergencyStore } from "../../../stores/emergencyStore";
 function EmergencyInput() {
 	const ws = useWebsocketStore((state) => state.ws);
 	const textAreaRef = useRef<HTMLTextAreaElement>(null);
+	function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+		if (textAreaRef.current === null) {
+			return;
+		}
+
+		const condition = textAreaRef.current.value;
+
+		if (condition.length === 0) {
+			return;
+		}
+
+		if (e.key === "Enter" && !e.shiftKey) {
+			e.preventDefault();
+			handleEmergencyChatSendMessage();
+			textAreaRef.current.value = "";
+		}
+	}
 	function handleEmergencyChatSendMessage() {
 		if (ws === null) {
 			throw new Error("Websocket connection is not available");
@@ -48,6 +65,7 @@ function EmergencyInput() {
 			<div className="flex w-full gap-2 p-2">
 				<textarea
 					className="w-full rounded-lg border border-black/50 px-2 py-0.5"
+					onKeyDown={handleKeyDown}
 					ref={textAreaRef}
 				/>
 				<button
