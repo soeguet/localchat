@@ -1,4 +1,13 @@
-import { Notification } from "../../../../wailsjs/go/main/App.js";
+import {
+	MakeWindowsTaskIconFlash,
+	Notification,
+} from "../../../../wailsjs/go/main/App.js";
+import {
+	WindowIsMinimised,
+	WindowMinimise,
+	WindowShow,
+	WindowUnminimise,
+} from "../../../../wailsjs/runtime/runtime.js";
 import { useClientStore } from "../../../stores/clientStore.js";
 import { useEmergencyStore } from "../../../stores/emergencyStore";
 import { useGuiHasFocusStore } from "../../../stores/guiHasFocusStore.js";
@@ -18,6 +27,11 @@ const useEmergencyNotifications = () => {
 	const lastMessageClientId = lastMessage.clientDbId;
 	const availability = useUserStore.getState().availability;
 	const thisClientId = useUserStore.getState().myId;
+	const thisClientName = useClientStore
+		.getState()
+		.clients.find(
+			(client) => client.clientDbId === thisClientId,
+		)?.clientUsername;
 	const decodedMessage = base64ToUtf8(lastMessage.message);
 	const messageSenderUsername = useClientStore
 		.getState()
@@ -32,7 +46,30 @@ const useEmergencyNotifications = () => {
 	if (thisClientId === lastMessageClientId) {
 		return;
 	}
-	Notification(`emergency chat - ${messageSenderUsername}`, decodedMessage);
+
+	useEmergencyStore.getState().setChatVisible(true);
+
+	// WindowShow();
+	//
+	// Notification(
+	// 	`${thisClientName}: emergency chat - ${messageSenderUsername}`,
+	// 	decodedMessage,
+	// );
+	// MakeWindowsTaskIconFlash("Localchat");
+	WindowIsMinimised()
+		.then((isMinimised) => {
+			if (isMinimised) {
+				MakeWindowsTaskIconFlash("Localchat");
+			} else {
+				WindowShow();
+			}
+		})
+		.then(async () => {
+			await Notification(
+				`${thisClientName}: emergency chat - ${messageSenderUsername}`,
+				decodedMessage,
+			);
+		});
 };
 
 export { useEmergencyNotifications };

@@ -4,6 +4,7 @@ import {
 	WindowShow,
 	WindowUnminimise,
 } from "../../wailsjs/runtime";
+import { useEmergencyNotifications } from "../components/body/emergency/useEmergencyNotifications";
 import {
 	checkIfMessageIsToBeAddedToTheUnseenMessagesList,
 	checkIfNotificationIsNeeded,
@@ -196,6 +197,9 @@ export async function handleIncomingMessages(event: MessageEvent) {
 			};
 			const newArray = [...emergencyMessageArray, emergencyMessage];
 			useEmergencyStore.getState().setEmergencyMessages(newArray);
+
+			useEmergencyNotifications();
+
 			break;
 		}
 		case PayloadSubType.allEmergencyMessages: {
