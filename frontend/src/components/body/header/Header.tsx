@@ -11,7 +11,7 @@ function Header() {
 	return (
 		<div
 			data-testid="header"
-			className={`${doNotDisturbCondition} flex items-center justify-between overflow-hidden border-b-2 border-b-black px-4 pb-2 pt-1 text-white`}>
+			className={`${doNotDisturbCondition} flex items-center justify-between border-b-2 border-b-black px-4 pb-2 pt-1 text-white`}>
 			<HeaderLeft />
 			<HeaderMiddle />
 			<HeaderRight />
@@ -20,4 +20,3 @@ function Header() {
 }
 
 export { Header };
-

@@ -63,17 +63,21 @@ export const de_translation = {
 	title_svg_reload: "Gibt Ihnen die Möglichkeit, die App neu zu laden.",
 	title_svg_change_font_size: "Ändert Sie die Schriftgröße der App.",
 	title_svg_availability:
-		"Sie erklären sich bereit auf Hilfeanforderungen zu reagieren und diese zu erhalten.\n\nKlick: Starte einen Notfall Chat.",
+		"Sie erklären sich bereit auf Hilfeanforderungen zu reagieren und diese zu erhalten.\n\nKlick: Starte einen Notfall Chat!",
 	title_svg_disconnected: "Sie sind nicht mit dem Server verbunden.",
-	title_svg_germany_flag: "Ändert die App Sprache auf Deutsch.",
-	title_svg_english_flag: "Ändert die App Sprache auf Englisch.",
+	title_svg_germany_flag:
+		"Die App Sprache auf Deutsch.\n\nKlick: Ändert die App Sprache auf Englisch.",
+	title_svg_english_flag:
+		"Die App Sprache ist nun Englisch.\n\nKlick: Ändert die App Sprache auf Deutsch.",
 	title_svg_paper_clip: "Fügen Sie diverse Daten in Ihrem Chat hinzu.",
 	title_svg_emoji_menu: "Öffnet das Emoji Menü.",
 	title_svg_camera: "Wählen Sie ein Bild aus.",
 	title_svg_send_button: "Senden Sie die von Ihnen eingegebene Nachricht.",
 	title_svg_unread_messages: "Sie haben {{count}} ungelesene Nachricht(en).",
-	title_svg_american_flag: "Ändert die App Sprache auf Englisch.",
-	title_svg_german_flag: "Ändert die App Sprache auf Deutsch.",
+	title_svg_american_flag:
+		"Die App Sprache ist nun Englisch.\n\nKlick: Ändert die App Sprache auf Deutsch.",
+	title_svg_german_flag:
+		"Die App Sprache auf Deutsch.\n\nKlick: Ändert die App Sprache auf Englisch.",
 	title_svg_help_caller: "Client, der die Hilfe angefordert hat.",
 	font_size_preview_label: "Vorschau der Schriftgröße:",
 	emergency_validation_text: "Möchten Sie den Notfall Chat initialisieren?",

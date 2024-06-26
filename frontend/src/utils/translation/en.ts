@@ -63,17 +63,21 @@ export const en_translation = {
 	title_svg_reload: "Grants you the opportunity to reload the app.",
 	title_svg_change_font_size: "Changes the font size of the app.",
 	title_svg_availability:
-		"You agreed to receive help requests immediately and to get them in a timely manner.\n\nClick:Start a new emergency chat.",
+		"You agreed to receive help requests immediately and to get them in a timely manner.\n\nClick: Start a new emergency chat!",
 	title_svg_disconnected: "You are not connected to the server.",
-	title_svg_germany_flag: "Change the app language to German.",
-	title_svg_english_flag: "Change the app language to English",
+	title_svg_germany_flag:
+		"The app language is now German.\n\nClick: Change the app language to English.",
+	title_svg_english_flag:
+		"The app language is now English.\n\nClick: Change the app language to German.",
 	title_svg_paper_clip: "Add data to your chat.",
 	title_svg_emoji_menu: "Opens the emoji menu.",
 	title_svg_camera: "Select an image from your computer.",
 	title_svg_send_button: "Send the message you have entered.",
 	title_svg_unread_messages: "You have {{count}} unread message(s).",
-	title_svg_american_flag: "Change the app language to English.",
-	title_svg_german_flag: "Change the app language to German.",
+	title_svg_american_flag:
+		"The app language is now English.\n\nClick: Change the app language to German.",
+	title_svg_german_flag:
+		"The app language is now German.\n\nClick: Change the app language to English.",
 	title_svg_help_caller: "Client who requested help.",
 	font_size_preview_label: "Font Size Preview:",
 	emergency_validation_text: "Do you want to initialize the emergency chat?",

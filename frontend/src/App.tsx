@@ -9,16 +9,16 @@ import { useInitializeSelectedAppLanguageFromLocalStorage } from "./utils/useLan
  * Renders all interfaces.
  */
 function App() {
-    const { allEnvVariableSet } = useEnvironmentVariablesLoader();
+	const { allEnvVariableSet } = useEnvironmentVariablesLoader();
 
-    useInitializeSelectedAppLanguageFromLocalStorage();
+	useInitializeSelectedAppLanguageFromLocalStorage();
 
-    useFontSizeInitializer();
+	useFontSizeInitializer();
 
-    if (!allEnvVariableSet) {
-        return <Form />;
-    }
-    return <Chat />;
+	if (!allEnvVariableSet) {
+		return <Form />;
+	}
+	return <Chat />;
 }
 
 export { App };
