@@ -20,6 +20,9 @@
 				"noBlankTarget": "error",
 				"useKeyWithClickEvents": "off"
 			},
+			"performance": {
+				"noDelete": "error"
+			},
 			"complexity": {
 				"noBannedTypes": "error",
 				"noExtraBooleanCast": "error",
