@@ -1,7 +1,6 @@
-import { type FormEvent, useState } from "react";
-import { useUserStore } from "../../stores/userStore";
-import { useTranslation } from "react-i18next";
-import { useEnvironmentVariablesLoader } from "../../hooks/setup/useEnvLoader";
+import {type FormEvent, useState} from "react";
+import {useTranslation} from "react-i18next";
+import {useUserStore} from "../../stores/userStore";
 
 function Form() {
 	const { t } = useTranslation();
@@ -45,23 +44,13 @@ function Form() {
 			allGood = false;
 		}
 
-		if (allGood) {
-			console.log("State variables are valid");
-			return false;
-		}
-		return true;
+		return !allGood;
 	}
 
 	function checkIfStateVariablesAreEmpty() {
-		if (
-			localClientName === "" ||
+		return localClientName === "" ||
 			localSocketIp === "" ||
-			localSocketPort === ""
-		) {
-			return true;
-		}
-
-		return false;
+			localSocketPort === "";
 	}
 
 	/**
@@ -70,9 +59,6 @@ function Form() {
 	 */
 	function saveEnvVars(e: FormEvent<HTMLButtonElement>) {
 		e.preventDefault();
-		console.log("localClientName", localClientName);
-		console.log("localSocketIp", localSocketIp);
-		console.log("localSocketPort", localSocketPort);
 		setIsClickable(false);
 		setTimeout(() => {
 			setIsClickable(true);
@@ -86,17 +72,6 @@ function Form() {
 			console.error("Invalid state variables");
 			return;
 		}
-
-		// // validate the state variables
-		// if (!validateStateVariables()) {
-		// 	setIsClickable(true);
-		// 	return;
-		// }
-		//
-		// if (checkIfStateVariablesAreEmpty()) {
-		// 	setIsClickable(true);
-		// 	return;
-		// }
 
 		// set the environment variables
 		useUserStore.getState().setMyUsername(localClientName || "");

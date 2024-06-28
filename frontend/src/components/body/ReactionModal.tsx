@@ -107,4 +107,4 @@ function ReactionModal() {
 	);
 }
 
-export default ReactionModal;
+export {ReactionModal};
