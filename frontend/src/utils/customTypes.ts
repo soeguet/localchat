@@ -1,15 +1,52 @@
 export enum PayloadSubType {
-    auth = 0,
-    message = 1,
-    clientList = 2,
-    profileUpdate = 3,
-    messageList = 4,
-    typing = 5,
-    force = 6,
-    reaction = 7,
-    delete = 8,
-    edit = 9,
+	auth = 0,
+	message = 1,
+	clientList = 2,
+	profileUpdate = 3,
+	messageList = 4,
+	typing = 5,
+	force = 6,
+	reaction = 7,
+	delete = 8,
+	edit = 9,
+	emergencyInit = 10,
+	emergencyMessage = 11,
+	allEmergencyMessages = 12,
 }
+
+export type EmergencyInitPayload = {
+	payloadType: PayloadSubType.emergencyInit;
+	active: boolean;
+	emergencyChatId: string;
+	initiatorClientDbId: string;
+};
+
+export type EmergencyMessagePayload = {
+	payloadType: PayloadSubType.emergencyMessage;
+	emergencyChatId: string;
+	clientDbId: string;
+	messageDbId: string;
+	time: string;
+	message: string;
+};
+
+export type AllEmergencyMessagesPayload = {
+	payloadType: PayloadSubType.allEmergencyMessages;
+	emergencyMessages: EmergencyMessage[];
+	emergencyChatId: string;
+};
+
+/**
+ * [[ RESULTING TYPE ]]
+ * export type EmergencyMessagePayload = {
+ *	  emergencyChatId: string;
+ *	  clientDbId: string;
+ *	  messageDbId: string;
+ *	  time: string;
+ *	  message: string;
+ * };
+ */
+export type EmergencyMessage = Omit<EmergencyMessagePayload, "payloadType">;
 
 /**
  * [[ RESULTING TYPE ]]
@@ -20,7 +57,7 @@ export enum PayloadSubType {
  *  };
  */
 export type AuthenticationPayload = {
-    payloadType: PayloadSubType.auth;
+	payloadType: PayloadSubType.auth;
 } & Pick<ClientEntity, "clientDbId" | "clientUsername">;
 
 /**
@@ -32,9 +69,9 @@ export type AuthenticationPayload = {
  * };
  */
 export type ImageEntity = {
-    imageDbId: string;
-    type: string;
-    data: string;
+	imageDbId: string;
+	type: string;
+	data: string;
 };
 
 /**
@@ -45,31 +82,33 @@ export type ImageEntity = {
  *     clientUsername: string;
  *     clientColor?: string;
  *     clientProfileImage?: string;
+ *     availability: boolean;
  *  };
  */
 export type ClientUpdatePayload = {
-    payloadType: PayloadSubType.profileUpdate;
+	payloadType: PayloadSubType.profileUpdate;
 } & ClientEntity;
 
 export type ClientListPayload = {
-    payloadType: PayloadSubType.clientList;
-    clients: ClientEntity[];
+	payloadType: PayloadSubType.clientList;
+	clients: ClientEntity[];
 };
 
 export type ClientEntity = {
-    clientDbId: string;
-    clientUsername: string;
-    clientColor?: string;
-    clientProfileImage?: string;
+	clientDbId: string;
+	clientUsername: string;
+	clientColor?: string;
+	clientProfileImage?: string;
+	availability: boolean;
 };
 
 export type MessageEntity = {
-    deleted: false;
-    edited: false;
-    messageDbId: string;
-    messageContext: string;
-    messageTime: string;
-    messageDate: string;
+	deleted: false;
+	edited: false;
+	messageDbId: string;
+	messageContext: string;
+	messageTime: string;
+	messageDate: string;
 };
 
 /**
@@ -90,11 +129,11 @@ export type MessageEntity = {
  * @param {string} quoteDate
  */
 export type QuoteEntity = {
-    quoteDbId: string;
-    quoteClientId: string;
-    quoteMessageContext: string;
-    quoteTime: string;
-    quoteDate: string;
+	quoteDbId: string;
+	quoteClientId: string;
+	quoteMessageContext: string;
+	quoteTime: string;
+	quoteDate: string;
 };
 
 /**
@@ -107,14 +146,14 @@ export type QuoteEntity = {
  *  };
  */
 export type ReactionPayload = Omit<ReactionEntity, "reactionDbId"> & {
-    payloadType: PayloadSubType.reaction;
+	payloadType: PayloadSubType.reaction;
 };
 
 export type ReactionEntity = {
-    reactionDbId: number;
-    reactionMessageId: string;
-    reactionContext: string;
-    reactionClientId: string;
+	reactionDbId: number;
+	reactionMessageId: string;
+	reactionContext: string;
+	reactionClientId: string;
 };
 
 /**
@@ -150,17 +189,17 @@ export type ReactionEntity = {
  *    };
  */
 export type MessagePayload = {
-    payloadType: PayloadSubType.message;
-    messageType: MessageEntity;
-    clientType: Pick<ClientEntity, "clientDbId">;
-    quoteType?: QuoteEntity;
-    reactionType?: Omit<ReactionEntity, "reactionDbId">[];
-    imageType?: ImageEntity;
+	payloadType: PayloadSubType.message;
+	messageType: MessageEntity;
+	clientType: Pick<ClientEntity, "clientDbId">;
+	quoteType?: QuoteEntity;
+	reactionType?: Omit<ReactionEntity, "reactionDbId">[];
+	imageType?: ImageEntity;
 };
 
 export type MessageListPayload = {
-    payloadType: PayloadSubType.messageList;
-    messageList: Omit<MessagePayload, "payloadType">[];
+	payloadType: PayloadSubType.messageList;
+	messageList: Omit<MessagePayload, "payloadType">[];
 };
 
 // /**custom
@@ -279,10 +318,10 @@ export type MessageListPayload = {
 // };
 
 export type CallbackProps = {
-    onOpen: () => void;
-    onClose: () => void;
-    onMessage: (event: MessageEvent) => void;
-    onError: (event: Event) => void;
+	onOpen: () => void;
+	onClose: () => void;
+	onMessage: (event: MessageEvent) => void;
+	onError: (event: Event) => void;
 };
 
 // export type InputProps = {
@@ -299,9 +338,9 @@ export type CallbackProps = {
  * Represents the environment variables required for the application.
  */
 export type EnvVars = {
-    id: string;
-    username: string;
-    ip: string;
-    port: string;
-    os: string;
+	id: string;
+	username: string;
+	ip: string;
+	port: string;
+	os: string;
 };

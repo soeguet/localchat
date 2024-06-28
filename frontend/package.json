@@ -1,7 +1,7 @@
 {
 	"name": "react-src",
 	"private": true,
-	"version": "1.0.9",
+	"version": "0.12.2",
 	"author": "soeguet",
 	"type": "module",
 	"scripts": {

@@ -9,12 +9,20 @@
 		"lineWidth": 80,
 		"attributePosition": "auto"
 	},
-	"organizeImports": { "enabled": true },
+	"organizeImports": {
+		"enabled": true
+	},
 	"linter": {
 		"enabled": true,
 		"rules": {
 			"recommended": true,
-			"a11y": { "noBlankTarget": "error" },
+			"a11y": {
+				"noBlankTarget": "error",
+				"useKeyWithClickEvents": "off"
+			},
+			"performance": {
+				"noDelete": "error"
+			},
 			"complexity": {
 				"noBannedTypes": "error",
 				"noExtraBooleanCast": "error",
@@ -51,7 +59,9 @@
 				"useValidForDirection": "error",
 				"useYield": "error"
 			},
-			"security": { "noDangerouslySetInnerHtml": "error" },
+			"security": {
+				"noDangerouslySetInnerHtml": "error"
+			},
 			"style": {
 				"noNamespace": "error",
 				"useAsConstAssertion": "error",
@@ -94,7 +104,6 @@
 		"formatter": {
 			"jsxQuoteStyle": "double",
 			"quoteProperties": "asNeeded",
-			"trailingComma": "es5",
 			"semicolons": "always",
 			"arrowParentheses": "always",
 			"bracketSpacing": true,
@@ -104,22 +113,39 @@
 		}
 	},
 	"overrides": [
-		{ "include": [".eslintrc.{js,cjs}"] },
+		{
+			"include": [
+				".eslintrc.{js,cjs}"
+			]
+		},
 		{
 			"include": [
 				"*.stories.@(ts|tsx|js|jsx|mjs|cjs)",
 				"*.story.@(ts|tsx|js|jsx|mjs|cjs)"
 			],
 			"linter": {
-				"rules": { "correctness": { "useHookAtTopLevel": "off" } }
+				"rules": {
+					"correctness": {
+						"useHookAtTopLevel": "off"
+					}
+				}
 			}
 		},
 		{
-			"include": [".storybook/main.@(js|cjs|mjs|ts)"],
-			"linter": { "rules": {} }
+			"include": [
+				".storybook/main.@(js|cjs|mjs|ts)"
+			],
+			"linter": {
+				"rules": {}
+			}
 		},
 		{
-			"include": ["*.ts", "*.tsx", "*.mts", "*.cts"],
+			"include": [
+				"*.ts",
+				"*.tsx",
+				"*.mts",
+				"*.cts"
+			],
 			"linter": {
 				"rules": {
 					"correctness": {

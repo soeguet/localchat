@@ -1,49 +1,54 @@
-import {svgSize} from "../../../utils/variables";
+import { useTranslation } from "react-i18next";
 
 function ConnectedSvg() {
-    return (
-        <>
-            <div className="rounded-full border-2 border-black"
-                 data-testid="connected-svg">
-                <svg
-                    style={svgSize}
-                    viewBox="-2.4 -2.4 28.80 28.80"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    stroke="#46c22e"
-                >
-                    <g id="SVGRepo_bgCarrier" strokeWidth="0">
-                        <rect
-                            x="-2.4"
-                            y="-2.4"
-                            width="28.80"
-                            height="28.80"
-                            rx="14.4"
-                            fill="#ffffff"
-                            strokeWidth="0"
-                        ></rect>
-                    </g>
-                    <g
-                        id="SVGRepo_tracerCarrier"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                    ></g>
-                    <g id="SVGRepo_iconCarrier">
-                        <path
-                            d="M16.0303 10.0303C16.3232 9.73744 16.3232 9.26256 16.0303 8.96967C15.7374 8.67678 15.2626 8.67678 14.9697 8.96967L10.5 13.4393L9.03033 11.9697C8.73744 11.6768 8.26256 11.6768 7.96967 11.9697C7.67678 12.2626 7.67678 12.7374 7.96967 13.0303L9.96967 15.0303C10.2626 15.3232 10.7374 15.3232 11.0303 15.0303L16.0303 10.0303Z"
-                            fill="#46c22e"
-                        ></path>
-                        <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M12 1.25C6.06294 1.25 1.25 6.06294 1.25 12C1.25 17.9371 6.06294 22.75 12 22.75C17.9371 22.75 22.75 17.9371 22.75 12C22.75 6.06294 17.9371 1.25 12 1.25ZM2.75 12C2.75 6.89137 6.89137 2.75 12 2.75C17.1086 2.75 21.25 6.89137 21.25 12C21.25 17.1086 17.1086 21.25 12 21.25C6.89137 21.25 2.75 17.1086 2.75 12Z"
-                            fill="#46c22e"
-                        ></path>
-                    </g>
-                </svg>
-            </div>
-        </>
-    );
+	const { t } = useTranslation();
+	return (
+		<>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				data-name="Line Color"
+				data-testid="connected-svg"
+				viewBox="-2.4 -2.4 28.8 28.8"
+				className="rounded-full border-2 border-black"
+				width="2.5em"
+				height="2.5em">
+				<title>{t("title_svg_connected")}</title>
+				<rect
+					width={28.8}
+					height={28.8}
+					x={-2.4}
+					y={-2.4}
+					fill="#fff"
+					strokeWidth={0}
+					rx={14.4}
+				/>
+				<path
+					d="m8 11.5 3 3 5-5"
+					style={{
+						fill: "none",
+						stroke: "#3ecc55",
+						strokeLinecap: "round",
+						strokeLinejoin: "round",
+						strokeWidth: 2,
+					}}
+				/>
+				<rect
+					width={18}
+					height={18}
+					x={3}
+					y={3}
+					rx={9}
+					style={{
+						fill: "none",
+						stroke: "#000",
+						strokeLinecap: "round",
+						strokeLinejoin: "round",
+						strokeWidth: 2,
+					}}
+				/>
+			</svg>
+		</>
+	);
 }
 
-export {ConnectedSvg};
+export { ConnectedSvg };

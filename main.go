@@ -3,6 +3,7 @@ package main
 
 import (
 	"embed"
+	"log"
 
 	"github.com/wailsapp/wails/v2/pkg/options/windows"
 
@@ -42,12 +43,12 @@ func main() {
 		Linux: &linux.Options{
 			WindowIsTranslucent: false,
 			WebviewGpuPolicy:    linux.WebviewGpuPolicyAlways,
-			ProgramName:         "wails",
+			ProgramName:         "localchat",
 		},
 		Debug: options.Debug{
 			OpenInspectorOnStartup: true,
 		},
 	}); err != nil {
-		println("Error:", err.Error())
+		log.Fatal(err)
 	}
 }

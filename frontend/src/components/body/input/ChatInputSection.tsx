@@ -76,8 +76,10 @@ function ChatInputSection() {
 	return (
 		<>
 			<div className="flex grow-0 items-end gap-2 border-t-2 border-t-black bg-white p-4">
-				<Emoji setMessage={setMessage} />
-				<ClipButton />
+				<div className="mx-1 gap-4 flex items-center h-full">
+					<Emoji setMessage={setMessage} />
+					<ClipButton />
+				</div>
 				<div className="mx-2 my-auto flex flex-1 flex-col gap-2">
 					<Reply />
 					<Image />
