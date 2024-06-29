@@ -17,7 +17,6 @@ function AttachmentMenu(props: AttachmentMenuProps) {
 			fileInputRef.current.click();
 		}
 	};
-
 	function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
 		if (e.target.files && e.target.files.length > 0) {
 			const file = e.target.files[0];
@@ -27,17 +26,16 @@ function AttachmentMenu(props: AttachmentMenuProps) {
 	}
 	return (
 		<>
-			<div className="absolute -left-10 -top-24 z-50 mt-2 w-48 rounded-md border-2 border-gray-500 bg-white py-1 shadow-xl shadow-black/50">
-				{/* button alternative */}
-
+			<div className="absolute transform translate-x-12 -translate-y-14 z-50 mt-2 w-48 rounded-md border-2 border-gray-500 bg-white py-1 shadow-xl shadow-black/50">
 				<div className="flex items-center gap-3 hover:bg-gray-100">
-					<label
-						htmlFor="hiddenFileInput"
-						className="flex w-full cursor-pointer items-center gap-3 px-4 py-1"
-						onClick={handleLabelClick}>
+					<button
+						type="button"
+						className="px-4 py-2 w-full h-full flex gap-4 items-center text-center"
+						onClick={handleLabelClick}
+					>
 						<CameraSvg />
 						{t("menu_attachment_image")}
-					</label>
+					</button>
 					<input
 						ref={fileInputRef}
 						id="hiddenFileInput"
@@ -47,8 +45,6 @@ function AttachmentMenu(props: AttachmentMenuProps) {
 						style={{ display: "none" }}
 					/>
 				</div>
-
-				{/* button alternative */}
 			</div>
 		</>
 	);

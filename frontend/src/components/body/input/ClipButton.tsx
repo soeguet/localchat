@@ -5,8 +5,9 @@ import { PaperClipSvg } from "../../svgs/input/PaperClipSvg";
 const ClipButton = memo(() => {
 	const [attachmentMenuVisible, setAttachmentMenuVisible] = useState(false);
 
-	function handleClipClick() {
-		setAttachmentMenuVisible(!attachmentMenuVisible);
+	function handleClipClick(e) {
+		e.preventDefault();
+		setAttachmentMenuVisible(() => !attachmentMenuVisible);
 	}
 
 	return (
@@ -14,16 +15,13 @@ const ClipButton = memo(() => {
 			<div
 				className="h-full items-center flex cursor-pointer"
 				onKeyUp={handleClipClick}
-				onClick={handleClipClick}>
+				onClick={handleClipClick}
+			>
 				<PaperClipSvg />
-				{attachmentMenuVisible && (
-					<div className="relative">
-						<AttachmentMenu
-							setAttachmentMenuVisible={setAttachmentMenuVisible}
-						/>
-					</div>
-				)}
 			</div>
+			{attachmentMenuVisible && (
+				<AttachmentMenu setAttachmentMenuVisible={setAttachmentMenuVisible} />
+			)}
 		</>
 	);
 });
