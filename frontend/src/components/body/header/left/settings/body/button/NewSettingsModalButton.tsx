@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { NewSettingsModal } from "../NewSettingsModal";
 import useSettingsStore from "../../../../../../../stores/settingsStore";
-import { handleProfileSettingsUpdatesWithSocket } from "../../../../../../../utils/handleCommunicationWithSocket";
+import {
+	handleProfileSettingsUpdatesWithSocket,
+	handleProfileSettingsUpdatesWithSocketV2,
+} from "../../../../../../../utils/handleCommunicationWithSocket";
 import { handleLocalSettingsUpdates } from "../../../../../../../utils/handleLocalSettingsUpdates";
 import { useTranslation } from "react-i18next";
 import { SettingsIconSvg } from "../../../../../../svgs/icons/SettingsIconSvg";
@@ -14,7 +17,7 @@ function NewSettingsModalButton() {
 		const reconnectionTimeoutValue = handleLocalSettingsUpdates();
 
 		const timeout: NodeJS.Timeout = setTimeout(() => {
-			handleProfileSettingsUpdatesWithSocket();
+			handleProfileSettingsUpdatesWithSocketV2();
 
 			setIsOpened(false);
 			useSettingsStore.getState().resetAllStoreValues();

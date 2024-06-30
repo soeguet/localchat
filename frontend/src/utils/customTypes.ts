@@ -12,7 +12,43 @@ export enum PayloadSubType {
 	emergencyInit = 10,
 	emergencyMessage = 11,
 	allEmergencyMessages = 12,
+	newProfilePicture = 13,
+	fetchProfilePicture = 14,
+	fetchAllProfilePictures = 15,
+	fetchCurrentClientProfilePictureHash = 16,
+	profileUpdateV2 = 17,
 }
+
+export type ProfilePicture = string;
+export type ProfilePictureHash = string;
+export type ClientId = string;
+export type Hash = string;
+
+export type ProfilePictureObject = {
+	clientDbId: ClientId;
+	imageHash: ProfilePictureHash;
+	data: ProfilePicture;
+};
+
+export type NewProfilePicturePayload = ProfilePictureObject & {
+	payloadType: PayloadSubType.newProfilePicture;
+};
+
+export type FetchProfilePicturePayload = {
+	payloadType: PayloadSubType.fetchProfilePicture;
+	clientDbId: ClientId;
+};
+
+export type FetchCurrentClientProfilePictureHashPayload = {
+	payloadType: PayloadSubType.fetchCurrentClientProfilePictureHash;
+	clientDbId: ClientId;
+	clientProfilePictureHash: Hash;
+};
+
+export type FetchAllProfilePicturesPayload = {
+	payloadType: PayloadSubType.fetchAllProfilePictures;
+	profilePictures: ProfilePictureObject[];
+};
 
 export type EmergencyInitPayload = {
 	payloadType: PayloadSubType.emergencyInit;
@@ -24,7 +60,7 @@ export type EmergencyInitPayload = {
 export type EmergencyMessagePayload = {
 	payloadType: PayloadSubType.emergencyMessage;
 	emergencyChatId: string;
-	clientDbId: string;
+	clientDbId: ClientId;
 	messageDbId: string;
 	time: string;
 	message: string;
@@ -40,7 +76,7 @@ export type AllEmergencyMessagesPayload = {
  * [[ RESULTING TYPE ]]
  * export type EmergencyMessagePayload = {
  *	  emergencyChatId: string;
- *	  clientDbId: string;
+ *	  clientDbId: ClientId;
  *	  messageDbId: string;
  *	  time: string;
  *	  message: string;
@@ -53,21 +89,13 @@ export type EmergencyMessage = Omit<EmergencyMessagePayload, "payloadType">;
  *  export type AuthenticationPayload = {
  *     payloadType: PayloadSubType.auth;
  *     clientUsername: string;
- *     clientDbId: string;
+ *     clientDbId: ClientId;
  *  };
  */
 export type AuthenticationPayload = {
 	payloadType: PayloadSubType.auth;
 } & Pick<ClientEntity, "clientDbId" | "clientUsername">;
 
-/**
- * [[ RESULTING TYPE ]]
- * export type ImageEntity = {
- * 	  imageDbId: string;
- *    type: string;
- *    data: string; // base64
- * };
- */
 export type ImageEntity = {
 	imageDbId: string;
 	type: string;
@@ -78,7 +106,7 @@ export type ImageEntity = {
  * [[ RESULTING TYPE ]]
  *  export type ClientUpdatePayload = {
  *     payloadType: PayloadSubType.auth;
- *     clientDbId: string;
+ *     clientDbId: ClientId;
  *     clientUsername: string;
  *     clientColor?: string;
  *     clientProfileImage?: string;
@@ -89,13 +117,17 @@ export type ClientUpdatePayload = {
 	payloadType: PayloadSubType.profileUpdate;
 } & ClientEntity;
 
+export type ClientUpdatePayloadV2 = {
+	payloadType: PayloadSubType.profileUpdateV2;
+} & ClientEntity;
+
 export type ClientListPayload = {
 	payloadType: PayloadSubType.clientList;
 	clients: ClientEntity[];
 };
 
 export type ClientEntity = {
-	clientDbId: string;
+	clientDbId: ClientId;
 	clientUsername: string;
 	clientColor?: string;
 	clientProfileImage?: string;
@@ -167,7 +199,7 @@ export type ReactionEntity = {
  *          messageDate: Date;
  *      };
  *      clientType: {
- *          clientDbId: string;
+ *          clientDbId: ClientId;
  *      };
  *      quoteType?: {
  *          quoteMessageId: string;
@@ -228,7 +260,7 @@ export type MessageListPayload = {
 //
 // export type ProfileUpdatePayload = {
 //     payloadType: PayloadSubType.profileUpdate;
-//     clientDbId: string;
+//     clientDbId: ClientId;
 //     username: string;
 //     color: string;
 //     pictureUrl: string;
@@ -237,7 +269,7 @@ export type MessageListPayload = {
 // export type AuthenticatedPayload = {
 //     payloadType: PayloadSubType.auth;
 //     clientUsername: string;
-//     clientDbId: string;
+//     clientDbId: ClientId;
 // };
 //
 // /**
@@ -284,7 +316,7 @@ export type MessageListPayload = {
 //     reaction,
 // }
 // // export type UserType = {
-// //     clientDbId: string;
+// //     clientDbId: ClientId;
 // //     clientUsername: string;
 // //     clientProfilePhoto: string;
 // // };
