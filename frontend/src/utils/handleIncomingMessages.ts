@@ -12,9 +12,11 @@ import {
 	handleClientListPayload,
 	updateThisClientsCachedDataWithNewPayloadData,
 } from "../hooks/socket/utils";
+import { useClientStore } from "../stores/clientStore";
 import { useDoNotDisturbStore } from "../stores/doNotDisturbStore";
 import { useEmergencyStore } from "../stores/emergencyStore";
 import { useMessageMapStore } from "../stores/messageMapStore";
+import { useProfilePictureStore } from "../stores/profilePictureStore";
 import { useTypingStore } from "../stores/typingStore";
 import { useUserStore } from "../stores/userStore";
 import {
@@ -24,6 +26,9 @@ import {
 	type EmergencyMessagePayload,
 	type EmergencyMessage,
 	type AllEmergencyMessagesPayload,
+	NewProfilePicturePayload,
+	ProfilePictureHash,
+	ProfilePictureObject,
 } from "./customTypes";
 import { preventDuplicateEmergencyMessages } from "./emergencyArrayHelper";
 import { notifyClientIfReactionTarget } from "./reactionHandler";
@@ -101,18 +106,12 @@ export async function handleIncomingMessages(event: MessageEvent) {
 				dataAsObject.clientDbId === undefined ||
 				dataAsObject.isTyping === undefined
 			) {
-				throw new Error(
-					"Typing payload is missing client ID or typing status",
-				);
+				throw new Error("Typing payload is missing client ID or typing status");
 			}
 			if (dataAsObject.isTyping) {
-				useTypingStore
-					.getState()
-					.addTypingClientId(dataAsObject.clientDbId);
+				useTypingStore.getState().addTypingClientId(dataAsObject.clientDbId);
 			} else {
-				useTypingStore
-					.getState()
-					.removeTypingClientId(dataAsObject.clientDbId);
+				useTypingStore.getState().removeTypingClientId(dataAsObject.clientDbId);
 			}
 			break;
 
@@ -155,9 +154,7 @@ export async function handleIncomingMessages(event: MessageEvent) {
 				.setEmergencyInitiatorId(payload.initiatorClientDbId);
 			useEmergencyStore.getState().setEmergency(payload.active);
 			useEmergencyStore.getState().setChatVisible(true);
-			useEmergencyStore
-				.getState()
-				.setEmergencyChatId(payload.emergencyChatId);
+			useEmergencyStore.getState().setEmergencyChatId(payload.emergencyChatId);
 
 			if (!payload.active) {
 				useEmergencyStore.getState().setEmergencyMessages([]);
@@ -169,8 +166,7 @@ export async function handleIncomingMessages(event: MessageEvent) {
 			const payload = dataAsObject as EmergencyMessagePayload;
 
 			if (
-				useEmergencyStore.getState().emergencyChatId !==
-				payload.emergencyChatId
+				useEmergencyStore.getState().emergencyChatId !== payload.emergencyChatId
 			) {
 				console.error("EMERGENCY MESSAGE FROM WRONG CHAT", payload);
 				return;
@@ -202,13 +198,13 @@ export async function handleIncomingMessages(event: MessageEvent) {
 
 			break;
 		}
+
 		case PayloadSubType.allEmergencyMessages: {
 			const payload: AllEmergencyMessagesPayload =
 				dataAsObject as AllEmergencyMessagesPayload;
 
 			if (
-				useEmergencyStore.getState().emergencyChatId !==
-				payload.emergencyChatId
+				useEmergencyStore.getState().emergencyChatId !== payload.emergencyChatId
 			) {
 				console.error("EMERGENCY MESSAGE FROM WRONG CHAT", payload);
 				return;
@@ -225,9 +221,23 @@ export async function handleIncomingMessages(event: MessageEvent) {
 			const emergencyMessageArray: EmergencyMessage[] =
 				payload.emergencyMessages;
 
-			useEmergencyStore
+			useEmergencyStore.getState().setEmergencyMessages(emergencyMessageArray);
+
+			break;
+		}
+
+		case PayloadSubType.newProfilePicture: {
+			const payload = dataAsObject as NewProfilePicturePayload;
+
+			const profilePictureObject: ProfilePictureObject = {
+				clientDbId: payload.clientDbId,
+				imageHash: payload.imageHash,
+				data: payload.data,
+			};
+			// TODO FIXEME need to update the map appropriately
+			useProfilePictureStore
 				.getState()
-				.setEmergencyMessages(emergencyMessageArray);
+				.setProfilePictureMap(payload.clientDbId, profilePictureObject);
 
 			break;
 		}
