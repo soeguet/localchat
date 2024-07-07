@@ -1,8 +1,9 @@
 import { useTranslation } from "react-i18next";
 import { useClientStore } from "../../../stores/clientStore";
+import type { ClientId } from "../../../utils/customTypes";
 
 type DeletedMessageProps = {
-	clientDbId: string;
+	clientDbId: ClientId;
 	thisMessageFromThisClient: boolean;
 };
 function DeletedMessage(props: DeletedMessageProps) {
@@ -10,8 +11,8 @@ function DeletedMessage(props: DeletedMessageProps) {
 	const clientColor = useClientStore(
 		(state) =>
 			state.clients.filter(
-				(client) => client.clientDbId === props.clientDbId
-			)[0].clientColor
+				(client) => client.clientDbId === props.clientDbId,
+			)[0].clientColor,
 	);
 	const messageOnWhichSideAligned = `${
 		props.thisMessageFromThisClient ? "justify-end pr-16" : "pl-16"
@@ -19,9 +20,9 @@ function DeletedMessage(props: DeletedMessageProps) {
 	return (
 		<>
 			<div
-				className={`${messageOnWhichSideAligned} flex py-3 mx-5 text-white`}>
+				className={`${messageOnWhichSideAligned} mx-5 flex py-3 text-white`}>
 				<div
-					className="p-3 rounded-lg"
+					className="rounded-lg p-3"
 					style={{
 						backgroundColor: clientColor,
 						opacity: "0.5",

@@ -23,8 +23,8 @@ function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
 		(state) =>
 			state.clients.find(
 				(c) =>
-					c.clientDbId === props.messagePayload.clientType.clientDbId
-			)?.clientColor
+					c.clientDbId === props.messagePayload.clientType.clientDbId,
+			)?.clientColor,
 	);
 
 	function determineTopMarginForMessageMenu() {
@@ -48,7 +48,7 @@ function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
 					.clients.find(
 						(c) =>
 							c.clientDbId ===
-							props.messagePayload.clientType.clientDbId
+							props.messagePayload.clientType.clientDbId,
 					)?.clientUsername || "Unknown",
 			time: props.messagePayload.messageType.messageTime,
 			date: props.messagePayload.messageType.messageDate,

@@ -54,7 +54,7 @@ export type EmergencyInitPayload = {
 	payloadType: PayloadSubType.emergencyInit;
 	active: boolean;
 	emergencyChatId: string;
-	initiatorClientDbId: string;
+	initiatorclientDbId: ClientId;
 };
 
 export type EmergencyMessagePayload = {
@@ -130,6 +130,7 @@ export type ClientEntity = {
 	clientDbId: ClientId;
 	clientUsername: string;
 	clientColor?: string;
+	// TODO rename this property to clientProfileImageHash
 	clientProfileImage?: string;
 	availability: boolean;
 };

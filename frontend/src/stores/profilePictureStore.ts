@@ -1,27 +1,28 @@
 import { type StoreApi, type UseBoundStore, create } from "zustand";
 import type {
+	ClientId,
 	Hash,
 	ProfilePicture,
 	ProfilePictureObject,
 } from "../utils/customTypes";
 
 type useProfilePictureStoreType = {
-	profilePictureMap: Map<string, ProfilePictureObject>;
+	profilePictureMap: Map<ClientId, ProfilePictureObject>;
 	setProfilePictureMap: (
-		profilePictureMap: Map<string, ProfilePictureObject>,
+		profilePictureMap: Map<ClientId, ProfilePictureObject>,
 	) => void;
-	fetchProfilePicture: (clientDbId: string) => ProfilePicture;
-	fetchProfilePictureHash: (clientDbId: string) => Hash;
+	fetchProfilePicture: (clientDbId: ClientId) => ProfilePicture;
+	fetchProfilePictureHash: (clientDbId: ClientId) => Hash;
 };
 
 const useProfilePictureStore: UseBoundStore<
 	StoreApi<useProfilePictureStoreType>
 > = create<useProfilePictureStoreType>((set) => ({
-	profilePictureMap: new Map<string, ProfilePictureObject>(),
+	profilePictureMap: new Map<ClientId, ProfilePictureObject>(),
 	setProfilePictureMap: (
-		profilePictureMap: Map<string, ProfilePictureObject>,
+		profilePictureMap: Map<ClientId, ProfilePictureObject>,
 	) => set({ profilePictureMap: profilePictureMap }),
-	fetchProfilePicture: (clientDbId: string) => {
+	fetchProfilePicture: (clientDbId: ClientId) => {
 		const profilePicture = useProfilePictureStore
 			.getState()
 			.profilePictureMap.get(clientDbId);
@@ -30,7 +31,7 @@ const useProfilePictureStore: UseBoundStore<
 		}
 		return "";
 	},
-	fetchProfilePictureHash: (clientDbId: string) => {
+	fetchProfilePictureHash: (clientDbId: ClientId) => {
 		const profilePicture = useProfilePictureStore
 			.getState()
 			.profilePictureMap.get(clientDbId);

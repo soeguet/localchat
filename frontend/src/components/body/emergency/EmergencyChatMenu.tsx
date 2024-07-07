@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { MenuDotsSvg } from "../../svgs/emergency/MenuDotsSvg";
 import { useTranslation } from "react-i18next";
 import { useEmergencyStore } from "../../../stores/emergencyStore";
 import { useUserStore } from "../../../stores/userStore";
+import { useWebsocketStore } from "../../../stores/websocketStore";
 import {
 	type EmergencyInitPayload,
 	PayloadSubType,
 } from "../../../utils/customTypes";
-import { useWebsocketStore } from "../../../stores/websocketStore";
+import { MenuDotsSvg } from "../../svgs/emergency/MenuDotsSvg";
 
 function EmergencyChatMenu() {
 	const { t } = useTranslation();
