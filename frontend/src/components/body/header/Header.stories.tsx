@@ -1,12 +1,12 @@
 import { Header } from "./Header";
 
 export default {
-    component: Header,
+	component: Header,
 };
 
 export const Default = {
-    args: {
-        label: "Header Component",
-        primary: true,
-    },
+	args: {
+		label: "Header Component",
+		primary: true,
+	},
 };

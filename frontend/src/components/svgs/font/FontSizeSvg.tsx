@@ -8,7 +8,8 @@ function FontSizeSvg() {
 			height="2.1em"
 			viewBox="-1.5 -1.5 18.00 18.00"
 			fill="none"
-			xmlns="http://www.w3.org/2000/svg">
+			xmlns="http://www.w3.org/2000/svg"
+		>
 			<title>{t("title_svg_change_font_size")}</title>
 			<g id="SVGRepo_bgCarrier" strokeWidth="0">
 				<rect

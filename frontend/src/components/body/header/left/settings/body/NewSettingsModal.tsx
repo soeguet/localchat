@@ -32,7 +32,8 @@ function NewSettingsModal(props: NewSettingsModalProps): JSX.Element {
 			<dialog
 				data-testid="settings-modal"
 				className="fixed inset-0 z-10 bg-transparent backdrop:bg-black backdrop:opacity-70"
-				ref={dialogRef}>
+				ref={dialogRef}
+			>
 				<NewSettingsModalContainer
 					onSave={props.onSave}
 					onClose={props.onClose}

@@ -19,14 +19,14 @@ function DeletedMessage(props: DeletedMessageProps) {
 	}`;
 	return (
 		<>
-			<div
-				className={`${messageOnWhichSideAligned} mx-5 flex py-3 text-white`}>
+			<div className={`${messageOnWhichSideAligned} mx-5 flex py-3 text-white`}>
 				<div
 					className="rounded-lg p-3"
 					style={{
 						backgroundColor: clientColor,
 						opacity: "0.5",
-					}}>
+					}}
+				>
 					{t("deleted_message")}
 				</div>
 			</div>

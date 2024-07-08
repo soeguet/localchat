@@ -18,15 +18,13 @@ describe("TypingIndicator", () => {
 	});
 
 	test("should render name 'Foo is typing'", () => {
-		useClientStore
-			.getState()
-			.setClients([
-				{
-					clientDbId: "123",
-					clientUsername: "Foo",
-					availability: true,
-				},
-			]);
+		useClientStore.getState().setClients([
+			{
+				clientDbId: "123",
+				clientUsername: "Foo",
+				availability: true,
+			},
+		]);
 		useTypingStore.getState().addTypingClientId("123");
 		render(<TypingIndicator />);
 		expect(screen.getByText(/Foo is typing/i)).not.toBeNull();
@@ -54,9 +52,7 @@ describe("TypingIndicator", () => {
 		useTypingStore.getState().addTypingClientId("123");
 		render(<TypingIndicator />);
 		await waitFor(() => {
-			expect(
-				screen.queryByTestId("typing-indicator-container")
-			).toHaveStyle({
+			expect(screen.queryByTestId("typing-indicator-container")).toHaveStyle({
 				opacity: 0.7,
 			});
 		});
@@ -72,9 +68,7 @@ describe("TypingIndicator", () => {
 		]);
 		useTypingStore.getState().addTypingClientId("123");
 		render(<TypingIndicator />);
-		const container = await screen.findByTestId(
-			"typing-indicator-container"
-		);
+		const container = await screen.findByTestId("typing-indicator-container");
 
 		fireEvent.mouseEnter(container);
 

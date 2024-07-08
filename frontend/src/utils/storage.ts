@@ -42,9 +42,7 @@ export async function addMessageIfUniqueId(
 		// TODO put this somewhere else
 		if (userId !== thisClientId) {
 			if (notificationRequest) {
-				const message = base64ToUtf8(
-					newMessage.messageType.messageContext,
-				);
+				const message = base64ToUtf8(newMessage.messageType.messageContext);
 
 				await Notification(
 					`${getTimeWithHHmmFormat(new Date())} - ${username}`,

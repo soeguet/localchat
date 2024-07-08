@@ -45,4 +45,3 @@ describe("FlagButton", () => {
 		expect(useSelectedLanguageStore.getState().selectedLanguage).toBe("en");
 	});
 });
-

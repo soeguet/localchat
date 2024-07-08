@@ -18,9 +18,7 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
 	const clientColor = useClientStore(
 		(state) =>
 			state.clients.find((c): boolean => {
-				return (
-					c.clientDbId === props.messagePayload.clientType.clientDbId
-				);
+				return c.clientDbId === props.messagePayload.clientType.clientDbId;
 			})?.clientColor,
 	);
 	const unseenMessagesIdList = useUnseenMessageCountStore(
@@ -69,21 +67,18 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
 							? "pulse-border 3.5s infinite ease-in-out"
 							: "",
 						borderWidth: thisMessageUnseen ? "2px" : "1px",
-					}}>
+					}}
+				>
 					<PictureBubblePanel messagePayload={props.messagePayload} />
 
 					<QuoteBubble payload={props.messagePayload} />
 					{props.enableMessageEditingMode ? (
 						<EditMessageMode
 							messagePayload={props.messagePayload}
-							setEnableMessageEditingMode={
-								props.setEnableMessageEditingMode
-							}
+							setEnableMessageEditingMode={props.setEnableMessageEditingMode}
 						/>
 					) : (
-						<div className="whitespace-pre-wrap">
-							{base64DecodedMessage}
-						</div>
+						<div className="whitespace-pre-wrap">{base64DecodedMessage}</div>
 					)}
 					{/* // TODO reenable links in message
 					<LinkifiedText
@@ -91,9 +86,7 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
                     />*/}
 					{props.messagePayload.reactionType &&
 						props.messagePayload.reactionType.length > 0 && (
-							<ReactionField
-								messagePayload={props.messagePayload}
-							/>
+							<ReactionField messagePayload={props.messagePayload} />
 						)}
 				</div>
 			</div>

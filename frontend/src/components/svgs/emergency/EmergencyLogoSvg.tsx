@@ -8,7 +8,8 @@ function EmergencyLogoSvg() {
 				xmlns="http://www.w3.org/2000/svg"
 				viewBox="0 0 60.601 60.601"
 				width="1.5em"
-				height="1.5em">
+				height="1.5em"
+			>
 				<title>{t("title_svg_emergency_logo")}</title>
 				<path
 					d="M7.786 56.032a3.217 3.217 0 0 1-3.217-3.216V7.786a3.217 3.217 0 0 1 3.217-3.217h45.03a3.216 3.216 0 0 1 3.216 3.217v45.03a3.216 3.216 0 0 1-3.216 3.216H7.786"

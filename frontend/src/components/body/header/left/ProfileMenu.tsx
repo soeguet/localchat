@@ -21,20 +21,20 @@ function ProfileMenu(props: ProfileMenuPropsType) {
 	const menuRef = useRef<HTMLDivElement>(null);
 
 	const setDoNotDisturb = useDoNotDisturbStore(
-		(state) => state.setDoNotDisturb
+		(state) => state.setDoNotDisturb,
 	);
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		if (props.showMenu) {
 			document.addEventListener("mousedown", (e) =>
-				handleClickOutsideOfDiv(menuRef, e, props.setShowMenu)
+				handleClickOutsideOfDiv(menuRef, e, props.setShowMenu),
 			);
 		}
 
 		return () => {
 			document.removeEventListener("mousedown", (e) =>
-				handleClickOutsideOfDiv(menuRef, e, props.setShowMenu)
+				handleClickOutsideOfDiv(menuRef, e, props.setShowMenu),
 			);
 		};
 	}, [props.showMenu]);
@@ -46,7 +46,8 @@ function ProfileMenu(props: ProfileMenuPropsType) {
 					ref={menuRef}
 					className={
 						"fixed left-2 top-20 z-20 mr-12 mt-2 w-56 rounded-md border-2 bg-white py-1 shadow-xl"
-					}>
+					}
+				>
 					<NewSettingsModalButton />
 					<InfoMenuButton />
 
@@ -54,10 +55,9 @@ function ProfileMenu(props: ProfileMenuPropsType) {
 						type="button"
 						className="group flex w-full items-center gap-2 border-t-2 px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
 						onClick={() =>
-							setDoNotDisturb(
-								!useDoNotDisturbStore.getState().doNotDisturb
-							)
-						}>
+							setDoNotDisturb(!useDoNotDisturbStore.getState().doNotDisturb)
+						}
+					>
 						<div className="group-hover:animate-bounce">
 							<DoNotDisturbIconSvg />
 						</div>
@@ -69,7 +69,8 @@ function ProfileMenu(props: ProfileMenuPropsType) {
 					<button
 						type="button"
 						className="group flex w-full items-center gap-2 border-t-2 px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
-						onClick={() => WindowReload()}>
+						onClick={() => WindowReload()}
+					>
 						<div className="group-hover:animate-spin">
 							<ReloadIconSvg />
 						</div>

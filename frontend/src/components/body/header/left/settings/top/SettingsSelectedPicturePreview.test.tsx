@@ -4,10 +4,10 @@ import { screen } from "@testing-library/react";
 import { expect, test } from "vitest";
 
 describe("SettingsSelectedPicturePreview", () => {
-    test("should render", () => {
-        render(<SettingsSelectedPicturePreview />);
-        const container = screen.queryByTestId("settings-picture-preview");
+	test("should render", () => {
+		render(<SettingsSelectedPicturePreview />);
+		const container = screen.queryByTestId("settings-picture-preview");
 
-        expect(container).toBeInTheDocument();
-    });
+		expect(container).toBeInTheDocument();
+	});
 });

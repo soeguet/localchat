@@ -54,7 +54,7 @@ export type EmergencyInitPayload = {
 	payloadType: PayloadSubType.emergencyInit;
 	active: boolean;
 	emergencyChatId: string;
-	initiatorclientDbId: ClientId;
+	initiatorClientDbId: ClientId;
 };
 
 export type EmergencyMessagePayload = {

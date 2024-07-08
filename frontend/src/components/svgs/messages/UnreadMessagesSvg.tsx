@@ -6,13 +6,13 @@ function UnreadMessagesSvg() {
 	const [color, setColor] = useState("#ff0000");
 	const { t } = useTranslation();
 	const unseenMessageCount = useUnseenMessageCountStore(
-		(state) => state.unseenMessageCount
+		(state) => state.unseenMessageCount,
 	);
 
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setColor((currentColor) =>
-				currentColor === "#ff0000" ? "#000000" : "#ff0000"
+				currentColor === "#ff0000" ? "#000000" : "#ff0000",
 			);
 		}, 750);
 
@@ -31,7 +31,8 @@ function UnreadMessagesSvg() {
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
 			className="transition duration-300 ease-in-out"
-			stroke={color}>
+			stroke={color}
+		>
 			<title>
 				{t("title_svg_unread_messages", { count: unseenMessageCount })}
 			</title>
@@ -66,7 +67,8 @@ function UnreadMessagesSvg() {
 					textAnchor="end"
 					fontWeight="1"
 					fontSize="8"
-					fill="#000">
+					fill="#000"
+				>
 					{unseenMessageCount}
 				</text>
 			)}
@@ -75,4 +77,3 @@ function UnreadMessagesSvg() {
 }
 
 export { UnreadMessagesSvg };
-

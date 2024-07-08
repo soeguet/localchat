@@ -9,11 +9,7 @@ export function fnv1aHash(str: string): number {
 	for (let i = 0; i < str.length; i++) {
 		hash ^= str.charCodeAt(i);
 		hash +=
-			(hash << 1) +
-			(hash << 4) +
-			(hash << 7) +
-			(hash << 8) +
-			(hash << 24);
+			(hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
 	}
 	return hash >>> 0;
 }

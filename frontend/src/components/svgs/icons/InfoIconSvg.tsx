@@ -9,7 +9,8 @@ function InfoIconSvg() {
 				xmlSpace="preserve"
 				viewBox="0 0 512 512"
 				width="2em"
-				height="2em">
+				height="2em"
+			>
 				<title>{t("title_svg_info")}</title>
 				<circle
 					cx={256}

@@ -33,21 +33,21 @@ const InfoMenuModal = (props: InfoMenuModalProps) => {
 				borderColor: hover ? clientColor : "",
 			}}
 			ref={dialogRef}
-			onClose={props.onClose}>
+			onClose={props.onClose}
+		>
 			<div
 				onMouseOver={() => setHover(true)}
 				onFocus={() => setHover(true)}
 				onMouseOut={() => setHover(false)}
 				onBlur={() => setHover(false)}
-				className="size-full relative flex flex-col rounded-xl p-3">
+				className="size-full relative flex flex-col rounded-xl p-3"
+			>
 				<div
 					className="myTransition absolute right-1 top-1 cursor-pointer select-none text-center hover:animate-spin"
 					onClick={props.onClose}
-					onKeyDown={props.onClose}>
-					<CloseButton
-						title="close"
-						titleId="close-info-menu-button"
-					/>
+					onKeyDown={props.onClose}
+				>
+					<CloseButton title="close" titleId="close-info-menu-button" />
 				</div>
 				<div className="h-full">{props.children}</div>
 			</div>

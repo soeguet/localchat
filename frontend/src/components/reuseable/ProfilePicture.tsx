@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import { useProfilePictureStore } from "../../stores/profilePictureStore";
 import type { ClientId } from "../../utils/customTypes";
 
@@ -19,7 +19,7 @@ const ProfilePicture = memo((props: ProfilePictureProps) => {
 		state.profilePictureMap.get(props.clientDbId),
 	);
 
-	const pictureSelection = () => {
+	const pictureSelection = useCallback(() => {
 		if (props.pictureUrl !== undefined) {
 			return props.pictureUrl;
 		}
@@ -29,9 +29,8 @@ const ProfilePicture = memo((props: ProfilePictureProps) => {
 		}
 
 		return "";
-	};
+	}, [props.pictureUrl, profilePicture]);
 
-	// const profilePicture = client?.clientProfileImage;
 	const picturePresent = () => {
 		if (profilePicture === undefined || profilePicture === null) {
 			return false;
@@ -68,8 +67,8 @@ const ProfilePicture = memo((props: ProfilePictureProps) => {
 				data-testid="profile-picture"
 				style={props.style}
 				className={`rounded-full border-2 ${props.properties} transition duration-300 ease-in-out`}
-				src={pictureSelection}
-				alt={""}
+				src={pictureSelection()}
+				alt=""
 			/>
 		</>
 	);

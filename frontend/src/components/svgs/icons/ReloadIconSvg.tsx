@@ -9,7 +9,8 @@ function ReloadIconSvg() {
 				xmlSpace="preserve"
 				width="2em"
 				height="2em"
-				viewBox="0 0 512 512">
+				viewBox="0 0 512 512"
+			>
 				<title>{t("title_svg_reload")}</title>
 				<path
 					d="M256.001 8.297C119.198 8.297 8.298 119.198 8.298 256.001s110.901 247.703 247.703 247.703 247.704-110.901 247.704-247.703C503.703 119.198 392.804 8.297 256.001 8.297z"

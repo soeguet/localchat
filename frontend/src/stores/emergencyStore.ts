@@ -22,8 +22,7 @@ const useEmergencyStore: UseBoundStore<StoreApi<EmergencyStoreType>> =
 		emergency: false,
 		setEmergency: (emergency: boolean) => set({ emergency: emergency }),
 		chatVisible: false,
-		setChatVisible: (chatVisible: boolean) =>
-			set({ chatVisible: chatVisible }),
+		setChatVisible: (chatVisible: boolean) => set({ chatVisible: chatVisible }),
 		emergencyChatId: "",
 		setEmergencyChatId: (emergencyChatId: string) =>
 			set({ emergencyChatId: emergencyChatId }),

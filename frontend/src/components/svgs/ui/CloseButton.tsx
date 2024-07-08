@@ -11,7 +11,8 @@ function CloseButton(props: CloseButtonProps) {
 				viewBox="0 0 32 32"
 				width="2em"
 				height="2em"
-				aria-labelledby={props.titleId}>
+				aria-labelledby={props.titleId}
+			>
 				{props.title ? (
 					<title id={props.titleId}>{props.title}</title>
 				) : (

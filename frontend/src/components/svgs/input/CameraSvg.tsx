@@ -9,7 +9,8 @@ function CameraSvg() {
 				className="icon"
 				viewBox="0 0 1024 1024"
 				width="2em"
-				height="2em">
+				height="2em"
+			>
 				<title>{t("title_svg_camera")}</title>
 				<path
 					fill="#FAFCFB"

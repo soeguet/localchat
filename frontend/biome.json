@@ -114,9 +114,7 @@
 	},
 	"overrides": [
 		{
-			"include": [
-				".eslintrc.{js,cjs}"
-			]
+			"include": [".eslintrc.{js,cjs}"]
 		},
 		{
 			"include": [
@@ -132,20 +130,13 @@
 			}
 		},
 		{
-			"include": [
-				".storybook/main.@(js|cjs|mjs|ts)"
-			],
+			"include": [".storybook/main.@(js|cjs|mjs|ts)"],
 			"linter": {
 				"rules": {}
 			}
 		},
 		{
-			"include": [
-				"*.ts",
-				"*.tsx",
-				"*.mts",
-				"*.cts"
-			],
+			"include": ["*.ts", "*.tsx", "*.mts", "*.cts"],
 			"linter": {
 				"rules": {
 					"correctness": {

@@ -14,7 +14,7 @@ function MessageRenderMap() {
 	const thisClientId = useUserStore.getState().myId;
 	const newMap = useDeferredValue(messageMap);
 	const idOfTheFirstUnreadMessage = useUnseenMessageCountStore(
-		(state) => state.unseenMessagesIdList[0]
+		(state) => state.unseenMessagesIdList[0],
 	);
 
 	useEffect(() => {
@@ -26,9 +26,7 @@ function MessageRenderMap() {
 		if (lastMessage[1].clientType.clientDbId === undefined) {
 			return;
 		}
-		if (
-			checkIfScrollToBottomIsNeeded(lastMessage[1].clientType.clientDbId)
-		) {
+		if (checkIfScrollToBottomIsNeeded(lastMessage[1].clientType.clientDbId)) {
 			scrollToBottom().then(() => {
 				useUnseenMessageCountStore.getState().resetUnseenMessageCount();
 			});
@@ -47,17 +45,14 @@ function MessageRenderMap() {
 						value[1].clientType.clientDbId === thisClientId;
 
 					const thisIsTheFirstUnreadMessage =
-						value[1].messageType.messageDbId ===
-						idOfTheFirstUnreadMessage;
+						value[1].messageType.messageDbId === idOfTheFirstUnreadMessage;
 
 					if (array.length > 1 && index > 0) {
-						const lastMessage: [string, MessagePayload] =
-							array[index - 1];
+						const lastMessage: [string, MessagePayload] = array[index - 1];
 						if (
 							// skip if message was deleted
 							!lastMessage[1].messageType.deleted &&
-							lastMessage[1].clientType.clientDbId !==
-								undefined &&
+							lastMessage[1].clientType.clientDbId !== undefined &&
 							lastMessage[1].clientType.clientDbId ===
 								value[1].clientType.clientDbId
 						) {
@@ -74,30 +69,22 @@ function MessageRenderMap() {
 					return (
 						<Fragment key={value[0]}>
 							<UnreadMessagesBelowBanner
-								thisIsTheFirstUnreadMessage={
-									thisIsTheFirstUnreadMessage
-								}
+								thisIsTheFirstUnreadMessage={thisIsTheFirstUnreadMessage}
 							/>
 
 							{value[1].messageType.deleted ? (
 								<DeletedMessage
 									clientDbId={value[1].clientType.clientDbId}
-									thisMessageFromThisClient={
-										thisMessageFromThisClient
-									}
+									thisMessageFromThisClient={thisMessageFromThisClient}
 								/>
 							) : (
 								<ChatMessageUnit
 									messagePayload={value[1]}
-									lastMessageFromThisClientId={
-										lastMessageFromThisClientId
-									}
+									lastMessageFromThisClientId={lastMessageFromThisClientId}
 									lastMessageTimestampSameAsThisOne={
 										lastMessageTimestampSameAsThisOne
 									}
-									thisMessageFromThisClient={
-										thisMessageFromThisClient
-									}
+									thisMessageFromThisClient={thisMessageFromThisClient}
 								/>
 							)}
 						</Fragment>

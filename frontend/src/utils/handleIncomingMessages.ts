@@ -104,18 +104,12 @@ export async function handleIncomingMessages(event: MessageEvent) {
 				dataAsObject.clientDbId === undefined ||
 				dataAsObject.isTyping === undefined
 			) {
-				throw new Error(
-					"Typing payload is missing client ID or typing status",
-				);
+				throw new Error("Typing payload is missing client ID or typing status");
 			}
 			if (dataAsObject.isTyping) {
-				useTypingStore
-					.getState()
-					.addTypingClientId(dataAsObject.clientDbId);
+				useTypingStore.getState().addTypingClientId(dataAsObject.clientDbId);
 			} else {
-				useTypingStore
-					.getState()
-					.removeTypingClientId(dataAsObject.clientDbId);
+				useTypingStore.getState().removeTypingClientId(dataAsObject.clientDbId);
 			}
 			break;
 
@@ -158,9 +152,7 @@ export async function handleIncomingMessages(event: MessageEvent) {
 				.setEmergencyInitiatorId(payload.initiatorClientDbId);
 			useEmergencyStore.getState().setEmergency(payload.active);
 			useEmergencyStore.getState().setChatVisible(true);
-			useEmergencyStore
-				.getState()
-				.setEmergencyChatId(payload.emergencyChatId);
+			useEmergencyStore.getState().setEmergencyChatId(payload.emergencyChatId);
 
 			if (!payload.active) {
 				useEmergencyStore.getState().setEmergencyMessages([]);
@@ -172,8 +164,7 @@ export async function handleIncomingMessages(event: MessageEvent) {
 			const payload = dataAsObject as EmergencyMessagePayload;
 
 			if (
-				useEmergencyStore.getState().emergencyChatId !==
-				payload.emergencyChatId
+				useEmergencyStore.getState().emergencyChatId !== payload.emergencyChatId
 			) {
 				console.error("EMERGENCY MESSAGE FROM WRONG CHAT", payload);
 				return;
@@ -211,8 +202,7 @@ export async function handleIncomingMessages(event: MessageEvent) {
 				dataAsObject as AllEmergencyMessagesPayload;
 
 			if (
-				useEmergencyStore.getState().emergencyChatId !==
-				payload.emergencyChatId
+				useEmergencyStore.getState().emergencyChatId !== payload.emergencyChatId
 			) {
 				console.error("EMERGENCY MESSAGE FROM WRONG CHAT", payload);
 				return;
@@ -229,9 +219,7 @@ export async function handleIncomingMessages(event: MessageEvent) {
 			const emergencyMessageArray: EmergencyMessage[] =
 				payload.emergencyMessages;
 
-			useEmergencyStore
-				.getState()
-				.setEmergencyMessages(emergencyMessageArray);
+			useEmergencyStore.getState().setEmergencyMessages(emergencyMessageArray);
 
 			break;
 		}
@@ -245,8 +233,7 @@ export async function handleIncomingMessages(event: MessageEvent) {
 				data: payload.data,
 			};
 
-			const updateMap =
-				useProfilePictureStore.getState().profilePictureMap;
+			const updateMap = useProfilePictureStore.getState().profilePictureMap;
 			updateMap.set(payload.clientDbId, profilePictureObject);
 
 			useProfilePictureStore.getState().setProfilePictureMap(updateMap);

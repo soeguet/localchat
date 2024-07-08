@@ -5,7 +5,7 @@ import { GermanFlagNoCircle } from "../../../../svgs/flags/GermanFlagNoCircle";
 
 function FlagButton() {
 	const selectedLanguage: "en" | "de" = useSelectedLanguageStore(
-		(state) => state.selectedLanguage
+		(state) => state.selectedLanguage,
 	);
 
 	return (
@@ -14,7 +14,8 @@ function FlagButton() {
 				type="button"
 				data-testid="flag-button"
 				onClick={switchLanguage}
-				className="rounded-full border-2 border-black text-white transition duration-300 ease-in-out hover:border-cyan-500">
+				className="rounded-full border-2 border-black text-white transition duration-300 ease-in-out hover:border-cyan-500"
+			>
 				{selectedLanguage === "en" ? (
 					<AmericaFlagNoCircle />
 				) : (
@@ -26,4 +27,3 @@ function FlagButton() {
 }
 
 export { FlagButton };
-

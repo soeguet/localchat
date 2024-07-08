@@ -29,4 +29,3 @@ describe("Chat", () => {
 		expect(screen.queryByTestId("chat-main")).toBeInTheDocument();
 	});
 });
-

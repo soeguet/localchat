@@ -18,11 +18,12 @@ const SendButton = memo(
 				onKeyDown={() => {
 					handleSendMessage();
 					sendTypingStatus(false);
-				}}>
+				}}
+			>
 				<SendButtonSvg />
 			</div>
 		);
-	}
+	},
 );
 
 SendButton.displayName = "SendButton";

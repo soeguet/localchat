@@ -12,15 +12,13 @@ function EmergencyInitBanner() {
 	);
 	const emergencyInitiatorColor = useClientStore(
 		(state) =>
-			state.clients.find(
-				(client) => client.clientDbId === emergencyInitiatorId,
-			)?.clientColor,
+			state.clients.find((client) => client.clientDbId === emergencyInitiatorId)
+				?.clientColor,
 	);
 	const emergencyInitiatorName = useClientStore(
 		(state) =>
-			state.clients.find(
-				(client) => client.clientDbId === emergencyInitiatorId,
-			)?.clientUsername,
+			state.clients.find((client) => client.clientDbId === emergencyInitiatorId)
+				?.clientUsername,
 	);
 	return (
 		<>
@@ -31,7 +29,8 @@ function EmergencyInitBanner() {
 						backgroundColor: emergencyInitiatorColor,
 						opacity: 0.8,
 						color: "white",
-					}}>
+					}}
+				>
 					{t("emergency_chat_init_text", {
 						initiatorName: emergencyInitiatorName,
 					})}

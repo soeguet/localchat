@@ -5,9 +5,7 @@ import { ProfilePicture } from "./ProfilePicture";
 describe("ProfilePicture", () => {
 	it("should render", async () => {
 		render(<ProfilePicture clientDbId="abc" />);
-		expect(
-			screen.queryByTestId("dummy-profile-picture"),
-		).toBeInTheDocument();
+		expect(screen.queryByTestId("dummy-profile-picture")).toBeInTheDocument();
 	});
 
 	it("should render the right size", async () => {
@@ -25,13 +23,9 @@ describe("ProfilePicture", () => {
 
 	it("should render the right picture", async () => {
 		render(
-			<ProfilePicture
-				clientDbId="abc"
-				pictureUrl="https://example.com"
-			/>,
+			<ProfilePicture clientDbId="abc" pictureUrl="https://example.com" />,
 		);
 		const picture = await screen.findByTestId("profile-picture");
 		expect(picture).toHaveAttribute("src", "https://example.com");
 	});
 });
-

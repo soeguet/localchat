@@ -26,9 +26,7 @@ function ChatMessageBubblePart(props: ChatMessageBubblePartProps) {
 			<div className={`flex flex-col ${alignChatLeftOrRight}`}>
 				<ChatBubbleTopPart
 					messagePayload={props.messagePayload}
-					lastMessageFromThisClientId={
-						props.lastMessageFromThisClientId
-					}
+					lastMessageFromThisClientId={props.lastMessageFromThisClientId}
 					lastMessageTimestampSameAsThisOne={
 						props.lastMessageTimestampSameAsThisOne
 					}
@@ -36,16 +34,10 @@ function ChatMessageBubblePart(props: ChatMessageBubblePartProps) {
 				<div className={`flex ${flexOrder}`}>
 					<ReactionTriggerDiv messagePayload={props.messagePayload} />
 					<ChatBubbleBottomPart
-						enableMessageEditingMode={
-							props.enableMessageEditingMode
-						}
-						setEnableMessageEditingMode={
-							props.setEnableMessageEditingMode
-						}
+						enableMessageEditingMode={props.enableMessageEditingMode}
+						setEnableMessageEditingMode={props.setEnableMessageEditingMode}
 						messagePayload={props.messagePayload}
-						thisMessageFromThisClient={
-							props.thisMessageFromThisClient
-						}
+						thisMessageFromThisClient={props.thisMessageFromThisClient}
 					/>
 				</div>
 			</div>

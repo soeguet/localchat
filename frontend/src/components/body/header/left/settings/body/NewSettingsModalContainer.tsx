@@ -27,12 +27,14 @@ function NewSettingsModalContainer(props: NewSettingsModalProps) {
 				style={{
 					borderColor: hover ? profileColor : "",
 				}}
-				data-testid="settings-modal-container">
+				data-testid="settings-modal-container"
+			>
 				<div className="flex grow flex-col justify-start gap-5 border p-5">
 					<NewProfilePicturePicker />
 					<div
 						data-testid="settings-input-field-container"
-						className="flex flex-wrap justify-start gap-3">
+						className="flex flex-wrap justify-start gap-3"
+					>
 						<NewInputUsername />
 						<NewInputIp />
 						<NewInputPort />
@@ -46,10 +48,7 @@ function NewSettingsModalContainer(props: NewSettingsModalProps) {
 						<AvailabilityCheckbox />
 					</div>
 				</div>
-				<NewSettingsButtonArea
-					onSave={props.onSave}
-					onClose={props.onClose}
-				/>
+				<NewSettingsButtonArea onSave={props.onSave} onClose={props.onClose} />
 			</div>
 		</>
 	);

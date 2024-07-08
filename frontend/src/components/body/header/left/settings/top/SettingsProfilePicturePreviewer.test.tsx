@@ -13,9 +13,7 @@ describe("SettingsProfilePicturePreviewer", () => {
 	test("should render standard profile picture, but NOT the preview (yet)", () => {
 		render(<SettingsProfilePicturePreviewer />);
 		const profilePicture = screen.getByTestId("dummy-profile-picture");
-		const newPreviewPicture = screen.queryByTestId(
-			"settings-picture-preview",
-		);
+		const newPreviewPicture = screen.queryByTestId("settings-picture-preview");
 		const banner = screen.queryByTestId("profile-picture-preview-banner");
 
 		expect(banner).not.toBeInTheDocument();

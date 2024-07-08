@@ -58,7 +58,8 @@ function ReactionModal() {
 					style={{
 						top: position.y,
 						left: position.x,
-					}}>
+					}}
+				>
 					<EmojiPicker
 						reactions={customEmojis}
 						lazyLoadEmojis={true}
@@ -70,11 +71,9 @@ function ReactionModal() {
 									payloadType: PayloadSubType.reaction,
 									reactionDbId: generateSimpleId(),
 									reactionMessageId:
-										useReactionMenuStore.getState()
-											.messageDbId,
+										useReactionMenuStore.getState().messageDbId,
 									reactionContext: emoji.emoji,
-									reactionClientId:
-										useUserStore.getState().myId,
+									reactionClientId: useUserStore.getState().myId,
 								}),
 							);
 							useReactionMenuStore.getState().reset();
@@ -91,11 +90,9 @@ function ReactionModal() {
 									payloadType: PayloadSubType.reaction,
 									reactionDbId: generateSimpleId(),
 									reactionMessageId:
-										useReactionMenuStore.getState()
-											.messageDbId,
+										useReactionMenuStore.getState().messageDbId,
 									reactionContext: emoji.emoji,
-									reactionClientId:
-										useUserStore.getState().myId,
+									reactionClientId: useUserStore.getState().myId,
 								}),
 							);
 							useReactionMenuStore.getState().reset();
@@ -107,4 +104,4 @@ function ReactionModal() {
 	);
 }
 
-export {ReactionModal};
+export { ReactionModal };

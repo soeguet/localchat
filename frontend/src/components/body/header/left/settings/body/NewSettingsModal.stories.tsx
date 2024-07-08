@@ -1,13 +1,13 @@
 import { NewSettingsModal } from "./NewSettingsModal";
 
 export default {
-    component: NewSettingsModal,
+	component: NewSettingsModal,
 };
 
 export const Default = {
-    args: {
-        label: "Settings Modal",
-        primary: true,
-        isOpen: true,
-    },
+	args: {
+		label: "Settings Modal",
+		primary: true,
+		isOpen: true,
+	},
 };

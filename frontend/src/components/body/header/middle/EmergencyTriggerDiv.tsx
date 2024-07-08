@@ -19,7 +19,8 @@ function EmergencyTriggerDiv(props: EmergencyTriggerDivProps) {
 						return;
 					}
 					setEmergencyValidationVisible(!emergencyValidationVisible);
-				}}>
+				}}
+			>
 				{props.children}
 
 				<EmergencyValidationPopup

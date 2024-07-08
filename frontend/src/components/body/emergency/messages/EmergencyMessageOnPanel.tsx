@@ -34,17 +34,13 @@ function EmergencyMessageOnPanel(props: EmergencyMessageOnPanelProps) {
 
 	return (
 		<>
-			<div
-				key={props.message.messageDbId}
-				className="flex flex-col gap-1 p-2">
+			<div key={props.message.messageDbId} className="flex flex-col gap-1 p-2">
 				{/* top part */}
 				<EmergencyMessageName
 					messageSenderColor={messageSenderColor}
 					name={messageSender.clientUsername}
 					messageFromThisClient={messagFromThisClient}
-					initiator={
-						emergencyInitiatorId === props.message.clientDbId
-					}
+					initiator={emergencyInitiatorId === props.message.clientDbId}
 				/>
 				{/* bottom part */}
 				<div className={`flex ${contentSide}`}>

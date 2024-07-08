@@ -21,19 +21,19 @@ function QuoteBubble(props: QuoteBubbleProps) {
 	const quotedClientColor = useClientStore(
 		(state) =>
 			state.clients.find(
-				(c) => c.clientDbId === props.payload.quoteType?.quoteClientId
-			)?.clientColor
+				(c) => c.clientDbId === props.payload.quoteType?.quoteClientId,
+			)?.clientColor,
 	);
 
 	const quotedClientName = useClientStore(
 		(state) =>
 			state.clients.find(
-				(c) => c.clientDbId === props.payload.quoteType?.quoteClientId
-			)?.clientUsername
+				(c) => c.clientDbId === props.payload.quoteType?.quoteClientId,
+			)?.clientUsername,
 	);
 
 	const base64DecodedQuoteMessage = base64ToUtf8(
-		props.payload.quoteType.quoteMessageContext
+		props.payload.quoteType.quoteMessageContext,
 	);
 
 	return (
@@ -45,7 +45,8 @@ function QuoteBubble(props: QuoteBubbleProps) {
 					style={{
 						borderColor: quotedClientColor,
 						fontSize: `${fontSize - 3}px`,
-					}}>
+					}}
+				>
 					<div className="text-gray-800">
 						{base64DecodedQuoteMessage}
 						{/* <LinkifiedText
