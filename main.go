@@ -22,7 +22,8 @@ var assets embed.FS
 // main is the entry point of the application.
 func main() {
 	// Create an instance of the app structure
-	app := NewApp()
+	db := NewDb()
+	app := NewApp(db)
 
 	// Create application with options
 	if err := wails.Run(&options.App{

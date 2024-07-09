@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -22,7 +21,6 @@ type EnvVars struct {
 }
 
 func SetClientId() string {
-
 	// if dev=true environment variable is set, use a random id
 	if os.Getenv("DEV") == "true" {
 		return uuid.New().String()
@@ -35,7 +33,7 @@ func SetClientId() string {
 
 	idFilePath := filepath.Join(homeDir, ".localchat", "id", "id.txt")
 
-	if err := os.MkdirAll(filepath.Dir(idFilePath), 0700); err != nil {
+	if err := os.MkdirAll(filepath.Dir(idFilePath), 0o700); err != nil {
 		log.Fatalf("error creating folder: %v", err)
 	}
 
@@ -44,7 +42,7 @@ func SetClientId() string {
 		newID := uuid.New().String()
 
 		// save id in file
-		if err := os.WriteFile(idFilePath, []byte(newID), 0600); err != nil {
+		if err := os.WriteFile(idFilePath, []byte(newID), 0o600); err != nil {
 			log.Fatalf("error saving the id: %v", err)
 		}
 
@@ -62,8 +60,11 @@ func SetClientId() string {
 	}
 }
 
-func GetLocalChatEnvVars() (string, error) {
+func (a *App) PersistImage(imgObj DbRow) error {
+	return a.db.addImage(imgObj)
+}
 
+func GetLocalChatEnvVars() (string, error) {
 	clientDbId := SetClientId()
 
 	envVars := EnvVars{
@@ -85,22 +86,21 @@ func GetLocalChatEnvVars() (string, error) {
 // App struct
 type App struct {
 	ctx context.Context
+	db  *Db
 }
 
 // NewApp creates a new App application struct
-func NewApp() *App {
-	return &App{}
+func NewApp(db *Db) *App {
+	return &App{
+		db: db,
+	}
 }
 
 // startup is called when the app starts. The context is saved
 // so we can call the runtime methods
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
-}
-
-// Greet returns a greeting for the given name
-func (a *App) Greet(name string) string {
-	return fmt.Sprintf("Hello %s, It's show time!", name)
+	a.db.startup()
 }
 
 // Notification sends a notification with the given sender and message.
@@ -124,5 +124,5 @@ func (a *App) GetLocalChatEnvVars() string {
 }
 
 func (a *App) MakeWindowsTaskIconFlash(title string) {
-	FlashWindow(title)
+	_ = FlashWindow(title)
 }

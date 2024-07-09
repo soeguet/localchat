@@ -1,4 +1,4 @@
-import { Notification } from "../../wailsjs/go/main/App";
+import { Notification, PersistImage } from "../../wailsjs/go/main/App";
 import {
 	WindowMinimise,
 	WindowShow,
@@ -19,13 +19,15 @@ import { useProfilePictureStore } from "../stores/profilePictureStore";
 import { useTypingStore } from "../stores/typingStore";
 import { useUserStore } from "../stores/userStore";
 import {
-	type MessagePayload,
-	PayloadSubType,
-	type EmergencyInitPayload,
-	type EmergencyMessagePayload,
-	type EmergencyMessage,
 	type AllEmergencyMessagesPayload,
+	type ClientId,
+	type EmergencyInitPayload,
+	type EmergencyMessage,
+	type EmergencyMessagePayload,
+	type FetchAllProfilePicturesPayload,
+	type MessagePayload,
 	type NewProfilePicturePayload,
+	PayloadSubType,
 	type ProfilePictureObject,
 } from "./customTypes";
 import { preventDuplicateEmergencyMessages } from "./emergencyArrayHelper";
@@ -104,12 +106,18 @@ export async function handleIncomingMessages(event: MessageEvent) {
 				dataAsObject.clientDbId === undefined ||
 				dataAsObject.isTyping === undefined
 			) {
-				throw new Error("Typing payload is missing client ID or typing status");
+				throw new Error(
+					"Typing payload is missing client ID or typing status",
+				);
 			}
 			if (dataAsObject.isTyping) {
-				useTypingStore.getState().addTypingClientId(dataAsObject.clientDbId);
+				useTypingStore
+					.getState()
+					.addTypingClientId(dataAsObject.clientDbId);
 			} else {
-				useTypingStore.getState().removeTypingClientId(dataAsObject.clientDbId);
+				useTypingStore
+					.getState()
+					.removeTypingClientId(dataAsObject.clientDbId);
 			}
 			break;
 
@@ -152,7 +160,9 @@ export async function handleIncomingMessages(event: MessageEvent) {
 				.setEmergencyInitiatorId(payload.initiatorClientDbId);
 			useEmergencyStore.getState().setEmergency(payload.active);
 			useEmergencyStore.getState().setChatVisible(true);
-			useEmergencyStore.getState().setEmergencyChatId(payload.emergencyChatId);
+			useEmergencyStore
+				.getState()
+				.setEmergencyChatId(payload.emergencyChatId);
 
 			if (!payload.active) {
 				useEmergencyStore.getState().setEmergencyMessages([]);
@@ -160,11 +170,13 @@ export async function handleIncomingMessages(event: MessageEvent) {
 			break;
 		}
 
+		// PayloadSubType.emergencyMessage == 11
 		case PayloadSubType.emergencyMessage: {
 			const payload = dataAsObject as EmergencyMessagePayload;
 
 			if (
-				useEmergencyStore.getState().emergencyChatId !== payload.emergencyChatId
+				useEmergencyStore.getState().emergencyChatId !==
+				payload.emergencyChatId
 			) {
 				console.error("EMERGENCY MESSAGE FROM WRONG CHAT", payload);
 				return;
@@ -197,12 +209,14 @@ export async function handleIncomingMessages(event: MessageEvent) {
 			break;
 		}
 
+		// PayloadSubType.allEmergencyMessages == 12
 		case PayloadSubType.allEmergencyMessages: {
 			const payload: AllEmergencyMessagesPayload =
 				dataAsObject as AllEmergencyMessagesPayload;
 
 			if (
-				useEmergencyStore.getState().emergencyChatId !== payload.emergencyChatId
+				useEmergencyStore.getState().emergencyChatId !==
+				payload.emergencyChatId
 			) {
 				console.error("EMERGENCY MESSAGE FROM WRONG CHAT", payload);
 				return;
@@ -219,11 +233,14 @@ export async function handleIncomingMessages(event: MessageEvent) {
 			const emergencyMessageArray: EmergencyMessage[] =
 				payload.emergencyMessages;
 
-			useEmergencyStore.getState().setEmergencyMessages(emergencyMessageArray);
+			useEmergencyStore
+				.getState()
+				.setEmergencyMessages(emergencyMessageArray);
 
 			break;
 		}
 
+		// PayloadSubType.newProfilePicture == 8
 		case PayloadSubType.newProfilePicture: {
 			const payload = dataAsObject as NewProfilePicturePayload;
 
@@ -233,10 +250,31 @@ export async function handleIncomingMessages(event: MessageEvent) {
 				data: payload.data,
 			};
 
-			const updateMap = useProfilePictureStore.getState().profilePictureMap;
+			const updateMap =
+				useProfilePictureStore.getState().profilePictureMap;
 			updateMap.set(payload.clientDbId, profilePictureObject);
 
 			useProfilePictureStore.getState().setProfilePictureMap(updateMap);
+
+			await PersistImage(profilePictureObject);
+			break;
+		}
+
+		// PayloadSubType.fetchAllProfilePictures == 15
+		case PayloadSubType.fetchAllProfilePictures: {
+			const payload: FetchAllProfilePicturesPayload =
+				dataAsObject as FetchAllProfilePicturesPayload;
+			const profilePictures: ProfilePictureObject[] =
+				payload.profilePictures;
+
+			const newMap = new Map<ClientId, ProfilePictureObject>();
+
+			for (let i = 0; i < profilePictures.length; i++) {
+				const profilePicture = profilePictures[i];
+				newMap.set(profilePicture.clientDbId, profilePicture);
+			}
+
+			useProfilePictureStore.getState().setProfilePictureMap(newMap);
 			break;
 		}
 
