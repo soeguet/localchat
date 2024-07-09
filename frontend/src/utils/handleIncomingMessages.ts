@@ -31,6 +31,7 @@ import {
 	type ProfilePictureObject,
 } from "./customTypes";
 import { preventDuplicateEmergencyMessages } from "./emergencyArrayHelper";
+import { initializeProfilePictures } from "./profilePictureInitializer";
 import { notifyClientIfReactionTarget } from "./reactionHandler";
 import { checkIfScrollToBottomIsNeeded } from "./scrollToBottomNeeded";
 
@@ -73,6 +74,8 @@ export async function handleIncomingMessages(event: MessageEvent) {
 			}
 			handleClientListPayload(event.data);
 			updateThisClientsCachedDataWithNewPayloadData(event.data);
+
+			initializeProfilePictures();
 
 			// TODO this seems fishy, need to ask somewhere else for all messages
 
@@ -256,7 +259,7 @@ export async function handleIncomingMessages(event: MessageEvent) {
 
 			useProfilePictureStore.getState().setProfilePictureMap(updateMap);
 
-			await PersistImage(profilePictureObject);
+			PersistImage(profilePictureObject);
 			break;
 		}
 

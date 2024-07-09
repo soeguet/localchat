@@ -1,4 +1,4 @@
-import { getClientById } from "../../../stores/clientStore";
+import { useClientStore } from "../../../stores/clientStore";
 import { useTypingStore } from "../../../stores/typingStore";
 import "./TypingIndicator.css";
 import { useEffect, useRef, useState } from "react";
@@ -16,7 +16,10 @@ function TypingIndicator(): JSX.Element {
 	);
 
 	const typingUserNames: string[] = typingUsers.map((id) => {
-		return getClientById(id)?.clientUsername || "Unknown";
+		return (
+			useClientStore.getState().getClientById(id)?.clientUsername ||
+			"Unknown"
+		);
 	});
 
 	const names = typingUserNames.join(", ");
@@ -24,6 +27,7 @@ function TypingIndicator(): JSX.Element {
 	const typingIndicatorRef = useRef<HTMLDivElement>(null);
 
 	// add hover listener to "typing" indicator panel so user can see text beneath a little better
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		if (typingIndicatorRef.current) {
 			typingIndicatorRef.current.addEventListener("mouseenter", () => {
@@ -35,12 +39,18 @@ function TypingIndicator(): JSX.Element {
 		}
 		return () => {
 			if (typingIndicatorRef.current) {
-				typingIndicatorRef.current.removeEventListener("mouseenter", () => {
-					setIsHovered(true);
-				});
-				typingIndicatorRef.current.removeEventListener("mouseleave", () => {
-					setIsHovered(false);
-				});
+				typingIndicatorRef.current.removeEventListener(
+					"mouseenter",
+					() => {
+						setIsHovered(true);
+					},
+				);
+				typingIndicatorRef.current.removeEventListener(
+					"mouseleave",
+					() => {
+						setIsHovered(false);
+					},
+				);
 			}
 		};
 	}, [typingUserNames.length]);
@@ -56,8 +66,7 @@ function TypingIndicator(): JSX.Element {
 						style={{
 							opacity: isHovered ? 0.3 : 0.7,
 							transition: "opacity 0.3s",
-						}}
-					>
+						}}>
 						<div className="flex items-center">
 							<div className="flex overflow-hidden text-black">
 								{names} {text}

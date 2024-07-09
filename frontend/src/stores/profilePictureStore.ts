@@ -1,10 +1,14 @@
 import { type StoreApi, type UseBoundStore, create } from "zustand";
-import type {
-	ClientId,
-	Hash,
-	ProfilePicture,
-	ProfilePictureObject,
+import {
+	PayloadSubType,
+	type ClientId,
+	type Hash,
+	type ProfilePicture,
+	type ProfilePictureObject,
 } from "../utils/customTypes";
+import { GetAllImages } from "../../wailsjs/go/main/App";
+import { useClientStore } from "./clientStore";
+import { useWebsocketStore } from "./websocketStore";
 
 type useProfilePictureStoreType = {
 	profilePictureMap: Map<ClientId, ProfilePictureObject>;

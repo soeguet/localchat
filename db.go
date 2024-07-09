@@ -61,9 +61,15 @@ func (d *Db) startup() {
 }
 
 func (d *Db) getImage(imageHash string) (DbRow, error) {
+	var err error
+	d.db, err = sql.Open("sqlite3", idFilePath)
+	if err != nil {
+		log.Fatalf("error opening database: %v", err)
+	}
+	defer d.db.Close()
 	var row DbRow
 
-	err := d.db.QueryRow(`SELECT * FROM images WHERE image_hash = ?`, imageHash).Scan(
+	err = d.db.QueryRow(`SELECT * FROM images WHERE image_hash = ?`, imageHash).Scan(
 		&row.ImageHash,
 		&row.ClientDbId,
 		&row.Data,
@@ -90,17 +96,36 @@ func (d *Db) addImage(imageObj DbRow) error {
 }
 
 func (d *Db) updateImage(imageObj DbRow) error {
-	_, err := d.db.Exec(`UPDATE images SET data = ? WHERE image_hash = ?`, imageObj.Data, imageObj.ImageHash)
+	var err error
+	d.db, err = sql.Open("sqlite3", idFilePath)
+	if err != nil {
+		log.Fatalf("error opening database: %v", err)
+	}
+	defer d.db.Close()
+	_, err = d.db.Exec(`UPDATE images SET data = ? WHERE image_hash = ?`, imageObj.Data, imageObj.ImageHash)
 	return err
 }
 
 func (d *Db) deleteImage(imageHash string) error {
-	_, err := d.db.Exec(`DELETE FROM images WHERE image_hash = ?`, imageHash)
+	var err error
+	d.db, err = sql.Open("sqlite3", idFilePath)
+	if err != nil {
+		log.Fatalf("error opening database: %v", err)
+	}
+	defer d.db.Close()
+	_, err = d.db.Exec(`DELETE FROM images WHERE image_hash = ?`, imageHash)
 	return err
 }
 
 func (d *Db) getAllImages() ([]DbRow, error) {
-	rows, err := d.db.Query(`SELECT * FROM images`)
+	var err error
+	var rows *sql.Rows
+	d.db, err = sql.Open("sqlite3", idFilePath)
+	if err != nil {
+		log.Fatalf("error opening database: %v", err)
+	}
+	defer d.db.Close()
+	rows, err = d.db.Query(`SELECT * FROM images`)
 	if err != nil {
 		return nil, err
 	}

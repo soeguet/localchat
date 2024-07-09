@@ -64,6 +64,22 @@ func (a *App) PersistImage(imgObj DbRow) error {
 	return a.db.addImage(imgObj)
 }
 
+func (a *App) GetAllImages() ([]DbRow, error) {
+	return a.db.getAllImages()
+}
+
+func (a *App) UpdateImage(imgObj DbRow) error {
+	return a.db.updateImage(imgObj)
+}
+
+func (a *App) DeleteImage(imageHash string) error {
+	return a.db.deleteImage(imageHash)
+}
+
+func (a *App) GetImage(imageHash string) (DbRow, error) {
+	return a.db.getImage(imageHash)
+}
+
 func GetLocalChatEnvVars() (string, error) {
 	clientDbId := SetClientId()
 

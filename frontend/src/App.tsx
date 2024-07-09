@@ -18,5 +18,4 @@ function App() {
 	}
 	return <Chat />;
 }
-
 export { App };

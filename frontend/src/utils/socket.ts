@@ -1,5 +1,4 @@
 import { Notification } from "../../wailsjs/go/main/App";
-import { getClientById } from "../stores/clientStore";
 import { type Reply, useReplyStore } from "../stores/replyStore";
 import { useUserStore } from "../stores/userStore";
 import { useWebsocketStore } from "../stores/websocketStore";
@@ -14,13 +13,13 @@ import {
 } from "./customTypes";
 import { encodeFileToBase64, utf8ToBase64 } from "./encoder";
 import { useImageStore } from "../stores/imageStore";
+import { useClientStore } from "../stores/clientStore";
 
 let socket: WebSocket;
 
 export const initWebSocket = (callbacks: CallbackProps) => {
 	socket = new WebSocket(
-		`ws://${useUserStore.getState().socketIp}:${
-			useUserStore.getState().socketPort
+		`ws://${useUserStore.getState().socketIp}:${useUserStore.getState().socketPort
 		}/chat`,
 	);
 
@@ -69,7 +68,9 @@ function closeWebSocket() {
 async function sendClientMessageToWebsocket(message: string): Promise<void> {
 	const replyMessage: Reply | null = useReplyStore.getState().replyMessage;
 	const id = useUserStore.getState().myId;
-	const username = getClientById(id)?.clientUsername;
+	const username = useClientStore
+		.getState()
+		.getClientById(id)?.clientUsername;
 	const selectedImage = useImageStore.getState().selectedImage;
 
 	if (
