@@ -6,9 +6,6 @@ import {
 	type ProfilePicture,
 	type ProfilePictureObject,
 } from "../utils/customTypes";
-import { GetAllImages } from "../../wailsjs/go/main/App";
-import { useClientStore } from "./clientStore";
-import { useWebsocketStore } from "./websocketStore";
 
 type useProfilePictureStoreType = {
 	profilePictureMap: Map<ClientId, ProfilePictureObject>;
@@ -23,9 +20,21 @@ const useProfilePictureStore: UseBoundStore<
 	StoreApi<useProfilePictureStoreType>
 > = create<useProfilePictureStoreType>((set) => ({
 	profilePictureMap: new Map<ClientId, ProfilePictureObject>(),
+
 	setProfilePictureMap: (
 		profilePictureMap: Map<ClientId, ProfilePictureObject>,
-	) => set({ profilePictureMap: profilePictureMap }),
+	) => {
+		for (const [key, value] of profilePictureMap) {
+			if (key === undefined) {
+				throw new Error("key is undefined");
+			}
+			if (value === undefined) {
+				throw new Error("value is undefined");
+			}
+		}
+		set({ profilePictureMap: profilePictureMap });
+	},
+
 	fetchProfilePicture: (clientDbId: ClientId) => {
 		const profilePicture = useProfilePictureStore
 			.getState()
@@ -35,6 +44,7 @@ const useProfilePictureStore: UseBoundStore<
 		}
 		return "";
 	},
+
 	fetchProfilePictureHash: (clientDbId: ClientId) => {
 		const profilePicture = useProfilePictureStore
 			.getState()

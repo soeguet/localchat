@@ -15,10 +15,11 @@ type ProfilePictureProps = {
 };
 
 const ProfilePicture = memo((props: ProfilePictureProps) => {
-	const profilePicture = useProfilePictureStore((state) =>
-		state.profilePictureMap.get(props.clientDbId),
-	);
+	const profilePicture = useProfilePictureStore((state) => {
+		return state.profilePictureMap.get(props.clientDbId);
+	});
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	const pictureSelection = useCallback(() => {
 		if (props.pictureUrl !== undefined) {
 			return props.pictureUrl;
@@ -29,7 +30,9 @@ const ProfilePicture = memo((props: ProfilePictureProps) => {
 		}
 
 		return "";
-	}, [props.pictureUrl, profilePicture]);
+	}, [props.pictureUrl, profilePicture, props.clientDbId]);
+
+	console.log("pictureSelection", pictureSelection());
 
 	const picturePresent = () => {
 		if (profilePicture === undefined || profilePicture === null) {

@@ -60,6 +60,7 @@ func SetClientId() string {
 	}
 }
 
+// persist image to golang sqlite db
 func (a *App) PersistImage(imgObj DbRow) error {
 	return a.db.addImage(imgObj)
 }

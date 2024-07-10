@@ -8,17 +8,29 @@ import {
 	PayloadSubType,
 } from "./customTypes";
 
+type DbRow = {
+	ImageHash: string;
+	ClientDbId: string;
+	Data: string;
+};
+
 export function initializeProfilePictures() {
 	// load profile pictures from go sqlite db
 	console.log("Clients: ", useClientStore.getState().clients.length);
 	GetAllImages()
 		.then((pictures) => {
-			const profilePictures = pictures as ProfilePictureObject[];
+			if (pictures === null || pictures === undefined) {
+				throw new Error("pictures is null or undefined");
+			}
 			const newMap = new Map<ClientId, ProfilePictureObject>();
 
-			for (let i = 0; i < profilePictures.length; i++) {
-				console.log("profile picture", profilePictures[i]);
-				const profilePicture: ProfilePictureObject = profilePictures[i];
+			for (let i = 0; i < pictures.length; i++) {
+				const picture: DbRow = pictures[i] as DbRow;
+				const profilePicture: ProfilePictureObject = {
+					clientDbId: picture.ClientDbId,
+					imageHash: picture.ImageHash,
+					data: picture.Data,
+				};
 				const clientProfilePictureHash = useClientStore
 					.getState()
 					.getClientHashById(profilePicture.clientDbId);
@@ -34,6 +46,9 @@ export function initializeProfilePictures() {
 		})
 		.then((newMap) => {
 			useProfilePictureStore.getState().setProfilePictureMap(newMap);
+		})
+		.catch((error) => {
+			console.error("error fetching profile pictures", error);
 		});
 }
 

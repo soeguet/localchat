@@ -256,11 +256,14 @@ export async function handleIncomingMessages(event: MessageEvent) {
 
 			const updateMap =
 				useProfilePictureStore.getState().profilePictureMap;
-			updateMap.set(payload.clientDbId, profilePictureObject);
+			updateMap.set(
+				profilePictureObject.clientDbId,
+				profilePictureObject,
+			);
 
 			useProfilePictureStore.getState().setProfilePictureMap(updateMap);
 
-			PersistImage(profilePictureObject);
+			await PersistImage(profilePictureObject);
 			break;
 		}
 
@@ -277,9 +280,17 @@ export async function handleIncomingMessages(event: MessageEvent) {
 
 			const updateMap =
 				useProfilePictureStore.getState().profilePictureMap;
-			updateMap.set(payload.clientDbId, profilePictureObject);
+			updateMap.set(
+				profilePictureObject.clientDbId,
+				profilePictureObject,
+			);
 
+			// persist in local cache - zustand
 			useProfilePictureStore.getState().setProfilePictureMap(updateMap);
+
+			// persist to goland sqlite db
+			await PersistImage(profilePictureObject);
+
 			break;
 		}
 
@@ -293,7 +304,11 @@ export async function handleIncomingMessages(event: MessageEvent) {
 			const newMap = new Map<ClientId, ProfilePictureObject>();
 
 			for (let i = 0; i < profilePictures.length; i++) {
-				const profilePicture = profilePictures[i];
+				const profilePicture: ProfilePictureObject = profilePictures[i];
+
+				// persist to goland sqlite db
+				PersistImage(profilePicture);
+
 				newMap.set(profilePicture.clientDbId, profilePicture);
 			}
 
