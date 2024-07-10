@@ -39,6 +39,14 @@ export type FetchProfilePicturePayload = {
 	clientDbId: ClientId;
 };
 
+export type ProfilePicturePayload = {
+	payloadType: PayloadSubType.fetchProfilePicture;
+	profilePictureDbId: number;
+	clientDbId: string;
+	imageHash: string;
+	data: string;
+};
+
 export type FetchCurrentClientProfilePictureHashPayload = {
 	payloadType: PayloadSubType.fetchCurrentClientProfilePictureHash;
 	clientDbId: ClientId;

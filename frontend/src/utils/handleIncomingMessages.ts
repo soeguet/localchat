@@ -29,6 +29,7 @@ import {
 	type NewProfilePicturePayload,
 	PayloadSubType,
 	type ProfilePictureObject,
+	type ProfilePicturePayload,
 } from "./customTypes";
 import { preventDuplicateEmergencyMessages } from "./emergencyArrayHelper";
 import { initializeProfilePictures } from "./profilePictureInitializer";
@@ -260,6 +261,25 @@ export async function handleIncomingMessages(event: MessageEvent) {
 			useProfilePictureStore.getState().setProfilePictureMap(updateMap);
 
 			PersistImage(profilePictureObject);
+			break;
+		}
+
+		// PayloadSubType.fetchProfilePicture == 14
+		case PayloadSubType.fetchProfilePicture: {
+			const payload: ProfilePicturePayload =
+				dataAsObject as ProfilePicturePayload;
+
+			const profilePictureObject: ProfilePictureObject = {
+				clientDbId: payload.clientDbId,
+				imageHash: payload.imageHash,
+				data: payload.data,
+			};
+
+			const updateMap =
+				useProfilePictureStore.getState().profilePictureMap;
+			updateMap.set(payload.clientDbId, profilePictureObject);
+
+			useProfilePictureStore.getState().setProfilePictureMap(updateMap);
 			break;
 		}
 
