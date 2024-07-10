@@ -76,7 +76,7 @@ export async function handleIncomingMessages(event: MessageEvent) {
 			handleClientListPayload(event.data);
 			updateThisClientsCachedDataWithNewPayloadData(event.data);
 
-			initializeProfilePictures();
+			await initializeProfilePictures();
 
 			// TODO this seems fishy, need to ask somewhere else for all messages
 

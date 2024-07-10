@@ -32,8 +32,6 @@ const ProfilePicture = memo((props: ProfilePictureProps) => {
 		return "";
 	}, [props.pictureUrl, profilePicture, props.clientDbId]);
 
-	console.log("pictureSelection", pictureSelection());
-
 	const picturePresent = () => {
 		if (profilePicture === undefined || profilePicture === null) {
 			return false;

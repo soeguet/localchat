@@ -51,8 +51,8 @@ func (d *Db) startup() {
 	defer d.db.Close()
 
 	_, err = d.db.Exec(`CREATE TABLE IF NOT EXISTS images (
-		image_hash TEXT PRIMARY KEY,
-		client_db_id TEXT,
+		image_hash TEXT UNIQUE,
+		client_db_id TEXT PRIMARY KEY,
 		data TEXT
 	)`)
 	if err != nil {
@@ -60,7 +60,7 @@ func (d *Db) startup() {
 	}
 }
 
-func (d *Db) getImage(imageHash string) (DbRow, error) {
+func (d *Db) getImage(clientDbId string) (DbRow, error) {
 	var err error
 	d.db, err = sql.Open("sqlite3", idFilePath)
 	if err != nil {
@@ -69,9 +69,9 @@ func (d *Db) getImage(imageHash string) (DbRow, error) {
 	defer d.db.Close()
 	var row DbRow
 
-	err = d.db.QueryRow(`SELECT * FROM images WHERE image_hash = ?`, imageHash).Scan(
-		&row.ImageHash,
+	err = d.db.QueryRow(`SELECT * FROM images WHERE client_db_id = ?`, clientDbId).Scan(
 		&row.ClientDbId,
+		&row.ImageHash,
 		&row.Data,
 	)
 	if err != nil {
@@ -102,7 +102,7 @@ func (d *Db) updateImage(imageObj DbRow) error {
 		log.Fatalf("error opening database: %v", err)
 	}
 	defer d.db.Close()
-	_, err = d.db.Exec(`UPDATE images SET data = ? WHERE image_hash = ?`, imageObj.Data, imageObj.ImageHash)
+	_, err = d.db.Exec(`UPDATE images SET data = ? WHERE client_db_id = ?`, imageObj.Data, imageObj.ClientDbId)
 	return err
 }
 

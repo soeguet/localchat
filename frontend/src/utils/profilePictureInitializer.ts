@@ -14,42 +14,35 @@ type DbRow = {
 	Data: string;
 };
 
-export function initializeProfilePictures() {
+export async function initializeProfilePictures() {
 	// load profile pictures from go sqlite db
-	console.log("Clients: ", useClientStore.getState().clients.length);
-	GetAllImages()
-		.then((pictures) => {
-			if (pictures === null || pictures === undefined) {
-				throw new Error("pictures is null or undefined");
-			}
-			const newMap = new Map<ClientId, ProfilePictureObject>();
+	const allPictures = await GetAllImages();
 
-			for (let i = 0; i < pictures.length; i++) {
-				const picture: DbRow = pictures[i] as DbRow;
-				const profilePicture: ProfilePictureObject = {
-					clientDbId: picture.ClientDbId,
-					imageHash: picture.ImageHash,
-					data: picture.Data,
-				};
-				const clientProfilePictureHash = useClientStore
-					.getState()
-					.getClientHashById(profilePicture.clientDbId);
+	if (allPictures === null || allPictures === undefined) {
+		return;
+	}
 
-				if (profilePicture.imageHash === clientProfilePictureHash) {
-					newMap.set(profilePicture.clientDbId, profilePicture);
-				} else {
-					fetchProfilePictureFromWebsocket(profilePicture.clientDbId);
-				}
-			}
+	const newMap = new Map<ClientId, ProfilePictureObject>();
 
-			return newMap;
-		})
-		.then((newMap) => {
-			useProfilePictureStore.getState().setProfilePictureMap(newMap);
-		})
-		.catch((error) => {
-			console.error("error fetching profile pictures", error);
-		});
+	for (let i = 0; i < allPictures.length; i++) {
+		const picture: DbRow = allPictures[i] as DbRow;
+		const profilePicture: ProfilePictureObject = {
+			clientDbId: picture.ClientDbId,
+			imageHash: picture.ImageHash,
+			data: picture.Data,
+		};
+		const clientProfilePictureHash = useClientStore
+			.getState()
+			.getClientHashById(profilePicture.clientDbId);
+
+		if (profilePicture.imageHash === clientProfilePictureHash) {
+			newMap.set(profilePicture.clientDbId, profilePicture);
+		} else {
+			fetchProfilePictureFromWebsocket(profilePicture.clientDbId);
+		}
+	}
+
+	useProfilePictureStore.getState().setProfilePictureMap(newMap);
 }
 
 function fetchProfilePictureFromWebsocket(clientDbId: ClientId) {
@@ -57,8 +50,6 @@ function fetchProfilePictureFromWebsocket(clientDbId: ClientId) {
 	if (ws === null) {
 		throw new Error("Websocket connection is not available");
 	}
-
-	console.log("fetching profile picture for client", clientDbId);
 
 	ws.send(
 		JSON.stringify({

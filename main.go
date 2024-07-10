@@ -23,7 +23,8 @@ var assets embed.FS
 func main() {
 	// Create an instance of the app structure
 	db := NewDb()
-	app := NewApp(db)
+	envVars := NewEnvVars()
+	app := NewApp(db, envVars)
 
 	// Create application with options
 	if err := wails.Run(&options.App{

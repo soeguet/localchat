@@ -2,23 +2,14 @@ package main
 
 import (
 	"context"
-	"encoding/json"
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
-	"runtime"
 
 	"github.com/gen2brain/beeep"
 	"github.com/google/uuid"
 )
-
-type EnvVars struct {
-	Username string `json:"username"`
-	IP       string `json:"ip"`
-	Port     string `json:"port"`
-	Os       string `json:"os"`
-	Id       string `json:"id"`
-}
 
 func SetClientId() string {
 	// if dev=true environment variable is set, use a random id
@@ -73,43 +64,26 @@ func (a *App) UpdateImage(imgObj DbRow) error {
 	return a.db.updateImage(imgObj)
 }
 
-func (a *App) DeleteImage(imageHash string) error {
+func (a *App) DeleteImageViaImageHash(imageHash string) error {
 	return a.db.deleteImage(imageHash)
 }
 
-func (a *App) GetImage(imageHash string) (DbRow, error) {
-	return a.db.getImage(imageHash)
-}
-
-func GetLocalChatEnvVars() (string, error) {
-	clientDbId := SetClientId()
-
-	envVars := EnvVars{
-		Username: os.Getenv("LOCALCHAT_USERNAME"),
-		IP:       os.Getenv("LOCALCHAT_IP"),
-		Port:     os.Getenv("LOCALCHAT_PORT"),
-		Os:       runtime.GOOS,
-		Id:       clientDbId,
-	}
-
-	envVarsJSON, err := json.Marshal(envVars)
-	if err != nil {
-		return "", err
-	}
-
-	return string(envVarsJSON), nil
+func (a *App) GetImageViaClientDbId(clientDbId string) (DbRow, error) {
+	return a.db.getImage(clientDbId)
 }
 
 // App struct
 type App struct {
-	ctx context.Context
-	db  *Db
+	ctx     context.Context
+	db      *Db
+	envVars *EnvVars
 }
 
 // NewApp creates a new App application struct
-func NewApp(db *Db) *App {
+func NewApp(db *Db, envVars *EnvVars) *App {
 	return &App{
-		db: db,
+		db:      db,
+		envVars: envVars,
 	}
 }
 
@@ -117,6 +91,14 @@ func NewApp(db *Db) *App {
 // so we can call the runtime methods
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
+
+	// env vars
+	a.envVars.createConfigFolder()
+	a.envVars.createIdFolder()
+	a.envVars.createDbFolder()
+	a.envVars.retrieveEnvVars()
+
+	// db
 	a.db.startup()
 }
 
@@ -133,11 +115,12 @@ func (a *App) Notification(sender string, message string) {
 // It returns a JSON string representation of the environment variables.
 // If an error occurs during retrieval, it panics.
 func (a *App) GetLocalChatEnvVars() string {
-	jsonString, err := GetLocalChatEnvVars()
+	vars, err := a.envVars.envVarsToFrontend()
 	if err != nil {
-		panic(err)
+		_ = fmt.Errorf("error converting env vars to frontend: %w", err)
 	}
-	return jsonString
+
+	return vars
 }
 
 func (a *App) MakeWindowsTaskIconFlash(title string) {
