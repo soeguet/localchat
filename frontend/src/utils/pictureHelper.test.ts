@@ -50,7 +50,7 @@ describe("pictureHelper - handleFileChange", () => {
 		} as unknown as ChangeEvent<HTMLInputElement>;
 
 		try {
-			await handleFileChange(event);
+			await handleFileChange(event, "error text");
 		} catch (error) {
 			expect(error).toBeInstanceOf(Error);
 
@@ -72,7 +72,7 @@ describe("pictureHelper - handleFileChange", () => {
 
 		const spy = vi.spyOn(console, "error").mockImplementation(() => {});
 
-		await handleFileChange(event);
+		await handleFileChange(event, "error text");
 
 		expect(spy).toHaveBeenCalled();
 	});

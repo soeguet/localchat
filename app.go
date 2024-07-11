@@ -3,53 +3,49 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
-	"os"
-	"path/filepath"
 
 	"github.com/gen2brain/beeep"
-	"github.com/google/uuid"
 )
 
-func SetClientId() string {
-	// if dev=true environment variable is set, use a random id
-	if os.Getenv("DEV") == "true" {
-		return uuid.New().String()
-	}
+// func SetClientId() string {
+// 	// if dev=true environment variable is set, use a random id
+// 	if os.Getenv("DEV") == "true" {
+// 		return uuid.New().String()
+// 	}
 
-	homeDir, err := os.UserHomeDir()
-	if err != nil {
-		log.Fatalf("error retrieving home path: %v", err)
-	}
+// 	homeDir, err := os.UserHomeDir()
+// 	if err != nil {
+// 		log.Fatalf("error retrieving home path: %v", err)
+// 	}
 
-	idFilePath := filepath.Join(homeDir, ".localchat", "id", "id.txt")
+// 	idFilePath := filepath.Join(homeDir, ".localchat", "id", "id.txt")
 
-	if err := os.MkdirAll(filepath.Dir(idFilePath), 0o700); err != nil {
-		log.Fatalf("error creating folder: %v", err)
-	}
+// 	if err := os.MkdirAll(filepath.Dir(idFilePath), 0o700); err != nil {
+// 		log.Fatalf("error creating folder: %v", err)
+// 	}
 
-	if _, err := os.Stat(idFilePath); os.IsNotExist(err) {
-		// id file missing -> generate new id
-		newID := uuid.New().String()
+// 	if _, err := os.Stat(idFilePath); os.IsNotExist(err) {
+// 		// id file missing -> generate new id
+// 		newID := uuid.New().String()
 
-		// save id in file
-		if err := os.WriteFile(idFilePath, []byte(newID), 0o600); err != nil {
-			log.Fatalf("error saving the id: %v", err)
-		}
+// 		// save id in file
+// 		if err := os.WriteFile(idFilePath, []byte(newID), 0o600); err != nil {
+// 			log.Fatalf("error saving the id: %v", err)
+// 		}
 
-		log.Printf("new id generated and saved: %s", newID)
-		return newID
-	} else {
-		// id exists -> read id from file
-		id, err := os.ReadFile(idFilePath)
-		if err != nil {
-			log.Fatalf("error reading id: %v", err)
-		}
+// 		log.Printf("new id generated and saved: %s", newID)
+// 		return newID
+// 	} else {
+// 		// id exists -> read id from file
+// 		id, err := os.ReadFile(idFilePath)
+// 		if err != nil {
+// 			log.Fatalf("error reading id: %v", err)
+// 		}
 
-		log.Printf("id was read from file: %s", string(id))
-		return string(id)
-	}
-}
+// 		log.Printf("id was read from file: %s", string(id))
+// 		return string(id)
+// 	}
+//}
 
 // persist image to golang sqlite db
 func (a *App) PersistImage(imgObj DbRow) error {

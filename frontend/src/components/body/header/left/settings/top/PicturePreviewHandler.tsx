@@ -1,5 +1,6 @@
-import type { RefObject } from "react";
+import type { ChangeEvent, RefObject } from "react";
 import { handleFileChange } from "../../../../../../utils/pictureHelper";
+import { useTranslation } from "react-i18next";
 
 type PicturePreviewHandlerProps = {
 	preferPictureUrl: boolean;
@@ -8,6 +9,9 @@ type PicturePreviewHandlerProps = {
 };
 
 function PicturePreviewHandler(props: PicturePreviewHandlerProps) {
+	const { t } = useTranslation();
+	const fileChange = (event: ChangeEvent<HTMLInputElement>) =>
+		handleFileChange(event, t("filetype_not_allowed"));
 	return (
 		<>
 			<div data-testid="picture-preview-container">
@@ -25,7 +29,7 @@ function PicturePreviewHandler(props: PicturePreviewHandlerProps) {
 						type="file"
 						id="profilePicture"
 						accept=".png, .jpg, .jpeg"
-						onChange={handleFileChange}
+						onChange={fileChange}
 						className="mt-1 w-full rounded-md border border-gray-300 p-2"
 					/>
 				)}

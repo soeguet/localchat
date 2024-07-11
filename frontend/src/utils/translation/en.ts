@@ -85,4 +85,5 @@ export const en_translation = {
 	emergency_chat_header_dots_menu: "Menu options for the emergency chat",
 	emergency_chat_header_text: "{{initiatorName}} - Emergency Chat",
 	emergency_chat_init_text: "{{initiatorName}} needs your help!",
+	filetype_not_allowed: "Only PNG, JPG, and JPEG files are allowed.",
 };

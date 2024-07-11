@@ -1,5 +1,6 @@
 import type { ChangeEvent } from "react";
 import useSettingsStore from "../stores/settingsStore";
+import { useTranslation } from "react-i18next";
 
 export function arrayBufferToBase64(buffer: ArrayBuffer): string {
 	let binary = "";
@@ -27,10 +28,19 @@ export function readFileAsArrayBuffer(file: File): Promise<ArrayBuffer> {
 }
 
 // TODO to be tested after refactoring
-export async function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
+export async function handleFileChange(
+	event: ChangeEvent<HTMLInputElement>,
+	error_text: string,
+) {
 	const file = event.target.files?.[0] || null;
+	const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
 	if (!file) {
 		throw new Error("No file selected.");
+	}
+
+	if (file && !allowedTypes.includes(file.type)) {
+		alert(error_text);
+		event.target.value = "";
 	}
 
 	try {

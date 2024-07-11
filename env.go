@@ -28,8 +28,8 @@ var (
 )
 
 func (envVars *EnvVars) retrieveEnvVars() {
-	idFilePath := getIdFilePath()
-	Id = generateNewId(idFilePath)
+	//idFilePath := getIdFilePath()
+	Id = envVars.setClientId()
 
 	IP = os.Getenv("LOCALCHAT_IP")
 	Username = os.Getenv("LOCALCHAT_USERNAME")
@@ -141,6 +141,7 @@ func generateNewId(idFilePath string) string {
 }
 
 func (envVars *EnvVars) setClientId() string {
+
 	if os.Getenv("LOCALCHAT_ID") != "" {
 		return os.Getenv("LOCALCHAT_ID")
 	}
