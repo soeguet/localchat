@@ -11,7 +11,8 @@ function ConnectedSvg() {
 				viewBox="-2.4 -2.4 28.8 28.8"
 				className="rounded-full border-2 border-black"
 				width="2.5em"
-				height="2.5em">
+				height="2.5em"
+			>
 				<title>{t("title_svg_connected")}</title>
 				<rect
 					width={28.8}

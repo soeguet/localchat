@@ -1,38 +1,27 @@
 {
-    "compilerOptions": {
-        "target": "ES2015",
-        "useDefineForClassFields": true,
-        "lib": [
-            "DOM",
-            "DOM.Iterable",
-            "ES2015"
-        ],
-        "types": [
-            "vitest/globals",
-            "vitest/importMeta"
-        ],
-        "allowJs": false,
-        "noImplicitAny": false,
-        "skipLibCheck": true,
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
-        "strict": true,
-        "forceConsistentCasingInFileNames": true,
-        "module": "ESNext",
-        "moduleResolution": "Node",
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "noEmit": true,
-        "jsx": "react-jsx"
-    },
-    "include": [
-        "src",
-        "node_modules/vitest/globals.d.ts",
-        ".src/test/setup.ts"
-    ],
-    "references": [
-        {
-            "path": "./tsconfig.node.json"
-        }
-    ]
+	"compilerOptions": {
+		"target": "ES2015",
+		"useDefineForClassFields": true,
+		"lib": ["DOM", "DOM.Iterable", "ES2015"],
+		"types": ["vitest/globals", "vitest/importMeta"],
+		"allowJs": false,
+		"noImplicitAny": false,
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"strict": true,
+		"forceConsistentCasingInFileNames": true,
+		"module": "ESNext",
+		"moduleResolution": "Node",
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"noEmit": true,
+		"jsx": "react-jsx"
+	},
+	"include": ["src", "node_modules/vitest/globals.d.ts", ".src/test/setup.ts"],
+	"references": [
+		{
+			"path": "./tsconfig.node.json"
+		}
+	]
 }

@@ -9,7 +9,8 @@ function SettingsIconSvg() {
 				xmlSpace="preserve"
 				viewBox="0 0 394.662 394.662"
 				width="2em"
-				height="2em">
+				height="2em"
+			>
 				<title>{t("title_svg_settings")}</title>
 				<path
 					d="M258.211 96.97c-15.3-16.09-36.92-26.12-60.88-26.12-23.97 0-45.59 10.04-60.9 26.13 6.96-27.14 31.58-47.2 60.9-47.2 29.3 0 53.93 20.06 60.88 47.19z"

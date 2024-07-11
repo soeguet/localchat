@@ -1,63 +1,63 @@
 import { expect, test, describe } from "vitest";
 import {
-    fireEvent,
-    render,
-    screen,
-    waitFor,
+	fireEvent,
+	render,
+	screen,
+	waitFor,
 } from "../../../../utils/test-utils";
 import { App } from "../../../../App";
 import { useMessageMapStore } from "../../../../stores/messageMapStore";
 import {
-    type MessagePayload,
-    PayloadSubType,
+	type MessagePayload,
+	PayloadSubType,
 } from "../../../../utils/customTypes";
 import { ChatPanel } from "../ChatPanel";
 import { useUserStore } from "../../../../stores/userStore";
 
 describe("EditMessageMode", () => {
-    test("test if edit mode activates after pressing edit", async () => {
-        const id = "111";
-        const messagePayload: MessagePayload = {
-            payloadType: PayloadSubType.message,
-            clientType: {
-                clientDbId: id,
-            },
-            messageType: {
-                deleted: false,
+	test("test if edit mode activates after pressing edit", async () => {
+		const id = "111";
+		const messagePayload: MessagePayload = {
+			payloadType: PayloadSubType.message,
+			clientType: {
+				clientDbId: id,
+			},
+			messageType: {
+				deleted: false,
 
-                messageDate: "2021-10-10",
-                messageTime: "12:00",
-                messageContext: "aGVubG8=",
-                messageDbId: "111",
-                edited: false,
-            },
-            quoteType: undefined,
-            reactionType: [],
-        };
+				messageDate: "2021-10-10",
+				messageTime: "12:00",
+				messageContext: "aGVubG8=",
+				messageDbId: "111",
+				edited: false,
+			},
+			quoteType: undefined,
+			reactionType: [],
+		};
 
-        useMessageMapStore.getState().onMessage(messagePayload);
-        useUserStore.getState().setMyId(id);
-        useUserStore.getState().setMyUsername("TestUser");
-        render(<ChatPanel />);
+		useMessageMapStore.getState().onMessage(messagePayload);
+		useUserStore.getState().setMyId(id);
+		useUserStore.getState().setMyUsername("TestUser");
+		render(<ChatPanel />);
 
-        const menuContainer = await screen.findByTestId(
-            "chat-message-outer-part-container"
-        );
+		const menuContainer = await screen.findByTestId(
+			"chat-message-outer-part-container",
+		);
 
-        waitFor(() => {
-            fireEvent.click(menuContainer);
-        });
+		waitFor(() => {
+			fireEvent.click(menuContainer);
+		});
 
-        const editButton = await screen.findByTestId("edit-message-button");
+		const editButton = await screen.findByTestId("edit-message-button");
 
-        waitFor(() => {
-            fireEvent.click(editButton);
-        });
+		waitFor(() => {
+			fireEvent.click(editButton);
+		});
 
-        const container = await screen.findByTestId("edit-message-textarea");
+		const container = await screen.findByTestId("edit-message-textarea");
 
-        expect(container).toBeInTheDocument();
-    });
+		expect(container).toBeInTheDocument();
+	});
 });
 
 // import { useState } from "react";

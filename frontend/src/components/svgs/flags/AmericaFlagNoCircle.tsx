@@ -11,7 +11,8 @@ function AmericaFlagNoCircle() {
 				viewBox="0 0 512 512"
 				width="2.1em"
 				className="rounded-full bg-white p-0.5"
-				height="2.1em">
+				height="2.1em"
+			>
 				<title>{t("title_svg_american_flag")}</title>
 				<path
 					d="M503.742 385.376V126.624c0-19.763-16.022-35.785-35.785-35.785H44.043c-19.763 0-35.785 16.022-35.785 35.785v258.753c0 19.763 16.022 35.785 35.785 35.785h423.914c19.763-.001 35.785-16.022 35.785-35.786z"

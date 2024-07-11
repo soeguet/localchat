@@ -54,8 +54,7 @@ export const en_translation = {
 	title_svg_settings:
 		"Opens the settings menu and lets you change the app settings.",
 	title_svg_connected: "You are connected to the websocket server.",
-	title_svg_info:
-		"Opens an info modal, containing information about the app.",
+	title_svg_info: "Opens an info modal, containing information about the app.",
 	title_svg_do_not_disturb:
 		"Prevents notifications from being displayed for 5 minutes. Will be reset automatically.",
 	title_svg_force_warning:
@@ -86,4 +85,5 @@ export const en_translation = {
 	emergency_chat_header_dots_menu: "Menu options for the emergency chat",
 	emergency_chat_header_text: "{{initiatorName}} - Emergency Chat",
 	emergency_chat_init_text: "{{initiatorName}} needs your help!",
+	filetype_not_allowed: "Only PNG, JPG, and JPEG files are allowed.",
 };

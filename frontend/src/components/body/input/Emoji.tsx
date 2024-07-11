@@ -20,10 +20,7 @@ const Emoji = memo((props: EmojiProps) => {
 	function handleClickOutside(event: MouseEvent) {
 		event.preventDefault();
 		event.stopPropagation();
-		if (
-			emojiRef.current &&
-			!emojiRef.current.contains(event.target as Node)
-		) {
+		if (emojiRef.current && !emojiRef.current.contains(event.target as Node)) {
 			const { left, top, right, bottom } =
 				emojiRef.current.getBoundingClientRect();
 			const { clientX, clientY } = event;
@@ -62,7 +59,8 @@ const Emoji = memo((props: EmojiProps) => {
 				onClick={(event) => {
 					setEmojiVisible(true);
 					setPosition({ x: event.clientX, y: event.clientY });
-				}}>
+				}}
+			>
 				<EmojiMenuSvg />
 			</div>
 
@@ -86,4 +84,3 @@ const Emoji = memo((props: EmojiProps) => {
 Emoji.displayName = "Emoji";
 
 export { Emoji };
-

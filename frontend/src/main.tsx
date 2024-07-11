@@ -1,20 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import {App} from "./App";
+import { App } from "./App";
 import "./config/i18n";
-import {WindowSetTitle} from "../wailsjs/runtime";
-import {useEnvironmentVariablesLoader} from "./hooks/setup/useEnvLoader";
+import { WindowSetTitle } from "../wailsjs/runtime";
+import { useEnvironmentVariablesLoader } from "./hooks/setup/useEnvLoader";
 
 WindowSetTitle("Localchat");
 
 // load environment variables
 (async () => {
-    await useEnvironmentVariablesLoader();
+	await useEnvironmentVariablesLoader();
 })();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-    <React.StrictMode>
-        <App/>
-    </React.StrictMode>
+	<React.StrictMode>
+		<App />
+	</React.StrictMode>,
 );

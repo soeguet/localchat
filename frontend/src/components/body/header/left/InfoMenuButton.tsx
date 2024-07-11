@@ -19,7 +19,8 @@ function InfoMenuButton() {
 				type="button"
 				data-testid="info-menu-modal-button"
 				className="group flex w-full items-center gap-2 border-t-2 px-4 py-2 text-left align-middle text-sm text-gray-800 hover:bg-gray-100"
-				onClick={openModal}>
+				onClick={openModal}
+			>
 				<div className="group-hover:animate-bounce">
 					<InfoIconSvg />
 				</div>

@@ -17,7 +17,8 @@ function DoNotDisturb(props: DoNotDisturbProps) {
 					className="icon"
 					version="1.1"
 					xmlns="http://www.w3.org/2000/svg"
-					fill="#000000">
+					fill="#000000"
+				>
 					<title>{t("title_svg_do_not_disturb")}</title>
 					<g id="SVGRepo_bgCarrier" strokeWidth="0" />
 					<g
@@ -42,4 +43,3 @@ function DoNotDisturb(props: DoNotDisturbProps) {
 }
 
 export { DoNotDisturb };
-

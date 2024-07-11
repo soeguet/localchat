@@ -71,7 +71,8 @@ function EmergencyInput() {
 				<button
 					type="button"
 					className="flex h-full cursor-pointer items-center"
-					onClick={handleEmergencyChatSendMessage}>
+					onClick={handleEmergencyChatSendMessage}
+				>
 					<SendButtonSvg />
 				</button>
 			</div>

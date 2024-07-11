@@ -1,4 +1,4 @@
-import { Notification } from "../../wailsjs/go/main/App";
+import { Notification, PersistImage } from "../../wailsjs/go/main/App";
 import {
 	WindowMinimise,
 	WindowShow,
@@ -15,17 +15,24 @@ import {
 import { useDoNotDisturbStore } from "../stores/doNotDisturbStore";
 import { useEmergencyStore } from "../stores/emergencyStore";
 import { useMessageMapStore } from "../stores/messageMapStore";
+import { useProfilePictureStore } from "../stores/profilePictureStore";
 import { useTypingStore } from "../stores/typingStore";
 import { useUserStore } from "../stores/userStore";
 import {
-	type MessagePayload,
-	PayloadSubType,
-	type EmergencyInitPayload,
-	type EmergencyMessagePayload,
-	type EmergencyMessage,
 	type AllEmergencyMessagesPayload,
+	type ClientId,
+	type EmergencyInitPayload,
+	type EmergencyMessage,
+	type EmergencyMessagePayload,
+	type FetchAllProfilePicturesPayload,
+	type MessagePayload,
+	type NewProfilePicturePayload,
+	PayloadSubType,
+	type ProfilePictureObject,
+	type ProfilePicturePayload,
 } from "./customTypes";
 import { preventDuplicateEmergencyMessages } from "./emergencyArrayHelper";
+import { initializeProfilePictures } from "./profilePictureInitializer";
 import { notifyClientIfReactionTarget } from "./reactionHandler";
 import { checkIfScrollToBottomIsNeeded } from "./scrollToBottomNeeded";
 
@@ -68,6 +75,8 @@ export async function handleIncomingMessages(event: MessageEvent) {
 			}
 			handleClientListPayload(event.data);
 			updateThisClientsCachedDataWithNewPayloadData(event.data);
+
+			await initializeProfilePictures();
 
 			// TODO this seems fishy, need to ask somewhere else for all messages
 
@@ -165,6 +174,7 @@ export async function handleIncomingMessages(event: MessageEvent) {
 			break;
 		}
 
+		// PayloadSubType.emergencyMessage == 11
 		case PayloadSubType.emergencyMessage: {
 			const payload = dataAsObject as EmergencyMessagePayload;
 
@@ -202,6 +212,8 @@ export async function handleIncomingMessages(event: MessageEvent) {
 
 			break;
 		}
+
+		// PayloadSubType.allEmergencyMessages == 12
 		case PayloadSubType.allEmergencyMessages: {
 			const payload: AllEmergencyMessagesPayload =
 				dataAsObject as AllEmergencyMessagesPayload;
@@ -231,6 +243,79 @@ export async function handleIncomingMessages(event: MessageEvent) {
 
 			break;
 		}
+
+		// PayloadSubType.newProfilePicture == 8
+		case PayloadSubType.newProfilePicture: {
+			const payload = dataAsObject as NewProfilePicturePayload;
+
+			const profilePictureObject: ProfilePictureObject = {
+				clientDbId: payload.clientDbId,
+				imageHash: payload.imageHash,
+				data: payload.data,
+			};
+
+			const updateMap =
+				useProfilePictureStore.getState().profilePictureMap;
+			updateMap.set(
+				profilePictureObject.clientDbId,
+				profilePictureObject,
+			);
+
+			useProfilePictureStore.getState().setProfilePictureMap(updateMap);
+
+			await PersistImage(profilePictureObject);
+			break;
+		}
+
+		// PayloadSubType.fetchProfilePicture == 14
+		case PayloadSubType.fetchProfilePicture: {
+			const payload: ProfilePicturePayload =
+				dataAsObject as ProfilePicturePayload;
+
+			const profilePictureObject: ProfilePictureObject = {
+				clientDbId: payload.clientDbId,
+				imageHash: payload.imageHash,
+				data: payload.data,
+			};
+
+			const updateMap =
+				useProfilePictureStore.getState().profilePictureMap;
+			updateMap.set(
+				profilePictureObject.clientDbId,
+				profilePictureObject,
+			);
+
+			// persist in local cache - zustand
+			useProfilePictureStore.getState().setProfilePictureMap(updateMap);
+
+			// persist to goland sqlite db
+			await PersistImage(profilePictureObject);
+
+			break;
+		}
+
+		// PayloadSubType.fetchAllProfilePictures == 15
+		case PayloadSubType.fetchAllProfilePictures: {
+			const payload: FetchAllProfilePicturesPayload =
+				dataAsObject as FetchAllProfilePicturesPayload;
+			const profilePictures: ProfilePictureObject[] =
+				payload.profilePictures;
+
+			const newMap = new Map<ClientId, ProfilePictureObject>();
+
+			for (let i = 0; i < profilePictures.length; i++) {
+				const profilePicture: ProfilePictureObject = profilePictures[i];
+
+				// persist to goland sqlite db
+				PersistImage(profilePicture);
+
+				newMap.set(profilePicture.clientDbId, profilePicture);
+			}
+
+			useProfilePictureStore.getState().setProfilePictureMap(newMap);
+			break;
+		}
+
 		// unknown payload type
 		default:
 			console.error("Unknown payload type", dataAsObject);

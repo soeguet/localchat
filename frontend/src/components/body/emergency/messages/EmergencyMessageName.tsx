@@ -16,7 +16,8 @@ function EmergencyMessageName(props: EmergencyMessageNameProps) {
 				className={`flex gap-3 font-semibold ${contentSide}`}
 				style={{
 					color: props.messageSenderColor,
-				}}>
+				}}
+			>
 				{props.initiator && <HelpCallerSvg />}
 				{props.name}
 			</div>

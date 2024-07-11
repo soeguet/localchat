@@ -9,7 +9,8 @@ function HelpCallerSvg() {
 				xmlSpace="preserve"
 				viewBox="0 0 511.992 511.992"
 				width="1em"
-				height="1em">
+				height="1em"
+			>
 				<title>{t("title_svg_help_caller")}</title>
 				<path
 					d="M119.636 382.496h53.48v44h-53.48zM279.776 276.996h74.66v64.34h-74.66z"

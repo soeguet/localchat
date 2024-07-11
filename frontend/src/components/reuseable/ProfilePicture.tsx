@@ -1,8 +1,9 @@
-import { useClientStore } from "../../stores/clientStore";
-import { memo } from "react";
+import { memo, useCallback } from "react";
+import { useProfilePictureStore } from "../../stores/profilePictureStore";
+import type { ClientId } from "../../utils/customTypes";
 
 type ProfilePictureProps = {
-	clientDbId: string;
+	clientDbId: ClientId;
 	pictureUrl?: string;
 	properties?: string;
 	style?: {
@@ -14,17 +15,25 @@ type ProfilePictureProps = {
 };
 
 const ProfilePicture = memo((props: ProfilePictureProps) => {
-	const client = useClientStore((state) =>
-		state.clients.find((c) => c.clientDbId === props.clientDbId),
-	);
+	const profilePicture = useProfilePictureStore((state) => {
+		return state.profilePictureMap.get(props.clientDbId);
+	});
 
-	const profilePicture = client?.clientProfileImage;
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+	const pictureSelection = useCallback(() => {
+		if (props.pictureUrl !== undefined) {
+			return props.pictureUrl;
+		}
+
+		if (profilePicture !== undefined) {
+			return profilePicture.data;
+		}
+
+		return "";
+	}, [props.pictureUrl, profilePicture, props.clientDbId]);
+
 	const picturePresent = () => {
-		if (
-			profilePicture === undefined ||
-			profilePicture === null ||
-			profilePicture === ""
-		) {
+		if (profilePicture === undefined || profilePicture === null) {
 			return false;
 		}
 		return true;
@@ -59,8 +68,8 @@ const ProfilePicture = memo((props: ProfilePictureProps) => {
 				data-testid="profile-picture"
 				style={props.style}
 				className={`rounded-full border-2 ${props.properties} transition duration-300 ease-in-out`}
-				src={props.pictureUrl ?? profilePicture}
-				alt={""}
+				src={pictureSelection()}
+				alt=""
 			/>
 		</>
 	);

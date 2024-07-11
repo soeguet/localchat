@@ -10,7 +10,8 @@ function DisconnectedSvg() {
 			viewBox="-1.4 -1.4 16.80 16.80"
 			xmlns="http://www.w3.org/2000/svg"
 			fill="#ff0000"
-			stroke="#ff0000">
+			stroke="#ff0000"
+		>
 			<title>{t("title_svg_disconnected")}</title>
 			<g id="SVGRepo_bgCarrier" strokeWidth="0">
 				<rect
@@ -44,4 +45,3 @@ function DisconnectedSvg() {
 }
 
 export { DisconnectedSvg };
-

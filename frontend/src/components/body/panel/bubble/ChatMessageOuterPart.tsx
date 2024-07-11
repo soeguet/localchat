@@ -15,16 +15,13 @@ type ChatMessageOuterPartProps = {
 
 function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
 	const [showMenu, setShowMenu] = useState(false);
-	const menuAlignment = props.thisMessageFromThisClient
-		? "left-0"
-		: "right-0";
+	const menuAlignment = props.thisMessageFromThisClient ? "left-0" : "right-0";
 	const menuTopMargin = determineTopMarginForMessageMenu();
 	const clientColor = useClientStore(
 		(state) =>
 			state.clients.find(
-				(c) =>
-					c.clientDbId === props.messagePayload.clientType.clientDbId
-			)?.clientColor
+				(c) => c.clientDbId === props.messagePayload.clientType.clientDbId,
+			)?.clientColor,
 	);
 
 	function determineTopMarginForMessageMenu() {
@@ -46,9 +43,7 @@ function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
 				useClientStore
 					.getState()
 					.clients.find(
-						(c) =>
-							c.clientDbId ===
-							props.messagePayload.clientType.clientDbId
+						(c) => c.clientDbId === props.messagePayload.clientType.clientDbId,
 					)?.clientUsername || "Unknown",
 			time: props.messagePayload.messageType.messageTime,
 			date: props.messagePayload.messageType.messageDate,
@@ -61,17 +56,14 @@ function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
 				onClick={() => setShowMenu(!showMenu)}
 				onKeyUp={() => setShowMenu(!showMenu)}
 				data-testid="chat-message-outer-part-container"
-				className="relative mx-2 flex cursor-pointer flex-col items-center self-stretch">
+				className="relative mx-2 flex cursor-pointer flex-col items-center self-stretch"
+			>
 				{/* need the padding on invisible profile picture, else messages will not be aligned -> handle via opacity */}
 				<ProfilePicture
 					clientDbId={props.messagePayload.clientType.clientDbId}
 					style={{
-						width: props.lastMessageFromThisClientId
-							? "75px"
-							: "75px",
-						height: props.lastMessageFromThisClientId
-							? "40px"
-							: "75px",
+						width: props.lastMessageFromThisClientId ? "75px" : "75px",
+						height: props.lastMessageFromThisClientId ? "40px" : "75px",
 						borderColor: clientColor || "lightgrey",
 						opacity: props.lastMessageFromThisClientId ? "0" : "1",
 					}}
@@ -79,14 +71,13 @@ function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
 				{/* if profile picture is not visible -> show menu symbol */}
 				{props.lastMessageFromThisClientId && (
 					<div
-						className={`absolute ${menuAlignment} ${menuTopMargin} opacity-0 transition-all duration-500 ease-in-out group-hover/message:opacity-100`}>
+						className={`absolute ${menuAlignment} ${menuTopMargin} opacity-0 transition-all duration-500 ease-in-out group-hover/message:opacity-100`}
+					>
 						<BubbleMessageMenuSvg />
 					</div>
 				)}
 				<ChatBubbleMenu
-					setEnableMessageEditingMode={
-						props.setEnableMessageEditingMode
-					}
+					setEnableMessageEditingMode={props.setEnableMessageEditingMode}
 					messagePayload={props.messagePayload}
 					showMenu={showMenu}
 					setShowMenu={setShowMenu}

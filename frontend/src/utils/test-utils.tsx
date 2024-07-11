@@ -3,14 +3,14 @@ import { afterEach } from "vitest";
 import type { ReactElement } from "react";
 
 afterEach(() => {
-    cleanup();
+	cleanup();
 });
 
 function customRender(ui: ReactElement, options = {}) {
-    return render(ui, {
-        wrapper: ({ children }) => children,
-        ...options,
-    });
+	return render(ui, {
+		wrapper: ({ children }) => children,
+		...options,
+	});
 }
 
 export * from "@testing-library/react";

@@ -1,5 +1,5 @@
-import {useEffect, useState} from "react";
-import {useUserStore} from "../stores/userStore";
+import { useEffect, useState } from "react";
+import { useUserStore } from "../stores/userStore";
 
 export function useUserEnvChecker() {
 	const [socketVariableAllAvailable, setSocketVariableAllAvailable] =

@@ -1,13 +1,13 @@
 import { ProfileMenu } from "./ProfileMenu";
 
 export default {
-    component: ProfileMenu,
+	component: ProfileMenu,
 };
 
 export const Default = {
-    args: {
-        label: "Profile Menu",
-        primary: true,
-        showMenu: true,
-    },
+	args: {
+		label: "Profile Menu",
+		primary: true,
+		showMenu: true,
+	},
 };

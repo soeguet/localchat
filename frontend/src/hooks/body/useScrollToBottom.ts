@@ -1,13 +1,13 @@
 import type React from "react";
-import {useEffect} from "react";
-import {useMessageMapStore} from "../../stores/messageMapStore";
+import { useEffect } from "react";
+import { useMessageMapStore } from "../../stores/messageMapStore";
 
 export function useScrollToBottom(ref: React.RefObject<HTMLDivElement>) {
-    const messageMap = useMessageMapStore((state) => state.messageMap);
+	const messageMap = useMessageMapStore((state) => state.messageMap);
 
-    useEffect(() => {
-        if (ref.current) {
-            ref.current.scrollIntoView({behavior: "smooth"});
-        }
-    }, [messageMap.size]);
+	useEffect(() => {
+		if (ref.current) {
+			ref.current.scrollIntoView({ behavior: "smooth" });
+		}
+	}, [messageMap.size]);
 }

@@ -22,7 +22,8 @@ function EmergencyChat() {
 		<>
 			<div
 				ref={chatContainerRef}
-				className="h-full w-full overflow-y-scroll border-0 px-3">
+				className="h-full w-full overflow-y-scroll border-0 px-3"
+			>
 				{/* for the first 3 messages only */}
 				<EmergencyInitBanner />
 				{/* actual messages */}

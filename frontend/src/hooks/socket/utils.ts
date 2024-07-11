@@ -21,16 +21,14 @@ import { base64ToUtf8 } from "../../utils/encoder";
 
 export function checkIfMessageIsToBeAddedToTheUnseenMessagesList(
 	messagePayload: MessagePayload,
-	addIdToList: boolean
+	addIdToList: boolean,
 ) {
 	// if we don't need to scroll to the bottom, we need to add the message to the unseen messages list
 
 	if (addIdToList) {
 		useUnseenMessageCountStore
 			.getState()
-			.addMessageToUnseenMessagesList(
-				messagePayload.messageType.messageDbId
-			);
+			.addMessageToUnseenMessagesList(messagePayload.messageType.messageDbId);
 	} else {
 		useUnseenMessageCountStore.getState().resetUnseenMessageCount();
 		scrollToBottom();
@@ -59,7 +57,7 @@ export function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
 		.getState()
 		.clients.find(
 			(predicate) =>
-				predicate.clientDbId === messagePayload.clientType.clientDbId
+				predicate.clientDbId === messagePayload.clientType.clientDbId,
 		)?.clientUsername;
 
 	const titleNotification = `${messagePayload.messageType.messageTime.slice(0, 5)} - ${messageSenderName}`;
@@ -81,9 +79,7 @@ export function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
 			}
 		})
 		.then(async () => {
-			const message = base64ToUtf8(
-				messagePayload.messageType.messageContext
-			);
+			const message = base64ToUtf8(messagePayload.messageType.messageContext);
 			await Notification(titleNotification, message);
 		});
 
@@ -103,7 +99,7 @@ export function handleClientListPayload(payloadAsString: string) {
 }
 
 export function updateThisClientsCachedDataWithNewPayloadData(
-	payloadAsString: string
+	payloadAsString: string,
 ) {
 	const payloadAsObject: ClientListPayload = JSON.parse(payloadAsString);
 	const clients: ClientEntity[] = payloadAsObject.clients;

@@ -11,7 +11,8 @@ function GermanFlagNoCircle() {
 				xmlSpace="preserve"
 				viewBox="0 0 512 512"
 				width="2.1em"
-				height="2.1em">
+				height="2.1em"
+			>
 				<title>{t("title_svg_german_flag")}</title>
 				<path
 					d="M8.258 200.946h495.484v110.108H8.258z"

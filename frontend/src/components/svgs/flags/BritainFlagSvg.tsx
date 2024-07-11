@@ -11,7 +11,8 @@ function BritainFlagSvg() {
 			xmlns="http://www.w3.org/2000/svg"
 			data-testid="britain-flag-svg"
 			viewBox="-51.2 -51.2 614.40 614.40"
-			fill="#000000">
+			fill="#000000"
+		>
 			<title>{t("title_svg_english_flag")}</title>
 			<g id="SVGRepo_bgCarrier" strokeWidth="0">
 				<rect

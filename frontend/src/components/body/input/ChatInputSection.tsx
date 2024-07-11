@@ -70,7 +70,7 @@ function ChatInputSection() {
 			setTypingTimeoutId,
 			sendTypingStatus,
 			handleSendMessage,
-		]
+		],
 	);
 
 	return (

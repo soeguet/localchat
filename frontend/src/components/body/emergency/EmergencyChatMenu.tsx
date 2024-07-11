@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { MenuDotsSvg } from "../../svgs/emergency/MenuDotsSvg";
 import { useTranslation } from "react-i18next";
 import { useEmergencyStore } from "../../../stores/emergencyStore";
 import { useUserStore } from "../../../stores/userStore";
+import { useWebsocketStore } from "../../../stores/websocketStore";
 import {
 	type EmergencyInitPayload,
 	PayloadSubType,
 } from "../../../utils/customTypes";
-import { useWebsocketStore } from "../../../stores/websocketStore";
+import { MenuDotsSvg } from "../../svgs/emergency/MenuDotsSvg";
 
 function EmergencyChatMenu() {
 	const { t } = useTranslation();
@@ -52,7 +52,8 @@ function EmergencyChatMenu() {
 				{showMenu && (
 					<div
 						className="text-nowrap absolute right-0 top-12 z-50 grow cursor-pointer rounded-xl border border-black bg-white p-3 text-base font-normal text-black shadow-lg shadow-black/30 hover:bg-amber-50"
-						onClick={handleEndEmergencyChatModeMenuItemClick}>
+						onClick={handleEndEmergencyChatModeMenuItemClick}
+					>
 						{t("emergency_chat_menu_item_end")}
 					</div>
 				)}

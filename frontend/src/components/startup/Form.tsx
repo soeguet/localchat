@@ -1,6 +1,6 @@
-import {type FormEvent, useState} from "react";
-import {useTranslation} from "react-i18next";
-import {useUserStore} from "../../stores/userStore";
+import { type FormEvent, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useUserStore } from "../../stores/userStore";
 
 function Form() {
 	const { t } = useTranslation();
@@ -48,9 +48,9 @@ function Form() {
 	}
 
 	function checkIfStateVariablesAreEmpty() {
-		return localClientName === "" ||
-			localSocketIp === "" ||
-			localSocketPort === "";
+		return (
+			localClientName === "" || localSocketIp === "" || localSocketPort === ""
+		);
 	}
 
 	/**
@@ -93,7 +93,8 @@ function Form() {
 								<div className="col-span-full">
 									<label
 										htmlFor="client-name"
-										className="block text-sm font-medium leading-6 text-gray-900">
+										className="block text-sm font-medium leading-6 text-gray-900"
+									>
 										<i>{t("client_name")}</i>
 									</label>
 									<div className="mt-2">
@@ -101,14 +102,8 @@ function Form() {
 											type="text"
 											value={localClientName}
 											name="client-name"
-											placeholder={t(
-												"client_name_placeholder",
-											)}
-											onChange={(e) =>
-												setLocalClientName(
-													e.target.value,
-												)
-											}
+											placeholder={t("client_name_placeholder")}
+											onChange={(e) => setLocalClientName(e.target.value)}
 											className="block
                                             w-full rounded-md border-0 px-3 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 hover:bg-blue-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
 										/>
@@ -118,7 +113,8 @@ function Form() {
 								<div className="col-span-full">
 									<label
 										htmlFor="socket-ip"
-										className="block text-sm font-medium leading-6 text-gray-900">
+										className="block text-sm font-medium leading-6 text-gray-900"
+									>
 										<i>{t("socket_ip")}</i>
 									</label>
 									<div className="mt-2">
@@ -127,9 +123,7 @@ function Form() {
 											value={localSocketIp}
 											name="socket-ip"
 											placeholder="e.g. 127.0.0.1"
-											onChange={(e) =>
-												setLocalSocketIp(e.target.value)
-											}
+											onChange={(e) => setLocalSocketIp(e.target.value)}
 											className="block
                                             w-full rounded-md border-0 px-3 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 hover:bg-blue-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
 										/>
@@ -139,7 +133,8 @@ function Form() {
 								<div className="col-span-full">
 									<label
 										htmlFor="socket-port"
-										className="block text-sm font-medium leading-6 text-gray-900">
+										className="block text-sm font-medium leading-6 text-gray-900"
+									>
 										<i>{t("socket_port")}</i>
 									</label>
 									<div className="mt-2">
@@ -148,11 +143,7 @@ function Form() {
 											value={localSocketPort}
 											name="socket-port"
 											placeholder="e.g. 8080"
-											onChange={(e) =>
-												setLocalSocketPort(
-													e.target.value,
-												)
-											}
+											onChange={(e) => setLocalSocketPort(e.target.value)}
 											className="block w-full rounded-md border-0 px-3 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 hover:bg-blue-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
 										/>
 									</div>
@@ -164,16 +155,16 @@ function Form() {
 					<div className="mt-6 flex items-center justify-end gap-x-6">
 						<button
 							type="button"
-							className="text-sm font-semibold leading-6 text-gray-900">
+							className="text-sm font-semibold leading-6 text-gray-900"
+						>
 							{t("cancel")}
 						</button>
 						<button
 							type="submit"
 							onClick={saveEnvVars}
-							className={`rounded-md px-3 py-2 text-sm font-semibold shadow-sm ${!isClickable ? "cursor-not-allowed bg-indigo-400" : "bg-indigo-600 hover:bg-indigo-500"} text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}>
-							{isClickable
-								? t("save_env_vars")
-								: t("saving_env_vars")}
+							className={`rounded-md px-3 py-2 text-sm font-semibold shadow-sm ${!isClickable ? "cursor-not-allowed bg-indigo-400" : "bg-indigo-600 hover:bg-indigo-500"} text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
+						>
+							{isClickable ? t("save_env_vars") : t("saving_env_vars")}
 						</button>
 					</div>
 				</div>

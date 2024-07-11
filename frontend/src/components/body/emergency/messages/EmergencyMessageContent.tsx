@@ -17,7 +17,8 @@ function EmergencyMessageContent(props: EmergencyMessageContentProps) {
 				className={attributes}
 				style={{
 					borderColor: props.messageSenderColor,
-				}}>
+				}}
+			>
 				{decodedMessage}
 			</div>
 		</>

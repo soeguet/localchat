@@ -42,7 +42,8 @@ function EmergencyValidationPopup(props: EmergencyValidationPopupProps) {
 							<button
 								type="button"
 								className="w-full cursor-pointer rounded-full border border-b-4 border-gray-600/50 bg-green-300 p-1 text-center text-lg font-semibold text-gray-800 hover:bg-green-300/50"
-								onClick={handleEmergencyChatStart}>
+								onClick={handleEmergencyChatStart}
+							>
 								{t("emergency_validation_button_start")}
 							</button>
 							<button
@@ -50,7 +51,8 @@ function EmergencyValidationPopup(props: EmergencyValidationPopupProps) {
 								className="w-full cursor-pointer rounded-full border border-b-4 border-gray-600/50 bg-gray-300/50 p-1 text-center text-lg font-semibold text-gray-800 hover:bg-gray-100/50"
 								onClick={() => {
 									props.setIsOpen(!props.isOpen);
-								}}>
+								}}
+							>
 								{t("profile_menu_cancel_button")}
 							</button>
 						</div>

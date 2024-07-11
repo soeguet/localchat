@@ -10,9 +10,7 @@ function EmergencyHeader() {
 	const { t } = useTranslation();
 	const myColor = useUserStore((state) => state.myColor);
 	const headerColor = myColor ? `${myColor}` : "bg-amber-900/80";
-	const initiatorId = useEmergencyStore(
-		(state) => state.emergencyInitiatorId,
-	);
+	const initiatorId = useEmergencyStore((state) => state.emergencyInitiatorId);
 	const initiatorName = useClientStore(
 		(state) =>
 			state.clients.find((client) => client.clientDbId === initiatorId)
@@ -25,7 +23,8 @@ function EmergencyHeader() {
 				className="relative flex w-full cursor-default select-none items-center gap-2 p-2 font-bold text-white"
 				style={{
 					backgroundColor: headerColor,
-				}}>
+				}}
+			>
 				<EmergencyLogoSvg />
 				{t("emergency_chat_header_text", {
 					initiatorName: initiatorName,
@@ -36,7 +35,8 @@ function EmergencyHeader() {
 						className="cursor-pointer hover:animate-spin"
 						onClick={() => {
 							useEmergencyStore.getState().setChatVisible(false);
-						}}>
+						}}
+					>
 						<CloseButton />
 					</div>
 				</div>
