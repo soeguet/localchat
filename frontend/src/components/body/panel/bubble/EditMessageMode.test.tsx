@@ -5,7 +5,6 @@ import {
 	screen,
 	waitFor,
 } from "../../../../utils/test-utils";
-import { App } from "../../../../App";
 import { useMessageMapStore } from "../../../../stores/messageMapStore";
 import {
 	type MessagePayload,

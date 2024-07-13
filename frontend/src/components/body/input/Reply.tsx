@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import { memo } from "react";
 import { useReplyStore } from "../../../stores/replyStore";
 import { base64ToUtf8 } from "../../../utils/encoder";
 
@@ -24,14 +24,15 @@ const Reply = memo(() => {
 								{replyMessage.username}
 							</p>
 						</div>
-						<p className="mt-1 text-sm text-gray-800">{decodedMessage}</p>
+						<p className="mt-1 text-sm text-gray-800">
+							{decodedMessage}
+						</p>
 					</div>
 					<button
 						type="button"
 						className="ml-4 text-gray-500 hover:text-gray-700"
-						onClick={() => setReplyMessage(null)}
-					>
-						<div className="hover:animate-spin">✖</div>
+						onClick={() => setReplyMessage(null)}>
+						<div className="hover:animate-spin">×</div>
 					</button>
 				</div>
 			)}

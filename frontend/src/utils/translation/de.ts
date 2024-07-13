@@ -79,6 +79,9 @@ export const de_translation = {
 	title_svg_german_flag:
 		"Die App Sprache auf Deutsch.\n\nKlick: Ändert die App Sprache auf Englisch.",
 	title_svg_help_caller: "Client, der die Hilfe angefordert hat.",
+	title_svg_banner_list:
+		"Liste der Banner. Klicken Sie, um die Auflistung der aktiven Banner zu sehen.",
+	title_svg_add_banner_button: "Hinzufügen eines neuen Banners.",
 	font_size_preview_label: "Vorschau der Schriftgröße:",
 	emergency_validation_text: "Möchten Sie den Notfall Chat initialisieren?",
 	emergency_validation_button_start: "Start",

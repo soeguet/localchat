@@ -54,7 +54,8 @@ export const en_translation = {
 	title_svg_settings:
 		"Opens the settings menu and lets you change the app settings.",
 	title_svg_connected: "You are connected to the websocket server.",
-	title_svg_info: "Opens an info modal, containing information about the app.",
+	title_svg_info:
+		"Opens an info modal, containing information about the app.",
 	title_svg_do_not_disturb:
 		"Prevents notifications from being displayed for 5 minutes. Will be reset automatically.",
 	title_svg_force_warning:
@@ -78,6 +79,9 @@ export const en_translation = {
 	title_svg_german_flag:
 		"The app language is now German.\n\nClick: Change the app language to English.",
 	title_svg_help_caller: "Client who requested help.",
+	title_svg_banner_list:
+		"List of Banners. Click to see the list of active banners.",
+	title_svg_add_banner_button: "Add a new banner.",
 	font_size_preview_label: "Font Size Preview:",
 	emergency_validation_text: "Do you want to initialize the emergency chat?",
 	emergency_validation_button_start: "Start",

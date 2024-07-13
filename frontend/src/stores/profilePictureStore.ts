@@ -1,10 +1,9 @@
 import { type StoreApi, type UseBoundStore, create } from "zustand";
-import {
-	PayloadSubType,
-	type ClientId,
-	type Hash,
-	type ProfilePicture,
-	type ProfilePictureObject,
+import type {
+	ClientId,
+	Hash,
+	ProfilePicture,
+	ProfilePictureObject,
 } from "../utils/customTypes";
 
 type useProfilePictureStoreType = {

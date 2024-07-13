@@ -11,14 +11,13 @@ function CloseButton(props: CloseButtonProps) {
 				viewBox="0 0 32 32"
 				width="2em"
 				height="2em"
-				aria-labelledby={props.titleId}
-			>
+				aria-labelledby={props.titleId}>
 				{props.title ? (
 					<title id={props.titleId}>{props.title}</title>
 				) : (
 					<title>close</title>
 				)}
-				<g id="SVGRepo_iconCarrier">
+				<g>
 					<defs>
 						<style>
 							{
@@ -27,7 +26,7 @@ function CloseButton(props: CloseButtonProps) {
 						</style>
 					</defs>
 					<title />
-					<g id="_01" data-name={1}>
+					<g>
 						<circle
 							cx={16}
 							cy={16}

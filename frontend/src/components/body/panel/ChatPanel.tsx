@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
-import { MessageRenderMap } from "./MessageRenderMap";
 import { useRefStore } from "../../../stores/refStore";
+import { MessageRenderMap } from "./MessageRenderMap";
 import { TopBanner } from "./banner/TopBanner";
+import { BannerModal } from "./banner/BannerModal";
 
 function ChatPanel() {
 	const chatBottomRef = useRef<HTMLDivElement>(null);
@@ -20,6 +21,7 @@ function ChatPanel() {
 	return (
 		<>
 			<TopBanner />
+			<BannerModal />
 			<div
 				ref={chatContainerRef}
 				className={"relative grow overflow-y-auto px-5 pb-2 pt-2"}>

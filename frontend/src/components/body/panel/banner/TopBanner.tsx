@@ -1,11 +1,30 @@
+import { useEffect, useState } from "react";
+import { useBannerStore } from "../../../../stores/bannerStore";
+import { AllBannersButton } from "./AllBannersButton";
+
 function TopBanner() {
+	const banners = useBannerStore((state) => state.banners);
+
+	const [activeBanner, setActiveBanner] = useState(banners[0]);
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			const newBanner =
+				banners[Math.floor(Math.random() * banners.length)];
+			setActiveBanner(newBanner);
+		}, 5000);
+		return () => clearInterval(interval);
+	}, [banners]);
+
 	return (
 		<>
-			<div className="z-50 flex items-center gap-x-6 bg-amber-900 px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
-				<div className="text-sm leading-6 text-white">
+			<div className="relative z-20 items-center gap-x-6 bg-sky-900 px-6 py-5 sm:px-3.5 sm:before:flex-1">
+				<AllBannersButton />
+
+				<div className="mx-14 flex justify-center leading-6 text-white">
 					<div>
 						<strong className="font-semibold">
-							GeneriCon 2023
+							{activeBanner.title}
 						</strong>
 						<svg
 							viewBox="0 0 2 2"
@@ -13,18 +32,8 @@ function TopBanner() {
 							className="mx-2 inline h-0.5 w-0.5 fill-current">
 							<circle r={1} cx={1} cy={1} />
 						</svg>
-						Join us in Denver from June 7 – 9 to see what’s coming
-						next&nbsp;<span aria-hidden="true">&rarr;</span>
+						{activeBanner.message}
 					</div>
-				</div>
-				<div className="flex flex-1 justify-end">
-					<button
-						type="button"
-						className="-m-3 p-3 focus-visible:outline-offset-[-4px]">
-						<span className="sr-only">Dismiss</span>
-						{/* <XMarkIcon aria-hidden="true" className="h-5 w-5 text-white" /> */}
-						abc
-					</button>
 				</div>
 			</div>
 		</>
