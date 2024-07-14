@@ -3,12 +3,14 @@ import { useBannerStore } from "../../../../stores/bannerStore";
 import { BannerDeleteSvg } from "../../../svgs/banner/BannerDeleteSvg";
 import type { Hash } from "../../../../utils/customTypes";
 import { BannerDeleteConfirmSvg } from "../../../svgs/banner/BannerDeleteConfirmSvg";
+import { useTranslation } from "react-i18next";
 
 type BannerDeleteProps = {
 	id: Hash;
 };
 
 function BannerDelete(props: BannerDeleteProps) {
+	const { t } = useTranslation();
 	const [deleteConfirmation, setDeleteConfirmation] = useState(false);
 
 	function deleteOnClick() {
@@ -39,9 +41,16 @@ function BannerDelete(props: BannerDeleteProps) {
 						<div>
 							<BannerDeleteSvg />
 						</div>
-						<div className="flex h-full flex-col items-center text-gray-700">
-							<p className="mb-2 text-sm">Are you sure?</p>
-							<p className="mb-2 text-sm">Click again</p>
+						<div className="flex h-full flex-col items-start text-start text-gray-700">
+							<p className="mb-2 text-sm">
+								{t("banner_delete_confirm_1")}
+							</p>
+							<p className="mb-2 text-sm">
+								{t("banner_delete_confirm_2")}
+							</p>
+							<p className="mb-2 text-sm">
+								{t("banner_delete_confirm_3")}
+							</p>
 						</div>
 					</div>
 				)}

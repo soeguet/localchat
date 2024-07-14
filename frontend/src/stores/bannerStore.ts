@@ -1,7 +1,7 @@
 import { type StoreApi, type UseBoundStore, create } from "zustand";
 import type { Hash } from "../utils/customTypes";
 
-type Priority = 1 | 2 | 3 | 4 | 5;
+export type Priority = 1 | 2 | 3 | 4 | 5;
 
 export type BannerObject = {
 	id: Hash;
