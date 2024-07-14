@@ -82,6 +82,12 @@ export const en_translation = {
 	title_svg_banner_list:
 		"List of Banners. Click to see the list of active banners.",
 	title_svg_add_banner_button: "Add a new banner.",
+	title_svg_hide_banner:
+		"Banner status: hidden.\n\nClick here to show this banner.",
+	title_svg_unhide_banner:
+		"Banner status: visible.\n\nClick here to hide this banner.",
+	title_svg_delete_banner: "Click here to delete this banner.",
+	title_svg_edit_banner: "Click here to edit this banner.",
 	font_size_preview_label: "Font Size Preview:",
 	emergency_validation_text: "Do you want to initialize the emergency chat?",
 	emergency_validation_button_start: "Start",

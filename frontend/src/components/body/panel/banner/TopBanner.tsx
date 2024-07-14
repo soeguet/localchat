@@ -3,9 +3,11 @@ import { useBannerStore } from "../../../../stores/bannerStore";
 import { AllBannersButton } from "./AllBannersButton";
 
 function TopBanner() {
-	const banners = useBannerStore((state) => state.banners);
+	const banners = useBannerStore((state) =>
+		state.banners.filter((banner) => banner.hidden === false),
+	);
 
-	const [activeBanner, setActiveBanner] = useState(banners[0]);
+	const [activeBanner, setActiveBanner] = useState(banners[0] || {});
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -16,6 +18,9 @@ function TopBanner() {
 		return () => clearInterval(interval);
 	}, [banners]);
 
+	if (banners.length === 0) {
+		return null;
+	}
 	return (
 		<>
 			<div className="relative z-20 items-center gap-x-6 bg-sky-900 px-6 py-5 sm:px-3.5 sm:before:flex-1">

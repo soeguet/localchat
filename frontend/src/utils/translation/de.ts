@@ -82,6 +82,12 @@ export const de_translation = {
 	title_svg_banner_list:
 		"Liste der Banner. Klicken Sie, um die Auflistung der aktiven Banner zu sehen.",
 	title_svg_add_banner_button: "Hinzufügen eines neuen Banners.",
+	title_svg_hide_banner:
+		"Banner Status: ausgeblendet.\n\nKlicken Sie hier, um diesen Banner einzublenden.",
+	title_svg_unhide_banner:
+		"Banner Status: eingeblendet.\n\nKlicken Sie hier, um diesen Banner auszublenden.",
+	title_svg_delete_banner: "Klicken Sie hier, um diesen Banner zu löschen.",
+	title_svg_edit_banner: "Klicken Sie hier, um diesen Banner zu bearbeiten.",
 	font_size_preview_label: "Vorschau der Schriftgröße:",
 	emergency_validation_text: "Möchten Sie den Notfall Chat initialisieren?",
 	emergency_validation_button_start: "Start",
