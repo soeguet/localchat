@@ -1,4 +1,4 @@
-import type { BannerObject } from "../../../../stores/bannerStore";
+import { BannerObject } from "../../../../utils/customTypes";
 import { BannerHideSvg } from "../../../svgs/banner/BannerHideSvg";
 import { BannerUnhideSvg } from "../../../svgs/banner/BannerUnhideSvg";
 

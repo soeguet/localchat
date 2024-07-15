@@ -1,10 +1,8 @@
 import { useEffect, useRef } from "react";
-import {
-	Priority,
-	useBannerStore,
-	type BannerObject,
-} from "../../../../stores/bannerStore";
+import { useBannerStore } from "../../../../stores/bannerStore";
 import { generateSimpleId } from "../../../../utils/functionality";
+import { BackButton } from "../../../svgs/ui/BackButton";
+import type { BannerObject, Priority } from "../../../../utils/customTypes";
 
 type AddNewBannerContainerProps = {
 	setAddBannerMode: (addBannerMode: boolean) => void;
@@ -50,7 +48,7 @@ function AddNewBannerContainer(props: AddNewBannerContainerProps) {
 		}
 
 		useBannerStore.getState().addBanner({
-			id: generateSimpleId(),
+			id: props.bannerObject?.id || generateSimpleId(),
 			title: title,
 			message: message,
 			priority: priority as Priority,
@@ -63,18 +61,18 @@ function AddNewBannerContainer(props: AddNewBannerContainerProps) {
 	return (
 		<>
 			<div
-				className="absolute left-2 top-2 cursor-pointer select-none rounded-full bg-white p-2 px-3 hover:bg-zinc-100"
+				className="absolute left-1 top-2 cursor-pointer select-none rounded-full bg-white p-2 px-3 hover:bg-zinc-100"
 				onClick={() => {
 					props.setAddBannerMode(false);
 					props.setBannerObject(null);
 				}}>
-				{"<"}
+				<BackButton />
 			</div>
-			<div className="m-3 flex flex-col gap-4 rounded-xl pt-10">
+			<div className="m-3 flex flex-col gap-4 rounded-xl pt-12">
 				<div>
 					<label
 						htmlFor="title"
-						className="block text-sm font-medium leading-6 text-gray-900">
+						className="block text-sm font-bold leading-6 text-gray-900">
 						Title
 					</label>
 					<div className="mt-2 flex rounded-md shadow-sm">
@@ -92,7 +90,7 @@ function AddNewBannerContainer(props: AddNewBannerContainerProps) {
 				<div>
 					<label
 						htmlFor="message"
-						className="block text-sm font-medium leading-6 text-gray-900">
+						className="block text-sm font-bold leading-6 text-gray-900">
 						Message
 					</label>
 					<div className="mt-2 flex rounded-md shadow-sm">
@@ -110,7 +108,7 @@ function AddNewBannerContainer(props: AddNewBannerContainerProps) {
 				<div>
 					<label
 						htmlFor="priority"
-						className="block text-sm font-medium leading-6 text-gray-900">
+						className="block text-sm font-bold leading-6 text-gray-900">
 						Priority
 					</label>
 					<div className="mt-2 flex rounded-md shadow-sm">

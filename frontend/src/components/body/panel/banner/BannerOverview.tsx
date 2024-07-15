@@ -1,12 +1,11 @@
-import {
-	type BannerObject,
-	useBannerStore,
-} from "../../../../stores/bannerStore";
+import { useTranslation } from "react-i18next";
+import { useBannerStore } from "../../../../stores/bannerStore";
 import { BannerEditSvg } from "../../../svgs/banner/BannerEditSvg";
 import { AddButton } from "../../../svgs/ui/AddButton";
 import { CloseButton } from "../../../svgs/ui/CloseButton";
 import { BannerDelete } from "./BannerDelete";
 import { BannerVisibilityIcon } from "./BannerVisibilityIcon";
+import type { BannerObject } from "../../../../utils/customTypes";
 
 type BannerOverviewProps = {
 	setBannerModalOpen: (show: boolean) => void;
@@ -15,12 +14,13 @@ type BannerOverviewProps = {
 };
 
 function BannerOverview(props: BannerOverviewProps) {
+	const { t } = useTranslation();
 	const banners = useBannerStore((state) => state.banners);
 
 	return (
 		<>
 			<div
-				className="absolute  right-1 top-0.5 cursor-pointer select-none text-center hover:animate-spin"
+				className="absolute  right-3 top-1 cursor-pointer select-none text-center hover:animate-spin"
 				onClick={() => props.setBannerModalOpen(false)}>
 				<CloseButton
 					title="close"
@@ -28,47 +28,53 @@ function BannerOverview(props: BannerOverviewProps) {
 				/>
 			</div>
 			<div
-				className="absolute right-14 top-1.5 flex cursor-pointer select-none items-center gap-2 text-center text-gray-600"
+				className="absolute right-14 top-2 flex cursor-pointer select-none items-center gap-2 text-center text-gray-600"
 				onClick={() => props.setAddBannerMode(true)}>
 				Add: <AddButton />
 			</div>
-			<div className="m-3 rounded-xl pt-4">
+			<div className="m-3 mt-11 h-[92%] overflow-y-scroll rounded-xl">
 				<table className="w-full table-auto text-sm">
-					<thead>
+					<thead className="bg-gray-300">
 						<tr>
 							<th
 								scope="col"
-								className="py-3.5 pl-4 pr-3 text-left font-semibold text-gray-900">
-								title
+								className="border py-3.5 pl-4 pr-3 text-center font-semibold text-gray-900">
+								{t("banner_overview_header_title")}
 							</th>
 							<th
 								scope="col"
-								className="px-3 py-3.5 text-left font-semibold text-gray-900">
-								message
+								className="border px-3 py-3.5 text-center font-semibold text-gray-900">
+								{t("banner_overview_header_message")}
 							</th>
 							<th
 								scope="col"
-								className="px-3 py-3.5 text-left font-semibold text-gray-900">
-								priority
+								className="border px-3 py-3.5 text-center font-semibold text-gray-900">
+								{t("banner_overview_header_priority")}
 							</th>
 							<th
 								scope="col"
-								className="px-3 py-3.5 text-left font-semibold text-gray-900">
-								actions
+								className="border px-3 py-3.5 text-center font-semibold text-gray-900">
+								{t("banner_overview_header_actions")}
 							</th>
 						</tr>
 					</thead>
-					<tbody className="bg-white">
+					<tbody className="border bg-white">
 						{banners.map((banner) => {
 							const bannerHidden = banner.hidden;
 							return (
 								<tr
 									key={banner.title}
 									className={`${bannerHidden ? "text-red-400" : ""}`}>
-									<td>{banner.title}</td>
-									<td>{banner.message}</td>
-									<td>{banner.priority}</td>
-									<td className="flex justify-end">
+									<td className="border text-center">
+										{banner.title}
+									</td>
+									<td className="border text-center">
+										{banner.message}
+									</td>
+									<td className="border text-center">
+										{banner.priority}
+									</td>
+									<td className="border text-center">
 										<button
 											type="button"
 											onClick={() => {

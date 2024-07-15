@@ -1,10 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import {
-	type BannerObject,
-	useBannerStore,
-} from "../../../../stores/bannerStore";
 import { BannerOverview } from "./BannerOverview";
 import { AddNewBannerContainer } from "./AddNewBannerContainer";
+import type { BannerObject } from "../../../../utils/customTypes";
+import { useBannerStore } from "../../../../stores/bannerStore";
 
 function BannerModal() {
 	const modalRef = useRef<HTMLDialogElement>(null);

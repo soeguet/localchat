@@ -37,7 +37,7 @@ function BannerDelete(props: BannerDeleteProps) {
 				onClick={deleteOnClick}
 				className={`relative inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white shadow-sm ring-1 ring-inset ring-gray-500 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-500 ${deleteConfirmation && "animation-pulse"}`}>
 				{deleteConfirmation && (
-					<div className="absolute right-24 flex w-[12rem] items-center gap-4 rounded-xl border-2 border-red-500 bg-red-50 p-2 text-black shadow-lg shadow-black/50">
+					<div className="absolute right-24 z-50 flex w-[12rem] translate-y-5 items-center gap-4 rounded-xl border-2 border-red-500 bg-red-50 p-2 text-black shadow-lg shadow-black/50">
 						<div>
 							<BannerDeleteSvg />
 						</div>

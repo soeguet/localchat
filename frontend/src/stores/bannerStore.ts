@@ -1,15 +1,5 @@
 import { type StoreApi, type UseBoundStore, create } from "zustand";
-import type { Hash } from "../utils/customTypes";
-
-export type Priority = 1 | 2 | 3 | 4 | 5;
-
-export type BannerObject = {
-	id: Hash;
-	title: string;
-	message: string;
-	priority: Priority;
-	hidden: boolean;
-};
+import type { BannerObject, Hash } from "../utils/customTypes";
 
 type useBannerStoreType = {
 	banners: BannerObject[];
@@ -45,7 +35,17 @@ const useBannerStore: UseBoundStore<StoreApi<useBannerStoreType>> =
 			return banners.length;
 		},
 		addBanner: (banner: BannerObject) =>
-			set((state) => ({ banners: [...state.banners, banner] })),
+			set((state) => {
+				const banners = state.banners;
+				if (banners.find((b) => b.id === banner.id)) {
+					// replace existing banner
+					const index = banners.findIndex((b) => b.id === banner.id);
+					banners[index] = banner;
+				} else {
+					banners.push(banner);
+				}
+				return { banners };
+			}),
 		removeBanner: (id: Hash) => {
 			set((state) => ({
 				banners: state.banners.filter((banner) => banner.id !== id),
