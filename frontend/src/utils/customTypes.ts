@@ -36,6 +36,19 @@ export type BannerObject = {
 	hidden: boolean;
 };
 
+export type BannerAction = "add" | "remove" | "update";
+
+export type BannerPayload = {
+	payloadType: PayloadSubType.modifyBanner;
+	banner: BannerObject;
+	action: BannerAction;
+};
+
+export type BannerListPayload = {
+	payloadType: PayloadSubType.fetchAllBanners;
+	banners?: BannerObject[];
+};
+
 export type ProfilePictureObject = {
 	clientDbId: ClientId;
 	imageHash: ProfilePictureHash;
