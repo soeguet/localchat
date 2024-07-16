@@ -124,6 +124,14 @@ async function sendClientMessageToWebsocket(message: string): Promise<void> {
 	socket.send(JSON.stringify(payload));
 }
 
+function retrieveClientListFromSocket() {
+	const payload = {
+		payloadType: PayloadSubType.clientList,
+	};
+
+	socket.send(JSON.stringify(payload));
+}
+
 function retrieveBannersFromSocket() {
 	const payload = {
 		payloadType: PayloadSubType.fetchAllBanners,
@@ -134,7 +142,7 @@ function retrieveBannersFromSocket() {
 
 function retrieveProfilePicturesFromSocket(id: ClientId) {
 	const payload = {
-		payloadType: PayloadSubType.fetchAllProfilePictureHashes,
+		payloadType: PayloadSubType.fetchProfilePicture,
 		clientDbId: id,
 	};
 
@@ -165,4 +173,5 @@ export {
 	retrieveBannersFromSocket,
 	retrieveProfilePicturesHashesFromSocket,
 	retrieveProfilePicturesFromSocket,
+	retrieveClientListFromSocket,
 };

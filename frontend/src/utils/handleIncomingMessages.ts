@@ -37,6 +37,10 @@ import {
 	type ProfilePicturePayload,
 } from "./customTypes";
 import { preventDuplicateEmergencyMessages } from "./emergencyArrayHelper";
+import {
+	initializeProfilePictures,
+	processClientsProfilePictures,
+} from "./profilePictureInitializer";
 import { notifyClientIfReactionTarget } from "./reactionHandler";
 import { checkIfScrollToBottomIsNeeded } from "./scrollToBottomNeeded";
 import { retrieveProfilePicturesFromSocket } from "./socket";
@@ -80,6 +84,8 @@ export async function handleIncomingMessages(event: MessageEvent) {
 			}
 			handleClientListPayload(event.data);
 			updateThisClientsCachedDataWithNewPayloadData(event.data);
+
+			await processClientsProfilePictures(dataAsObject.clients);
 
 			// await initializeProfilePictures();
 
@@ -249,6 +255,7 @@ export async function handleIncomingMessages(event: MessageEvent) {
 			break;
 		}
 
+		// TODO maybe this should be skipped for .fetchProfilePicture
 		// PayloadSubType.newProfilePicture == 8
 		case PayloadSubType.newProfilePicture: {
 			const payload = dataAsObject as NewProfilePicturePayload;
@@ -323,7 +330,6 @@ export async function handleIncomingMessages(event: MessageEvent) {
 
 		// PayloadSubType.fetchAllProfilePictureHashes == 20
 		case PayloadSubType.fetchAllProfilePictureHashes: {
-			debugger;
 			const payload: AllProfilePictureHashesPayload =
 				dataAsObject as AllProfilePictureHashesPayload;
 

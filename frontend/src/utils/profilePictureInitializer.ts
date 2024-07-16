@@ -6,7 +6,10 @@ import {
 	type ProfilePictureObject,
 	type ClientId,
 	PayloadSubType,
+	type ClientEntity,
+	type Hash,
 } from "./customTypes";
+import { retrieveProfilePicturesFromSocket } from "./socket";
 
 type DbRow = {
 	ImageHash: string;
@@ -14,6 +17,38 @@ type DbRow = {
 	Data: string;
 };
 
+const checkHashes = (client: ClientEntity, hash: Hash | undefined) => {
+	if (client.clientProfileImage === undefined) {
+		return false;
+	}
+	if (hash === undefined) {
+		return false;
+	}
+	return client.clientProfileImage === hash;
+};
+
+export async function processClientsProfilePictures(clients: ClientEntity[]) {
+	const allImageHashes = useProfilePictureStore.getState().profilePictureMap;
+
+	for (const client of clients) {
+		// if the client is not registered in cache yet (since this data is from the sqlite db)
+		if (!allImageHashes.has(client.clientDbId)) {
+			// ask for the profile picture
+			retrieveProfilePicturesFromSocket(client.clientDbId);
+			continue;
+		}
+
+		// if the hash from the server does not match the hash in cache
+		if (
+			!checkHashes(
+				client,
+				allImageHashes.get(client.clientDbId)?.imageHash,
+			)
+		) {
+			retrieveProfilePicturesFromSocket(client.clientDbId);
+		}
+	}
+}
 export async function initializeProfilePictures() {
 	// load profile pictures from go sqlite db
 	const allPictures = await GetAllImages();

@@ -19,3 +19,4 @@ start_chat.sh
 frontend/coverage
 *storybook.log
 frontend/src/stories
+.supermaven
