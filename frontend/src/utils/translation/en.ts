@@ -31,6 +31,7 @@ export const en_translation = {
 	unread_messages_count: "Unread Messages",
 	below_unread_messages_start: "NEW MESSAGES BELOW",
 	menu_item_info: " Info",
+	menu_item_banner: " Banners",
 	profile_menu_item_language_en: " English",
 	profile_menu_item_language_de: " German",
 	profile_menu_save_button: "Save",
@@ -89,6 +90,9 @@ export const en_translation = {
 	title_svg_delete_banner: "Click here to delete this banner.",
 	title_svg_edit_banner: "Click here to edit this banner.",
 	title_svg_back_button: "Go back to previous page.",
+	title_svg_banner_icon:
+		"Opens the banner menu and lets you add, edit and delete banners.",
+	label_add_banner: "Add new banner: ",
 	font_size_preview_label: "Font Size Preview:",
 	banner_delete_confirm_1: "Are you sure?",
 	banner_delete_confirm_2: "This Banner will be deleted for everyone!",

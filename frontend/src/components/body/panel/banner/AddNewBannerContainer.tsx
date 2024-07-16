@@ -1,8 +1,13 @@
 import { useEffect, useRef } from "react";
-import { useBannerStore } from "../../../../stores/bannerStore";
 import { generateSimpleId } from "../../../../utils/functionality";
 import { BackButton } from "../../../svgs/ui/BackButton";
-import type { BannerObject, Priority } from "../../../../utils/customTypes";
+import {
+	PayloadSubType,
+	type BannerObject,
+	type BannerPayload,
+	type Priority,
+} from "../../../../utils/customTypes";
+import { useWebsocketStore } from "../../../../stores/websocketStore";
 
 type AddNewBannerContainerProps = {
 	setAddBannerMode: (addBannerMode: boolean) => void;
@@ -47,13 +52,27 @@ function AddNewBannerContainer(props: AddNewBannerContainerProps) {
 			throw new Error("Title, message or priority is empty");
 		}
 
-		useBannerStore.getState().addBanner({
+		const bannerObject: BannerObject = {
 			id: props.bannerObject?.id || generateSimpleId(),
 			title: title,
 			message: message,
 			priority: priority as Priority,
 			hidden: false,
-		});
+		};
+		const bannerPayload: BannerPayload = {
+			payloadType: PayloadSubType.modifyBanner,
+			banner: bannerObject,
+			action: props.bannerObject ? "update" : "add",
+		};
+
+		const ws = useWebsocketStore.getState().ws;
+
+		if (!ws) {
+			throw new Error("Websocket connection is not available");
+		}
+
+		ws.send(JSON.stringify(bannerPayload));
+
 		props.setBannerObject(null);
 		props.setAddBannerMode(false);
 	}

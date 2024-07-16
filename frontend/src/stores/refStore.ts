@@ -8,6 +8,8 @@ type RefStore = {
 	setChatBottomRef: (ref: RefObject<HTMLDivElement> | null) => void;
 	chatContainerRef: RefObject<HTMLDivElement> | null;
 	setChatContainerRef: (ref: RefObject<HTMLDivElement> | null) => void;
+	chatMenuRef: RefObject<HTMLDivElement> | null;
+	setChatMenuRef: (ref: RefObject<HTMLDivElement> | null) => void;
 };
 
 const useRefStore = create<RefStore>((set) => ({
@@ -25,6 +27,11 @@ const useRefStore = create<RefStore>((set) => ({
 
 	setChatContainerRef: (ref: RefObject<HTMLDivElement> | null) =>
 		set({ chatContainerRef: ref }),
+
+	chatMenuRef: { current: null },
+
+	setChatMenuRef: (ref: RefObject<HTMLDivElement> | null) =>
+		set({ chatMenuRef: ref }),
 }));
 
 export { useRefStore };

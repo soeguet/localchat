@@ -3,6 +3,7 @@ import { useWebsocketStore } from "../../stores/websocketStore";
 import {
 	closeWebSocket,
 	initWebSocket,
+	retrieveBannersFromSocket,
 	retrieveMessageListFromSocket,
 } from "../../utils/socket";
 import { useUserStore } from "../../stores/userStore";
@@ -20,6 +21,7 @@ function useWebsocketConnection() {
 			onOpen: () => {
 				setIsConnected(true);
 				retrieveMessageListFromSocket();
+				retrieveBannersFromSocket();
 			},
 			onClose: () => {
 				setIsConnected(false);

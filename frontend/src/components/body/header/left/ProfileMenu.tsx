@@ -8,13 +8,11 @@ import { handleClickOutsideOfDiv } from "../../../../utils/handleClickOutsideOfD
 import { NewSettingsModalButton } from "./settings/body/button/NewSettingsModalButton";
 import { DoNotDisturbIconSvg } from "../../../svgs/icons/DoNotDisturbIconSvg";
 import { ReloadIconSvg } from "../../../svgs/icons/ReloadIconSvg";
+import { BannerMenuButton } from "./BannerMenuButton";
+import { useRefStore } from "../../../../stores/refStore";
+import { useMenuStore } from "../../../../stores/menuStore";
 
-type ProfileMenuPropsType = {
-	showMenu: boolean;
-	setShowMenu: (show: boolean) => void;
-};
-
-function ProfileMenu(props: ProfileMenuPropsType) {
+function ProfileMenu() {
 	const { t } = useTranslation();
 
 	const menuRef = useRef<HTMLDivElement>(null);
@@ -23,24 +21,33 @@ function ProfileMenu(props: ProfileMenuPropsType) {
 		(state) => state.setDoNotDisturb,
 	);
 
+	const menuOpen = useMenuStore((state) => state.menuOpen);
+	const setMenuOpen = useMenuStore((state) => state.setMenuOpen);
+
+	useEffect(() => {
+		if (menuRef.current !== null) {
+			useRefStore.getState().setChatMenuRef(menuRef);
+		}
+	}, []);
+
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
-		if (props.showMenu) {
+		if (menuOpen) {
 			document.addEventListener("mousedown", (e) =>
-				handleClickOutsideOfDiv(menuRef, e, props.setShowMenu),
+				handleClickOutsideOfDiv(menuRef, e, setMenuOpen),
 			);
 		}
 
 		return () => {
 			document.removeEventListener("mousedown", (e) =>
-				handleClickOutsideOfDiv(menuRef, e, props.setShowMenu),
+				handleClickOutsideOfDiv(menuRef, e, setMenuOpen),
 			);
 		};
-	}, [props.showMenu]);
+	}, [menuOpen]);
 
 	return (
 		<>
-			{props.showMenu && (
+			{menuOpen && (
 				<div
 					ref={menuRef}
 					className={
@@ -48,6 +55,7 @@ function ProfileMenu(props: ProfileMenuPropsType) {
 					}>
 					<NewSettingsModalButton />
 					<InfoMenuButton />
+					<BannerMenuButton />
 
 					<button
 						type="button"

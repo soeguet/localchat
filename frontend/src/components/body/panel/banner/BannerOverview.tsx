@@ -30,7 +30,8 @@ function BannerOverview(props: BannerOverviewProps) {
 			<div
 				className="absolute right-14 top-2 flex cursor-pointer select-none items-center gap-2 text-center text-gray-600"
 				onClick={() => props.setAddBannerMode(true)}>
-				Add: <AddButton />
+				{t("label_add_banner")}
+				<AddButton />
 			</div>
 			<div className="m-3 mt-11 h-[92%] overflow-y-scroll rounded-xl">
 				<table className="w-full table-auto text-sm">
