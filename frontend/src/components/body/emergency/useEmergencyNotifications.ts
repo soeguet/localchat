@@ -4,9 +4,7 @@ import {
 } from "../../../../wailsjs/go/main/App.js";
 import {
 	WindowIsMinimised,
-	WindowMinimise,
 	WindowShow,
-	WindowUnminimise,
 } from "../../../../wailsjs/runtime/runtime.js";
 import { useClientStore } from "../../../stores/clientStore.js";
 import { useEmergencyStore } from "../../../stores/emergencyStore";

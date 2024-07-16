@@ -19,7 +19,8 @@ let socket: WebSocket;
 
 export const initWebSocket = (callbacks: CallbackProps) => {
 	socket = new WebSocket(
-		`ws://${useUserStore.getState().socketIp}:${useUserStore.getState().socketPort
+		`ws://${useUserStore.getState().socketIp}:${
+			useUserStore.getState().socketPort
 		}/chat`,
 	);
 
@@ -123,6 +124,14 @@ async function sendClientMessageToWebsocket(message: string): Promise<void> {
 	socket.send(JSON.stringify(payload));
 }
 
+function retrieveBannersFromSocket() {
+	const payload = {
+		payloadType: PayloadSubType.fetchAllBanners,
+	};
+
+	socket.send(JSON.stringify(payload));
+}
+
 function retrieveMessageListFromSocket() {
 	const payload = {
 		payloadType: PayloadSubType.messageList,
@@ -136,4 +145,5 @@ export {
 	sendClientMessageToWebsocket,
 	socket,
 	retrieveMessageListFromSocket,
+	retrieveBannersFromSocket,
 };

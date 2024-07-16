@@ -1,6 +1,5 @@
 import type { ChangeEvent } from "react";
 import useSettingsStore from "../stores/settingsStore";
-import { useTranslation } from "react-i18next";
 
 export function arrayBufferToBase64(buffer: ArrayBuffer): string {
 	let binary = "";

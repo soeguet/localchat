@@ -31,6 +31,7 @@ export const de_translation = {
 	unread_messages_count: "Ungelesene Nachrichten",
 	below_unread_messages_start: "NEUE NACHRICHTEN AB HIER",
 	menu_item_info: " Info",
+	menu_item_banner: " Banners",
 	profile_menu_item_language_en: " Englisch",
 	profile_menu_item_language_de: " Deutsch",
 	profile_menu_save_button: "Speichern",
@@ -79,6 +80,26 @@ export const de_translation = {
 	title_svg_german_flag:
 		"Die App Sprache auf Deutsch.\n\nKlick: Ändert die App Sprache auf Englisch.",
 	title_svg_help_caller: "Client, der die Hilfe angefordert hat.",
+	title_svg_banner_list:
+		"Liste der Banner. Klicken Sie, um die Auflistung der aktiven Banner zu sehen.",
+	title_svg_add_banner_button: "Hinzufügen eines neuen Banners.",
+	title_svg_hide_banner:
+		"Banner Status: ausgeblendet.\n\nKlicken Sie hier, um diesen Banner einzublenden.",
+	title_svg_unhide_banner:
+		"Banner Status: eingeblendet.\n\nKlicken Sie hier, um diesen Banner auszublenden.",
+	title_svg_delete_banner: "Klicken Sie hier, um diesen Banner zu löschen.",
+	title_svg_edit_banner: "Klicken Sie hier, um diesen Banner zu bearbeiten.",
+	title_svg_back_button: "Gehen Sie zurück zur vorherigen Seite.",
+	title_svg_banner_icon:
+		"Öffnet das Banner-Menü und erlaubt es, Banner hinzuzufügen, zu bearbeiten und zu löschen.",
+	label_add_banner: "Neuen Banner hinzufügen: ",
+	banner_delete_confirm_1: "Sind Sie sicher?",
+	banner_delete_confirm_2: "Dieser Banner wird für alle User gelöscht!",
+	banner_delete_confirm_3: "Klicken Sie erneut zum Bestätigen.",
+	banner_overview_header_title: "Titel",
+	banner_overview_header_message: "Nachricht",
+	banner_overview_header_priority: "Priorität",
+	banner_overview_header_actions: "Aktionen",
 	font_size_preview_label: "Vorschau der Schriftgröße:",
 	emergency_validation_text: "Möchten Sie den Notfall Chat initialisieren?",
 	emergency_validation_button_start: "Start",

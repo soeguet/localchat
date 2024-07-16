@@ -12,6 +12,7 @@ import {
 	handleClientListPayload,
 	updateThisClientsCachedDataWithNewPayloadData,
 } from "../hooks/socket/utils";
+import { useBannerStore } from "../stores/bannerStore";
 import { useDoNotDisturbStore } from "../stores/doNotDisturbStore";
 import { useEmergencyStore } from "../stores/emergencyStore";
 import { useMessageMapStore } from "../stores/messageMapStore";
@@ -20,6 +21,8 @@ import { useTypingStore } from "../stores/typingStore";
 import { useUserStore } from "../stores/userStore";
 import {
 	type AllEmergencyMessagesPayload,
+	type BannerListPayload,
+	type BannerObject,
 	type ClientId,
 	type EmergencyInitPayload,
 	type EmergencyMessage,
@@ -313,6 +316,19 @@ export async function handleIncomingMessages(event: MessageEvent) {
 			}
 
 			useProfilePictureStore.getState().setProfilePictureMap(newMap);
+			break;
+		}
+
+		// PayloadSubType.fetchAllBanners == 18
+		case PayloadSubType.fetchAllBanners: {
+			const payload: BannerListPayload =
+				dataAsObject as BannerListPayload;
+			if (payload.banners === undefined) {
+				throw new Error("Banners are undefined");
+			}
+			const banners: BannerObject[] = payload.banners;
+			// TODO maybe check for updating the banners
+			useBannerStore.getState().setBanners(banners);
 			break;
 		}
 

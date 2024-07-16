@@ -31,6 +31,7 @@ export const en_translation = {
 	unread_messages_count: "Unread Messages",
 	below_unread_messages_start: "NEW MESSAGES BELOW",
 	menu_item_info: " Info",
+	menu_item_banner: " Banners",
 	profile_menu_item_language_en: " English",
 	profile_menu_item_language_de: " German",
 	profile_menu_save_button: "Save",
@@ -54,7 +55,8 @@ export const en_translation = {
 	title_svg_settings:
 		"Opens the settings menu and lets you change the app settings.",
 	title_svg_connected: "You are connected to the websocket server.",
-	title_svg_info: "Opens an info modal, containing information about the app.",
+	title_svg_info:
+		"Opens an info modal, containing information about the app.",
 	title_svg_do_not_disturb:
 		"Prevents notifications from being displayed for 5 minutes. Will be reset automatically.",
 	title_svg_force_warning:
@@ -78,7 +80,27 @@ export const en_translation = {
 	title_svg_german_flag:
 		"The app language is now German.\n\nClick: Change the app language to English.",
 	title_svg_help_caller: "Client who requested help.",
+	title_svg_banner_list:
+		"List of Banners. Click to see the list of active banners.",
+	title_svg_add_banner_button: "Add a new banner.",
+	title_svg_hide_banner:
+		"Banner status: hidden.\n\nClick here to show this banner.",
+	title_svg_unhide_banner:
+		"Banner status: visible.\n\nClick here to hide this banner.",
+	title_svg_delete_banner: "Click here to delete this banner.",
+	title_svg_edit_banner: "Click here to edit this banner.",
+	title_svg_back_button: "Go back to previous page.",
+	title_svg_banner_icon:
+		"Opens the banner menu and lets you add, edit and delete banners.",
+	label_add_banner: "Add new banner: ",
 	font_size_preview_label: "Font Size Preview:",
+	banner_delete_confirm_1: "Are you sure?",
+	banner_delete_confirm_2: "This Banner will be deleted for everyone!",
+	banner_delete_confirm_3: "Click again to confirm.",
+	banner_overview_header_title: "Title",
+	banner_overview_header_message: "Message",
+	banner_overview_header_priority: "Priority",
+	banner_overview_header_actions: "Actions",
 	emergency_validation_text: "Do you want to initialize the emergency chat?",
 	emergency_validation_button_start: "Start",
 	emergency_chat_menu_item_end: "End emergency chat",
