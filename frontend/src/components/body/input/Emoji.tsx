@@ -20,7 +20,10 @@ const Emoji = memo((props: EmojiProps) => {
 	function handleClickOutside(event: MouseEvent) {
 		event.preventDefault();
 		event.stopPropagation();
-		if (emojiRef.current && !emojiRef.current.contains(event.target as Node)) {
+		if (
+			emojiRef.current &&
+			!emojiRef.current.contains(event.target as Node)
+		) {
 			const { left, top, right, bottom } =
 				emojiRef.current.getBoundingClientRect();
 			const { clientX, clientY } = event;
@@ -53,18 +56,16 @@ const Emoji = memo((props: EmojiProps) => {
 
 	return (
 		<>
-			{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
 			<div
-				className="h-full items-center flex cursor-pointer"
+				className="flex h-full cursor-pointer items-center"
 				onClick={(event) => {
 					setEmojiVisible(true);
 					setPosition({ x: event.clientX, y: event.clientY });
-				}}
-			>
+				}}>
 				<EmojiMenuSvg />
 			</div>
 
-			<div ref={emojiRef} className="fixed mb-24">
+			<div ref={emojiRef} className="fixed z-30 mb-24">
 				<EmojiPicker
 					lazyLoadEmojis={true}
 					open={emojiVisible}

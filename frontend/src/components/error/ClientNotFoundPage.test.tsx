@@ -1,4 +1,3 @@
-import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import { ClientNotFoundPage } from "./ClientNotFoundPage";
 
@@ -25,7 +24,9 @@ describe("ClientNotFoundPage", () => {
 	});
 
 	test("reconnect button is disabled initially", async () => {
-		const button = screen.queryByTestId("reconnect-button-client-not-found");
+		const button = screen.queryByTestId(
+			"reconnect-button-client-not-found",
+		);
 
 		if (button === null) {
 			throw new Error("Button should not be null");
