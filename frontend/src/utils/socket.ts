@@ -8,6 +8,7 @@ import { getTimeWithHHmmFormat } from "./time";
 import {
 	type AuthenticationPayload,
 	type CallbackProps,
+	type ClientId,
 	type MessagePayload,
 	PayloadSubType,
 } from "./customTypes";
@@ -19,8 +20,7 @@ let socket: WebSocket;
 
 export const initWebSocket = (callbacks: CallbackProps) => {
 	socket = new WebSocket(
-		`ws://${useUserStore.getState().socketIp}:${
-			useUserStore.getState().socketPort
+		`ws://${useUserStore.getState().socketIp}:${useUserStore.getState().socketPort
 		}/chat`,
 	);
 
@@ -124,9 +124,34 @@ async function sendClientMessageToWebsocket(message: string): Promise<void> {
 	socket.send(JSON.stringify(payload));
 }
 
+function retrieveClientListFromSocket() {
+	const payload = {
+		payloadType: PayloadSubType.clientList,
+	};
+
+	socket.send(JSON.stringify(payload));
+}
+
 function retrieveBannersFromSocket() {
 	const payload = {
 		payloadType: PayloadSubType.fetchAllBanners,
+	};
+
+	socket.send(JSON.stringify(payload));
+}
+
+function retrieveProfilePicturesFromSocket(id: ClientId) {
+	const payload = {
+		payloadType: PayloadSubType.fetchProfilePicture,
+		clientDbId: id,
+	};
+
+	socket.send(JSON.stringify(payload));
+}
+
+function retrieveProfilePicturesHashesFromSocket() {
+	const payload = {
+		payloadType: PayloadSubType.fetchAllProfilePictureHashes,
 	};
 
 	socket.send(JSON.stringify(payload));
@@ -146,4 +171,7 @@ export {
 	socket,
 	retrieveMessageListFromSocket,
 	retrieveBannersFromSocket,
+	retrieveProfilePicturesHashesFromSocket,
+	retrieveProfilePicturesFromSocket,
+	retrieveClientListFromSocket,
 };

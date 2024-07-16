@@ -28,7 +28,9 @@ export function checkIfMessageIsToBeAddedToTheUnseenMessagesList(
 	if (addIdToList) {
 		useUnseenMessageCountStore
 			.getState()
-			.addMessageToUnseenMessagesList(messagePayload.messageType.messageDbId);
+			.addMessageToUnseenMessagesList(
+				messagePayload.messageType.messageDbId,
+			);
 	} else {
 		useUnseenMessageCountStore.getState().resetUnseenMessageCount();
 		scrollToBottom();
@@ -79,7 +81,9 @@ export function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
 			}
 		})
 		.then(async () => {
-			const message = base64ToUtf8(messagePayload.messageType.messageContext);
+			const message = base64ToUtf8(
+				messagePayload.messageType.messageContext,
+			);
 			await Notification(titleNotification, message);
 		});
 
@@ -92,12 +96,16 @@ export function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
 	// });
 }
 
+// updates all clients and caches array of clients
+// uses clientStore
 export function handleClientListPayload(payloadAsString: string) {
 	const payloadAsObject: ClientListPayload = JSON.parse(payloadAsString);
 	const clients: ClientEntity[] = payloadAsObject.clients;
 	useClientStore.getState().setClients(clients);
 }
 
+// updates this specific client and caches its values
+// uses userStore
 export function updateThisClientsCachedDataWithNewPayloadData(
 	payloadAsString: string,
 ) {

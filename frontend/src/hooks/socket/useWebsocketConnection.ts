@@ -4,7 +4,9 @@ import {
 	closeWebSocket,
 	initWebSocket,
 	retrieveBannersFromSocket,
+	retrieveClientListFromSocket,
 	retrieveMessageListFromSocket,
+	retrieveProfilePicturesHashesFromSocket,
 } from "../../utils/socket";
 import { useUserStore } from "../../stores/userStore";
 import { handleIncomingMessages } from "../../utils/handleIncomingMessages";
@@ -20,6 +22,8 @@ function useWebsocketConnection() {
 		initWebSocket({
 			onOpen: () => {
 				setIsConnected(true);
+				retrieveClientListFromSocket();
+				retrieveProfilePicturesHashesFromSocket();
 				retrieveMessageListFromSocket();
 				retrieveBannersFromSocket();
 			},

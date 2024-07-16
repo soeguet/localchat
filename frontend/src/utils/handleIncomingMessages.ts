@@ -21,6 +21,7 @@ import { useTypingStore } from "../stores/typingStore";
 import { useUserStore } from "../stores/userStore";
 import {
 	type AllEmergencyMessagesPayload,
+	type AllProfilePictureHashesPayload,
 	type BannerListPayload,
 	type BannerObject,
 	type ClientId,
@@ -28,6 +29,7 @@ import {
 	type EmergencyMessage,
 	type EmergencyMessagePayload,
 	type FetchAllProfilePicturesPayload,
+	type Hash,
 	type MessagePayload,
 	type NewProfilePicturePayload,
 	PayloadSubType,
@@ -35,9 +37,13 @@ import {
 	type ProfilePicturePayload,
 } from "./customTypes";
 import { preventDuplicateEmergencyMessages } from "./emergencyArrayHelper";
-import { initializeProfilePictures } from "./profilePictureInitializer";
+import {
+	initializeProfilePictures,
+	processClientsProfilePictures,
+} from "./profilePictureInitializer";
 import { notifyClientIfReactionTarget } from "./reactionHandler";
 import { checkIfScrollToBottomIsNeeded } from "./scrollToBottomNeeded";
+import { retrieveProfilePicturesFromSocket } from "./socket";
 
 export async function handleIncomingMessages(event: MessageEvent) {
 	const dataAsObject = JSON.parse(event.data);
@@ -79,7 +85,9 @@ export async function handleIncomingMessages(event: MessageEvent) {
 			handleClientListPayload(event.data);
 			updateThisClientsCachedDataWithNewPayloadData(event.data);
 
-			await initializeProfilePictures();
+			await processClientsProfilePictures(dataAsObject.clients);
+
+			// await initializeProfilePictures();
 
 			// TODO this seems fishy, need to ask somewhere else for all messages
 
@@ -247,6 +255,7 @@ export async function handleIncomingMessages(event: MessageEvent) {
 			break;
 		}
 
+		// TODO maybe this should be skipped for .fetchProfilePicture
 		// PayloadSubType.newProfilePicture == 8
 		case PayloadSubType.newProfilePicture: {
 			const payload = dataAsObject as NewProfilePicturePayload;
@@ -316,6 +325,37 @@ export async function handleIncomingMessages(event: MessageEvent) {
 			}
 
 			useProfilePictureStore.getState().setProfilePictureMap(newMap);
+			break;
+		}
+
+		// PayloadSubType.fetchAllProfilePictureHashes == 20
+		case PayloadSubType.fetchAllProfilePictureHashes: {
+			const payload: AllProfilePictureHashesPayload =
+				dataAsObject as AllProfilePictureHashesPayload;
+
+			if (payload.profilePictureHashes === undefined) {
+				throw new Error("Profile picture hashes are undefined");
+			}
+
+			const profilePictureMap =
+				useProfilePictureStore.getState().profilePictureMap;
+
+			for (const profilePictureHash of payload.profilePictureHashes) {
+				const hash: Hash = profilePictureHash.imageHash;
+				const clientDbId: ClientId = profilePictureHash.clientDbId;
+
+				if (!profilePictureMap.has(clientDbId)) {
+					// ask for the profile picture
+					retrieveProfilePicturesFromSocket(clientDbId);
+				} else {
+					// check if hash from payload matches hash in map
+					const profilePicture = profilePictureMap.get(clientDbId);
+					if (profilePicture && profilePicture.imageHash !== hash) {
+						// ask for the new profile picture
+						retrieveProfilePicturesFromSocket(clientDbId);
+					}
+				}
+			}
 			break;
 		}
 
