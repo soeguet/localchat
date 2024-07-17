@@ -5,7 +5,7 @@ import { AddButton } from "../../../svgs/ui/AddButton";
 import { CloseButton } from "../../../svgs/ui/CloseButton";
 import { BannerDelete } from "./BannerDelete";
 import { BannerVisibilityIcon } from "./BannerVisibilityIcon";
-import type { BannerObject } from "../../../../utils/customTypes";
+import {BannerObject, BannerPayload, PayloadSubType} from "../../../../utils/customTypes";
 
 type BannerOverviewProps = {
 	setBannerModalOpen: (show: boolean) => void;
@@ -16,16 +16,13 @@ type BannerOverviewProps = {
 function BannerOverview(props: BannerOverviewProps) {
 	const { t } = useTranslation();
 	const banners = useBannerStore((state) => state.banners);
-
+	
 	return (
 		<>
 			<div
 				className="absolute  right-3 top-1 cursor-pointer select-none text-center hover:animate-spin"
 				onClick={() => props.setBannerModalOpen(false)}>
-				<CloseButton
-					title="close"
-					titleId="close-banner-modal-button"
-				/>
+				<CloseButton />
 			</div>
 			<div
 				className="absolute right-14 top-2 flex cursor-pointer select-none items-center gap-2 text-center text-gray-600"
@@ -64,7 +61,7 @@ function BannerOverview(props: BannerOverviewProps) {
 							const bannerHidden = banner.hidden;
 							return (
 								<tr
-									key={banner.title}
+									key={banner.id}
 									className={`${bannerHidden ? "text-red-400" : ""}`}>
 									<td className="border text-center">
 										{banner.title}
@@ -98,7 +95,7 @@ function BannerOverview(props: BannerOverviewProps) {
 											<BannerEditSvg />
 										</button>
 
-										<BannerDelete id={banner.id} />
+										<BannerDelete banner={banner} />
 									</td>
 								</tr>
 							);
