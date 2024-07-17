@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useBannerStore } from "../../../../stores/bannerStore";
 import { BannerDeleteSvg } from "../../../svgs/banner/BannerDeleteSvg";
-import type { Hash } from "../../../../utils/customTypes";
+import {BannerObject, BannerPayload, Hash, PayloadSubType} from "../../../../utils/customTypes";
 import { BannerDeleteConfirmSvg } from "../../../svgs/banner/BannerDeleteConfirmSvg";
 import { useTranslation } from "react-i18next";
+import {useWebsocketStore} from "../../../../stores/websocketStore";
 
 type BannerDeleteProps = {
-	id: Hash;
+	banner: BannerObject;
 };
 
 function BannerDelete(props: BannerDeleteProps) {
@@ -18,9 +19,29 @@ function BannerDelete(props: BannerDeleteProps) {
 			setDeleteConfirmation(true);
 			return;
 		}
-		useBannerStore.getState().removeBanner(props.id);
+		handleDeleteBanner(props.banner);
 	}
-
+	
+	function handleDeleteBanner(banner:BannerObject) {
+		const payload: BannerPayload = {
+			payloadType: PayloadSubType.modifyBanner,
+			action: "remove",
+			banner : {
+				id: banner.id,
+				title: banner.title,
+				message: banner.message,
+				priority: banner.priority,
+				hidden: banner.hidden
+			}
+		}
+		
+		const ws = useWebsocketStore.getState().ws;
+		if (!ws) {
+			throw new Error("Websocket connection is not available");
+		}
+		ws.send(JSON.stringify(payload));
+	}
+	
 	useEffect(() => {
 		if (deleteConfirmation) {
 			const timeout = setTimeout(() => {

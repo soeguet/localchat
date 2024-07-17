@@ -18,7 +18,7 @@ function TopBanner() {
 		return () => clearInterval(interval);
 	}, [banners]);
 
-	if (banners.length === 0) {
+	if (!banners || banners.length === 0) {
 		return null;
 	}
 	return (
