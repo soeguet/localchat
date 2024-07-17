@@ -6,6 +6,10 @@ export function utf8ToBase64(str: string) {
 }
 
 export function base64ToUtf8(base64: string) {
+	if (base64 === undefined || base64 === null || base64 === "") {
+		return "";
+	}
+
 	const strFromBase64 = atob(base64);
 	const uint8Array = new Uint8Array(
 		strFromBase64.split("").map((char) => char.charCodeAt(0)),
