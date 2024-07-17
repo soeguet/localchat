@@ -20,3 +20,4 @@ frontend/coverage
 *storybook.log
 frontend/src/stories
 .supermaven
+.nvim/.bookmarks
