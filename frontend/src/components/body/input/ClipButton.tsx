@@ -5,7 +5,7 @@ import { PaperClipSvg } from "../../svgs/input/PaperClipSvg";
 const ClipButton = memo(() => {
 	const [attachmentMenuVisible, setAttachmentMenuVisible] = useState(false);
 
-	function handleClipClick(e) {
+	function handleClipClick(e: React.MouseEvent<HTMLDivElement>) {
 		e.preventDefault();
 		setAttachmentMenuVisible(() => !attachmentMenuVisible);
 	}
@@ -13,14 +13,14 @@ const ClipButton = memo(() => {
 	return (
 		<>
 			<div
-				className="h-full items-center flex cursor-pointer"
-				onKeyUp={handleClipClick}
-				onClick={handleClipClick}
-			>
+				className="flex h-full cursor-pointer items-center"
+				onClick={handleClipClick}>
 				<PaperClipSvg />
 			</div>
 			{attachmentMenuVisible && (
-				<AttachmentMenu setAttachmentMenuVisible={setAttachmentMenuVisible} />
+				<AttachmentMenu
+					setAttachmentMenuVisible={setAttachmentMenuVisible}
+				/>
 			)}
 		</>
 	);

@@ -37,10 +37,7 @@ import {
 	type ProfilePicturePayload,
 } from "./customTypes";
 import { preventDuplicateEmergencyMessages } from "./emergencyArrayHelper";
-import {
-	initializeProfilePictures,
-	processClientsProfilePictures,
-} from "./profilePictureInitializer";
+import { processClientsProfilePictures } from "./profilePictureInitializer";
 import { notifyClientIfReactionTarget } from "./reactionHandler";
 import { checkIfScrollToBottomIsNeeded } from "./scrollToBottomNeeded";
 import { retrieveProfilePicturesFromSocket } from "./socket";
