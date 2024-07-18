@@ -7,6 +7,7 @@ import { WindowSetTitle } from "../wailsjs/runtime";
 import { useEnvironmentVariablesLoader } from "./hooks/setup/useEnvLoader";
 import { GetAllImages } from "../wailsjs/go/main/App";
 import { useProfilePictureStore } from "./stores/profilePictureStore";
+import logger from "./logger/logger";
 
 WindowSetTitle("Localchat");
 
@@ -15,6 +16,8 @@ type DbRow = {
 	ClientDbId: string;
 	Data: string;
 };
+
+logger.info("Starting Localchat");
 
 // load environment variables and profile pictures
 (async () => {
