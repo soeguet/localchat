@@ -26,3 +26,4 @@ frontend/.nvim
 .nvim/.bookmarks
 .vite/vitest/results.json
 frontend/src/test/.nvim/.bookmarks
+.nvim/.bookmarks
