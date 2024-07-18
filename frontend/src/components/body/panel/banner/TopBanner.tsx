@@ -23,7 +23,9 @@ function TopBanner() {
 	}
 	return (
 		<>
-			<div className="relative z-20 items-center gap-x-6 bg-sky-900 px-6 py-5 sm:px-3.5 sm:before:flex-1">
+			<div
+				className="relative z-20 items-center gap-x-6 bg-sky-900 px-6 py-5 sm:px-3.5 sm:before:flex-1"
+				data-testid="banner-list-container">
 				<AllBannersButton />
 
 				<div className="mx-14 flex justify-center leading-6 text-white">
@@ -46,3 +48,4 @@ function TopBanner() {
 }
 
 export { TopBanner };
+

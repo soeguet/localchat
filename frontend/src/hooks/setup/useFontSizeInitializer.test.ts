@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import { useFontSizeStore } from "../../stores/fontSizeStore";
-import { act } from "react-dom/test-utils";
+import { act } from "react";
 import { renderHook } from "@testing-library/react";
 import { useFontSizeInitializer } from "./useFontSizeInitializer";
 

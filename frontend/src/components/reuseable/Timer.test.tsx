@@ -1,12 +1,14 @@
 import { describe } from "vitest";
 import { render, screen } from "../../utils/test-utils";
 import { Timer } from "./Timer";
-import { act } from "react-dom/test-utils";
+import { act } from "react";
 
 describe("Timer", () => {
 	it("should render", async () => {
 		render(<Timer />);
-		expect(screen.queryByTestId("do-not-disturb-timer")).toBeInTheDocument();
+		expect(
+			screen.queryByTestId("do-not-disturb-timer"),
+		).toBeInTheDocument();
 	});
 
 	it("should render the right time", async () => {
