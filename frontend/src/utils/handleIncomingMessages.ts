@@ -270,14 +270,18 @@ export async function handleIncomingMessages(event: MessageEvent) {
 				data: payload.data,
 			};
 
-			const updateMap =
-				useProfilePictureStore.getState().profilePictureMap;
-			updateMap.set(
-				profilePictureObject.clientDbId,
-				profilePictureObject,
-			);
+			useProfilePictureStore
+				.getState()
+				.addToProfilePictureMap(
+					profilePictureObject.clientDbId,
+					profilePictureObject,
+				);
 
-			useProfilePictureStore.getState().setProfilePictureMap(updateMap);
+			useProfilePictureStore
+				.getState()
+				.removeFromNoProfilePictureAvailableMap(
+					profilePictureObject.clientDbId,
+				);
 
 			await PersistImage(profilePictureObject);
 			break;
