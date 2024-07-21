@@ -1,3 +1,4 @@
+import { errorLogger } from "../logger/errorLogger";
 import useSettingsStore from "../stores/settingsStore";
 import { useUserStore } from "../stores/userStore";
 import { useWebsocketStore } from "../stores/websocketStore";
@@ -13,7 +14,7 @@ import { generateUnixTimestampFnv1aHash } from "./hashGenerator";
 export function handleProfileSettingsUpdatesWithSocketV2() {
 	const wsReference = useWebsocketStore.getState().ws;
 	if (wsReference === null) {
-		console.error("Websocket is not initialized");
+		errorLogger.logError(new Error("Websocket is not initialized"));
 		return;
 	}
 
@@ -74,7 +75,7 @@ export function handleProfileSettingsUpdatesWithSocket() {
 	if (wsReference !== null) {
 		wsReference.send(JSON.stringify(clientUpdatePayload));
 	} else {
-		console.error("Websocket is not initialized");
+		errorLogger.logError(new Error("Websocket is not initialized"));
 	}
 
 	// useUserStore.getState().setMyUsername(clientUpdatePayload.clientUsername);

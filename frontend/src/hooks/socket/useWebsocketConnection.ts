@@ -10,6 +10,7 @@ import {
 } from "../../utils/socket";
 import { useUserStore } from "../../stores/userStore";
 import { handleIncomingMessages } from "../../utils/handleIncomingMessages";
+import { errorLogger } from "../../logger/errorLogger";
 
 function useWebsocketConnection() {
 	const socketPort = useUserStore((store) => store.socketPort);
@@ -17,7 +18,7 @@ function useWebsocketConnection() {
 
 	const setIsConnected = useWebsocketStore((state) => state.setIsConnected);
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+	// biome-ignore lint/correctness/useExhaustiveDependencies: socketIp and socketPort are enough
 	useEffect(() => {
 		initWebSocket({
 			onOpen: () => {
@@ -35,11 +36,15 @@ function useWebsocketConnection() {
 				await handleIncomingMessages(event);
 			},
 			onError: (event) => {
-				console.error(event);
+				errorLogger.logError(event);
 				setIsConnected(false);
 				closeWebSocket();
 			},
 		});
+
+		// also re-set the error logger socket IP and port
+		errorLogger.setSocketIP(socketIp);
+		errorLogger.setSocketPort(socketPort);
 	}, [socketIp, socketPort]);
 }
 
