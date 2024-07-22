@@ -7,6 +7,7 @@ import { WindowSetTitle } from "../wailsjs/runtime";
 import { useEnvironmentVariablesLoader } from "./hooks/setup/useEnvLoader";
 import { GetAllImages } from "../wailsjs/go/main/App";
 import { useProfilePictureStore } from "./stores/profilePictureStore";
+import { errorLogger } from "./logger/errorLogger";
 
 WindowSetTitle("Localchat");
 
@@ -21,10 +22,9 @@ type DbRow = {
 	await useEnvironmentVariablesLoader();
 	const allImages: DbRow[] = (await GetAllImages()) as DbRow[];
 
-	console.log("allImages", allImages);
-
 	if (allImages == null) {
 		console.error("Failed to load images from database");
+		errorLogger.logError(new Error("Failed to load images from database"));
 		return;
 	}
 
