@@ -4,9 +4,12 @@ import { AddNewBannerContainer } from "./AddNewBannerContainer";
 import type { BannerObject } from "../../../../utils/customTypes";
 import { useBannerStore } from "../../../../stores/bannerStore";
 
-function BannerModal() {
+type BannerModalProps = {
+	isBannerModalOpen: boolean;
+};
+
+function BannerModal(props: BannerModalProps) {
 	const modalRef = useRef<HTMLDialogElement>(null);
-	const isOpen = useBannerStore((state) => state.bannerModalOpen);
 	const setBannerModalOpen = useBannerStore(
 		(state) => state.setBannerModalOpen,
 	);
@@ -17,19 +20,20 @@ function BannerModal() {
 		if (modalRef == null || modalRef.current === null) {
 			return;
 		}
-		if (isOpen) {
+		if (props.isBannerModalOpen) {
 			modalRef.current.showModal();
 		} else if (modalRef.current.open) {
 			modalRef.current.close();
 		}
-	}, [isOpen]);
+	}, [props.isBannerModalOpen]);
 
 	return (
 		<>
-			{isOpen && (
+			{props.isBannerModalOpen && (
 				<dialog
 					ref={modalRef}
-					className="relative h-2/3 w-2/3 overflow-hidden rounded-xl bg-white backdrop:bg-black/50">
+					className="relative h-2/3 w-2/3 overflow-hidden rounded-xl bg-white backdrop:bg-black/50"
+				>
 					{addBannerMode ? (
 						<AddNewBannerContainer
 							setAddBannerMode={setAddBannerMode}
