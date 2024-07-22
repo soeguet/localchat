@@ -4,37 +4,37 @@ type CountdownTimerProps = {
 	priority: number;
 };
 
+// some random hardcoded values in here, but it works.. for now :-)
 function CountdownTimer({ priority }: CountdownTimerProps) {
 	const getPriorityDuration = (priority: number) => {
-		// Adjust these values as needed
-		const baseDuration = 5; // 5 seconds
+		const baseDuration = 4.5;
 		return baseDuration * priority;
 	};
 
 	const initialTime = getPriorityDuration(priority);
 	const [timeLeft, setTimeLeft] = useState(initialTime);
 
+	const progress = Math.max((timeLeft / initialTime) * 100, 0);
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		setTimeLeft(initialTime);
 	}, [priority, initialTime]);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
-		if (timeLeft <= 0) return;
-
 		const timerId = setInterval(() => {
-			setTimeLeft((prevTime) => prevTime - 1);
-		}, 1000);
+			setTimeLeft((prevTime) => Math.max(prevTime - 0.1, 0));
+		}, 100);
 
 		return () => clearInterval(timerId);
-	}, [timeLeft]);
-
-	const progress = (timeLeft / initialTime) * 100;
+	}, [timeLeft, initialTime]);
 
 	return (
-		<div className="w-full max-w-md">
-			<div className="h-4 w-full rounded-full bg-gray-200">
+		<div className="absolute bottom-0 left-0 right-0 w-full">
+			<div className="ab h-[2px] w-full overflow-hidden rounded-full bg-sky-900">
 				<div
-					className="h-full rounded-full bg-blue-600 transition-all duration-1000 ease-linear"
+					className="h-full bg-sky-200/50 transition-all duration-100 ease-linear"
 					style={{ width: `${progress}%` }}
 				/>
 			</div>
