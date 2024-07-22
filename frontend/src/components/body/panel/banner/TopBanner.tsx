@@ -1,26 +1,38 @@
 import { useEffect, useState } from "react";
 import { useBannerStore } from "../../../../stores/bannerStore";
 import { AllBannersButton } from "./AllBannersButton";
+import { CountdownTimer } from "./CountdownTimer";
 
 function TopBanner() {
 	const banners = useBannerStore((state) =>
 		state.banners.filter((banner) => banner.hidden === false),
 	);
-
+	const [index, setIndex] = useState(0);
 	const [activeBanner, setActiveBanner] = useState(banners[0] || {});
 
+	const getPriorityDuration = (priority: number) => {
+		// Adjust these values as needed
+		const baseDuration = 5000; // 5 seconds
+		return baseDuration * priority;
+	};
+
 	useEffect(() => {
+		const duration = getPriorityDuration(activeBanner.priority);
 		const interval = setInterval(() => {
-			const newBanner =
-				banners[Math.floor(Math.random() * banners.length)];
-			setActiveBanner(newBanner);
-		}, 5000);
+			let newIndex = index + 1;
+			if (newIndex >= banners.length) {
+				newIndex = 0;
+			}
+			setIndex(newIndex);
+			setActiveBanner(banners[newIndex]);
+		}, duration);
 		return () => clearInterval(interval);
-	}, [banners]);
+	}, [banners, index, activeBanner.priority]);
 
 	if (!banners || banners.length === 0) {
 		return null;
 	}
+
 	return (
 		<>
 			<div
@@ -42,10 +54,11 @@ function TopBanner() {
 						{activeBanner.message}
 					</div>
 				</div>
+
+				<CountdownTimer priority={activeBanner.priority} />
 			</div>
 		</>
 	);
 }
 
 export { TopBanner };
-
