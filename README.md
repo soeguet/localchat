@@ -1,4 +1,5 @@
 # localchat
+<img src="pictures/main.png" height="750">
 
 ## About
 

@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { UnreadMessagesSvg } from "./UnreadMessagesSvg";
 import { render, screen } from "../../../utils/test-utils";
 import { useUnseenMessageCountStore } from "../../../stores/unseenMessageCountStore";
-import { act } from "react-dom/test-utils";
+import { act } from "react";
 
 describe("UnreadMessagesSvg", () => {
 	it("should render", async () => {

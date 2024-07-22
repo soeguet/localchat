@@ -5,7 +5,7 @@ import { AddButton } from "../../../svgs/ui/AddButton";
 import { CloseButton } from "../../../svgs/ui/CloseButton";
 import { BannerDelete } from "./BannerDelete";
 import { BannerVisibilityIcon } from "./BannerVisibilityIcon";
-import {BannerObject, BannerPayload, PayloadSubType} from "../../../../utils/customTypes";
+import type { BannerObject } from "../../../../utils/customTypes";
 
 type BannerOverviewProps = {
 	setBannerModalOpen: (show: boolean) => void;
@@ -16,7 +16,7 @@ type BannerOverviewProps = {
 function BannerOverview(props: BannerOverviewProps) {
 	const { t } = useTranslation();
 	const banners = useBannerStore((state) => state.banners);
-	
+
 	return (
 		<>
 			<div
@@ -57,7 +57,7 @@ function BannerOverview(props: BannerOverviewProps) {
 						</tr>
 					</thead>
 					<tbody className="border bg-white">
-						{banners.map((banner) => {
+						{banners?.map((banner) => {
 							const bannerHidden = banner.hidden;
 							return (
 								<tr
