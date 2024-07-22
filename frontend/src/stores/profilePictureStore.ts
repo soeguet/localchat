@@ -7,10 +7,19 @@ import type {
 } from "../utils/customTypes";
 
 type useProfilePictureStoreType = {
+	noProfilePictureAvailableMap: Map<ClientId, false>;
+	removeFromNoProfilePictureAvailableMap: (clientDbId: ClientId) => void;
+	addToNoProfilePictureAvailableMap: (clientDbId: ClientId) => void;
+
 	profilePictureMap: Map<ClientId, ProfilePictureObject>;
 	setProfilePictureMap: (
 		profilePictureMap: Map<ClientId, ProfilePictureObject>,
 	) => void;
+	addToProfilePictureMap: (
+		clientDbId: ClientId,
+		profilePictureObject: ProfilePictureObject,
+	) => void;
+
 	fetchProfilePicture: (clientDbId: ClientId) => ProfilePicture;
 	fetchProfilePictureHash: (clientDbId: ClientId) => Hash;
 };
@@ -18,6 +27,24 @@ type useProfilePictureStoreType = {
 const useProfilePictureStore: UseBoundStore<
 	StoreApi<useProfilePictureStoreType>
 > = create<useProfilePictureStoreType>((set) => ({
+	noProfilePictureAvailableMap: new Map<ClientId, false>(),
+
+	addToNoProfilePictureAvailableMap: (clientDbId: ClientId) => {
+		set((state) => {
+			const newMap = new Map(state.noProfilePictureAvailableMap);
+			newMap.set(clientDbId, false);
+			return { noProfilePictureAvailableMap: newMap };
+		});
+	},
+
+	removeFromNoProfilePictureAvailableMap: (clientDbId: ClientId) => {
+		set((state) => {
+			const newMap = new Map(state.noProfilePictureAvailableMap);
+			newMap.delete(clientDbId);
+			return { noProfilePictureAvailableMap: newMap };
+		});
+	},
+
 	profilePictureMap: new Map<ClientId, ProfilePictureObject>(),
 
 	setProfilePictureMap: (
@@ -32,6 +59,17 @@ const useProfilePictureStore: UseBoundStore<
 			}
 		}
 		set({ profilePictureMap: profilePictureMap });
+	},
+
+	addToProfilePictureMap: (
+		clientDbId: ClientId,
+		profilePictureObject: ProfilePictureObject,
+	) => {
+		set((state) => {
+			const newMap = new Map(state.profilePictureMap);
+			newMap.set(clientDbId, profilePictureObject);
+			return { profilePictureMap: newMap };
+		});
 	},
 
 	fetchProfilePicture: (clientDbId: ClientId) => {

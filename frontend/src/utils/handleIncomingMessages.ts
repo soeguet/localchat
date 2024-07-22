@@ -12,6 +12,7 @@ import {
 	handleClientListPayload,
 	updateThisClientsCachedDataWithNewPayloadData,
 } from "../hooks/socket/utils";
+import { errorLogger } from "../logger/errorLogger";
 import { useBannerStore } from "../stores/bannerStore";
 import { useDoNotDisturbStore } from "../stores/doNotDisturbStore";
 import { useEmergencyStore } from "../stores/emergencyStore";
@@ -190,7 +191,9 @@ export async function handleIncomingMessages(event: MessageEvent) {
 				useEmergencyStore.getState().emergencyChatId !==
 				payload.emergencyChatId
 			) {
-				console.error("EMERGENCY MESSAGE FROM WRONG CHAT", payload);
+				errorLogger.logError(
+					new Error("EMERGENCY MESSAGE FROM WRONG CHAT"),
+				);
 				return;
 			}
 
@@ -230,7 +233,9 @@ export async function handleIncomingMessages(event: MessageEvent) {
 				useEmergencyStore.getState().emergencyChatId !==
 				payload.emergencyChatId
 			) {
-				console.error("EMERGENCY MESSAGE FROM WRONG CHAT", payload);
+				errorLogger.logError(
+					new Error("EMERGENCY MESSAGE FROM WRONG CHAT"),
+				);
 				return;
 			}
 
@@ -238,7 +243,9 @@ export async function handleIncomingMessages(event: MessageEvent) {
 				useEmergencyStore.getState().emergencyChatId;
 
 			if (currentEmergencyChatId !== payload.emergencyChatId) {
-				console.error("EMERGENCY MESSAGE FROM WRONG CHAT", payload);
+				errorLogger.logError(
+					new Error("EMERGENCY MESSAGE FROM WRONG CHAT"),
+				);
 				return;
 			}
 
@@ -263,14 +270,18 @@ export async function handleIncomingMessages(event: MessageEvent) {
 				data: payload.data,
 			};
 
-			const updateMap =
-				useProfilePictureStore.getState().profilePictureMap;
-			updateMap.set(
-				profilePictureObject.clientDbId,
-				profilePictureObject,
-			);
+			useProfilePictureStore
+				.getState()
+				.addToProfilePictureMap(
+					profilePictureObject.clientDbId,
+					profilePictureObject,
+				);
 
-			useProfilePictureStore.getState().setProfilePictureMap(updateMap);
+			useProfilePictureStore
+				.getState()
+				.removeFromNoProfilePictureAvailableMap(
+					profilePictureObject.clientDbId,
+				);
 
 			await PersistImage(profilePictureObject);
 			break;
@@ -371,7 +382,7 @@ export async function handleIncomingMessages(event: MessageEvent) {
 
 		// unknown payload type
 		default:
-			console.error("Unknown payload type", dataAsObject);
+			errorLogger.logError(new Error("Unknown payload type"));
 			throw new Error("Unknown payload type");
 	}
 }

@@ -53,7 +53,6 @@ describe("pictureHelper - handleFileChange", () => {
 			await handleFileChange(event, "error text");
 		} catch (error) {
 			expect(error).toBeInstanceOf(Error);
-
 			expect((error as Error).message).toBe("No file selected.");
 		}
 	});

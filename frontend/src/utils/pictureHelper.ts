@@ -1,5 +1,6 @@
 import type { ChangeEvent } from "react";
 import useSettingsStore from "../stores/settingsStore";
+import { errorLogger } from "../logger/errorLogger";
 
 export function arrayBufferToBase64(buffer: ArrayBuffer): string {
 	let binary = "";
@@ -50,6 +51,6 @@ export async function handleFileChange(
 		// TODO refactor this part
 		useSettingsStore.getState().setLocalProfilePicture(pictureUrl);
 	} catch (error) {
-		console.error("Error reading the file.", error);
+		errorLogger.logError(error);
 	}
 }

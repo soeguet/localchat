@@ -29,12 +29,22 @@ const checkHashes = (client: ClientEntity, hash: Hash | undefined) => {
 
 export async function processClientsProfilePictures(clients: ClientEntity[]) {
 	const allImageHashes = useProfilePictureStore.getState().profilePictureMap;
+	const noProfilePictureAvailableMap =
+		useProfilePictureStore.getState().noProfilePictureAvailableMap;
 
 	for (const client of clients) {
+		// added extra cache, else logger will get spammed
+		if (noProfilePictureAvailableMap.has(client.clientDbId)) {
+			continue;
+		}
+
 		// if the client is not registered in cache yet (since this data is from the sqlite db)
 		if (!allImageHashes.has(client.clientDbId)) {
 			// ask for the profile picture
 			retrieveProfilePicturesFromSocket(client.clientDbId);
+			useProfilePictureStore
+				.getState()
+				.addToNoProfilePictureAvailableMap(client.clientDbId);
 			continue;
 		}
 
