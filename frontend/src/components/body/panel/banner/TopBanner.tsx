@@ -29,7 +29,7 @@ function TopBanner(props: TopBannerProps) {
 
 	function getPriorityDuration(priority: number) {
 		// random hardcoded value
-		const baseDuration = 5000;
+		const baseDuration = 10_000;
 		return baseDuration * priority;
 	}
 
@@ -60,10 +60,7 @@ function TopBanner(props: TopBannerProps) {
 				</div>
 
 				{bannerObjectWithDuration.length > 1 && (
-					<CountdownTimer
-						priority={activeBanner.priority}
-						banners={bannerObjectWithDuration}
-					/>
+					<CountdownTimer activeBanner={activeBanner} />
 				)}
 			</div>
 		</>
