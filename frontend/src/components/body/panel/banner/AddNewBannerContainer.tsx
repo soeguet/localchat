@@ -8,6 +8,7 @@ import {
 	type Priority,
 } from "../../../../utils/customTypes";
 import { useWebsocketStore } from "../../../../stores/websocketStore";
+import { useTranslation } from "react-i18next";
 
 type AddNewBannerContainerProps = {
 	setAddBannerMode: (addBannerMode: boolean) => void;
@@ -16,6 +17,7 @@ type AddNewBannerContainerProps = {
 };
 
 function AddNewBannerContainer(props: AddNewBannerContainerProps) {
+	const { t } = useTranslation();
 	const titleRef = useRef<HTMLInputElement>(null);
 	const messageRef = useRef<HTMLInputElement>(null);
 	const priorityRef = useRef<HTMLSelectElement>(null);
@@ -30,8 +32,7 @@ function AddNewBannerContainer(props: AddNewBannerContainerProps) {
 				messageRef.current.value = props.bannerObject.message;
 			}
 			if (priorityRef.current !== null) {
-				priorityRef.current.value =
-					props.bannerObject.priority.toString();
+				priorityRef.current.value = props.bannerObject.priority.toString();
 			}
 		}
 	}, []);
@@ -79,20 +80,23 @@ function AddNewBannerContainer(props: AddNewBannerContainerProps) {
 
 	return (
 		<>
+			{/* biome-ignore lint/a11y/useKeyWithClickEvents: not yet */}
 			<div
 				className="absolute left-1 top-2 cursor-pointer select-none rounded-full bg-white p-2 px-3 hover:bg-zinc-100"
-				onClick={() => {
+				onClick={(_e: React.MouseEvent) => {
 					props.setAddBannerMode(false);
 					props.setBannerObject(null);
-				}}>
+				}}
+			>
 				<BackButton />
 			</div>
 			<div className="m-3 flex flex-col gap-4 rounded-xl pt-12">
 				<div>
 					<label
 						htmlFor="title"
-						className="block text-sm font-bold leading-6 text-gray-900">
-						Title
+						className="block text-sm font-bold leading-6 text-gray-900"
+					>
+						{t("banner_add_modal_label_title")}
 					</label>
 					<div className="mt-2 flex rounded-md shadow-sm">
 						<input
@@ -109,8 +113,9 @@ function AddNewBannerContainer(props: AddNewBannerContainerProps) {
 				<div>
 					<label
 						htmlFor="message"
-						className="block text-sm font-bold leading-6 text-gray-900">
-						Message
+						className="block text-sm font-bold leading-6 text-gray-900"
+					>
+						{t("banner_add_modal_label_message")}
 					</label>
 					<div className="mt-2 flex rounded-md shadow-sm">
 						<input
@@ -127,15 +132,20 @@ function AddNewBannerContainer(props: AddNewBannerContainerProps) {
 				<div>
 					<label
 						htmlFor="priority"
-						className="block text-sm font-bold leading-6 text-gray-900">
-						Priority
+						className="block text-sm font-bold leading-6 text-gray-900"
+					>
+						{t("banner_add_modal_label_priority")}
+						<p className="text-sm font-light text-gray-600">
+							{t("banner_add_modal_label_priority_explanation")}
+						</p>
 					</label>
 					<div className="mt-2 flex rounded-md shadow-sm">
 						<select
 							id="priority"
 							ref={priorityRef}
 							name="priority"
-							className="block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+							className="block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+						>
 							<option>1</option>
 							<option>2</option>
 							<option>3</option>
@@ -152,14 +162,16 @@ function AddNewBannerContainer(props: AddNewBannerContainerProps) {
 						onClick={() => {
 							props.setBannerObject(null);
 							props.setAddBannerMode(false);
-						}}>
-						Cancel
+						}}
+					>
+						{t("banner_add_modal_button_cancel")}
 					</button>
 					<button
 						type="button"
 						className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-						onClick={handleSave}>
-						Save
+						onClick={handleSave}
+					>
+						{t("banner_add_modal_button_save")}
 					</button>
 				</div>
 			</div>

@@ -43,6 +43,7 @@ function EmergencyChatMenu() {
 
 	return (
 		<>
+			{/* biome-ignore lint/a11y/useKeyWithClickEvents: not yet */}
 			<div className="relative" onClick={() => setShowMenu(!showMenu)}>
 				{emergencyInitiatorThisClient() && (
 					<div className="grow cursor-pointer hover:animate-bounce">
@@ -50,6 +51,7 @@ function EmergencyChatMenu() {
 					</div>
 				)}
 				{showMenu && (
+					// biome-ignore lint/a11y/useKeyWithClickEvents: not yet
 					<div
 						className="text-nowrap absolute right-0 top-12 z-50 grow cursor-pointer rounded-xl border border-black bg-white p-3 text-base font-normal text-black shadow-lg shadow-black/30 hover:bg-amber-50"
 						onClick={handleEndEmergencyChatModeMenuItemClick}

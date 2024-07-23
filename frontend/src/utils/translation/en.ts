@@ -55,8 +55,7 @@ export const en_translation = {
 	title_svg_settings:
 		"Opens the settings menu and lets you change the app settings.",
 	title_svg_connected: "You are connected to the websocket server.",
-	title_svg_info:
-		"Opens an info modal, containing information about the app.",
+	title_svg_info: "Opens an info modal, containing information about the app.",
 	title_svg_do_not_disturb:
 		"Prevents notifications from being displayed for 5 minutes. Will be reset automatically.",
 	title_svg_force_warning:
@@ -101,6 +100,13 @@ export const en_translation = {
 	banner_overview_header_message: "Message",
 	banner_overview_header_priority: "Priority",
 	banner_overview_header_actions: "Actions",
+	banner_add_modal_label_title: "Title",
+	banner_add_modal_label_message: "Message",
+	banner_add_modal_label_priority: "Priority",
+	banner_add_modal_label_priority_explanation:
+		"The higher the priority, the longer the slide will be visible.",
+	banner_add_modal_button_cancel: "Cancel",
+	banner_add_modal_button_save: "Save",
 	emergency_validation_text: "Do you want to initialize the emergency chat?",
 	emergency_validation_button_start: "Start",
 	emergency_chat_menu_item_end: "End emergency chat",

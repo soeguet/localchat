@@ -9,7 +9,8 @@ type CountdownTimerProps = {
 // some random hardcoded values in here, but it works.. for now :-)
 function CountdownTimer(props: CountdownTimerProps) {
 	const getPriorityDuration = (prio: number) => {
-		const baseDuration = 4.5;
+		// base duration for each slide is 5 seconds, base duration for coundown a little less, else the bar jumps to start without reaching the end
+		const baseDuration = 4.75;
 		return baseDuration * prio;
 	};
 
@@ -18,12 +19,12 @@ function CountdownTimer(props: CountdownTimerProps) {
 
 	const progress = Math.max((timeLeft / initialTime) * 100, 0);
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+	// biome-ignore lint/correctness/useExhaustiveDependencies: .
 	useEffect(() => {
 		setTimeLeft(initialTime);
 	}, [props.priority, initialTime]);
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+	// biome-ignore lint/correctness/useExhaustiveDependencies: .
 	useEffect(() => {
 		const timerId = setInterval(() => {
 			setTimeLeft((prevTime) => Math.max(prevTime - 0.1, 0));
