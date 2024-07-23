@@ -1,3 +1,6 @@
+import { b } from "vitest/dist/suite-IbNSsUWN";
+import { base64ToUtf8 } from "../encoder";
+
 export const de_translation = {
 	selected_language: "🇩",
 	status_connected: "Verbunden",
@@ -100,6 +103,13 @@ export const de_translation = {
 	banner_overview_header_message: "Nachricht",
 	banner_overview_header_priority: "Priorität",
 	banner_overview_header_actions: "Aktionen",
+	banner_add_modal_label_title: "Titel",
+	banner_add_modal_label_message: "Nachricht",
+	banner_add_modal_label_priority: "Priorität",
+	banner_add_modal_label_priority_explanation:
+		"Je höher die Priorität, desto länger bleibt das Slide sichtbar.",
+	banner_add_modal_button_cancel: "Abbrechen",
+	banner_add_modal_button_save: "Speichern",
 	font_size_preview_label: "Vorschau der Schriftgröße:",
 	emergency_validation_text: "Möchten Sie den Notfall Chat initialisieren?",
 	emergency_validation_button_start: "Start",

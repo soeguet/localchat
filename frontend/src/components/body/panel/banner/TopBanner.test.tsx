@@ -24,7 +24,7 @@ describe("TopBanner", () => {
 		];
 		useBannerStore.getState().setBanners(banners);
 
-		render(<TopBanner />);
+		render(<TopBanner banners={banners} />);
 
 		const bannerListContainer = await screen.findByTestId(
 			"banner-list-container",
@@ -50,11 +50,9 @@ describe("TopBanner", () => {
 		];
 		useBannerStore.getState().setBanners(banners);
 
-		render(<TopBanner />);
+		render(<TopBanner banners={banners} />);
 
-		const bannerListContainer = screen.queryByTestId(
-			"banner-list-container",
-		);
+		const bannerListContainer = screen.queryByTestId("banner-list-container");
 		expect(bannerListContainer).toBeNull();
 	});
 });
