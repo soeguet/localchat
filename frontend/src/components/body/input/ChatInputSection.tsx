@@ -10,6 +10,7 @@ import { Image } from "./Image";
 import { SendButton } from "./SendButton";
 import { TextArea } from "./TextArea";
 import { useImageStore } from "../../../stores/imageStore";
+import { DroppedImage } from "./DroppedImage";
 
 function ChatInputSection() {
 	const { typingTimeoutId, setTypingTimeoutId, sendTypingStatus } =
@@ -76,13 +77,14 @@ function ChatInputSection() {
 	return (
 		<>
 			<div className="flex grow-0 items-end gap-2 border-t-2 border-t-black bg-white p-4">
-				<div className="mx-1 gap-4 flex items-center h-full">
+				<div className="mx-1 flex h-full items-center gap-4">
 					<Emoji setMessage={setMessage} />
 					<ClipButton />
 				</div>
 				<div className="mx-2 my-auto flex flex-1 flex-col gap-2">
 					<Reply />
 					<Image />
+					<DroppedImage />
 					<TextArea
 						message={message}
 						setMessage={setMessage}
