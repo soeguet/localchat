@@ -19,10 +19,11 @@ function ChatInputSection() {
 
 	const handleSendMessage = useCallback(async () => {
 		const imageSet = useImageStore.getState().selectedImage;
-		if (!imageSet && message.trim().length === 0) {
+		const droppedImageSet = useImageStore.getState().droppedImage;
+		if (!imageSet && !droppedImageSet && message.trim().length === 0) {
 			return;
 		}
-		if (message || imageSet) {
+		if (message || imageSet || droppedImageSet) {
 			const { replyMessage, setReplyMessage } = useReplyStore.getState();
 			await sendClientMessageToWebsocket(message);
 

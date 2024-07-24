@@ -44,7 +44,9 @@ func main() {
 		Bind: []interface{}{
 			app,
 		},
-		Windows: &windows.Options{},
+		Windows: &windows.Options{
+			WindowIsTranslucent: false,
+		},
 		Linux: &linux.Options{
 			WindowIsTranslucent: false,
 			WebviewGpuPolicy:    linux.WebviewGpuPolicyAlways,
