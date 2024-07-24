@@ -12,15 +12,17 @@ import {
 	type MessagePayload,
 	PayloadSubType,
 } from "./customTypes";
-import { encodeFileToBase64, utf8ToBase64 } from "./encoder";
+import { encodeFileToBase64, getMimeType, utf8ToBase64 } from "./encoder";
 import { useImageStore } from "../stores/imageStore";
 import { useClientStore } from "../stores/clientStore";
+import { errorLogger } from "../logger/errorLogger";
 
 let socket: WebSocket;
 
 export const initWebSocket = (callbacks: CallbackProps) => {
 	socket = new WebSocket(
-		`ws://${useUserStore.getState().socketIp}:${useUserStore.getState().socketPort
+		`ws://${useUserStore.getState().socketIp}:${
+			useUserStore.getState().socketPort
 		}/chat`,
 	);
 
@@ -69,10 +71,9 @@ function closeWebSocket() {
 async function sendClientMessageToWebsocket(message: string): Promise<void> {
 	const replyMessage: Reply | null = useReplyStore.getState().replyMessage;
 	const id = useUserStore.getState().myId;
-	const username = useClientStore
-		.getState()
-		.getClientById(id)?.clientUsername;
+	const username = useClientStore.getState().getClientById(id)?.clientUsername;
 	const selectedImage = useImageStore.getState().selectedImage;
+	const droppedImage = useImageStore.getState().droppedImage;
 
 	if (
 		username === null ||
@@ -81,6 +82,7 @@ async function sendClientMessageToWebsocket(message: string): Promise<void> {
 		username === "" ||
 		id === ""
 	) {
+		errorLogger.logError(`username or id is null${username}${id}`);
 		throw new Error(`username or id is null${username}${id}`);
 	}
 
@@ -119,6 +121,13 @@ async function sendClientMessageToWebsocket(message: string): Promise<void> {
 			data: await encodeFileToBase64(selectedImage),
 		};
 		useImageStore.getState().setSelectedImage(null);
+	} else if (droppedImage) {
+		payload.imageType = {
+			imageDbId: generateSimpleId(),
+			type: getMimeType(droppedImage),
+			data: droppedImage,
+		};
+		useImageStore.getState().setDroppedImage(null);
 	}
 
 	socket.send(JSON.stringify(payload));

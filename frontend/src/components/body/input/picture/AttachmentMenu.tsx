@@ -18,6 +18,7 @@ function AttachmentMenu(props: AttachmentMenuProps) {
 		}
 	};
 	function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+		// TODO change this to base64 and store it as that!
 		if (e.target.files && e.target.files.length > 0) {
 			const file = e.target.files[0];
 			setSelectedImage(file);
@@ -26,13 +27,12 @@ function AttachmentMenu(props: AttachmentMenuProps) {
 	}
 	return (
 		<>
-			<div className="absolute transform translate-x-12 -translate-y-14 z-50 mt-2 w-48 rounded-md border-2 border-gray-500 bg-white py-1 shadow-xl shadow-black/50">
+			<div className="absolute z-50 mt-2 w-48 -translate-y-14 translate-x-12 transform rounded-md border-2 border-gray-500 bg-white py-1 shadow-xl shadow-black/50">
 				<div className="flex items-center gap-3 hover:bg-gray-100">
 					<button
 						type="button"
-						className="px-4 py-2 w-full h-full flex gap-4 items-center text-center"
-						onClick={handleLabelClick}
-					>
+						className="flex h-full w-full items-center gap-4 px-4 py-2 text-center"
+						onClick={handleLabelClick}>
 						<CameraSvg />
 						{t("menu_attachment_image")}
 					</button>

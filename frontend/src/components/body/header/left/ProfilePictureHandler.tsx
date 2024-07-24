@@ -29,18 +29,17 @@ function ProfilePictureHandler() {
 
 	return (
 		<>
+			{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
 			<div
 				className="cursor-pointer"
 				onClick={() => setMenuOpen(!menuOpen)}
 				onMouseEnter={() => setProfilePictureHovered(true)}
-				onMouseLeave={() => setProfilePictureHovered(false)}>
+				onMouseLeave={() => setProfilePictureHovered(false)}
+			>
 				{doNotDisturb ? (
 					<DoNotDisturb style={profilePictureStyle} />
 				) : (
-					<ProfilePicture
-						clientDbId={clientDbId}
-						style={profilePictureStyle}
-					/>
+					<ProfilePicture clientDbId={clientDbId} style={profilePictureStyle} />
 				)}
 			</div>
 		</>
