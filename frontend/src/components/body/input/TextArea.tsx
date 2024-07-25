@@ -20,6 +20,35 @@ function TextArea(props: TextAreaProps) {
 	const replyMessage = useReplyStore((state) => state.replyMessage);
 	const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
+
+	const handlePaste = (event: React.ClipboardEvent<HTMLTextAreaElement>) => {
+		const clipboardData = event.clipboardData;
+		const items = clipboardData.items;
+		for (let i = 0; i < items.length; i++) {
+			const item = items[i];
+			if (item.kind === 'file' && item.type.startsWith('image/')) {
+				const file = item.getAsFile();
+				if (file) {
+					const reader = new FileReader();
+					reader.onload = (e) => {
+						const base64String = reader.result as string;
+						useImageStore.getState().setDroppedImage(base64String);
+					};
+					reader.readAsDataURL(file);
+				}
+			} else if (item.kind === 'string' && item.type === 'text/html') {
+				item.getAsString((html) => {
+					const imgSrcRegex = /<img.*?src=["'](.*?)["']/;
+					const match = imgSrcRegex.exec(html);
+					if (match && match[1]) {
+						const base64String = match[1]
+						useImageStore.getState().setDroppedImage(base64String);
+					}
+				});
+			}
+		}
+	};
+
 	const handleDrop = (e: React.DragEvent<HTMLTextAreaElement>) => {
 		e.preventDefault();
 		setHoverState(false);
@@ -65,34 +94,35 @@ function TextArea(props: TextAreaProps) {
 
 	return (
 		<>
-			<textarea
-				className={`w-full h-full p-4 transition-all duration-300 ease-in-out
+      <textarea
+		  className={`w-full h-full p-4 transition-all duration-300 ease-in-out
                     border-2 rounded-lg resize-none
                     ${
-											hoverState
-												? "bg-green-50 border-green-500 text-green-700 shadow-inner flex justify-center items-center text-center h-auto w-auto"
-												: "bg-white border-gray-300 text-gray-700"
-										}
+			  hoverState
+				  ? "bg-green-50 border-green-500 text-green-700 shadow-inner flex justify-center items-center text-center h-auto w-auto"
+				  : "bg-white border-gray-300 text-gray-700"
+		  }
                     focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent`}
-				// @ts-ignore
-				style={{ "--tw-ring-color": myColor }}
-				placeholder={placeholderText}
-				ref={textAreaRef}
-				rows={2}
-				value={props.message}
-				onChange={(e) => {
-					props.setMessage(e.target.value);
-				}}
-				onKeyDown={props.handleKeyDown}
-				onMouseLeave={() => {
-					setHoverState(false);
-				}}
-				onDragLeave={() => {
-					setHoverState(false);
-				}}
-				onDrop={handleDrop}
-				onDragOver={handleDragOver}
-			/>
+		  // @ts-ignore
+		  style={{ "--tw-ring-color": myColor }}
+		  placeholder={placeholderText}
+		  ref={textAreaRef}
+		  rows={2}
+		  value={props.message}
+		  onPaste={handlePaste}
+		  onChange={(e) => {
+			  props.setMessage(e.target.value);
+		  }}
+		  onKeyDown={props.handleKeyDown}
+		  onMouseLeave={() => {
+			  setHoverState(false);
+		  }}
+		  onDragLeave={() => {
+			  setHoverState(false);
+		  }}
+		  onDrop={handleDrop}
+		  onDragOver={handleDragOver}
+	  />
 		</>
 	);
 }
