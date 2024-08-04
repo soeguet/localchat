@@ -17,17 +17,15 @@ type DbRow = {
 	Data: string;
 };
 
-// load environment variables and profile pictures
-(async () => {
-	await useEnvironmentVariablesLoader();
-	const allImages: DbRow[] = (await GetAllImages()) as DbRow[];
+// Load environment variables
+await useEnvironmentVariablesLoader();
 
-	if (allImages == null) {
-		console.error("Failed to load images from database");
-		errorLogger.logError(new Error("Failed to load images from database"));
-		return;
-	}
-
+// Load profile pictures
+const allImages: DbRow[] = (await GetAllImages()) as DbRow[];
+if (allImages == null) {
+	console.error("Failed to load images from database");
+	errorLogger.logError(new Error("Failed to load images from database"));
+} else {
 	const imageStoreMap = useProfilePictureStore.getState().profilePictureMap;
 	for (const image of allImages) {
 		imageStoreMap.set(image.ClientDbId, {
@@ -36,9 +34,8 @@ type DbRow = {
 			data: image.Data,
 		});
 	}
-
 	useProfilePictureStore.getState().setProfilePictureMap(imageStoreMap);
-})();
+}
 
 // biome-ignore lint/style/noNonNullAssertion: react
 ReactDOM.createRoot(document.getElementById("root")!).render(
