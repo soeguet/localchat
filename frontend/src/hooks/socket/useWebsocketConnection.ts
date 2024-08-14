@@ -7,7 +7,6 @@ function useWebsocketConnection() {
 	const socketPort = useUserStore((store) => store.socketPort);
 	const socketIp = useUserStore((store) => store.socketIp);
 
-
 	useEffect(() => {
 
 		// this function fetches the ip and port via getState()

@@ -58,7 +58,9 @@ export const initWebSocket = () => {
 	};
 
 	socket.onmessage = async (event: MessageEvent) => {
-		await handleIncomingMessages(event);
+			handleIncomingMessages(event).catch((error) => {
+				errorLogger.logError(error);
+			});
 	};
 
 	socket.onerror = (event: Event) => {
