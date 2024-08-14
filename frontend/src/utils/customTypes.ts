@@ -106,8 +106,15 @@ export type AllEmergencyMessagesPayload = {
 
 export type EmergencyMessage = Omit<EmergencyMessagePayload, "payloadType">;
 
+export type VersionEntity = {
+	major: number;
+	minor: number;
+	patch: number;
+}
+
 export type AuthenticationPayload = {
 	payloadType: PayloadSubType.auth;
+	version: VersionEntity;
 } & Pick<ClientEntity, "clientDbId" | "clientUsername">;
 
 export type ImageEntity = {
