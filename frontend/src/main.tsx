@@ -18,13 +18,18 @@ type DbRow = {
 };
 
 // Load environment variables
-await useEnvironmentVariablesLoader();
+try {
+	await useEnvironmentVariablesLoader();
+} catch (error) {
+	console.error("Failed to load environment variables");
+	await errorLogger.logError(error);
+}
 
 // Load profile pictures
 const allImages: DbRow[] = (await GetAllImages()) as DbRow[];
 if (allImages == null) {
 	console.error("Failed to load images from database");
-	errorLogger.logError(new Error("Failed to load images from database"));
+	await errorLogger.logError(new Error("Failed to load images from database"));
 } else {
 	const imageStoreMap = useProfilePictureStore.getState().profilePictureMap;
 	for (const image of allImages) {

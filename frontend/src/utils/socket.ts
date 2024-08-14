@@ -7,7 +7,6 @@ import { useDoNotDisturbStore } from "../stores/doNotDisturbStore";
 import { getTimeWithHHmmFormat } from "./time";
 import {
 	type AuthenticationPayload,
-	type CallbackProps,
 	type ClientId,
 	type MessagePayload,
 	PayloadSubType,
@@ -16,10 +15,11 @@ import { encodeFileToBase64, getMimeType, utf8ToBase64 } from "./encoder";
 import { useImageStore } from "../stores/imageStore";
 import { useClientStore } from "../stores/clientStore";
 import { errorLogger } from "../logger/errorLogger";
+import {handleIncomingMessages} from "./handleIncomingMessages";
 
 let socket: WebSocket;
 
-export const initWebSocket = (callbacks: CallbackProps) => {
+export const initWebSocket = () => {
 	socket = new WebSocket(
 		`ws://${useUserStore.getState().socketIp}:${
 			useUserStore.getState().socketPort
@@ -42,22 +42,29 @@ export const initWebSocket = (callbacks: CallbackProps) => {
 			socket.send(JSON.stringify(authPayload));
 		}, 1000);
 
-		callbacks.onOpen();
+		useWebsocketStore.getState().setIsConnected(true);
+
+		retrieveClientListFromSocket();
+		retrieveProfilePicturesHashesFromSocket();
+		retrieveMessageListFromSocket();
+		retrieveBannersFromSocket();
 	};
 
 	socket.onclose = async () => {
+
 		if (!useDoNotDisturbStore.getState().doNotDisturb) {
 			await Notification("localchat", "Connection closed");
 		}
-		callbacks.onClose();
 	};
 
-	socket.onmessage = (event: MessageEvent) => {
-		callbacks.onMessage(event);
+	socket.onmessage = async (event: MessageEvent) => {
+		await handleIncomingMessages(event);
 	};
 
 	socket.onerror = (event: Event) => {
-		callbacks.onError(event);
+		console.error("Websocket closed");
+		useWebsocketStore.getState().setIsConnected(false);
+		closeWebSocket();
 	};
 
 	useWebsocketStore.getState().setWs(socket);
@@ -82,7 +89,7 @@ async function sendClientMessageToWebsocket(message: string): Promise<void> {
 		username === "" ||
 		id === ""
 	) {
-		errorLogger.logError(`username or id is null${username}${id}`);
+		await errorLogger.logError(`username or id is null${username}${id}`);
 		throw new Error(`username or id is null${username}${id}`);
 	}
 

@@ -393,12 +393,6 @@ export type MessageListPayload = {
 //     reactionType?: ReactionType[];
 // };
 
-export type CallbackProps = {
-	onOpen: () => void;
-	onClose: () => void;
-	onMessage: (event: MessageEvent) => void;
-	onError: (event: Event) => void;
-};
 
 // export type InputProps = {
 //     sendClientMessageToWebsocket: (message: string) => void;
