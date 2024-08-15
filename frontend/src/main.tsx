@@ -26,7 +26,11 @@ try {
 }
 
 // Load profile pictures
-const allImages: DbRow[] = (await GetAllImages()) as DbRow[];
+const allImages: DbRow[] = (await GetAllImages().catch(async () =>{
+	console.error("Failed to load images from database");
+	await errorLogger.logError(new Error("Failed to load images from database"));
+})) as DbRow[];
+
 if (allImages == null) {
 	console.error("Failed to load images from database");
 	await errorLogger.logError(new Error("Failed to load images from database"));

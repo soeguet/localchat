@@ -12,6 +12,7 @@ export async function useEnvironmentVariablesLoader() {
 		useUserStore.getState().setClientOs(envVarsObj.os);
 		useUserStore.getState().setMyUsername(envVarsObj.username);
 		useUserStore.getState().setMyId(envVarsObj.id);
+		useUserStore.getState().setEnvironment(envVarsObj.environment);
 
 		const version = packageInfo.version;
 		useVersionStore.getState().setVersion(version);

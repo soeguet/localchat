@@ -9,8 +9,8 @@ import { TypingIndicator } from "./panel/TypingIndicator";
 import { ScrollToBottomButton } from "./panel/ScrollToBottomButton";
 import { EmergencyContainer } from "./emergency/EmergencyContainer";
 import { ReactionModal } from "./ReactionModal";
-import {useVersionStore} from "../../stores/versionStore";
 import {UpdateBanner} from "./update/UpdateBanner";
+import {DevmodeBanner} from "./devmode/DevmodeBanner";
 
 /**
  * The main part of the application.
@@ -33,6 +33,7 @@ function Chat() {
 			>
 				<Header />
 				<UpdateBanner />
+				<DevmodeBanner />
 				<ChatPanel />
 				<TypingIndicator />
 				<ScrollToBottomButton />

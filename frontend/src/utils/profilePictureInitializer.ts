@@ -10,6 +10,7 @@ import {
 	type Hash,
 } from "./customTypes";
 import { retrieveProfilePicturesFromSocket } from "./socket";
+import {errorLogger} from "../logger/errorLogger";
 
 type DbRow = {
 	ImageHash: string;
@@ -61,9 +62,12 @@ export async function processClientsProfilePictures(clients: ClientEntity[]) {
 }
 export async function initializeProfilePictures() {
 	// load profile pictures from go sqlite db
-	const allPictures = await GetAllImages();
-
-	if (allPictures === null || allPictures === undefined) {
+	let allPictures: DbRow[];
+	try {
+		allPictures = (await GetAllImages()) as DbRow[];
+	} catch (e) {
+		console.error("Failed to load images from database");
+		await errorLogger.logError(new Error("Failed to load images from database"));
 		return;
 	}
 

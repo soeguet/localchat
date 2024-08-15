@@ -84,7 +84,7 @@ func (a *App) startup(ctx context.Context) {
 	a.envVars.createConfigFolder()
 	a.envVars.createIdFolder()
 	a.envVars.createDbFolder()
-	a.envVars.retrieveEnvVars()
+	a.envVars.retrieveEnvVars(a.ctx)
 
 	// db
 	a.db.startup()
