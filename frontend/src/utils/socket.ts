@@ -7,7 +7,6 @@ import { useDoNotDisturbStore } from "../stores/doNotDisturbStore";
 import { getTimeWithHHmmFormat } from "./time";
 import {
 	type AuthenticationPayload,
-	type CallbackProps,
 	type ClientId,
 	type MessagePayload,
 	PayloadSubType,
@@ -16,10 +15,12 @@ import { encodeFileToBase64, getMimeType, utf8ToBase64 } from "./encoder";
 import { useImageStore } from "../stores/imageStore";
 import { useClientStore } from "../stores/clientStore";
 import { errorLogger } from "../logger/errorLogger";
+import {handleIncomingMessages} from "./handleIncomingMessages";
+import {useVersionStore} from "../stores/versionStore";
 
 let socket: WebSocket;
 
-export const initWebSocket = (callbacks: CallbackProps) => {
+export const initWebSocket = () => {
 	socket = new WebSocket(
 		`ws://${useUserStore.getState().socketIp}:${
 			useUserStore.getState().socketPort
@@ -31,33 +32,48 @@ export const initWebSocket = (callbacks: CallbackProps) => {
 			await Notification("localchat", "Connection opened");
 		}
 
+		debugger
 		// register user with the server
 		const authPayload: AuthenticationPayload = {
+			version: {
+				major: useVersionStore.getState().major,
+				minor: useVersionStore.getState().minor,
+				patch: 	useVersionStore.getState().patch,
+			},
 			payloadType: PayloadSubType.auth,
 			clientUsername: useUserStore.getState().myUsername,
-			clientDbId: useUserStore.getState().myId,
+			clientDbId: useUserStore.getState().myId
 		};
 
 		setTimeout(() => {
 			socket.send(JSON.stringify(authPayload));
 		}, 1000);
 
-		callbacks.onOpen();
+		useWebsocketStore.getState().setIsConnected(true);
+
+		retrieveClientListFromSocket();
+		retrieveProfilePicturesHashesFromSocket();
+		retrieveMessageListFromSocket();
+		retrieveBannersFromSocket();
 	};
 
 	socket.onclose = async () => {
+
 		if (!useDoNotDisturbStore.getState().doNotDisturb) {
 			await Notification("localchat", "Connection closed");
 		}
-		callbacks.onClose();
 	};
 
-	socket.onmessage = (event: MessageEvent) => {
-		callbacks.onMessage(event);
+	socket.onmessage = async (event: MessageEvent) => {
+			handleIncomingMessages(event).catch((error) => {
+				errorLogger.logError(error);
+			});
 	};
 
 	socket.onerror = (event: Event) => {
-		callbacks.onError(event);
+		console.error("Websocket closed");
+		useWebsocketStore.getState().setIsConnected(false);
+		closeWebSocket();
 	};
 
 	useWebsocketStore.getState().setWs(socket);
@@ -82,7 +98,7 @@ async function sendClientMessageToWebsocket(message: string): Promise<void> {
 		username === "" ||
 		id === ""
 	) {
-		errorLogger.logError(`username or id is null${username}${id}`);
+		await errorLogger.logError(`username or id is null${username}${id}`);
 		throw new Error(`username or id is null${username}${id}`);
 	}
 

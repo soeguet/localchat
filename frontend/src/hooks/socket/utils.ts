@@ -9,7 +9,7 @@ import { useUnseenMessageCountStore } from "../../stores/unseenMessageCountStore
 import { useUserStore } from "../../stores/userStore";
 import type {
 	ClientEntity,
-	ClientListPayload,
+	ClientListPayload, ClientListPayloadEnhanced,
 	MessagePayload,
 	PayloadSubType,
 } from "../../utils/customTypes";
@@ -18,6 +18,7 @@ import { useClientStore } from "../../stores/clientStore";
 import { useGuiHasFocusStore } from "../../stores/guiHasFocusStore";
 import { scrollToBottom } from "../../utils/functionality";
 import { base64ToUtf8 } from "../../utils/encoder";
+import {useVersionStore} from "../../stores/versionStore";
 
 export function checkIfMessageIsToBeAddedToTheUnseenMessagesList(
 	messagePayload: MessagePayload,
@@ -99,7 +100,11 @@ export function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
 // updates all clients and caches array of clients
 // uses clientStore
 export function handleClientListPayload(payloadAsString: string) {
-	const payloadAsObject: ClientListPayload = JSON.parse(payloadAsString);
+	const payloadAsObject: ClientListPayloadEnhanced = JSON.parse(payloadAsString);
+
+	// update info about the newest client version
+	useVersionStore.getState().checkForUpdate(payloadAsObject.version);
+
 	const clients: ClientEntity[] = payloadAsObject.clients;
 	useClientStore.getState().setClients(clients);
 }

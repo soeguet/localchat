@@ -28,3 +28,6 @@ frontend/.nvim
 frontend/src/test/.nvim/.bookmarks
 .nvim/.bookmarks
 .nvim/.bookmarks
+frontend/pnpm-lock.yaml
+frontend/__mocks__/zustand.js
+frontend/.storybook/main.js

@@ -31,7 +31,8 @@ class ErrorLogger implements HttpLogger {
 
 	async logError(error: unknown) {
 		if (!(error instanceof Error)) {
-			errorLogger.logError(
+			await errorLogger.logError(
+				// the irony :D
 				new Error("Error is not an instance of Error"),
 			);
 			return;

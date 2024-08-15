@@ -139,7 +139,7 @@ export async function handleIncomingMessages(event: MessageEvent) {
 			if (dataAsObject.clientDbId === useUserStore.getState().myId) {
 				// just to be safe if the client does not want to get notifications!
 				if (!useDoNotDisturbStore.getState().doNotDisturb) {
-					Notification("ALARM", "PLEASE CHECK THE CHAT");
+					await Notification("ALARM", "PLEASE CHECK THE CHAT");
 
 					setTimeout(() => {
 						WindowUnminimise();
@@ -191,7 +191,7 @@ export async function handleIncomingMessages(event: MessageEvent) {
 				useEmergencyStore.getState().emergencyChatId !==
 				payload.emergencyChatId
 			) {
-				errorLogger.logError(
+				await errorLogger.logError(
 					new Error("EMERGENCY MESSAGE FROM WRONG CHAT"),
 				);
 				return;
@@ -233,7 +233,7 @@ export async function handleIncomingMessages(event: MessageEvent) {
 				useEmergencyStore.getState().emergencyChatId !==
 				payload.emergencyChatId
 			) {
-				errorLogger.logError(
+				await errorLogger.logError(
 					new Error("EMERGENCY MESSAGE FROM WRONG CHAT"),
 				);
 				return;
@@ -243,7 +243,7 @@ export async function handleIncomingMessages(event: MessageEvent) {
 				useEmergencyStore.getState().emergencyChatId;
 
 			if (currentEmergencyChatId !== payload.emergencyChatId) {
-				errorLogger.logError(
+				await errorLogger.logError(
 					new Error("EMERGENCY MESSAGE FROM WRONG CHAT"),
 				);
 				return;
@@ -327,7 +327,7 @@ export async function handleIncomingMessages(event: MessageEvent) {
 				const profilePicture: ProfilePictureObject = profilePictures[i];
 
 				// persist to goland sqlite db
-				PersistImage(profilePicture);
+				await PersistImage(profilePicture);
 
 				newMap.set(profilePicture.clientDbId, profilePicture);
 			}
@@ -382,7 +382,7 @@ export async function handleIncomingMessages(event: MessageEvent) {
 
 		// unknown payload type
 		default:
-			errorLogger.logError(new Error("Unknown payload type"));
-			throw new Error("Unknown payload type");
+			await errorLogger.logError(new Error("Unknown payload type"));
+			// throw new Error("Unknown payload type");
 	}
 }
