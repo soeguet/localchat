@@ -9,6 +9,8 @@ import { TypingIndicator } from "./panel/TypingIndicator";
 import { ScrollToBottomButton } from "./panel/ScrollToBottomButton";
 import { EmergencyContainer } from "./emergency/EmergencyContainer";
 import { ReactionModal } from "./ReactionModal";
+import {useVersionStore} from "../../stores/versionStore";
+import {UpdateBanner} from "./update/UpdateBanner";
 
 /**
  * The main part of the application.
@@ -30,6 +32,7 @@ function Chat() {
 				className="relative flex h-screen flex-col justify-evenly"
 			>
 				<Header />
+				<UpdateBanner />
 				<ChatPanel />
 				<TypingIndicator />
 				<ScrollToBottomButton />

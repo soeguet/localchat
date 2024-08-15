@@ -1,3 +1,4 @@
+
 export enum PayloadSubType {
 	auth = 0,
 	message = 1,
@@ -130,6 +131,17 @@ export type ClientUpdatePayloadV2 = {
 export type ClientListPayload = {
 	payloadType: PayloadSubType.clientList;
 	clients: ClientEntity[];
+};
+export type ClientListPayloadEnhanced = {
+	payloadType: PayloadSubType.clientList;
+	clients: ClientEntity[];
+	version: VersionStateType;
+};
+export type VersionStateType = {
+	major: number;
+	minor: number;
+	patch: number;
+	updateAvailable?: boolean;
 };
 
 export type ClientEntity = {

@@ -16,6 +16,7 @@ import { useImageStore } from "../stores/imageStore";
 import { useClientStore } from "../stores/clientStore";
 import { errorLogger } from "../logger/errorLogger";
 import {handleIncomingMessages} from "./handleIncomingMessages";
+import {useVersionStore} from "../stores/versionStore";
 
 let socket: WebSocket;
 
@@ -31,11 +32,17 @@ export const initWebSocket = () => {
 			await Notification("localchat", "Connection opened");
 		}
 
+		debugger
 		// register user with the server
 		const authPayload: AuthenticationPayload = {
+			version: {
+				major: useVersionStore.getState().major,
+				minor: useVersionStore.getState().minor,
+				patch: 	useVersionStore.getState().patch,
+			},
 			payloadType: PayloadSubType.auth,
 			clientUsername: useUserStore.getState().myUsername,
-			clientDbId: useUserStore.getState().myId,
+			clientDbId: useUserStore.getState().myId
 		};
 
 		setTimeout(() => {

@@ -14,22 +14,7 @@ type useBannerStoreType = {
 
 const useBannerStore: UseBoundStore<StoreApi<useBannerStoreType>> =
 	create<useBannerStoreType>((set) => ({
-		banners: [
-			{
-				id: "1",
-				title: "localchat v1",
-				message: "join our local chat!",
-				priority: 1,
-				hidden: false,
-			},
-			{
-				id: "2",
-				title: "localchat v2",
-				message: "join our prio 2 local chat!",
-				priority: 2,
-				hidden: false,
-			},
-		],
+		banners: [],
 		setBanners: (banners: BannerObject[]) => set({ banners }),
 		countBanners: (banners: BannerObject[]) => {
 			return banners.length;
