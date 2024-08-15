@@ -1,8 +1,10 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
+	wailsruntime "github.com/wailsapp/wails/v2/pkg/runtime"
 	"log"
 	"os"
 	"path/filepath"
@@ -12,29 +14,33 @@ import (
 )
 
 type EnvVars struct {
-	Username string `json:"username"`
-	IP       string `json:"ip"`
-	Port     string `json:"port"`
-	Os       string `json:"os"`
-	Id       string `json:"id"`
+	Username    string `json:"username"`
+	IP          string `json:"ip"`
+	Port        string `json:"port"`
+	Os          string `json:"os"`
+	Id          string `json:"id"`
+	Environment string `json:"environment"`
 }
 
 var (
-	IP       string
-	Username string
-	Port     string
-	Os       string
-	Id       string
+	IP          string
+	Username    string
+	Port        string
+	Os          string
+	Id          string
+	Environment string
 )
 
-func (envVars *EnvVars) retrieveEnvVars() {
-	//idFilePath := getIdFilePath()
+func (envVars *EnvVars) retrieveEnvVars(ctx context.Context) {
 	Id = envVars.setClientId()
-
 	IP = os.Getenv("LOCALCHAT_IP")
 	Username = os.Getenv("LOCALCHAT_USERNAME")
 	Port = os.Getenv("LOCALCHAT_PORT")
 	Os = runtime.GOOS
+
+	wailsRuntime := wailsruntime.Environment(ctx)
+	Environment = wailsRuntime.BuildType
+
 }
 
 func NewEnvVars() *EnvVars {
@@ -43,11 +49,12 @@ func NewEnvVars() *EnvVars {
 
 func (envVars *EnvVars) envVarsToFrontend() (string, error) {
 	vars := EnvVars{
-		Username: Username,
-		IP:       IP,
-		Port:     Port,
-		Os:       Os,
-		Id:       Id,
+		Username:    Username,
+		IP:          IP,
+		Port:        Port,
+		Os:          Os,
+		Id:          Id,
+		Environment: Environment,
 	}
 
 	envVarsJSON, err := json.Marshal(vars)

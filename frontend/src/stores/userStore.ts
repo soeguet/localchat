@@ -20,6 +20,8 @@ export type UserStore = {
 	setClientOs: (newOs: string) => void;
 	availability: boolean;
 	setAvailability: (availability: boolean) => void;
+	environment: string;
+	setEnvironment: (environment: string) => void;
 };
 
 const useUserStore: UseBoundStore<StoreApi<UserStore>> = create((set) => ({
@@ -42,6 +44,8 @@ const useUserStore: UseBoundStore<StoreApi<UserStore>> = create((set) => ({
 	availability: true,
 	setAvailability: (availability: boolean) =>
 		set({ availability: availability }),
+	environment: "",
+	setEnvironment: (environment: string) => set({ environment: environment }),
 }));
 
 export { useUserStore };
