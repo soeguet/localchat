@@ -3,7 +3,7 @@ import { useMessageMapStore } from "../../../stores/messageMapStore";
 import { useUserStore } from "../../../stores/userStore";
 import {
 	type MessagePayload,
-	PayloadSubType,
+	PayloadSubType, PayloadSubTypeEnum,
 } from "../../../utils/customTypes";
 import { ChatPanel } from "./ChatPanel";
 import { render, screen, waitFor } from "../../../utils/test-utils";
@@ -13,7 +13,7 @@ describe("QuoteBubble", () => {
 	test("render quote bubble for this client", async () => {
 		const id = "111";
 		const messagePayload: MessagePayload = {
-			payloadType: PayloadSubType.message,
+			payloadType: PayloadSubTypeEnum.enum.message,
 			clientType: {
 				clientDbId: id,
 			},
@@ -48,7 +48,7 @@ describe("QuoteBubble", () => {
 		const id = "111";
 		const otherId = "222";
 		const messagePayload: MessagePayload = {
-			payloadType: PayloadSubType.message,
+			payloadType: PayloadSubTypeEnum.enum.message,
 			clientType: {
 				clientDbId: id,
 			},
@@ -71,7 +71,7 @@ describe("QuoteBubble", () => {
 			reactionType: [],
 		};
 		const messagePayload2: MessagePayload = {
-			payloadType: PayloadSubType.message,
+			payloadType: PayloadSubTypeEnum.enum.message,
 			clientType: {
 				clientDbId: otherId,
 			},

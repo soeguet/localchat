@@ -8,7 +8,8 @@ import {
 import { useMessageMapStore } from "../../../../stores/messageMapStore";
 import {
 	type MessagePayload,
-	PayloadSubType, PayloadSubTypeEnum,
+	PayloadSubType,
+	PayloadSubTypeEnum,
 } from "../../../../utils/customTypes";
 import { ChatPanel } from "../ChatPanel";
 import { useUserStore } from "../../../../stores/userStore";
@@ -83,7 +84,7 @@ describe("EditMessageMode", () => {
 //         const ws = useWebsocketStore.getState().ws;
 //         const base64Message = utf8ToBase64(message);
 //         const payload = {
-//             payloadType: PayloadSubType.edit,
+//             payloadType: PayloadSubTypeEnum.enum.edit,
 //             messageDbId: props.messagePayload.messageType.messageDbId,
 //             messageContext: base64Message,
 //         };

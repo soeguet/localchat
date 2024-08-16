@@ -229,3 +229,9 @@ export const MessagePayloadSchema = z.object({
     imageType: ImageEntitySchema.optional(),
 });
 export type MessagePayload = z.infer<typeof MessagePayloadSchema>;
+
+export const MessageListPayloadSchema = z.object({
+    payloadType: PayloadSubTypeEnum,
+    messageList: z.array(MessagePayloadSchema),
+});
+export type MessageListPayload = z.infer<typeof MessageListPayloadSchema>;

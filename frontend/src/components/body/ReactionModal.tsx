@@ -5,7 +5,7 @@ import { handleClickOutsideOfDiv } from "../../utils/handleClickOutsideOfDiv";
 import { useWebsocketStore } from "../../stores/websocketStore";
 import { useUserStore } from "../../stores/userStore";
 import { generateSimpleId } from "../../utils/functionality";
-import { PayloadSubType } from "../../utils/customTypes";
+import {PayloadSubType, PayloadSubTypeEnum} from "../../utils/customTypes";
 
 function ReactionModal() {
 	const isOpen = useReactionMenuStore((state) => state.isOpen);
@@ -58,8 +58,7 @@ function ReactionModal() {
 					style={{
 						top: position.y,
 						left: position.x,
-					}}
-				>
+					}}>
 					<EmojiPicker
 						reactions={customEmojis}
 						lazyLoadEmojis={true}
@@ -68,12 +67,15 @@ function ReactionModal() {
 						onReactionClick={(emoji) => {
 							useWebsocketStore.getState().ws?.send(
 								JSON.stringify({
-									payloadType: PayloadSubType.reaction,
+									payloadType:
+										PayloadSubTypeEnum.enum.reaction,
 									reactionDbId: generateSimpleId(),
 									reactionMessageId:
-										useReactionMenuStore.getState().messageDbId,
+										useReactionMenuStore.getState()
+											.messageDbId,
 									reactionContext: emoji.emoji,
-									reactionClientId: useUserStore.getState().myId,
+									reactionClientId:
+										useUserStore.getState().myId,
 								}),
 							);
 							useReactionMenuStore.getState().reset();
@@ -87,12 +89,15 @@ function ReactionModal() {
 						onReactionClick={(emoji) => {
 							useWebsocketStore.getState().ws?.send(
 								JSON.stringify({
-									payloadType: PayloadSubType.reaction,
+									payloadType:
+										PayloadSubTypeEnum.enum.reaction,
 									reactionDbId: generateSimpleId(),
 									reactionMessageId:
-										useReactionMenuStore.getState().messageDbId,
+										useReactionMenuStore.getState()
+											.messageDbId,
 									reactionContext: emoji.emoji,
-									reactionClientId: useUserStore.getState().myId,
+									reactionClientId:
+										useUserStore.getState().myId,
 								}),
 							);
 							useReactionMenuStore.getState().reset();
