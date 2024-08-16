@@ -5,12 +5,11 @@ import {useDoNotDisturbStore} from "../../stores/doNotDisturbStore";
 import {useUnseenMessageCountStore} from "../../stores/unseenMessageCountStore";
 import {useUserStore} from "../../stores/userStore";
 import {
-  ClientEntity,
-  ClientListPayload,
-  ClientListPayloadEnhanced,
-  ClientListPayloadEnhancedSchema,
-  MessageListPayload,
-  MessagePayload,
+    ClientEntity,
+    ClientListPayload,
+    ClientListPayloadEnhanced,
+    MessageListPayload,
+    MessagePayload,
 } from "../../utils/customTypes";
 import {useMessageMapStore} from "../../stores/messageMapStore";
 import {useClientStore} from "../../stores/clientStore";
@@ -18,29 +17,34 @@ import {useGuiHasFocusStore} from "../../stores/guiHasFocusStore";
 import {scrollToBottom} from "../../utils/functionality";
 import {base64ToUtf8} from "../../utils/encoder";
 import {useVersionStore} from "../../stores/versionStore";
-import {errorLogger} from "../../logger/errorLogger";
 
-export function checkIfMessageIsToBeAddedToTheUnseenMessagesList(
+export async function checkIfMessageIsToBeAddedToTheUnseenMessagesList(
     messagePayload: MessagePayload,
     addIdToList: boolean,
 ) {
     // if we don't need to scroll to the bottom, we need to add the message to the unseen messages list
 
     if (addIdToList) {
+
         useUnseenMessageCountStore
             .getState()
             .addMessageToUnseenMessagesList(messagePayload.messageType.messageDbId);
+
     } else {
+
         useUnseenMessageCountStore.getState().resetUnseenMessageCount();
-        scrollToBottom();
+        await scrollToBottom();
+
     }
 }
 
-export function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
+export async function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
+
     // no message allowed if "do not disturb" is active
     if (useDoNotDisturbStore.getState().doNotDisturb) {
         return;
     }
+
     // no message needed if message from this client
     if (messagePayload.clientType.clientDbId === useUserStore.getState().myId) {
         return;
@@ -63,18 +67,10 @@ export function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
 
     const titleNotification = `${messagePayload.messageType.messageTime.slice(0, 5)} - ${messageSenderName}`;
 
-    // WindowShow();
-    // MakeWindowsTaskIconFlash("localchat");
     WindowIsMinimised()
         .then((isMinimised) => {
             if (isMinimised) {
                 MakeWindowsTaskIconFlash("Localchat");
-                // setTimeout(() => {
-                //     WindowUnminimise();
-                // }, 100);
-                // setTimeout(() => {
-                //     WindowHide();
-                // }, 600);
             } else {
                 WindowShow();
             }
@@ -83,48 +79,21 @@ export function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
             const message = base64ToUtf8(messagePayload.messageType.messageContext);
             await Notification(titleNotification, message);
         });
-
-    // WindowIsMinimised().then((isMinimised) => {
-    //     if (isMinimised) {
-    //         MakeWindowsTaskIconFlash("localchat");
-    //     } else {
-    //         WindowShow();
-    //     }
-    // });
 }
 
 // updates all clients and caches array of clients
 // uses clientStore
-export function handleClientListPayload(payloadAsString: string) {
-    let payloadAsObject: ClientListPayloadEnhanced;
-    try {
-        payloadAsObject = JSON.parse(payloadAsString);
-    } catch (e) {
-        console.error("Failed to parse client list payload");
-        throw new Error("Failed to parse client list payload");
-    }
-
-    const clientListValidation = ClientListPayloadEnhancedSchema.safeParse(payloadAsObject);
-
-    if (clientListValidation.success) {
-        const newVersion = clientListValidation.data.version;
-        useVersionStore.getState().checkForUpdate(newVersion);
-
-        useClientStore.getState().setClients(clientListValidation.data.clients);
-    } else {
-        console.error("Failed to parse client list payload");
-        errorLogger.logError(new Error("Failed to parse client list payload"));
-        throw new Error("Failed to parse client list payload");
-    }
+export function handleClientListPayload(clientListPayload: ClientListPayloadEnhanced) {
+    const newVersion = clientListPayload.version;
+    useVersionStore.getState().checkForUpdate(newVersion);
+    useClientStore.getState().setClients(clientListPayload.clients);
 }
 
 // updates this specific client and caches its values
 // uses userStore
-export function updateThisClientsCachedDataWithNewPayloadData(
-    payloadAsString: string,
-) {
-    const payloadAsObject: ClientListPayload = JSON.parse(payloadAsString);
-    const clients: ClientEntity[] = payloadAsObject.clients;
+export function updateThisClientsCachedDataWithNewPayloadData(payload: ClientListPayload) {
+
+    const clients: ClientEntity[] = payload.clients;
     const myId = useUserStore.getState().myId;
     const myClient = clients.find((client) => client.clientDbId === myId);
 

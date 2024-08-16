@@ -26,13 +26,17 @@ function MessageRenderMap() {
 		if (lastMessage[1].clientType.clientDbId === undefined) {
 			return;
 		}
-		if (checkIfScrollToBottomIsNeeded(lastMessage[1].clientType.clientDbId)) {
-			scrollToBottom().then(() => {
-				useUnseenMessageCountStore.getState().resetUnseenMessageCount();
-			});
-		} else {
-			useUnseenMessageCountStore.getState().incrementUnseenMessageCount();
-		}
+
+		checkIfScrollToBottomIsNeeded(lastMessage[1].clientType.clientDbId).then((scrollToBottomIsNeeded) => {
+			if (scrollToBottomIsNeeded) {
+				scrollToBottom().then(() => {
+					useUnseenMessageCountStore.getState().resetUnseenMessageCount();
+				});
+			} else {
+				useUnseenMessageCountStore.getState().incrementUnseenMessageCount();
+			}
+		});
+
 	}, [newMap]);
 
 	return (
