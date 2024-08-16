@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { VersionEntity } from "../utils/customTypes";
+import {errorLogger} from "../logger/errorLogger";
 
 type VersionStoreProps = {
     major: number;
@@ -19,11 +20,14 @@ const useVersionStore = create<VersionStoreProps>((set, get) => ({
     setVersion: (version: string) => set(() => {
         const [major, minor, patch] = version.split(".").map(Number);
 
-        debugger
         if (isNaN(major) || isNaN(minor) || isNaN(patch) ||
             major === undefined || minor === undefined || patch === undefined ||
             (major === 0 && minor === 0 && patch === 0)) {
-            throw new Error("Version is not valid");
+            console.error("Version is not valid");
+
+            errorLogger.logError(new Error("Version is not valid")).catch((error) => {
+                console.error("Error logging error", error);
+            });
         }
 
         return { major, minor, patch };

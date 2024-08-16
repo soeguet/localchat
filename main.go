@@ -3,6 +3,7 @@ package main
 
 import (
 	"embed"
+	_ "image/png"
 	"log"
 
 	"github.com/wailsapp/wails/v2/pkg/options/windows"
@@ -16,8 +17,8 @@ import (
 //go:embed all:frontend/dist
 var assets embed.FS
 
-// //go:embed frontend/public/logo.png
-// var icon []byte
+//go:embed frontend/dist/logo.png
+var icon []byte
 
 // main is the entry point of the application.
 func main() {
@@ -51,6 +52,7 @@ func main() {
 			WindowIsTranslucent: false,
 			WebviewGpuPolicy:    linux.WebviewGpuPolicyAlways,
 			ProgramName:         "localchat",
+			Icon:                icon,
 		},
 		Debug: options.Debug{
 			OpenInspectorOnStartup: true,

@@ -100,10 +100,22 @@ export function checkIfNotificationIsNeeded(messagePayload: MessagePayload) {
 // updates all clients and caches array of clients
 // uses clientStore
 export function handleClientListPayload(payloadAsString: string) {
-	const payloadAsObject: ClientListPayloadEnhanced = JSON.parse(payloadAsString);
+	let payloadAsObject: ClientListPayloadEnhanced;
+	try {
+		payloadAsObject  = JSON.parse(payloadAsString);
+	} catch (e) {
+		console.error("Failed to parse client list payload");
+		throw new Error("Failed to parse client list payload");
+	}
 
 	// update info about the newest client version
-	useVersionStore.getState().checkForUpdate(payloadAsObject.version);
+	const newVersion = payloadAsObject.version;
+	if (newVersion === undefined) {
+		console.error("Version is undefined");
+		throw new Error("Version is undefined");
+	} else {
+		useVersionStore.getState().checkForUpdate(newVersion);
+	}
 
 	const clients: ClientEntity[] = payloadAsObject.clients;
 	useClientStore.getState().setClients(clients);

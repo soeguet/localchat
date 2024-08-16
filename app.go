@@ -17,7 +17,6 @@ func (a *App) PersistImage(imgObj DbRow) error {
 }
 
 func (a *App) GetAllImages() ([]DbRow, error) {
-	fmt.Println("GetAllImages")
 	return a.db.getAllImages()
 }
 

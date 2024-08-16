@@ -32,7 +32,6 @@ export const initWebSocket = () => {
 			await Notification("localchat", "Connection opened");
 		}
 
-		debugger
 		// register user with the server
 		const authPayload: AuthenticationPayload = {
 			version: {
