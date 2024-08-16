@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { useUserStore } from "../../../../stores/userStore";
 import {
 	type EmergencyInitPayload,
-	PayloadSubType,
+	PayloadSubType, PayloadSubTypeEnum,
 } from "../../../../utils/customTypes";
 import { generateSimpleId } from "../../../../utils/functionality";
 import { useWebsocketStore } from "../../../../stores/websocketStore";
@@ -22,7 +22,7 @@ function EmergencyValidationPopup(props: EmergencyValidationPopupProps) {
 		}
 
 		const payload: EmergencyInitPayload = {
-			payloadType: PayloadSubType.emergencyInit,
+			payloadType: PayloadSubTypeEnum.enum.emergencyInit,
 			active: true,
 			emergencyChatId: generateSimpleId(),
 			initiatorClientDbId: useUserStore.getState().myId,

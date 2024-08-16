@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { handleClickOutsideOfDiv } from "../../../../utils/handleClickOutsideOfDiv";
 import {
 	PayloadSubType,
-	type MessagePayload,
+	type MessagePayload, PayloadSubTypeEnum,
 } from "../../../../utils/customTypes";
 import { useWebsocketStore } from "../../../../stores/websocketStore";
 
@@ -36,7 +36,7 @@ function ChatBubbleMenu(props: ChatBubbleMenuProps) {
 
 	function deletePayloadToSocket() {
 		const deletePayload = {
-			payloadType: PayloadSubType.delete,
+			payloadType: PayloadSubTypeEnum.enum.delete,
 			messageDbId: props.messagePayload.messageType.messageDbId,
 		};
 

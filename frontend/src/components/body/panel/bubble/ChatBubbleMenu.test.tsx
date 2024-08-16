@@ -1,14 +1,14 @@
 import { describe, expect, test } from "vitest";
 import { ChatBubbleMenu } from "./ChatBubbleMenu";
 import { render, screen } from "../../../../utils/test-utils";
-import { PayloadSubType } from "../../../../utils/customTypes";
+import {PayloadSubType, PayloadSubTypeEnum} from "../../../../utils/customTypes";
 
 describe("ChatBubbleMenu", () => {
 	test("should not render menu", () => {
 		render(
 			<ChatBubbleMenu
 				messagePayload={{
-					payloadType: PayloadSubType.message,
+					payloadType: PayloadSubTypeEnum.enum.message,
 					clientType: {
 						clientDbId: "1",
 					},
@@ -34,7 +34,7 @@ describe("ChatBubbleMenu", () => {
 		render(
 			<ChatBubbleMenu
 				messagePayload={{
-					payloadType: PayloadSubType.message,
+					payloadType: PayloadSubTypeEnum.enum.message,
 					clientType: {
 						clientDbId: "1",
 					},

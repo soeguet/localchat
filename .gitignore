@@ -21,13 +21,9 @@ frontend/coverage
 frontend/src/stories
 .supermaven
 .nvim/.bookmarks
-.nvim/.bookmarks
 frontend/.nvim
-.nvim/.bookmarks
 .vite/vitest/results.json
 frontend/src/test/.nvim/.bookmarks
-.nvim/.bookmarks
-.nvim/.bookmarks
 frontend/pnpm-lock.yaml
 frontend/__mocks__/zustand.js
 frontend/.storybook/main.js

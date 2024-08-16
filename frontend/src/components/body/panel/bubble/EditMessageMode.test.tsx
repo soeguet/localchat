@@ -8,7 +8,7 @@ import {
 import { useMessageMapStore } from "../../../../stores/messageMapStore";
 import {
 	type MessagePayload,
-	PayloadSubType,
+	PayloadSubType, PayloadSubTypeEnum,
 } from "../../../../utils/customTypes";
 import { ChatPanel } from "../ChatPanel";
 import { useUserStore } from "../../../../stores/userStore";
@@ -17,7 +17,7 @@ describe("EditMessageMode", () => {
 	test("test if edit mode activates after pressing edit", async () => {
 		const id = "111";
 		const messagePayload: MessagePayload = {
-			payloadType: PayloadSubType.message,
+			payloadType: PayloadSubTypeEnum.enum.message,
 			clientType: {
 				clientDbId: id,
 			},

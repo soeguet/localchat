@@ -5,7 +5,7 @@ import {
 	PayloadSubType,
 	type BannerObject,
 	type BannerPayload,
-	type Priority,
+	type Priority, PayloadSubTypeEnum,
 } from "../../../../utils/customTypes";
 import { useWebsocketStore } from "../../../../stores/websocketStore";
 import { useTranslation } from "react-i18next";
@@ -61,7 +61,7 @@ function AddNewBannerContainer(props: AddNewBannerContainerProps) {
 			hidden: false,
 		};
 		const bannerPayload: BannerPayload = {
-			payloadType: PayloadSubType.modifyBanner,
+			payloadType: PayloadSubTypeEnum.enum.modifyBanner,
 			banner: bannerObject,
 			action: props.bannerObject ? "update" : "add",
 		};

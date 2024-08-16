@@ -5,7 +5,7 @@ import {useWebsocketStore} from "../stores/websocketStore";
 import {
 	type ClientUpdatePayloadV2,
 	type NewProfilePicturePayload,
-	PayloadSubType,
+	PayloadSubType, PayloadSubTypeEnum,
 } from "./customTypes";
 import {generateUnixTimestampFnv1aHash} from "./hashGenerator";
 
@@ -31,7 +31,7 @@ function profileUpdate(newImageHash: string, wsReference: WebSocket) {
 	const newColor = useSettingsStore.getState().localColor;
 
 	const clientUpdatePayload: ClientUpdatePayloadV2 = {
-		payloadType: PayloadSubType.profileUpdateV2,
+		payloadType: PayloadSubTypeEnum.enum.profileUpdateV2,
 		clientUsername: newUsername || useUserStore.getState().myUsername,
 		clientDbId: useUserStore.getState().myId,
 		clientColor: newColor || useUserStore.getState().myColor,
@@ -47,7 +47,7 @@ function profilePictureUpdate(newImageHash: string, wsReference: WebSocket) {
 	const pictureData = useSettingsStore.getState().localProfilePicture;
 
 	const picturePayload: NewProfilePicturePayload = {
-		payloadType: PayloadSubType.newProfilePicture,
+		payloadType: PayloadSubTypeEnum.enum.newProfilePicture,
 		clientDbId: useUserStore.getState().myId,
 		imageHash: pictureData ? newImageHash : "",
 		data: pictureData ? pictureData : "",

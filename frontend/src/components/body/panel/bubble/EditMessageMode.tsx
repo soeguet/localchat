@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
 	PayloadSubType,
-	type MessagePayload,
+	type MessagePayload, PayloadSubTypeEnum,
 } from "../../../../utils/customTypes";
 import { base64ToUtf8, utf8ToBase64 } from "../../../../utils/encoder";
 import { useWebsocketStore } from "../../../../stores/websocketStore";
@@ -22,7 +22,7 @@ function EditMessageMode(props: EditMessageModeProps) {
 		const ws = useWebsocketStore.getState().ws;
 		const base64Message = utf8ToBase64(message);
 		const payload = {
-			payloadType: PayloadSubType.edit,
+			payloadType: PayloadSubTypeEnum.enum.edit,
 			messageDbId: props.messagePayload.messageType.messageDbId,
 			messageContext: base64Message,
 		};

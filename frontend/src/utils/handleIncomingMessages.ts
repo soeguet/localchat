@@ -1,388 +1,405 @@
-import { Notification, PersistImage } from "../../wailsjs/go/main/App";
+import {Notification, PersistImage} from "../../wailsjs/go/main/App";
 import {
-	WindowMinimise,
-	WindowShow,
-	WindowUnminimise,
+    WindowMinimise,
+    WindowShow,
+    WindowUnminimise,
 } from "../../wailsjs/runtime";
-import { useEmergencyNotifications } from "../components/body/emergency/useEmergencyNotifications";
+import {useEmergencyNotifications} from "../components/body/emergency/useEmergencyNotifications";
 import {
-	checkIfMessageIsToBeAddedToTheUnseenMessagesList,
-	checkIfNotificationIsNeeded,
-	handeMessageListPayload,
-	handleClientListPayload,
-	updateThisClientsCachedDataWithNewPayloadData,
+    checkIfMessageIsToBeAddedToTheUnseenMessagesList,
+    checkIfNotificationIsNeeded,
+    handeMessageListPayload,
+    handleClientListPayload,
+    updateThisClientsCachedDataWithNewPayloadData,
 } from "../hooks/socket/utils";
-import { errorLogger } from "../logger/errorLogger";
-import { useBannerStore } from "../stores/bannerStore";
-import { useDoNotDisturbStore } from "../stores/doNotDisturbStore";
-import { useEmergencyStore } from "../stores/emergencyStore";
-import { useMessageMapStore } from "../stores/messageMapStore";
-import { useProfilePictureStore } from "../stores/profilePictureStore";
-import { useTypingStore } from "../stores/typingStore";
-import { useUserStore } from "../stores/userStore";
+import {errorLogger} from "../logger/errorLogger";
+import {useBannerStore} from "../stores/bannerStore";
+import {useDoNotDisturbStore} from "../stores/doNotDisturbStore";
+import {useEmergencyStore} from "../stores/emergencyStore";
+import {useMessageMapStore} from "../stores/messageMapStore";
+import {useProfilePictureStore} from "../stores/profilePictureStore";
+import {useTypingStore} from "../stores/typingStore";
+import {useUserStore} from "../stores/userStore";
 import {
-	type AllEmergencyMessagesPayload,
-	type AllProfilePictureHashesPayload,
-	type BannerListPayload,
-	type BannerObject,
-	type ClientId,
-	type EmergencyInitPayload,
-	type EmergencyMessage,
-	type EmergencyMessagePayload,
-	type FetchAllProfilePicturesPayload,
-	type Hash,
-	type MessagePayload,
-	type NewProfilePicturePayload,
-	PayloadSubType,
-	type ProfilePictureObject,
-	type ProfilePicturePayload,
+    type AllEmergencyMessagesPayload,
+    type AllProfilePictureHashesPayload,
+    type BannerListPayload,
+    type BannerObject,
+    type ClientId,
+    type EmergencyInitPayload,
+    type EmergencyMessage,
+    type EmergencyMessagePayload,
+    type FetchAllProfilePicturesPayload,
+    type Hash,
+    type MessagePayload,
+    type NewProfilePicturePayload,
+    PayloadSubTypeEnum,
+    type ProfilePictureObject,
+    type ProfilePicturePayload,
 } from "./customTypes";
-import { preventDuplicateEmergencyMessages } from "./emergencyArrayHelper";
-import { processClientsProfilePictures } from "./profilePictureInitializer";
-import { notifyClientIfReactionTarget } from "./reactionHandler";
-import { checkIfScrollToBottomIsNeeded } from "./scrollToBottomNeeded";
-import { retrieveProfilePicturesFromSocket } from "./socket";
+import {preventDuplicateEmergencyMessages} from "./emergencyArrayHelper";
+import {processClientsProfilePictures} from "./profilePictureInitializer";
+import {notifyClientIfReactionTarget} from "./reactionHandler";
+import {checkIfScrollToBottomIsNeeded} from "./scrollToBottomNeeded";
+import {retrieveProfilePicturesFromSocket} from "./socket";
 
 export async function handleIncomingMessages(event: MessageEvent) {
-	const dataAsObject = JSON.parse(event.data);
+    const dataAsObject = JSON.parse(event.data);
 
-	// MAIN SWITCH STATEMENT
-	switch (dataAsObject.payloadType) {
-		// normal chat messages
-		// PayloadSubType.message == 1
-		case PayloadSubType.message: {
-			const messagePayload = JSON.parse(event.data) as MessagePayload;
+    // MAIN SWITCH STATEMENT
+    switch (dataAsObject.payloadType) {
+        // normal chat messages
+        // PayloadSubType.message == 1
+        case PayloadSubTypeEnum.enum.message: {
+            const messagePayload = JSON.parse(event.data) as MessagePayload;
 
-			useMessageMapStore.getState().onMessage(messagePayload);
+            useMessageMapStore.getState().onMessage(messagePayload);
 
-			// if scroll to bottom is not needed, add the message to the unseen messages list
-			const addIdToList = !checkIfScrollToBottomIsNeeded(
-				messagePayload.clientType.clientDbId,
-			);
-			checkIfMessageIsToBeAddedToTheUnseenMessagesList(
-				messagePayload,
-				addIdToList,
-			);
+            // if scroll to bottom is not needed, add the message to the unseen messages list
+            const addIdToList = !checkIfScrollToBottomIsNeeded(
+                messagePayload.clientType.clientDbId,
+            );
+            checkIfMessageIsToBeAddedToTheUnseenMessagesList(
+                messagePayload,
+                addIdToList,
+            );
 
-			//display the message
-			checkIfNotificationIsNeeded(messagePayload);
-			break;
-		}
+            //display the message
+            checkIfNotificationIsNeeded(messagePayload);
+            break;
+        }
 
-		// update the client list with new data
-		// PayloadSubType.clientList == 2
-		case PayloadSubType.clientList:
-			// console.table(dataAsObject.clients);
-			if (
-				dataAsObject.clients === undefined ||
-				dataAsObject.clients === null ||
-				dataAsObject.clients.length === 0
-			) {
-				throw new Error("Client list is empty");
-			}
-			handleClientListPayload(event.data);
-			updateThisClientsCachedDataWithNewPayloadData(event.data);
+        // update the client list with new data
+        // PayloadSubType.clientList == 2
+        case PayloadSubTypeEnum.enum.clientList:
+            // console.table(dataAsObject.clients);
+            if (
+                dataAsObject.clients === undefined ||
+                dataAsObject.clients === null ||
+                dataAsObject.clients.length === 0
+            ) {
+                throw new Error("Client list is empty");
+            }
+            handleClientListPayload(event.data);
+            updateThisClientsCachedDataWithNewPayloadData(event.data);
 
-			await processClientsProfilePictures(dataAsObject.clients);
+            await processClientsProfilePictures(dataAsObject.clients);
 
-			// await initializeProfilePictures();
+            // await initializeProfilePictures();
 
-			// TODO this seems fishy, need to ask somewhere else for all messages
+            // TODO this seems fishy, need to ask somewhere else for all messages
 
-			// AFTER receiving the client list, ask for the message list
-			// retrieveMessageListFromSocket();
-			break;
+            // AFTER receiving the client list, ask for the message list
+            // retrieveMessageListFromSocket();
+            break;
 
-		// PayloadSubType.profileUpdate == 3
-		case PayloadSubType.profileUpdate:
-			// console.table(dataAsObject.clients);
-			if (
-				dataAsObject.clients === undefined ||
-				dataAsObject.clients === null ||
-				dataAsObject.clients.length === 0
-			) {
-				throw new Error("Client list is empty");
-			}
-			handleClientListPayload(event.data);
-			updateThisClientsCachedDataWithNewPayloadData(event.data);
+        // PayloadSubType.profileUpdate == 3
+        case PayloadSubTypeEnum.enum.profileUpdate:
+            // console.table(dataAsObject.clients);
+            if (
+                dataAsObject.clients === undefined ||
+                dataAsObject.clients === null ||
+                dataAsObject.clients.length === 0
+            ) {
+                throw new Error("Client list is empty");
+            }
+            handleClientListPayload(event.data);
+            updateThisClientsCachedDataWithNewPayloadData(event.data);
 
-			break;
+            break;
 
-		// PayloadSubType.messageList == 4
-		case PayloadSubType.messageList:
-			handeMessageListPayload(event.data);
-			break;
+        // PayloadSubType.messageList == 4
+        case PayloadSubTypeEnum.enum.messageList:
+            handeMessageListPayload(event.data);
+            break;
 
-		// PayloadSubType.typing == 5
-		case PayloadSubType.typing:
-			if (
-				dataAsObject.clientDbId === undefined ||
-				dataAsObject.isTyping === undefined
-			) {
-				throw new Error(
-					"Typing payload is missing client ID or typing status",
-				);
-			}
-			if (dataAsObject.isTyping) {
-				useTypingStore
-					.getState()
-					.addTypingClientId(dataAsObject.clientDbId);
-			} else {
-				useTypingStore
-					.getState()
-					.removeTypingClientId(dataAsObject.clientDbId);
-			}
-			break;
+        // PayloadSubType.typing == 5
+        case PayloadSubTypeEnum.enum.typing:
+            if (
+                dataAsObject.clientDbId === undefined ||
+                dataAsObject.isTyping === undefined
+            ) {
+                throw new Error(
+                    "Typing payload is missing client ID or typing status",
+                );
+            }
+            if (dataAsObject.isTyping) {
+                useTypingStore
+                    .getState()
+                    .addTypingClientId(dataAsObject.clientDbId);
+            } else {
+                useTypingStore
+                    .getState()
+                    .removeTypingClientId(dataAsObject.clientDbId);
+            }
+            break;
 
-		// PayloadSubType.force == 6
-		case PayloadSubType.force:
-			if (dataAsObject.clientDbId === useUserStore.getState().myId) {
-				// just to be safe if the client does not want to get notifications!
-				if (!useDoNotDisturbStore.getState().doNotDisturb) {
-					await Notification("ALARM", "PLEASE CHECK THE CHAT");
+        // PayloadSubType.force == 6
+        case PayloadSubTypeEnum.enum.force:
+            if (dataAsObject.clientDbId === useUserStore.getState().myId) {
+                // just to be safe if the client does not want to get notifications!
+                if (!useDoNotDisturbStore.getState().doNotDisturb) {
+                    await Notification("ALARM", "PLEASE CHECK THE CHAT");
 
-					setTimeout(() => {
-						WindowUnminimise();
-					}, 1000);
-					WindowMinimise();
-					WindowShow();
-				}
-			}
-			break;
+                    setTimeout(() => {
+                        WindowUnminimise();
+                    }, 1000);
+                    WindowMinimise();
+                    WindowShow();
+                }
+            }
+            break;
 
-		// PayloadSubType.reaction == 7
-		case PayloadSubType.reaction:
-			// updated message from socket with reactions
-			useMessageMapStore.getState().onUpdateMessage(dataAsObject);
-			notifyClientIfReactionTarget(dataAsObject as MessagePayload);
-			break;
+        // PayloadSubType.reaction == 7
+        case PayloadSubTypeEnum.enum.reaction:
+            // updated message from socket with reactions
+            useMessageMapStore.getState().onUpdateMessage(dataAsObject);
+            notifyClientIfReactionTarget(dataAsObject as MessagePayload);
+            break;
 
-		// PayloadSubType.delete == 8
-		case PayloadSubType.delete:
-		// PayloadSubType.delete == 9
-		case PayloadSubType.edit:
-			useMessageMapStore.getState().onUpdateMessage(dataAsObject);
-			break;
+        // PayloadSubType.delete == 8
+        case PayloadSubTypeEnum.enum.delete:
+        // PayloadSubType.delete == 9
+        case PayloadSubTypeEnum.enum.edit:
+            useMessageMapStore.getState().onUpdateMessage(dataAsObject);
+            break;
 
-		// PayloadSubType.emergencyInit == 10
-		case PayloadSubType.emergencyInit: {
-			const payload = dataAsObject as EmergencyInitPayload;
+        // PayloadSubType.emergencyInit == 10
+        case PayloadSubTypeEnum.enum.emergencyInit: {
+            const payload = dataAsObject as EmergencyInitPayload;
 
-			useEmergencyStore
-				.getState()
-				.setEmergencyInitiatorId(payload.initiatorClientDbId);
-			useEmergencyStore.getState().setEmergency(payload.active);
-			useEmergencyStore.getState().setChatVisible(true);
-			useEmergencyStore
-				.getState()
-				.setEmergencyChatId(payload.emergencyChatId);
+            useEmergencyStore
+                .getState()
+                .setEmergencyInitiatorId(payload.initiatorClientDbId);
+            useEmergencyStore.getState().setEmergency(payload.active);
+            useEmergencyStore.getState().setChatVisible(true);
+            useEmergencyStore
+                .getState()
+                .setEmergencyChatId(payload.emergencyChatId);
 
-			if (!payload.active) {
-				useEmergencyStore.getState().setEmergencyMessages([]);
-			}
-			break;
-		}
+            if (!payload.active) {
+                useEmergencyStore.getState().setEmergencyMessages([]);
+            }
+            break;
+        }
 
-		// PayloadSubType.emergencyMessage == 11
-		case PayloadSubType.emergencyMessage: {
-			const payload = dataAsObject as EmergencyMessagePayload;
+        // PayloadSubType.emergencyMessage == 11
+        case PayloadSubTypeEnum.enum.emergencyMessage: {
+            const payload = dataAsObject as EmergencyMessagePayload;
 
-			if (
-				useEmergencyStore.getState().emergencyChatId !==
-				payload.emergencyChatId
-			) {
-				await errorLogger.logError(
-					new Error("EMERGENCY MESSAGE FROM WRONG CHAT"),
-				);
-				return;
-			}
+            if (
+                useEmergencyStore.getState().emergencyChatId !==
+                payload.emergencyChatId
+            ) {
+                await errorLogger.logError(
+                    new Error("EMERGENCY MESSAGE FROM WRONG CHAT"),
+                );
+                return;
+            }
 
-			const emergencyMessageArray: EmergencyMessage[] =
-				useEmergencyStore.getState().emergencyMessages;
+            const emergencyMessageArray: EmergencyMessage[] =
+                useEmergencyStore.getState().emergencyMessages;
 
-			const result = await preventDuplicateEmergencyMessages(
-				emergencyMessageArray,
-				payload,
-			);
+            const result = await preventDuplicateEmergencyMessages(
+                emergencyMessageArray,
+                payload,
+            );
 
-			if (result === 1) {
-				return;
-			}
+            if (result === 1) {
+                return;
+            }
 
-			const emergencyMessage: EmergencyMessage = {
-				emergencyChatId: payload.emergencyChatId,
-				messageDbId: payload.messageDbId,
-				message: payload.message,
-				time: payload.time,
-				clientDbId: payload.clientDbId,
-			};
-			const newArray = [...emergencyMessageArray, emergencyMessage];
-			useEmergencyStore.getState().setEmergencyMessages(newArray);
+            const emergencyMessage: EmergencyMessage = {
+                emergencyChatId: payload.emergencyChatId,
+                messageDbId: payload.messageDbId,
+                message: payload.message,
+                time: payload.time,
+                clientDbId: payload.clientDbId,
+            };
+            const newArray = [...emergencyMessageArray, emergencyMessage];
+            useEmergencyStore.getState().setEmergencyMessages(newArray);
 
-			useEmergencyNotifications();
+            useEmergencyNotifications();
 
-			break;
-		}
+            break;
+        }
 
-		// PayloadSubType.allEmergencyMessages == 12
-		case PayloadSubType.allEmergencyMessages: {
-			const payload: AllEmergencyMessagesPayload =
-				dataAsObject as AllEmergencyMessagesPayload;
+        // PayloadSubType.allEmergencyMessages == 12
+        case PayloadSubTypeEnum.enum.allEmergencyMessages: {
+            const payload: AllEmergencyMessagesPayload =
+                dataAsObject as AllEmergencyMessagesPayload;
 
-			if (
-				useEmergencyStore.getState().emergencyChatId !==
-				payload.emergencyChatId
-			) {
-				await errorLogger.logError(
-					new Error("EMERGENCY MESSAGE FROM WRONG CHAT"),
-				);
-				return;
-			}
+            if (
+                useEmergencyStore.getState().emergencyChatId !==
+                payload.emergencyChatId
+            ) {
+                await errorLogger.logError(
+                    new Error("EMERGENCY MESSAGE FROM WRONG CHAT"),
+                );
+                return;
+            }
 
-			const currentEmergencyChatId =
-				useEmergencyStore.getState().emergencyChatId;
+            const currentEmergencyChatId =
+                useEmergencyStore.getState().emergencyChatId;
 
-			if (currentEmergencyChatId !== payload.emergencyChatId) {
-				await errorLogger.logError(
-					new Error("EMERGENCY MESSAGE FROM WRONG CHAT"),
-				);
-				return;
-			}
+            if (currentEmergencyChatId !== payload.emergencyChatId) {
+                await errorLogger.logError(
+                    new Error("EMERGENCY MESSAGE FROM WRONG CHAT"),
+                );
+                return;
+            }
 
-			const emergencyMessageArray: EmergencyMessage[] =
-				payload.emergencyMessages;
+            if (payload.emergencyMessages === undefined) {
+                throw new Error("Emergency messages are undefined");
+            }
+            const emergencyMessageArray: EmergencyMessage[] = payload.emergencyMessages;
 
-			useEmergencyStore
-				.getState()
-				.setEmergencyMessages(emergencyMessageArray);
+            useEmergencyStore
+                .getState()
+                .setEmergencyMessages(emergencyMessageArray);
 
-			break;
-		}
+            break;
+        }
 
-		// TODO maybe this should be skipped for .fetchProfilePicture
-		// PayloadSubType.newProfilePicture == 8
-		case PayloadSubType.newProfilePicture: {
-			const payload = dataAsObject as NewProfilePicturePayload;
+        // TODO maybe this should be skipped for .fetchProfilePicture
+        // PayloadSubType.newProfilePicture == 8
+        case PayloadSubTypeEnum.enum.newProfilePicture: {
+            const payload = dataAsObject as NewProfilePicturePayload;
 
-			const profilePictureObject: ProfilePictureObject = {
-				clientDbId: payload.clientDbId,
-				imageHash: payload.imageHash,
-				data: payload.data,
-			};
+            const profilePictureObject: ProfilePictureObject = {
+                clientDbId: payload.clientDbId,
+                imageHash: payload.imageHash,
+                data: payload.data,
+            };
 
-			useProfilePictureStore
-				.getState()
-				.addToProfilePictureMap(
-					profilePictureObject.clientDbId,
-					profilePictureObject,
-				);
+            useProfilePictureStore
+                .getState()
+                .addToProfilePictureMap(
+                    profilePictureObject.clientDbId,
+                    profilePictureObject,
+                );
 
-			useProfilePictureStore
-				.getState()
-				.removeFromNoProfilePictureAvailableMap(
-					profilePictureObject.clientDbId,
-				);
+            useProfilePictureStore
+                .getState()
+                .removeFromNoProfilePictureAvailableMap(
+                    profilePictureObject.clientDbId,
+                );
 
-			await PersistImage(profilePictureObject);
-			break;
-		}
+            await PersistImage(profilePictureObject);
+            break;
+        }
 
-		// PayloadSubType.fetchProfilePicture == 14
-		case PayloadSubType.fetchProfilePicture: {
-			const payload: ProfilePicturePayload =
-				dataAsObject as ProfilePicturePayload;
+        // PayloadSubType.fetchProfilePicture == 14
+        case PayloadSubTypeEnum.enum.fetchProfilePicture: {
+            const payload: ProfilePicturePayload =
+                dataAsObject as ProfilePicturePayload;
 
-			const profilePictureObject: ProfilePictureObject = {
-				clientDbId: payload.clientDbId,
-				imageHash: payload.imageHash,
-				data: payload.data,
-			};
+            const profilePictureObject: ProfilePictureObject = {
+                clientDbId: payload.clientDbId,
+                imageHash: payload.imageHash,
+                data: payload.data,
+            };
 
-			const updateMap =
-				useProfilePictureStore.getState().profilePictureMap;
-			updateMap.set(
-				profilePictureObject.clientDbId,
-				profilePictureObject,
-			);
+            const updateMap =
+                useProfilePictureStore.getState().profilePictureMap;
+            updateMap.set(
+                profilePictureObject.clientDbId,
+                profilePictureObject,
+            );
 
-			// persist in local cache - zustand
-			useProfilePictureStore.getState().setProfilePictureMap(updateMap);
+            // persist in local cache - zustand
+            useProfilePictureStore.getState().setProfilePictureMap(updateMap);
 
-			// persist to goland sqlite db
-			await PersistImage(profilePictureObject);
+            // persist to goland sqlite db
+            await PersistImage(profilePictureObject);
 
-			break;
-		}
+            break;
+        }
 
-		// PayloadSubType.fetchAllProfilePictures == 15
-		case PayloadSubType.fetchAllProfilePictures: {
-			const payload: FetchAllProfilePicturesPayload =
-				dataAsObject as FetchAllProfilePicturesPayload;
-			const profilePictures: ProfilePictureObject[] =
-				payload.profilePictures;
+        // PayloadSubType.fetchAllProfilePictures == 15
+        case PayloadSubTypeEnum.enum.fetchAllProfilePictures: {
 
-			const newMap = new Map<ClientId, ProfilePictureObject>();
+            const payload: FetchAllProfilePicturesPayload = dataAsObject as FetchAllProfilePicturesPayload;
 
-			for (let i = 0; i < profilePictures.length; i++) {
-				const profilePicture: ProfilePictureObject = profilePictures[i];
+            if (payload.profilePictures === undefined) {
+                throw new Error("Profile pictures are undefined");
+            }
+            const profilePictures: ProfilePictureObject[] = payload.profilePictures;
 
-				// persist to goland sqlite db
-				await PersistImage(profilePicture);
+            const newMap = new Map<ClientId, ProfilePictureObject>();
 
-				newMap.set(profilePicture.clientDbId, profilePicture);
-			}
+            for (let i = 0; i < profilePictures.length; i++) {
 
-			useProfilePictureStore.getState().setProfilePictureMap(newMap);
-			break;
-		}
+                const profilePicture: ProfilePictureObject = profilePictures[i];
 
-		// PayloadSubType.fetchAllProfilePictureHashes == 20
-		case PayloadSubType.fetchAllProfilePictureHashes: {
-			const payload: AllProfilePictureHashesPayload =
-				dataAsObject as AllProfilePictureHashesPayload;
+                // persist to goland sqlite db
+                await PersistImage(profilePicture);
 
-			if (payload.profilePictureHashes === undefined) {
-				throw new Error("Profile picture hashes are undefined");
-			}
+                newMap.set(profilePicture.clientDbId, profilePicture);
 
-			const profilePictureMap =
-				useProfilePictureStore.getState().profilePictureMap;
+            }
 
-			for (const profilePictureHash of payload.profilePictureHashes) {
-				const hash: Hash = profilePictureHash.imageHash;
-				const clientDbId: ClientId = profilePictureHash.clientDbId;
+            useProfilePictureStore.getState().setProfilePictureMap(newMap);
 
-				if (!profilePictureMap.has(clientDbId)) {
-					// ask for the profile picture
-					retrieveProfilePicturesFromSocket(clientDbId);
-				} else {
-					// check if hash from payload matches hash in map
-					const profilePicture = profilePictureMap.get(clientDbId);
-					if (profilePicture && profilePicture.imageHash !== hash) {
-						// ask for the new profile picture
-						retrieveProfilePicturesFromSocket(clientDbId);
-					}
-				}
-			}
-			break;
-		}
+            break;
+        }
 
-		// PayloadSubType.fetchAllBanners == 18
-		case PayloadSubType.fetchAllBanners: {
-			const payload: BannerListPayload =
-				dataAsObject as BannerListPayload;
-			if (payload.banners === undefined) {
-				throw new Error("Banners are undefined");
-			}
-			const banners: BannerObject[] = payload.banners;
-			// TODO maybe check for updating the banners
-			useBannerStore.getState().setBanners(banners);
-			break;
-		}
+        // PayloadSubType.fetchAllProfilePictureHashes == 20
+        case PayloadSubTypeEnum.enum.fetchAllProfilePictureHashes: {
 
-		// unknown payload type
-		default:
-			await errorLogger.logError(new Error("Unknown payload type"));
-			// throw new Error("Unknown payload type");
-	}
+            const payload: AllProfilePictureHashesPayload = dataAsObject as AllProfilePictureHashesPayload;
+
+            if (payload.profilePictureHashes === undefined) {
+
+                throw new Error("Profile picture hashes are undefined");
+
+            }
+
+            const profilePictureMap = useProfilePictureStore.getState().profilePictureMap;
+
+            for (const profilePictureHash of payload.profilePictureHashes) {
+
+                const hash: Hash = profilePictureHash.imageHash;
+                const clientDbId: ClientId = profilePictureHash.clientDbId;
+
+                if (!profilePictureMap.has(clientDbId)) {
+
+                    // ask for the profile picture
+                    retrieveProfilePicturesFromSocket(clientDbId);
+
+                } else {
+
+                    // check if hash from payload matches hash in map
+                    const profilePicture = profilePictureMap.get(clientDbId);
+
+                    if (profilePicture && profilePicture.imageHash !== hash) {
+
+                        // ask for the new profile picture
+                        retrieveProfilePicturesFromSocket(clientDbId);
+
+                    }
+                }
+            }
+
+            break;
+        }
+
+        // PayloadSubType.fetchAllBanners == 18
+        case PayloadSubTypeEnum.enum.fetchAllBanners: {
+            const payload: BannerListPayload =
+                dataAsObject as BannerListPayload;
+            if (payload.banners === undefined) {
+                throw new Error("Banners are undefined");
+            }
+            const banners: BannerObject[] = payload.banners;
+            // TODO maybe check for updating the banners
+            useBannerStore.getState().setBanners(banners);
+            break;
+        }
+
+        // unknown payload type
+        default:
+            await errorLogger.logError(new Error("Unknown payload type"));
+        // throw new Error("Unknown payload type");
+    }
 }

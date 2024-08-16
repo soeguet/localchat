@@ -5,7 +5,7 @@ import { useUserStore } from "../../../stores/userStore";
 import { useWebsocketStore } from "../../../stores/websocketStore";
 import {
 	type EmergencyInitPayload,
-	PayloadSubType,
+	PayloadSubType, PayloadSubTypeEnum,
 } from "../../../utils/customTypes";
 import { MenuDotsSvg } from "../../svgs/emergency/MenuDotsSvg";
 
@@ -26,7 +26,7 @@ function EmergencyChatMenu() {
 		setShowMenu(false);
 
 		const cancelEmergencyChatModePaylad: EmergencyInitPayload = {
-			payloadType: PayloadSubType.emergencyInit,
+			payloadType: PayloadSubTypeEnum.enum.emergencyInit,
 			initiatorClientDbId: "",
 			active: false,
 			emergencyChatId: "",

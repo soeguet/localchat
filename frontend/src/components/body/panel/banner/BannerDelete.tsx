@@ -3,7 +3,7 @@ import { BannerDeleteSvg } from "../../../svgs/banner/BannerDeleteSvg";
 import {
 	type BannerObject,
 	type BannerPayload,
-	PayloadSubType,
+	PayloadSubType, PayloadSubTypeEnum,
 } from "../../../../utils/customTypes";
 import { BannerDeleteConfirmSvg } from "../../../svgs/banner/BannerDeleteConfirmSvg";
 import { useTranslation } from "react-i18next";
@@ -27,7 +27,7 @@ function BannerDelete(props: BannerDeleteProps) {
 
 	function handleDeleteBanner(banner: BannerObject) {
 		const payload: BannerPayload = {
-			payloadType: PayloadSubType.modifyBanner,
+			payloadType: PayloadSubTypeEnum.enum.modifyBanner,
 			action: "remove",
 			banner: {
 				id: banner.id,
@@ -89,4 +89,3 @@ function BannerDelete(props: BannerDeleteProps) {
 }
 
 export { BannerDelete };
-

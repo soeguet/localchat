@@ -3,7 +3,7 @@ import { useUserStore } from "../../../stores/userStore";
 import { useWebsocketStore } from "../../../stores/websocketStore";
 import {
 	type EmergencyMessagePayload,
-	PayloadSubType,
+	PayloadSubType, PayloadSubTypeEnum,
 } from "../../../utils/customTypes";
 import { utf8ToBase64 } from "../../../utils/encoder";
 import { generateSimpleId } from "../../../utils/functionality";
@@ -40,7 +40,7 @@ function EmergencyInput() {
 		}
 
 		const payload: EmergencyMessagePayload = {
-			payloadType: PayloadSubType.emergencyMessage,
+			payloadType: PayloadSubTypeEnum.enum.emergencyMessage,
 			emergencyChatId: useEmergencyStore.getState().emergencyChatId,
 			messageDbId: generateSimpleId(),
 			clientDbId: useUserStore.getState().myId,

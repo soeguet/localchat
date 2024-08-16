@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useClientStore } from "../../../stores/clientStore";
 import { useUserStore } from "../../../stores/userStore";
 import { useWebsocketStore } from "../../../stores/websocketStore";
-import { PayloadSubType } from "../../../utils/customTypes";
+import {PayloadSubType, PayloadSubTypeEnum} from "../../../utils/customTypes";
 import { ForceIconSvg } from "../../svgs/icons/ForceIconSvg";
 import { CloseButton } from "../../svgs/ui/CloseButton";
 
@@ -37,7 +37,7 @@ function ForceModal() {
 		if (websocket !== null) {
 			websocket.send(
 				JSON.stringify({
-					payloadType: PayloadSubType.force,
+					payloadType: PayloadSubTypeEnum.enum.force,
 					clientDbId: clientDbId,
 				}),
 			);
