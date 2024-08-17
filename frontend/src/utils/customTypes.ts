@@ -174,9 +174,9 @@ export const AuthenticationPayloadSchema = z.union([z.object({
 export type AuthenticationPayload = z.infer<typeof AuthenticationPayloadSchema>;
 
 export const ImageEntitySchema = z.object({
-    imageDbId: z.string(),
-    type: z.string(),
-    data: z.string(),
+    imageDbId: z.string().nullable(),
+    type: z.string().nullable(),
+    data: z.string().nullable(),
 });
 export type ImageEntity = z.infer<typeof ImageEntitySchema>;
 
@@ -217,11 +217,11 @@ export const MessageEntitySchema = z.object({
 export type MessageEntity = z.infer<typeof MessageEntitySchema>;
 
 export const QuoteEntitySchema = z.object({
-    quoteDbId: z.string(),
-    quoteClientId: z.string(),
-    quoteMessageContext: z.string(),
-    quoteTime: z.string(),
-    quoteDate: z.string(),
+    quoteDbId: z.string().nullable(),
+    quoteClientId: z.string().nullable(),
+    quoteMessageContext: z.string().nullable(),
+    quoteTime: z.string().nullable(),
+    quoteDate: z.string().nullable(),
 });
 export type QuoteEntity = z.infer<typeof QuoteEntitySchema>;
 
@@ -245,6 +245,6 @@ export type MessagePayload = z.infer<typeof MessagePayloadSchema>;
 
 export const MessageListPayloadSchema = z.object({
     payloadType: PayloadSubTypeEnum,
-    messageList: z.array(MessagePayloadSchema),
+    messageList: z.array(MessagePayloadSchema.omit({payloadType: true})),
 });
 export type MessageListPayload = z.infer<typeof MessageListPayloadSchema>;
