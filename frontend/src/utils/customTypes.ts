@@ -39,6 +39,19 @@ export type ClientId = z.infer<typeof ClientIdSchema>;
 export const HashSchema = z.string();
 export type Hash = z.infer<typeof HashSchema>;
 
+export const TypingPayloadSchema = z.object({
+    payloadType: PayloadSubTypeEnum,
+    clientDbId: ClientIdSchema,
+    isTyping: z.boolean(),
+});
+export type TypingPayload = z.infer<typeof TypingPayloadSchema>;
+
+export const ForcePayloadSchema = z.object({
+    payloadType: PayloadSubTypeEnum,
+    clientDbId: ClientIdSchema,
+});
+export type ForcePayload = z.infer<typeof ForcePayloadSchema>;
+
 export const ProfilePicturesHashesSchema = z.object({
     clientDbId: ClientIdSchema,
     imageHash: HashSchema,

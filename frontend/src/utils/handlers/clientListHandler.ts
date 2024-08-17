@@ -21,6 +21,4 @@ export async function clientListHandler(event: MessageEvent) {
 
     }
 
-    // AFTER receiving the client list, ask for the message list
-    // retrieveMessageListFromSocket();
 }

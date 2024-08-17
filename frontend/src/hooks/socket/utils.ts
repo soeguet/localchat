@@ -112,19 +112,3 @@ export function updateThisClientsCachedDataWithNewPayloadData(payload: ClientLis
         useUserStore.getState().setMyProfilePhoto(myClient.clientProfileImage);
     }
 }
-
-export function handeMessageListPayload(data: string) {
-    const messageListPayload: MessageListPayload = JSON.parse(data)
-
-    if (
-        messageListPayload.messageList === undefined ||
-        messageListPayload.messageList === null
-    ) {
-        throw new Error("messageListPayload.payload is empty");
-    }
-
-    // biome-ignore lint/complexity/noForEach: <explanation>
-    messageListPayload.messageList.forEach((messagePayload) => {
-        useMessageMapStore.getState().onMessage(messagePayload);
-    });
-}

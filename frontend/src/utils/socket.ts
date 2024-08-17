@@ -9,7 +9,7 @@ import {
   type AuthenticationPayload,
   type ClientId,
   type MessagePayload,
-  PayloadSubType, PayloadSubTypeEnum,
+  PayloadSubTypeEnum,
 } from "./customTypes";
 import { encodeFileToBase64, getMimeType, utf8ToBase64 } from "./encoder";
 import { useImageStore } from "../stores/imageStore";

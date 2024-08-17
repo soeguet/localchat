@@ -14,10 +14,10 @@ export async function messageHandler(event: MessageEvent) {
 
         // if scroll to bottom is unnecessary, add the message to the unseen messages list
         const addIdToList = await checkIfScrollToBottomIsNeeded(messagePayloadValidation.data.clientType.clientDbId);
-        checkIfMessageIsToBeAddedToTheUnseenMessagesList(messagePayloadValidation.data, !addIdToList);
+        await checkIfMessageIsToBeAddedToTheUnseenMessagesList(messagePayloadValidation.data, !addIdToList);
 
         //display the message
-        checkIfNotificationIsNeeded(messagePayloadValidation.data);
+        await checkIfNotificationIsNeeded(messagePayloadValidation.data);
 
     } else {
 
