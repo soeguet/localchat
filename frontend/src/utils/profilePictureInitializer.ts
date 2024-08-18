@@ -5,7 +5,6 @@ import { useWebsocketStore } from "../stores/websocketStore";
 import {
 	type ProfilePictureObject,
 	type ClientId,
-	PayloadSubType,
 	type ClientEntity,
 	type Hash, PayloadSubTypeEnum,
 } from "./customTypes";

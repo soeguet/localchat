@@ -23,7 +23,7 @@ function DeletedMessage(props: DeletedMessageProps) {
 				<div
 					className="rounded-lg p-3"
 					style={{
-						backgroundColor: clientColor,
+						backgroundColor: clientColor ?? "#000000",
 						opacity: "0.5",
 					}}
 				>

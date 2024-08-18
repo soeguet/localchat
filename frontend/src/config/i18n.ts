@@ -5,7 +5,7 @@ import { de_translation } from "../utils/translation/de";
 
 const language = localStorage.getItem("language") || "en";
 
-i18n.use(initReactI18next).init({
+await i18n.use(initReactI18next).init({
 	lng: language,
 	fallbackLng: "en",
 	// have a common namespace used around the full app

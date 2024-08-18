@@ -26,7 +26,7 @@ function EmergencyInitBanner() {
 				<div
 					className="m-1 mt-3 animate-bounce rounded-2xl border-0 p-2 text-center"
 					style={{
-						backgroundColor: emergencyInitiatorColor,
+						backgroundColor: emergencyInitiatorColor ?? "#000000",
 						opacity: 0.8,
 						color: "white",
 					}}

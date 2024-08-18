@@ -40,14 +40,14 @@ export const HashSchema = z.string();
 export type Hash = z.infer<typeof HashSchema>;
 
 export const TypingPayloadSchema = z.object({
-    payloadType: PayloadSubTypeEnum,
+    payloadType:z.literal(PayloadSubTypeEnum.enum.typing),
     clientDbId: ClientIdSchema,
     isTyping: z.boolean(),
 });
 export type TypingPayload = z.infer<typeof TypingPayloadSchema>;
 
 export const ForcePayloadSchema = z.object({
-    payloadType: PayloadSubTypeEnum,
+    payloadType: z.literal(PayloadSubTypeEnum.enum.force),
     clientDbId: ClientIdSchema,
 });
 export type ForcePayload = z.infer<typeof ForcePayloadSchema>;
@@ -59,7 +59,7 @@ export const ProfilePicturesHashesSchema = z.object({
 export type ProfilePicturesHashes = z.infer<typeof ProfilePicturesHashesSchema>;
 
 export const AllProfilePictureHashesPayloadSchema = z.object({
-    payloadType: PayloadSubTypeEnum,
+    payloadType: z.literal(PayloadSubTypeEnum.enum.fetchAllProfilePictureHashes),
     profilePictureHashes: z.array(ProfilePicturesHashesSchema).optional(),
 });
 export type AllProfilePictureHashesPayload = z.infer<typeof AllProfilePictureHashesPayloadSchema>;
@@ -80,14 +80,14 @@ export const BannerActionSchema = z.enum(["add", "remove", "update"]);
 export type BannerAction = z.infer<typeof BannerActionSchema>;
 
 export const BannerPayloadSchema = z.object({
-    payloadType: PayloadSubTypeEnum,
+    payloadType: z.literal(PayloadSubTypeEnum.enum.modifyBanner),
     banner: BannerObjectSchema,
     action: BannerActionSchema,
 });
 export type BannerPayload = z.infer<typeof BannerPayloadSchema>;
 
 export const BannerListPayloadSchema = z.object({
-    payloadType: PayloadSubTypeEnum,
+    payloadType: z.literal(PayloadSubTypeEnum.enum.fetchAllBanners),
     banners: z.array(BannerObjectSchema).optional(),
 });
 export type BannerListPayload = z.infer<typeof BannerListPayloadSchema>;
@@ -100,7 +100,7 @@ export const ProfilePictureObjectSchema = z.object({
 export type ProfilePictureObject = z.infer<typeof ProfilePictureObjectSchema>;
 
 export const NewProfilePicturePayloadSchema = z.object({
-    payloadType: PayloadSubTypeEnum,
+    payloadType: z.literal(PayloadSubTypeEnum.enum.newProfilePicture),
     clientDbId: ClientIdSchema,
     imageHash: ProfilePictureHashSchema,
     data: ProfilePictureSchema,
@@ -108,7 +108,7 @@ export const NewProfilePicturePayloadSchema = z.object({
 export type NewProfilePicturePayload = z.infer<typeof NewProfilePicturePayloadSchema>;
 
 export const ProfilePicturePayloadSchema = z.object({
-    payloadType: PayloadSubTypeEnum,
+    payloadType: z.literal(PayloadSubTypeEnum.enum.fetchProfilePicture),
     profilePictureDbId: z.number(),
     clientDbId: ClientIdSchema,
     imageHash: ProfilePictureHashSchema,
@@ -117,13 +117,13 @@ export const ProfilePicturePayloadSchema = z.object({
 export type ProfilePicturePayload = z.infer<typeof ProfilePicturePayloadSchema>;
 
 export const FetchAllProfilePicturesPayloadSchema = z.object({
-    payloadType: PayloadSubTypeEnum,
+    payloadType: z.literal(PayloadSubTypeEnum.enum.fetchAllProfilePictures),
     profilePictures: z.array(ProfilePictureObjectSchema).optional(),
 });
 export type FetchAllProfilePicturesPayload = z.infer<typeof FetchAllProfilePicturesPayloadSchema>;
 
 export const EmergencyInitPayloadSchema = z.object({
-    payloadType: PayloadSubTypeEnum,
+    payloadType: z.literal(PayloadSubTypeEnum.enum.emergencyInit),
     active: z.boolean(),
     emergencyChatId: z.string(),
     initiatorClientDbId: ClientIdSchema,
@@ -131,7 +131,7 @@ export const EmergencyInitPayloadSchema = z.object({
 export type EmergencyInitPayload = z.infer<typeof EmergencyInitPayloadSchema>;
 
 export const EmergencyMessagePayloadSchema = z.object({
-    payloadType: PayloadSubTypeEnum,
+    payloadType: z.literal(PayloadSubTypeEnum.enum.emergencyMessage),
     emergencyChatId: z.string(),
     clientDbId: ClientIdSchema,
     messageDbId: z.string(),
@@ -144,7 +144,7 @@ export const EmergencyMessageSchema = EmergencyMessagePayloadSchema.omit({payloa
 export type EmergencyMessage = z.infer<typeof EmergencyMessageSchema>;
 
 export const AllEmergencyMessagesPayloadSchema = z.object({
-    payloadType: PayloadSubTypeEnum,
+    payloadType: z.literal(PayloadSubTypeEnum.enum.allEmergencyMessages),
     emergencyMessages: z.array(EmergencyMessageSchema).optional(),
     emergencyChatId: z.string(),
 });
@@ -160,15 +160,15 @@ export type VersionEntity = z.infer<typeof VersionEntitySchema>;
 export const ClientEntitySchema = z.object({
     clientDbId: ClientIdSchema,
     clientUsername: z.string(),
-    clientColor: z.string().optional(),
+    clientColor: z.string().optional().nullable(),
     // TODO rename this property to clientProfileImageHash
-    clientProfileImage: z.string().optional(),
+    clientProfileImage: z.string().optional().nullable(),
     availability: z.boolean(),
 });
 export type ClientEntity = z.infer<typeof ClientEntitySchema>;
 
 export const AuthenticationPayloadSchema = z.union([z.object({
-    payloadType: PayloadSubTypeEnum,
+    payloadType: z.literal(PayloadSubTypeEnum.enum.auth),
     version: VersionEntitySchema,
 }), ClientEntitySchema.pick({clientDbId: true, clientUsername: true})]);
 export type AuthenticationPayload = z.infer<typeof AuthenticationPayloadSchema>;
@@ -181,12 +181,12 @@ export const ImageEntitySchema = z.object({
 export type ImageEntity = z.infer<typeof ImageEntitySchema>;
 
 export const ClientUpdatePayloadV2Schema = z.union([z.object({
-    payloadType: PayloadSubTypeEnum
+    payloadType: z.literal(PayloadSubTypeEnum.enum.profileUpdateV2)
 }), ClientEntitySchema]);
 export type ClientUpdatePayloadV2 = z.infer<typeof ClientUpdatePayloadV2Schema>;
 
 export const ClientListPayloadSchema = z.object({
-    payloadType: PayloadSubTypeEnum,
+    payloadType: z.literal(PayloadSubTypeEnum.enum.clientList),
     clients: z.array(ClientEntitySchema)
 });
 export type ClientListPayload = z.infer<typeof ClientListPayloadSchema>;
@@ -195,12 +195,12 @@ export const VersionStateTypeSchema = z.object({
     major: z.number(),
     minor: z.number(),
     patch: z.number(),
-    updateAvailable: z.boolean().optional(),
+    updateAvailable: z.boolean().optional().nullable(),
 });
 export type VersionStateType = z.infer<typeof VersionStateTypeSchema>;
 
 export const ClientListPayloadEnhancedSchema = z.object({
-    payloadType: PayloadSubTypeEnum,
+    payloadType: z.literal(PayloadSubTypeEnum.enum.clientList),
     clients: z.array(ClientEntitySchema),
     version: VersionStateTypeSchema,
 });
@@ -234,7 +234,7 @@ export const ReactionEntitySchema = z.object({
 export type ReactionEntity = z.infer<typeof ReactionEntitySchema>;
 
 export const MessagePayloadSchema = z.object({
-    payloadType: PayloadSubTypeEnum,
+    payloadType: z.literal(PayloadSubTypeEnum.enum.message),
     messageType: MessageEntitySchema,
     clientType: ClientEntitySchema.pick({clientDbId: true}),
     quoteType: QuoteEntitySchema.optional(),
@@ -244,7 +244,7 @@ export const MessagePayloadSchema = z.object({
 export type MessagePayload = z.infer<typeof MessagePayloadSchema>;
 
 export const MessageListPayloadSchema = z.object({
-    payloadType: PayloadSubTypeEnum,
+    payloadType:    z.literal(PayloadSubTypeEnum.enum.messageList),
     messageList: z.array(MessagePayloadSchema.omit({payloadType: true})),
 });
 export type MessageListPayload = z.infer<typeof MessageListPayloadSchema>;

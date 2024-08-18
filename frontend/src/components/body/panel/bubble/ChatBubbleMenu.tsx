@@ -2,7 +2,6 @@ import { useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { handleClickOutsideOfDiv } from "../../../../utils/handleClickOutsideOfDiv";
 import {
-	PayloadSubType,
 	type MessagePayload, PayloadSubTypeEnum,
 } from "../../../../utils/customTypes";
 import { useWebsocketStore } from "../../../../stores/websocketStore";

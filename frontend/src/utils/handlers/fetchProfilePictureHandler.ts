@@ -1,4 +1,4 @@
-import {ProfilePictureObject, ProfilePicturePayloadSchema, ProfilePictureSchema} from "../customTypes";
+import {ProfilePictureObject, ProfilePicturePayloadSchema} from "../customTypes";
 import {PersistImage} from "../../../wailsjs/go/main/App";
 import {useProfilePictureStore} from "../../stores/profilePictureStore";
 import {errorLogger} from "../../logger/errorLogger";

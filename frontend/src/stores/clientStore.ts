@@ -21,8 +21,12 @@ const useClientStore: UseBoundStore<StoreApi<ClientStore>> =
 		},
 		getClientHashById: (id: string): Hash | undefined => {
 			const clients = useClientStore.getState().clients;
-			return clients.find((client) => client.clientDbId === id)
+			const clientProfileImage = clients.find((client) => client.clientDbId === id)
 				?.clientProfileImage;
+			if (clientProfileImage === null || clientProfileImage === undefined) {
+				return undefined;
+			}
+			return clientProfileImage;
 		},
 	}));
 

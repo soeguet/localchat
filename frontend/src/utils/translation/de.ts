@@ -1,6 +1,3 @@
-import { b } from "vitest/dist/suite-IbNSsUWN";
-import { base64ToUtf8 } from "../encoder";
-
 export const de_translation = {
 	selected_language: "🇩",
 	status_connected: "Verbunden",

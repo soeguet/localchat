@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import {PayloadSubType, PayloadSubTypeEnum} from "../../utils/customTypes";
+import {PayloadSubTypeEnum} from "../../utils/customTypes";
 import { useUserStore } from "../../stores/userStore";
 import { useWebsocketStore } from "../../stores/websocketStore";
 

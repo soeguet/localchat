@@ -43,7 +43,7 @@ function QuoteBubble(props: QuoteBubbleProps) {
 					className="my-1 rounded-md border-l-4 border-opacity-30  bg-gray-100 bg-opacity-70 p-2"
 					data-testid="quote-bubble"
 					style={{
-						borderColor: quotedClientColor,
+						borderColor: quotedClientColor ?? "#000000",
 						fontSize: `${fontSize - 3}px`,
 					}}
 				>

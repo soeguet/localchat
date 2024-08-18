@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useClientStore } from "../../../stores/clientStore";
 import { useUserStore } from "../../../stores/userStore";
 import { useWebsocketStore } from "../../../stores/websocketStore";
-import {PayloadSubType, PayloadSubTypeEnum} from "../../../utils/customTypes";
+import {PayloadSubTypeEnum} from "../../../utils/customTypes";
 import { ForceIconSvg } from "../../svgs/icons/ForceIconSvg";
 import { CloseButton } from "../../svgs/ui/CloseButton";
 

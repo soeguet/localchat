@@ -64,7 +64,7 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
 				<div
 					className={`relative max-w-md  break-words rounded-lg border peer-focus/edit:animate-pulse ${borderColor} px-4 py-2 md:max-w-2xl lg:max-w-4xl ${defaultChatBubbleColor}`}
 					style={{
-						backgroundColor: clientColor,
+						backgroundColor: clientColor ?? "#000000",
 						animation: thisMessageUnseen
 							? "pulse-border 3.5s infinite ease-in-out"
 							: "",

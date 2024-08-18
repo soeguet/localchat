@@ -5,7 +5,7 @@ import {useWebsocketStore} from "../stores/websocketStore";
 import {
 	type ClientUpdatePayloadV2,
 	type NewProfilePicturePayload,
-	PayloadSubType, PayloadSubTypeEnum,
+	PayloadSubTypeEnum,
 } from "./customTypes";
 import {generateUnixTimestampFnv1aHash} from "./hashGenerator";
 

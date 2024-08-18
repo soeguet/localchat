@@ -8,7 +8,6 @@ import {
 import { useMessageMapStore } from "../../../../stores/messageMapStore";
 import {
 	type MessagePayload,
-	PayloadSubType,
 	PayloadSubTypeEnum,
 } from "../../../../utils/customTypes";
 import { ChatPanel } from "../ChatPanel";

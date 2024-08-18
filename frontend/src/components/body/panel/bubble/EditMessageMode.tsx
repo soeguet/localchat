@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {
-	PayloadSubType,
 	type MessagePayload, PayloadSubTypeEnum,
 } from "../../../../utils/customTypes";
 import { base64ToUtf8, utf8ToBase64 } from "../../../../utils/encoder";

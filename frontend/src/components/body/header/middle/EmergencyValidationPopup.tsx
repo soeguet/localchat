@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { useUserStore } from "../../../../stores/userStore";
 import {
 	type EmergencyInitPayload,
-	PayloadSubType, PayloadSubTypeEnum,
+	PayloadSubTypeEnum,
 } from "../../../../utils/customTypes";
 import { generateSimpleId } from "../../../../utils/functionality";
 import { useWebsocketStore } from "../../../../stores/websocketStore";

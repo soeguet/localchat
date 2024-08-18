@@ -3,7 +3,7 @@ import { BannerDeleteSvg } from "../../../svgs/banner/BannerDeleteSvg";
 import {
 	type BannerObject,
 	type BannerPayload,
-	PayloadSubType, PayloadSubTypeEnum,
+	PayloadSubTypeEnum,
 } from "../../../../utils/customTypes";
 import { BannerDeleteConfirmSvg } from "../../../svgs/banner/BannerDeleteConfirmSvg";
 import { useTranslation } from "react-i18next";

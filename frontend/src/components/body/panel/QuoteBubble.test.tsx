@@ -3,7 +3,7 @@ import { useMessageMapStore } from "../../../stores/messageMapStore";
 import { useUserStore } from "../../../stores/userStore";
 import {
 	type MessagePayload,
-	PayloadSubType, PayloadSubTypeEnum,
+	PayloadSubTypeEnum,
 } from "../../../utils/customTypes";
 import { ChatPanel } from "./ChatPanel";
 import { render, screen, waitFor } from "../../../utils/test-utils";

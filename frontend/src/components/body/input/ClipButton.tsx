@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import React, { memo, useState } from "react";
 import { AttachmentMenu } from "./picture/AttachmentMenu";
 import { PaperClipSvg } from "../../svgs/input/PaperClipSvg";
 

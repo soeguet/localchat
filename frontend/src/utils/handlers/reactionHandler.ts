@@ -1,6 +1,6 @@
 import {useMessageMapStore} from "../../stores/messageMapStore";
 import {notifyClientIfReactionTarget} from "../reactionHandler";
-import {MessagePayload, MessagePayloadSchema, ReactionEntitySchema} from "../customTypes";
+import {MessagePayloadSchema} from "../customTypes";
 
 export function reactionHandler(event: MessageEvent) {
 

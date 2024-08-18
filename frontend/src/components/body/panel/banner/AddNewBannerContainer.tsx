@@ -1,8 +1,7 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { generateSimpleId } from "../../../../utils/functionality";
 import { BackButton } from "../../../svgs/ui/BackButton";
 import {
-	PayloadSubType,
 	type BannerObject,
 	type BannerPayload,
 	type Priority, PayloadSubTypeEnum,

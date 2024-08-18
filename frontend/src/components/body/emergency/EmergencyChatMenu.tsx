@@ -5,7 +5,7 @@ import { useUserStore } from "../../../stores/userStore";
 import { useWebsocketStore } from "../../../stores/websocketStore";
 import {
 	type EmergencyInitPayload,
-	PayloadSubType, PayloadSubTypeEnum,
+	PayloadSubTypeEnum,
 } from "../../../utils/customTypes";
 import { MenuDotsSvg } from "../../svgs/emergency/MenuDotsSvg";
 

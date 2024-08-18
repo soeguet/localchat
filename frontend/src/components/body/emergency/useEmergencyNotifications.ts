@@ -5,7 +5,7 @@ import {
 import {
 	WindowIsMinimised,
 	WindowShow,
-} from "../../../../wailsjs/runtime/runtime.js";
+} from "../../../../wailsjs/runtime";
 import { useClientStore } from "../../../stores/clientStore.js";
 import { useEmergencyStore } from "../../../stores/emergencyStore";
 import { useGuiHasFocusStore } from "../../../stores/guiHasFocusStore.js";

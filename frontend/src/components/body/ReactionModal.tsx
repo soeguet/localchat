@@ -5,7 +5,7 @@ import { handleClickOutsideOfDiv } from "../../utils/handleClickOutsideOfDiv";
 import { useWebsocketStore } from "../../stores/websocketStore";
 import { useUserStore } from "../../stores/userStore";
 import { generateSimpleId } from "../../utils/functionality";
-import {PayloadSubType, PayloadSubTypeEnum} from "../../utils/customTypes";
+import {PayloadSubTypeEnum} from "../../utils/customTypes";
 
 function ReactionModal() {
 	const isOpen = useReactionMenuStore((state) => state.isOpen);
