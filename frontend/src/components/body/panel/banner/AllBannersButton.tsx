@@ -1,5 +1,6 @@
 import { useBannerStore } from "../../../../stores/bannerStore";
 import { BannerListSvg } from "../../../svgs/banner/BannerListSvg";
+import {DEFAULT_COLOR} from "../../../../utils/variables";
 
 function AllBannersButton() {
 	const bannerCount = useBannerStore((state) =>
@@ -18,7 +19,7 @@ function AllBannersButton() {
 				<BannerListSvg
 					number={bannerCount}
 					accentColor="#4a90e2"
-					backgroundColor="#000000"
+					backgroundColor={DEFAULT_COLOR}
 				/>
 			</button>
 		</>

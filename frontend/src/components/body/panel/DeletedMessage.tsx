@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useClientStore } from "../../../stores/clientStore";
 import type { ClientId } from "../../../utils/customTypes";
+import {DEFAULT_COLOR} from "../../../utils/variables";
 
 type DeletedMessageProps = {
 	clientDbId: ClientId;
@@ -23,7 +24,7 @@ function DeletedMessage(props: DeletedMessageProps) {
 				<div
 					className="rounded-lg p-3"
 					style={{
-						backgroundColor: clientColor ?? "#000000",
+						backgroundColor: clientColor ?? DEFAULT_COLOR,
 						opacity: "0.5",
 					}}
 				>

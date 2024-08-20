@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useClientStore } from "../../../stores/clientStore";
 import { useEmergencyStore } from "../../../stores/emergencyStore";
+import {DEFAULT_COLOR} from "../../../utils/variables";
 
 function EmergencyInitBanner() {
 	const { t } = useTranslation();
@@ -26,7 +27,7 @@ function EmergencyInitBanner() {
 				<div
 					className="m-1 mt-3 animate-bounce rounded-2xl border-0 p-2 text-center"
 					style={{
-						backgroundColor: emergencyInitiatorColor ?? "#000000",
+						backgroundColor: emergencyInitiatorColor ?? DEFAULT_COLOR,
 						opacity: 0.8,
 						color: "white",
 					}}

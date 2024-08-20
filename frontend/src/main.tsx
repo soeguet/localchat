@@ -51,23 +51,6 @@ GetAllImages().then((allImages) => {
     errorLogger.logError(new Error("Failed to load images from database"));
 });
 
-
-// if (allImages == null) {
-// 	console.error("Failed to load images from database");
-// 	await errorLogger.logError(new Error("Failed to load images from database"));
-// } else {
-// 	const imageStoreMap = useProfilePictureStore.getState().profilePictureMap;
-// 	for (const image of allImages) {
-// 		imageStoreMap.set(image.ClientDbId, {
-// 			clientDbId: image.ClientDbId,
-// 			imageHash: image.ImageHash,
-// 			data: image.Data,
-// 		});
-// 	}
-// 	useProfilePictureStore.getState().setProfilePictureMap(imageStoreMap);
-// }
-//
-// biome-ignore lint/style/noNonNullAssertion: react
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
         <App />
