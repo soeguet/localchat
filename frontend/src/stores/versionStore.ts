@@ -1,5 +1,5 @@
 import {create} from "zustand";
-import {VersionEntity} from "../utils/customTypes";
+import {VersionEntity} from "../utils/types/customTypes";
 import {errorLogger} from "../logger/errorLogger";
 
 type VersionStoreProps = {

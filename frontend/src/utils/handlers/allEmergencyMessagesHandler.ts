@@ -1,6 +1,6 @@
 import {useEmergencyStore} from "../../stores/emergencyStore";
 import {errorLogger} from "../../logger/errorLogger";
-import {AllEmergencyMessagesPayloadSchema, EmergencyMessage} from "../customTypes";
+import {AllEmergencyMessagesPayloadSchema, EmergencyMessage} from "../types/customTypes";
 
 export function allEmergencyMessagesHandler(event: MessageEvent) {
 

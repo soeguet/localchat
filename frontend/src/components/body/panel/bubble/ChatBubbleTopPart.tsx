@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useClientStore } from "../../../../stores/clientStore";
 import { useFontSizeStore } from "../../../../stores/fontSizeStore";
-import type { MessagePayload } from "../../../../utils/customTypes";
+import type { MessagePayload } from "../../../../utils/types/customTypes";
 import { ChatMessageSenderName } from "./ChatMessageSenderName";
 import { ChatMessageTimestamp } from "./ChatMessageTimestamp";
 

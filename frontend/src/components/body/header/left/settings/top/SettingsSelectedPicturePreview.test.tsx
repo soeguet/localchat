@@ -1,4 +1,4 @@
-import { render } from "../../../../../../utils/test-utils";
+import { render } from "../../../../../../utils/tests/test-utils";
 import { SettingsSelectedPicturePreview } from "./SettingsSelectedPicturePreview";
 import { screen } from "@testing-library/react";
 import { expect, test } from "vitest";

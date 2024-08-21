@@ -1,6 +1,6 @@
-import {MessagePayloadSchema} from "../customTypes";
+import {MessagePayloadSchema} from "../types/customTypes";
 import {useMessageMapStore} from "../../stores/messageMapStore";
-import {checkIfScrollToBottomIsNeeded} from "../scrollToBottomNeeded";
+import {checkIfScrollToBottomIsNeeded} from "../gui/scrollToBottomNeeded";
 import {checkIfMessageIsToBeAddedToTheUnseenMessagesList, checkIfNotificationIsNeeded} from "../../hooks/socket/utils";
 import {errorLogger} from "../../logger/errorLogger";
 

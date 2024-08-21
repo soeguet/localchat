@@ -1,6 +1,6 @@
 import { useUnseenMessageCountStore } from "../../../../../stores/unseenMessageCountStore";
-import { scrollToBottom } from "../../../../../utils/functionality";
 import { UnreadMessagesSvg } from "../../../../svgs/messages/UnreadMessagesSvg";
+import {scrollToBottom} from "../../../../../utils/gui/scrollToBottomNeeded";
 
 function UnreadMessageButton() {
 	const unseenMessageCount = useUnseenMessageCountStore(

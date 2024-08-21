@@ -5,7 +5,7 @@ import {
     MessagePayload,
     MessagePayloadSchema,
     PayloadSubTypeEnum,
-} from "../customTypes";
+} from "../types/customTypes";
 
 describe("messageListHandler", () => {
 

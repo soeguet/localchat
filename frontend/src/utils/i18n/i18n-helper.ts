@@ -1,8 +1,8 @@
-import { i18n } from "../config/i18n";
+import { i18n } from "../../config/i18n";
 import {
 	setSelectedLanguage,
 	useSelectedLanguageStore,
-} from "../stores/selectedLanguageStore";
+} from "../../stores/selectedLanguageStore";
 
 export async function switchLanguage() {
 	const language_selected =

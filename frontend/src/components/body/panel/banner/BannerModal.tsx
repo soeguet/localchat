@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { BannerOverview } from "./BannerOverview";
 import { AddNewBannerContainer } from "./AddNewBannerContainer";
-import type { BannerObject } from "../../../../utils/customTypes";
+import type { BannerObject } from "../../../../utils/types/customTypes";
 import { useBannerStore } from "../../../../stores/bannerStore";
 
 type BannerModalProps = {

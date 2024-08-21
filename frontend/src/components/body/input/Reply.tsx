@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { useReplyStore } from "../../../stores/replyStore";
-import { base64ToUtf8 } from "../../../utils/encoder";
+import { base64ToUtf8 } from "../../../utils/transformation/encoder";
 
 const Reply = memo(() => {
 	const replyMessage = useReplyStore((state) => state.replyMessage);

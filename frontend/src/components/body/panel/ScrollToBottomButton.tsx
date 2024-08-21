@@ -1,11 +1,16 @@
-import { scrollToBottom } from "../../../utils/functionality";
 import { ScrollSymbolSvg } from "../../svgs/scroll/ScrollSymbolSvg";
 import { useUnseenMessageCountStore } from "../../../stores/unseenMessageCountStore";
 import { useRefStore } from "../../../stores/refStore";
-import { useCallback, useEffect } from "react";
-import { debounce } from "../../../utils/debounce";
+import {useCallback, useEffect, useState} from "react";
+import { debounce } from "../../../utils/socket/debounce";
+import {useUserStore} from "../../../stores/userStore";
+import {DEFAULT_HOVER_COLOR, DEFAULT_STROKE_COLOR} from "../../../utils/variables/variables";
+import {scrollToBottom} from "../../../utils/gui/scrollToBottomNeeded";
 
 function ScrollToBottomButton() {
+	const [hover, setHover] = useState(false);
+	const thisClientColor = useUserStore((state) => state.myColor);
+
 	// socket state
 	const chatBottomRefVisible = useRefStore(
 		(state) => state.chatBottomRefVisible,
@@ -44,16 +49,25 @@ function ScrollToBottomButton() {
 		}
 	}, [handleScroll]);
 
+	const backgroundColor = thisClientColor ? thisClientColor : DEFAULT_HOVER_COLOR;
+
 	return (
 		<>
 			{!chatBottomRefVisible && (
-				<div className="relative max-h-0 -translate-y-12">
+				<div
+					className="relative max-h-0 -translate-y-12">
 					<button
+					onMouseEnter={() => setHover(true)}
+					onMouseLeave={() => setHover(false)}
 						onClick={async () => {
 							await scrollToBottom();
 							useUnseenMessageCountStore.getState().resetUnseenMessageCount();
 						}}
-						className="sticky left-full z-50 mr-6 flex size-10 max-w-xs transform animate-bounce items-center justify-center rounded-full border border-black bg-gray-200 text-xs shadow transition duration-300 ease-in-out hover:border-cyan-500"
+						style={{
+							borderColor: hover ? backgroundColor : DEFAULT_STROKE_COLOR,
+							opacity: hover ? 1:0.7
+						}}
+						className="sticky left-full z-50 mr-6 flex size-10 max-w-xs transform animate-bounce items-center justify-center rounded-full border bg-gray-200 text-xs shadow transition duration-300 ease-in-out"
 					>
 						<ScrollSymbolSvg />
 					</button>

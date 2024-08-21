@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import type { BannerObject } from "../../../../utils/customTypes";
+import type { BannerObject } from "../../../../utils/types/customTypes";
 
 type CountdownTimerProps = {
 	activeBanner: BannerObject;

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FontSizeSvg } from "../../../../../svgs/font/FontSizeSvg";
 import { FontSizePopup } from "../font-size-popup/FontSizePopup";
 import {useUserStore} from "../../../../../../stores/userStore";
-import {DEFAULT_HOVER_COLOR, DEFAULT_STROKE_COLOR} from "../../../../../../utils/variables";
+import {DEFAULT_HOVER_COLOR, DEFAULT_STROKE_COLOR} from "../../../../../../utils/variables/variables";
 
 function FontSizeButton() {
 	const [showPopup, setShowPopup] = useState(false);

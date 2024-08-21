@@ -1,8 +1,8 @@
 import { useClientStore } from "../../../stores/clientStore";
 import { useFontSizeStore } from "../../../stores/fontSizeStore";
-import type { MessagePayload } from "../../../utils/customTypes";
-import { base64ToUtf8 } from "../../../utils/encoder";
-import {DEFAULT_HOVER_COLOR} from "../../../utils/variables";
+import type { MessagePayload } from "../../../utils/types/customTypes";
+import { base64ToUtf8 } from "../../../utils/transformation/encoder";
+import {DEFAULT_HOVER_COLOR} from "../../../utils/variables/variables";
 
 type QuoteBubbleProps = {
 	payload: MessagePayload;

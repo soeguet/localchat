@@ -1,5 +1,5 @@
 import {create, type StoreApi, type UseBoundStore} from "zustand";
-import type {MessagePayload} from "../utils/customTypes";
+import type {MessagePayload} from "../utils/types/customTypes";
 
 type MessageMapStore = {
     messageMap: Map<string, MessagePayload>;

@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 import { BannerOverview } from "./BannerOverview";
 import { useBannerStore } from "../../../../stores/bannerStore";
-import { BannerObject } from "../../../../utils/customTypes";
+import { BannerObject } from "../../../../utils/types/customTypes";
 
 describe("BannerOverview", () => {
 	test("check if td is rendered, since no banners are present", () => {

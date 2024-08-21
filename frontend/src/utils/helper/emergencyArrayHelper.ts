@@ -1,5 +1,5 @@
-import { errorLogger } from "../logger/errorLogger";
-import type { EmergencyMessage, EmergencyMessagePayload } from "./customTypes";
+import { errorLogger } from "../../logger/errorLogger";
+import type { EmergencyMessage, EmergencyMessagePayload } from "../types/customTypes";
 
 export async function preventDuplicateEmergencyMessages(
 	emergencyMessageArray: EmergencyMessage[],

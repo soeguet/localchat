@@ -1,6 +1,6 @@
 import {useMessageMapStore} from "../../stores/messageMapStore";
 import {errorLogger} from "../../logger/errorLogger";
-import {MessagePayloadSchema} from "../customTypes";
+import {MessagePayloadSchema} from "../types/customTypes";
 
 export function modifyMessageHandler(event: MessageEvent) {
 

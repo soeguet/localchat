@@ -3,8 +3,8 @@ import { useUserStore } from "../../../../stores/userStore";
 import {
 	type EmergencyInitPayload,
 	PayloadSubTypeEnum,
-} from "../../../../utils/customTypes";
-import { generateSimpleId } from "../../../../utils/functionality";
+} from "../../../../utils/types/customTypes";
+import { generateSimpleId } from "../../../../utils/helper/functionality";
 import { useWebsocketStore } from "../../../../stores/websocketStore";
 
 type EmergencyValidationPopupProps = {

@@ -1,15 +1,15 @@
-import { GetAllImages } from "../../wailsjs/go/main/App";
-import { useClientStore } from "../stores/clientStore";
-import { useProfilePictureStore } from "../stores/profilePictureStore";
-import { useWebsocketStore } from "../stores/websocketStore";
+import { GetAllImages } from "../../../wailsjs/go/main/App";
+import { useClientStore } from "../../stores/clientStore";
+import { useProfilePictureStore } from "../../stores/profilePictureStore";
+import { useWebsocketStore } from "../../stores/websocketStore";
 import {
 	type ProfilePictureObject,
 	type ClientId,
 	type ClientEntity,
 	type Hash, PayloadSubTypeEnum,
-} from "./customTypes";
-import { retrieveProfilePicturesFromSocket } from "./socket";
-import { errorLogger } from "../logger/errorLogger";
+} from "../types/customTypes";
+import { retrieveProfilePicturesFromSocket } from "../socket/socket";
+import { errorLogger } from "../../logger/errorLogger";
 
 type DbRow = {
   ImageHash: string;

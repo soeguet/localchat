@@ -17,6 +17,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "crypto-js": "^4.2.0",
     "emoji-picker-react": "^4.11.1",
     "i18next": "^23.13.0",
     "i18next-http-backend": "^2.5.2",

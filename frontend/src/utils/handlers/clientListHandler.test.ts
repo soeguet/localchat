@@ -3,7 +3,7 @@ import {
     ClientListPayloadEnhanced,
     ClientListPayloadEnhancedSchema,
     PayloadSubTypeEnum
-} from "../customTypes";
+} from "../types/customTypes";
 
 describe('clientListHandler', () => {
 

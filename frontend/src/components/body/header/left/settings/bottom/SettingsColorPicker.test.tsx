@@ -1,4 +1,4 @@
-import { render, userEvent } from "../../../../../../utils/test-utils";
+import { render, userEvent } from "../../../../../../utils/tests/test-utils";
 import { NewSettingsModalContainer } from "../body/NewSettingsModalContainer";
 import { SettingsColorPicker } from "./SettingsColorPicker";
 import { act, screen } from "@testing-library/react";

@@ -1,23 +1,23 @@
-import {errorLogger} from "../logger/errorLogger";
+import {errorLogger} from "../../logger/errorLogger";
 import {
     PayloadSubTypeEnum,
-} from "./customTypes";
-import {messageHandler} from "./handlers/messageHandler";
-import {clientListHandler} from "./handlers/clientListHandler";
-import {profileUpdateHandler} from "./handlers/profileUpdateHandler";
-import {messageListHandler} from "./handlers/messageListHandler";
-import {typingHandler} from "./handlers/typingHandler";
-import {forceHandler} from "./handlers/forceHandler";
-import {reactionHandler} from "./handlers/reactionHandler";
-import {modifyMessageHandler} from "./handlers/modifyMessageHandler";
-import {emergencyInitHandler} from "./handlers/emergencyInitHandler";
-import {emergencyMessageHandler} from "./handlers/emergencyMessageHandler";
-import {allEmergencyMessagesHandler} from "./handlers/allEmergencyMessagesHandler";
-import {newProfilePictureHandler} from "./handlers/newProfilePictureHandler";
-import {fetchProfilePictureHandler} from "./handlers/fetchProfilePictureHandler";
-import {fetchAllProfilePicturesHandler} from "./handlers/fetchAllProfilePicturesHandler";
-import {fetchAllProfilePictureHashesHandler} from "./handlers/fetchAllProfilePictureHashesHandler";
-import {fetchAllBannersHandler} from "./handlers/fetchAllBannersHandler";
+} from "../types/customTypes";
+import {messageHandler} from "../handlers/messageHandler";
+import {clientListHandler} from "../handlers/clientListHandler";
+import {profileUpdateHandler} from "../handlers/profileUpdateHandler";
+import {messageListHandler} from "../handlers/messageListHandler";
+import {typingHandler} from "../handlers/typingHandler";
+import {forceHandler} from "../handlers/forceHandler";
+import {reactionHandler} from "../handlers/reactionHandler";
+import {modifyMessageHandler} from "../handlers/modifyMessageHandler";
+import {emergencyInitHandler} from "../handlers/emergencyInitHandler";
+import {emergencyMessageHandler} from "../handlers/emergencyMessageHandler";
+import {allEmergencyMessagesHandler} from "../handlers/allEmergencyMessagesHandler";
+import {newProfilePictureHandler} from "../handlers/newProfilePictureHandler";
+import {fetchProfilePictureHandler} from "../handlers/fetchProfilePictureHandler";
+import {fetchAllProfilePicturesHandler} from "../handlers/fetchAllProfilePicturesHandler";
+import {fetchAllProfilePictureHashesHandler} from "../handlers/fetchAllProfilePictureHashesHandler";
+import {fetchAllBannersHandler} from "../handlers/fetchAllBannersHandler";
 
 export async function handleIncomingMessages(event: MessageEvent) {
     const dataAsObject = JSON.parse(event.data);
@@ -60,7 +60,7 @@ export async function handleIncomingMessages(event: MessageEvent) {
         // PayloadSubTypeEnum.enum.reaction == 7
         case PayloadSubTypeEnum.enum.reaction:
             // updated message from socket with reactions
-            reactionHandler(event);
+            await reactionHandler(event);
             break;
 
         // PayloadSubTypeEnum.enum.delete == 8

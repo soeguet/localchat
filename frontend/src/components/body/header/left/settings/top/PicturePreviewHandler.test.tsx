@@ -1,5 +1,5 @@
 import { expect, test, describe } from "vitest";
-import { render, screen } from "../../../../../../utils/test-utils";
+import { render, screen } from "../../../../../../utils/tests/test-utils";
 import { PicturePreviewHandler } from "./PicturePreviewHandler";
 import { createRef } from "react";
 

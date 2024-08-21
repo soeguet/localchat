@@ -1,4 +1,4 @@
-import {EmergencyInitPayloadSchema} from "../customTypes";
+import {EmergencyInitPayloadSchema} from "../types/customTypes";
 import {useEmergencyStore} from "../../stores/emergencyStore";
 import {errorLogger} from "../../logger/errorLogger";
 

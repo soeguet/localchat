@@ -1,7 +1,7 @@
-import {AllProfilePictureHashesPayloadSchema, ClientId, Hash} from "../customTypes";
+import {AllProfilePictureHashesPayloadSchema, ClientId, Hash} from "../types/customTypes";
 import {errorLogger} from "../../logger/errorLogger";
 import {useProfilePictureStore} from "../../stores/profilePictureStore";
-import {retrieveProfilePicturesFromSocket} from "../socket";
+import {retrieveProfilePicturesFromSocket} from "../socket/socket";
 
 export function fetchAllProfilePictureHashesHandler(event: MessageEvent) {
 

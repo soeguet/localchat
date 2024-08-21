@@ -4,9 +4,12 @@ import type {
 	Hash,
 	ProfilePicture,
 	ProfilePictureObject,
-} from "../utils/customTypes";
+} from "../utils/types/customTypes";
 
 type useProfilePictureStoreType = {
+	thisClientProfilePictureHash: Hash | null;
+	setThisClientProfilePictureHash: (hash: Hash | null) => void;
+
 	noProfilePictureAvailableMap: Map<ClientId, false>;
 	removeFromNoProfilePictureAvailableMap: (clientDbId: ClientId) => void;
 	addToNoProfilePictureAvailableMap: (clientDbId: ClientId) => void;
@@ -27,6 +30,10 @@ type useProfilePictureStoreType = {
 const useProfilePictureStore: UseBoundStore<
 	StoreApi<useProfilePictureStoreType>
 > = create<useProfilePictureStoreType>((set) => ({
+
+	thisClientProfilePictureHash: null,
+	setThisClientProfilePictureHash: (hash: Hash | null) => set({thisClientProfilePictureHash: hash}),
+
 	noProfilePictureAvailableMap: new Map<ClientId, false>(),
 
 	addToNoProfilePictureAvailableMap: (clientDbId: ClientId) => {

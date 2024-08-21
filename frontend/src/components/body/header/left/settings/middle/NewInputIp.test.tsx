@@ -1,5 +1,5 @@
 import { expect, test, describe } from "vitest";
-import { fireEvent, render, screen } from "../../../../../../utils/test-utils";
+import { fireEvent, render, screen } from "../../../../../../utils/tests/test-utils";
 import { NewInputIp } from "./NewInputIp";
 
 describe("NewInputIp", () => {

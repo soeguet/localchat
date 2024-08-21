@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useClientStore } from "../../../stores/clientStore";
 import { useEmergencyStore } from "../../../stores/emergencyStore";
-import {DEFAULT_HOVER_COLOR} from "../../../utils/variables";
+import {DEFAULT_HOVER_COLOR} from "../../../utils/variables/variables";
 
 function EmergencyInitBanner() {
 	const { t } = useTranslation();

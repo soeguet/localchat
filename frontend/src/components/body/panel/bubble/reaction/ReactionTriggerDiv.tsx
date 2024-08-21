@@ -1,5 +1,5 @@
 import useReactionMenuStore from "../../../../../stores/reactionMenuStore";
-import type { MessagePayload } from "../../../../../utils/customTypes";
+import type { MessagePayload } from "../../../../../utils/types/customTypes";
 import { ExpandEmojiSymbol } from "../../../../svgs/emoji/ExpandEmojiSymbol";
 import React from "react";
 type ReactionTriggerDivProps = {

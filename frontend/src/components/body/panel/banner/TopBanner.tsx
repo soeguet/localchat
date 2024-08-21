@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { AllBannersButton } from "./AllBannersButton";
 import { CountdownTimer } from "./CountdownTimer";
-import type { BannerObject } from "../../../../utils/customTypes";
+import type { BannerObject } from "../../../../utils/types/customTypes";
 
 type TopBannerProps = {
 	banners: BannerObject[];

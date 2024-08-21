@@ -7,9 +7,9 @@ import {
 	screen,
 	userEvent,
 	waitFor,
-} from "../../../../../../../utils/test-utils";
+} from "../../../../../../../utils/tests/test-utils";
 import { NewSettingsModal } from "../NewSettingsModal";
-import { handleLocalSettingsUpdates } from "../../../../../../../utils/handleLocalSettingsUpdates";
+import { handleLocalSettingsUpdates } from "../../../../../../../utils/settings/handleLocalSettingsUpdates";
 
 beforeEach(() => {
 	HTMLDialogElement.prototype.showModal = vi.fn();

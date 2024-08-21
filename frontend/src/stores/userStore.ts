@@ -1,5 +1,5 @@
 import { create, type StoreApi, type UseBoundStore } from "zustand";
-import type { ClientEntity } from "../utils/customTypes";
+import type { ClientEntity } from "../utils/types/customTypes";
 
 export type UserStore = {
 	myId: string;

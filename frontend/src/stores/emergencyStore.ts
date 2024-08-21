@@ -1,5 +1,5 @@
 import {create, type StoreApi, type UseBoundStore} from "zustand";
-import type {EmergencyMessage} from "../utils/customTypes";
+import type {EmergencyMessage} from "../utils/types/customTypes";
 
 type EmergencyStoreType = {
     emergencyInitiatorId: string;

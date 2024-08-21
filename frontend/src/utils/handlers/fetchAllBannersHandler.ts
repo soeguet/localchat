@@ -1,4 +1,4 @@
-import {BannerListPayloadSchema, BannerObject} from "../customTypes";
+import {BannerListPayloadSchema, BannerObject} from "../types/customTypes";
 import {useBannerStore} from "../../stores/bannerStore";
 import {errorLogger} from "../../logger/errorLogger";
 

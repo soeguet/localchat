@@ -8,15 +8,13 @@ import {
     ClientEntity,
     ClientListPayload,
     ClientListPayloadEnhanced,
-    MessageListPayload,
     MessagePayload,
-} from "../../utils/customTypes";
-import {useMessageMapStore} from "../../stores/messageMapStore";
+} from "../../utils/types/customTypes";
 import {useClientStore} from "../../stores/clientStore";
 import {useGuiHasFocusStore} from "../../stores/guiHasFocusStore";
-import {scrollToBottom} from "../../utils/functionality";
-import {base64ToUtf8} from "../../utils/encoder";
+import {base64ToUtf8} from "../../utils/transformation/encoder";
 import {useVersionStore} from "../../stores/versionStore";
+import {scrollToBottom} from "../../utils/gui/scrollToBottomNeeded";
 
 export async function checkIfMessageIsToBeAddedToTheUnseenMessagesList(
     messagePayload: MessagePayload,

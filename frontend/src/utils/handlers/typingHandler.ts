@@ -1,4 +1,4 @@
-import {TypingPayloadSchema} from "../customTypes";
+import {TypingPayloadSchema} from "../types/customTypes";
 import {useTypingStore} from "../../stores/typingStore";
 import {errorLogger} from "../../logger/errorLogger";
 

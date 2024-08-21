@@ -1,4 +1,4 @@
-import type {Hash} from "./customTypes";
+import type {Hash} from "../types/customTypes";
 
 export function unixTimestamp() {
 	return Date.now().toString();

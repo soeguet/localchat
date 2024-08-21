@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useUserStore } from "../../../stores/userStore";
 import { useState } from "react";
-import {DEFAULT_HOVER_COLOR, DEFAULT_STROKE_COLOR} from "../../../utils/variables";
+import {DEFAULT_HOVER_COLOR, DEFAULT_STROKE_COLOR} from "../../../utils/variables/variables";
 
 function PaperClipSvg() {
 	const { t } = useTranslation();

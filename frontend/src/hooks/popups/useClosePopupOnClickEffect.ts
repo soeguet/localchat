@@ -1,4 +1,4 @@
-import { handleClickOutsideOfDiv } from "../../utils/handleClickOutsideOfDiv";
+import { handleClickOutsideOfDiv } from "../../utils/gui/handleClickOutsideOfDiv";
 import { type RefObject, useEffect } from "react";
 
 function useClosePopupOnClickEffect(

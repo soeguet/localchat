@@ -1,7 +1,7 @@
 import { expect, test, describe } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { useBannerStore } from "../../../../stores/bannerStore";
-import type { BannerObject } from "../../../../utils/customTypes";
+import type { BannerObject } from "../../../../utils/types/customTypes";
 import { TopBanner } from "./TopBanner";
 
 describe("TopBanner", () => {

@@ -1,5 +1,5 @@
 import { create, type StoreApi, type UseBoundStore } from "zustand";
-import type { ClientEntity, Hash } from "../utils/customTypes";
+import type { ClientEntity, Hash } from "../utils/types/customTypes";
 
 /**
  * Represents a registered user.

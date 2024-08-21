@@ -1,4 +1,4 @@
-import { svgSize } from "../../../utils/variables";
+import { svgSize } from "../../../utils/variables/variables";
 
 function ScrollSymbolSvg() {
 	return (

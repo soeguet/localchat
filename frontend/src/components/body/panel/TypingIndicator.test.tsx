@@ -1,6 +1,6 @@
 import { expect, test, describe } from "vitest";
 import { useTypingStore } from "../../../stores/typingStore";
-import { fireEvent, render, screen, waitFor } from "../../../utils/test-utils";
+import { fireEvent, render, screen, waitFor } from "../../../utils/tests/test-utils";
 import { useClientStore } from "../../../stores/clientStore";
 import { TypingIndicator } from "./TypingIndicator";
 

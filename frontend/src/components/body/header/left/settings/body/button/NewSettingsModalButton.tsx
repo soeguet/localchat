@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { NewSettingsModal } from "../NewSettingsModal";
 import useSettingsStore from "../../../../../../../stores/settingsStore";
-import { handleProfileSettingsUpdatesWithSocketV2 } from "../../../../../../../utils/handleCommunicationWithSocket";
-import { handleLocalSettingsUpdates } from "../../../../../../../utils/handleLocalSettingsUpdates";
+import { handleProfileSettingsUpdatesWithSocketV2 } from "../../../../../../../utils/socket/handleCommunicationWithSocket";
+import { handleLocalSettingsUpdates } from "../../../../../../../utils/settings/handleLocalSettingsUpdates";
 import { useTranslation } from "react-i18next";
 import { SettingsIconSvg } from "../../../../../../svgs/icons/SettingsIconSvg";
 

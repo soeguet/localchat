@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { ForceModal } from "../ForceModal";
 import { useDoNotDisturbStore } from "../../../../stores/doNotDisturbStore";
 import { InfoMenuButton } from "./InfoMenuButton";
-import { handleClickOutsideOfDiv } from "../../../../utils/handleClickOutsideOfDiv";
+import { handleClickOutsideOfDiv } from "../../../../utils/gui/handleClickOutsideOfDiv";
 import { NewSettingsModalButton } from "./settings/body/button/NewSettingsModalButton";
 import { DoNotDisturbIconSvg } from "../../../svgs/icons/DoNotDisturbIconSvg";
 import { ReloadIconSvg } from "../../../svgs/icons/ReloadIconSvg";

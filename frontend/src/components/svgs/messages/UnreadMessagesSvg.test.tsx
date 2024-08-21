@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { UnreadMessagesSvg } from "./UnreadMessagesSvg";
-import { render, screen } from "../../../utils/test-utils";
+import { render, screen } from "../../../utils/tests/test-utils";
 import { useUnseenMessageCountStore } from "../../../stores/unseenMessageCountStore";
 import { act } from "react";
 

@@ -1,6 +1,6 @@
 import { useBannerStore } from "../../../../stores/bannerStore";
 import { BannerListSvg } from "../../../svgs/banner/BannerListSvg";
-import {DEFAULT_HOVER_COLOR} from "../../../../utils/variables";
+import {DEFAULT_HOVER_COLOR} from "../../../../utils/variables/variables";
 
 function AllBannersButton() {
 	const bannerCount = useBannerStore((state) =>

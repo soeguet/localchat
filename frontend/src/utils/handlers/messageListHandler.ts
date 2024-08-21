@@ -1,4 +1,4 @@
-import {MessageListPayloadSchema, PayloadSubTypeEnum} from "../customTypes";
+import {MessageListPayloadSchema, PayloadSubTypeEnum} from "../types/customTypes";
 import {useMessageMapStore} from "../../stores/messageMapStore";
 import {errorLogger} from "../../logger/errorLogger";
 

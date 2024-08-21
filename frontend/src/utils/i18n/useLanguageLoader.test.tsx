@@ -1,7 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import { useInitializeSelectedAppLanguageFromLocalStorage } from "./useLanguageLoader";
 import { expect } from "vitest";
-import { useSelectedLanguageStore } from "../stores/selectedLanguageStore";
+import { useSelectedLanguageStore } from "../../stores/selectedLanguageStore";
 
 beforeEach(() => {
 	const localStorageMock = (() => {

@@ -1,5 +1,5 @@
 import type { ChangeEvent, RefObject } from "react";
-import { handleFileChange } from "../../../../../../utils/pictureHelper";
+import { handleFileChange } from "../../../../../../utils/picture/pictureHelper";
 import { useTranslation } from "react-i18next";
 
 type PicturePreviewHandlerProps = {

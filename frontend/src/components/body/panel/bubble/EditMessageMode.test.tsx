@@ -4,12 +4,12 @@ import {
 	render,
 	screen,
 	waitFor,
-} from "../../../../utils/test-utils";
+} from "../../../../utils/tests/test-utils";
 import { useMessageMapStore } from "../../../../stores/messageMapStore";
 import {
 	type MessagePayload,
 	PayloadSubTypeEnum,
-} from "../../../../utils/customTypes";
+} from "../../../../utils/types/customTypes";
 import { ChatPanel } from "../ChatPanel";
 import { useUserStore } from "../../../../stores/userStore";
 

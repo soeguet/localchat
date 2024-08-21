@@ -1,11 +1,11 @@
-import type { MessagePayload } from "./customTypes";
-import { useUserStore } from "../stores/userStore";
-import { Notification } from "../../wailsjs/go/main/App";
-import { useClientStore } from "../stores/clientStore";
-import { base64ToUtf8 } from "./encoder";
-import { useDoNotDisturbStore } from "../stores/doNotDisturbStore";
+import type { MessagePayload } from "../types/customTypes";
+import { useUserStore } from "../../stores/userStore";
+import { Notification } from "../../../wailsjs/go/main/App";
+import { useClientStore } from "../../stores/clientStore";
+import { base64ToUtf8 } from "../transformation/encoder";
+import { useDoNotDisturbStore } from "../../stores/doNotDisturbStore";
 
-export function notifyClientIfReactionTarget(payload: MessagePayload) {
+export async function notifyClientIfReactionTarget(payload: MessagePayload) {
 	const messageFromThisClient =
 		payload.clientType.clientDbId === useUserStore.getState().myId;
 
@@ -26,7 +26,7 @@ export function notifyClientIfReactionTarget(payload: MessagePayload) {
 	const reactionContext = reaction.reactionContext;
 	const message = base64ToUtf8(payload.messageType.messageContext);
 
-	Notification(
+	await Notification(
 		"localchat",
 		`${reactingClient} reacted with ${reactionContext} to "${message}"`,
 	);

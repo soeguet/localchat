@@ -5,7 +5,7 @@ import {
 	render,
 	screen,
 	userEvent,
-} from "../../../../../../utils/test-utils";
+} from "../../../../../../utils/tests/test-utils";
 import { NewSettingsModalContainer } from "../body/NewSettingsModalContainer";
 import { SettingsLanguagePicker } from "./SettingsLanguagePicker";
 

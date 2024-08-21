@@ -1,7 +1,7 @@
 import React, { memo, useState } from "react";
 import { AttachmentMenu } from "./picture/AttachmentMenu";
 import { PaperClipSvg } from "../../svgs/input/PaperClipSvg";
-import {DEFAULT_HOVER_COLOR} from "../../../utils/variables";
+import {DEFAULT_HOVER_COLOR} from "../../../utils/variables/variables";
 
 const ClipButton = memo(() => {
 	const [attachmentMenuVisible, setAttachmentMenuVisible] = useState(false);

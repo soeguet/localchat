@@ -1,7 +1,7 @@
-import {EmergencyMessage, EmergencyMessagePayloadSchema} from "../customTypes";
+import {EmergencyMessage, EmergencyMessagePayloadSchema} from "../types/customTypes";
 import {useEmergencyStore} from "../../stores/emergencyStore";
 import {errorLogger} from "../../logger/errorLogger";
-import {preventDuplicateEmergencyMessages} from "../emergencyArrayHelper";
+import {preventDuplicateEmergencyMessages} from "../helper/emergencyArrayHelper";
 import {useEmergencyNotifications} from "../../components/body/emergency/useEmergencyNotifications";
 
 export async function emergencyMessageHandler(event: MessageEvent) {

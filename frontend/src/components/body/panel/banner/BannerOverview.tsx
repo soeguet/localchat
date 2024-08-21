@@ -5,7 +5,7 @@ import { AddButton } from "../../../svgs/ui/AddButton";
 import { CloseButton } from "../../../svgs/ui/CloseButton";
 import { BannerDelete } from "./BannerDelete";
 import { BannerVisibilityIcon } from "./BannerVisibilityIcon";
-import type { BannerObject } from "../../../../utils/customTypes";
+import type { BannerObject } from "../../../../utils/types/customTypes";
 
 type BannerOverviewProps = {
 	setBannerModalOpen: (show: boolean) => void;

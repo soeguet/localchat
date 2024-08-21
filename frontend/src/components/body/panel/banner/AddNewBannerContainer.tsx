@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from "react";
-import { generateSimpleId } from "../../../../utils/functionality";
+import { generateSimpleId } from "../../../../utils/helper/functionality";
 import { BackButton } from "../../../svgs/ui/BackButton";
 import {
 	type BannerObject,
 	type BannerPayload,
 	type Priority, PayloadSubTypeEnum,
-} from "../../../../utils/customTypes";
+} from "../../../../utils/types/customTypes";
 import { useWebsocketStore } from "../../../../stores/websocketStore";
 import { useTranslation } from "react-i18next";
 

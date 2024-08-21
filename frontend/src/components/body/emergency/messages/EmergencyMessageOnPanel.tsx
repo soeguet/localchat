@@ -1,7 +1,7 @@
 import { useClientStore } from "../../../../stores/clientStore";
 import { useEmergencyStore } from "../../../../stores/emergencyStore";
 import { useUserStore } from "../../../../stores/userStore";
-import type { EmergencyMessage } from "../../../../utils/customTypes";
+import type { EmergencyMessage } from "../../../../utils/types/customTypes";
 import { EmergencyMessageContent } from "./EmergencyMessageContent";
 import { EmergencyMessageName } from "./EmergencyMessageName";
 import { EmergencyMessageTime } from "./EmergencyMessageTime";

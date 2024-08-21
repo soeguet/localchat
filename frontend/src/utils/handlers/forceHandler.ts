@@ -2,7 +2,7 @@ import {useUserStore} from "../../stores/userStore";
 import {useDoNotDisturbStore} from "../../stores/doNotDisturbStore";
 import {Notification} from "../../../wailsjs/go/main/App";
 import {WindowMinimise, WindowShow, WindowUnminimise} from "../../../wailsjs/runtime";
-import {ForcePayloadSchema} from "../customTypes";
+import {ForcePayloadSchema} from "../types/customTypes";
 import {errorLogger} from "../../logger/errorLogger";
 
 export async function forceHandler(event: MessageEvent) {

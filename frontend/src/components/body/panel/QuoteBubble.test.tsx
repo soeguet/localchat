@@ -4,9 +4,9 @@ import { useUserStore } from "../../../stores/userStore";
 import {
 	type MessagePayload,
 	PayloadSubTypeEnum,
-} from "../../../utils/customTypes";
+} from "../../../utils/types/customTypes";
 import { ChatPanel } from "./ChatPanel";
-import { render, screen, waitFor } from "../../../utils/test-utils";
+import { render, screen, waitFor } from "../../../utils/tests/test-utils";
 import { useClientStore } from "../../../stores/clientStore";
 
 describe("QuoteBubble", () => {

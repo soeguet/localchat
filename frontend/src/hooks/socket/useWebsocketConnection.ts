@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { initWebSocket} from "../../utils/socket";
+import { initWebSocket} from "../../utils/socket/socket";
 import { useUserStore } from "../../stores/userStore";
 import { errorLogger } from "../../logger/errorLogger";
 

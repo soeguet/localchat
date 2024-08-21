@@ -1,7 +1,6 @@
-import { useRefStore } from "../stores/refStore";
-import { useGuiHasFocusStore } from "../stores/guiHasFocusStore";
-import { scrollToBottom } from "./functionality";
-import { useUserStore } from "../stores/userStore";
+import { useRefStore } from "../../stores/refStore";
+import { useGuiHasFocusStore } from "../../stores/guiHasFocusStore";
+import { useUserStore } from "../../stores/userStore";
 
 export async function checkIfScrollToBottomIsNeeded(id: string) {
 
@@ -22,4 +21,9 @@ export async function checkIfScrollToBottomIsNeeded(id: string) {
 	}
 
 	return useRefStore.getState().chatBottomRefVisible;
+}
+
+export async function scrollToBottom(): Promise<void> {
+	const chatBottomRef = useRefStore.getState().chatBottomRef;
+	chatBottomRef?.current?.scrollIntoView({ behavior: "smooth" });
 }

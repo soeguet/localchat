@@ -1,12 +1,13 @@
 import { useClientStore } from "../../../../stores/clientStore";
 import { useUnseenMessageCountStore } from "../../../../stores/unseenMessageCountStore";
-import type { MessagePayload } from "../../../../utils/customTypes";
+import type { MessagePayload } from "../../../../utils/types/customTypes";
 import { QuoteBubble } from "../QuoteBubble";
-import { base64ToUtf8 } from "../../../../utils/encoder";
+import { base64ToUtf8 } from "../../../../utils/transformation/encoder";
 import { ReactionField } from "./reaction/ReactionField";
 import { EditMessageMode } from "./EditMessageMode";
 import PictureBubblePanel from "./picture/PictureBubblePanel";
-import {DEFAULT_HOVER_COLOR} from "../../../../utils/variables";
+import {DEFAULT_HOVER_COLOR} from "../../../../utils/variables/variables";
+import {useUserStore} from "../../../../stores/userStore";
 
 type ChatBubbleBottomPartProps = {
 	messagePayload: MessagePayload;
@@ -16,14 +17,37 @@ type ChatBubbleBottomPartProps = {
 };
 
 function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
-	const clientColor = useClientStore(
-		(state) =>
-			state.clients.find((c): boolean => {
-				return (
-					c.clientDbId === props.messagePayload.clientType.clientDbId
-				);
-			})?.clientColor,
-	);
+
+	function getBubbleBackgroundColor() {
+
+		// right side
+		if (props.thisMessageFromThisClient) {
+			const clientColor = useUserStore.getState().myColor;
+
+			if (clientColor) {
+				return clientColor;
+			}
+
+			return DEFAULT_HOVER_COLOR;
+		}
+
+		// left side
+		const clientColor = useClientStore(
+			(state) =>
+				state.clients.find((c): boolean => {
+					return (
+						c.clientDbId === props.messagePayload.clientType.clientDbId
+					);
+				})?.clientColor,
+		);
+
+		if (clientColor) {
+			return clientColor;
+		}
+
+		return DEFAULT_HOVER_COLOR;
+	}
+
 	const unseenMessagesIdList = useUnseenMessageCountStore(
 		(state) => state.unseenMessagesIdList,
 	);
@@ -33,7 +57,7 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
 	);
 	const defaultChatBubbleColor = `${
 		props.thisMessageFromThisClient
-			? "bg-blue-500 text-white"
+			? "text-white"
 			: "bg-gray-500 text-white"
 	}`;
 
@@ -63,9 +87,10 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
 		<>
 			<div className={margin}>
 				<div
-					className={`relative max-w-md  break-words rounded-lg border peer-focus/edit:animate-pulse ${borderColor} px-4 py-2 md:max-w-2xl lg:max-w-4xl ${defaultChatBubbleColor}`}
+					className={`relative max-w-md  break-words rounded-lg border peer-focus/edit:animate-pulse ${borderColor} px-4 py-2 md:max-w-2xl lg:max-w-4xl`}
 					style={{
-						backgroundColor: clientColor ?? DEFAULT_HOVER_COLOR,
+						backgroundColor: getBubbleBackgroundColor(),
+						color: "#fff",
 						animation: thisMessageUnseen
 							? "pulse-border 3.5s infinite ease-in-out"
 							: "",

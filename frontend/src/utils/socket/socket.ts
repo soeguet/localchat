@@ -1,22 +1,22 @@
-import { Notification } from "../../wailsjs/go/main/App";
-import { type Reply, useReplyStore } from "../stores/replyStore";
-import { useUserStore } from "../stores/userStore";
-import { useWebsocketStore } from "../stores/websocketStore";
-import { generateSimpleId } from "./functionality";
-import { useDoNotDisturbStore } from "../stores/doNotDisturbStore";
-import { getTimeWithHHmmFormat } from "./time";
+import { Notification } from "../../../wailsjs/go/main/App";
+import { type Reply, useReplyStore } from "../../stores/replyStore";
+import { useUserStore } from "../../stores/userStore";
+import { useWebsocketStore } from "../../stores/websocketStore";
+import { generateSimpleId } from "../helper/functionality";
+import { useDoNotDisturbStore } from "../../stores/doNotDisturbStore";
+import { getTimeWithHHmmFormat } from "../time/time";
 import {
   type AuthenticationPayload,
   type ClientId,
   type MessagePayload,
   PayloadSubTypeEnum,
-} from "./customTypes";
-import { encodeFileToBase64, getMimeType, utf8ToBase64 } from "./encoder";
-import { useImageStore } from "../stores/imageStore";
-import { useClientStore } from "../stores/clientStore";
-import { errorLogger } from "../logger/errorLogger";
+} from "../types/customTypes";
+import { encodeFileToBase64, getMimeType, utf8ToBase64 } from "../transformation/encoder";
+import { useImageStore } from "../../stores/imageStore";
+import { useClientStore } from "../../stores/clientStore";
+import { errorLogger } from "../../logger/errorLogger";
 import { handleIncomingMessages } from "./handleIncomingMessages";
-import { useVersionStore } from "../stores/versionStore";
+import { useVersionStore } from "../../stores/versionStore";
 
 let socket: WebSocket;
 

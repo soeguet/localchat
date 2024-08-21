@@ -1,5 +1,5 @@
 import { FontSizePopupHeader } from "./FontSizePopupHeader";
-import { render } from "../../../../../../utils/test-utils";
+import { render } from "../../../../../../utils/tests/test-utils";
 import { screen } from "@testing-library/react";
 
 describe("FontSizePopupHeader", () => {

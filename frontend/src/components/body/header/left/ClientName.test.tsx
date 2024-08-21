@@ -1,5 +1,5 @@
 import { describe, it, vi } from "vitest";
-import { render } from "../../../../utils/test-utils";
+import { render } from "../../../../utils/tests/test-utils";
 import { ClientName } from "./ClientName";
 import * as user from "../../../../stores/userStore";
 import * as client from "../../../../stores/clientStore";

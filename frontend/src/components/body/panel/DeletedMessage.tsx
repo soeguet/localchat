@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useClientStore } from "../../../stores/clientStore";
-import type { ClientId } from "../../../utils/customTypes";
-import {DEFAULT_HOVER_COLOR} from "../../../utils/variables";
+import type { ClientId } from "../../../utils/types/customTypes";
+import {DEFAULT_HOVER_COLOR} from "../../../utils/variables/variables";
 
 type DeletedMessageProps = {
 	clientDbId: ClientId;

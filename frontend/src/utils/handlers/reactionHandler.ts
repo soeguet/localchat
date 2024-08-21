@@ -1,15 +1,15 @@
 import {useMessageMapStore} from "../../stores/messageMapStore";
-import {notifyClientIfReactionTarget} from "../reactionHandler";
-import {MessagePayloadSchema} from "../customTypes";
+import {notifyClientIfReactionTarget} from "../helper/reactionHandler";
+import {MessagePayloadSchema} from "../types/customTypes";
 
-export function reactionHandler(event: MessageEvent) {
+export async function reactionHandler(event: MessageEvent) {
 
     const messagePayloadValidation = MessagePayloadSchema.safeParse(JSON.parse(event.data));
 
     if (messagePayloadValidation.success) {
 
         useMessageMapStore.getState().onUpdateMessage(messagePayloadValidation.data);
-        notifyClientIfReactionTarget(messagePayloadValidation.data);
+        await notifyClientIfReactionTarget(messagePayloadValidation.data);
 
     }
 }

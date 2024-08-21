@@ -1,8 +1,8 @@
 import { useSelectedLanguageStore } from "../../../../../stores/selectedLanguageStore";
-import { switchLanguage } from "../../../../../utils/i18n-helper";
+import { switchLanguage } from "../../../../../utils/i18n/i18n-helper";
 import { AmericaFlagNoCircle } from "../../../../svgs/flags/AmericaFlagNoCircle";
 import { GermanFlagNoCircle } from "../../../../svgs/flags/GermanFlagNoCircle";
-import {DEFAULT_HOVER_COLOR} from "../../../../../utils/variables";
+import {DEFAULT_HOVER_COLOR} from "../../../../../utils/variables/variables";
 import {useUserStore} from "../../../../../stores/userStore";
 import {useState} from "react";
 

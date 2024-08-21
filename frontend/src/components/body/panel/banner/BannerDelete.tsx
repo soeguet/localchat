@@ -4,7 +4,7 @@ import {
 	type BannerObject,
 	type BannerPayload,
 	PayloadSubTypeEnum,
-} from "../../../../utils/customTypes";
+} from "../../../../utils/types/customTypes";
 import { BannerDeleteConfirmSvg } from "../../../svgs/banner/BannerDeleteConfirmSvg";
 import { useTranslation } from "react-i18next";
 import { useWebsocketStore } from "../../../../stores/websocketStore";

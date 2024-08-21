@@ -1,5 +1,5 @@
 import { test } from "vitest";
-import { render, screen } from "../../../../../../utils/test-utils";
+import { render, screen } from "../../../../../../utils/tests/test-utils";
 import { SettingsFontSizePicker } from "./SettingsFontSizePicker";
 
 describe("SettingsFontSizePicker", () => {

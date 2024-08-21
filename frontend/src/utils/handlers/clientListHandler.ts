@@ -1,6 +1,6 @@
 import {handleClientListPayload, updateThisClientsCachedDataWithNewPayloadData} from "../../hooks/socket/utils";
-import {processClientsProfilePictures} from "../profilePictureInitializer";
-import {ClientListPayloadEnhancedSchema} from "../customTypes";
+import {processClientsProfilePictures} from "../picture/profilePictureInitializer";
+import {ClientListPayloadEnhancedSchema} from "../types/customTypes";
 import {errorLogger} from "../../logger/errorLogger";
 
 export async function clientListHandler(event: MessageEvent) {

@@ -2,7 +2,7 @@ import type React from "react";
 import {useCallback, useState} from "react";
 import {useTypingHook} from "../../../hooks/input/useTypingHook";
 import {useReplyStore} from "../../../stores/replyStore";
-import {sendClientMessageToWebsocket} from "../../../utils/socket";
+import {sendClientMessageToWebsocket} from "../../../utils/socket/socket";
 import {ClipButton} from "./ClipButton";
 import {Emoji} from "./Emoji";
 import {Reply} from "./Reply";

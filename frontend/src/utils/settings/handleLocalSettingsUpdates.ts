@@ -1,8 +1,8 @@
 import { changeLanguage } from "i18next";
-import { useSelectedLanguageStore } from "../stores/selectedLanguageStore";
-import useSettingsStore from "../stores/settingsStore";
-import { useUserStore } from "../stores/userStore";
-import { useFontSizeStore } from "../stores/fontSizeStore";
+import { useSelectedLanguageStore } from "../../stores/selectedLanguageStore";
+import useSettingsStore from "../../stores/settingsStore";
+import { useUserStore } from "../../stores/userStore";
+import { useFontSizeStore } from "../../stores/fontSizeStore";
 
 export function handleLocalSettingsUpdates(): number {
 	const newLanguage = useSettingsStore.getState().language;

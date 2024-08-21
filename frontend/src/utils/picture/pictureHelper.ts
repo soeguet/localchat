@@ -1,6 +1,6 @@
 import type { ChangeEvent } from "react";
-import useSettingsStore from "../stores/settingsStore";
-import { errorLogger } from "../logger/errorLogger";
+import useSettingsStore from "../../stores/settingsStore";
+import { errorLogger } from "../../logger/errorLogger";
 
 export function arrayBufferToBase64(buffer: ArrayBuffer): string {
 	let binary = "";

@@ -5,7 +5,7 @@ import { useReplyStore } from "../../../stores/replyStore";
 import { useUserStore } from "../../../stores/userStore";
 import { useImageStore } from "../../../stores/imageStore";
 import { errorLogger } from "../../../logger/errorLogger";
-import {DEFAULT_HOVER_COLOR} from "../../../utils/variables";
+import {DEFAULT_HOVER_COLOR} from "../../../utils/variables/variables";
 
 type TextAreaProps = {
 	message: string;

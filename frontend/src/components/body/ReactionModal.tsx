@@ -1,11 +1,11 @@
 import EmojiPicker from "emoji-picker-react";
 import useReactionMenuStore from "../../stores/reactionMenuStore";
 import { useEffect, useRef } from "react";
-import { handleClickOutsideOfDiv } from "../../utils/handleClickOutsideOfDiv";
+import { handleClickOutsideOfDiv } from "../../utils/gui/handleClickOutsideOfDiv";
 import { useWebsocketStore } from "../../stores/websocketStore";
 import { useUserStore } from "../../stores/userStore";
-import { generateSimpleId } from "../../utils/functionality";
-import {PayloadSubTypeEnum} from "../../utils/customTypes";
+import { generateSimpleId } from "../../utils/helper/functionality";
+import {PayloadSubTypeEnum} from "../../utils/types/customTypes";
 
 function ReactionModal() {
 	const isOpen = useReactionMenuStore((state) => state.isOpen);
