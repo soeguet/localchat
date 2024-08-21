@@ -63,7 +63,7 @@ export async function initializeProfilePictures() {
     allPictures = (await GetAllImages()) as DbRow[];
   } catch (e) {
     console.error("Failed to load images from database");
-    await errorLogger.logError(
+    errorLogger.logError(
       new Error("Failed to load images from database"),
     );
     return;

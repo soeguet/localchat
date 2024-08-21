@@ -122,7 +122,7 @@ export async function handleIncomingMessages(event: MessageEvent) {
         // unknown payload type
         default:
             console.error("Unknown payload type");
-            await errorLogger.logError(new Error("Unknown payload type"));
+            errorLogger.logError(new Error("Unknown payload type"));
         // throw new Error("Unknown payload type");
     }
 }

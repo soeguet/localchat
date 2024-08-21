@@ -13,9 +13,7 @@ import {generateUnixTimestampFnv1aHash} from "./hashGenerator";
 export function handleProfileSettingsUpdatesWithSocketV2() {
 	const wsReference = useWebsocketStore.getState().ws;
 	if (wsReference === null) {
-		errorLogger.logError(new Error("Websocket is not initialized")).catch((error) => {
-			console.log(error);
-		});
+		errorLogger.logError(new Error("Websocket is not initialized"));
 		return;
 	}
 

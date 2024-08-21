@@ -22,7 +22,7 @@ try {
     await useEnvironmentVariablesLoader();
 } catch (error) {
     console.error("Failed to load environment variables");
-    await errorLogger.logError(error);
+    errorLogger.logError(error);
 }
 
 // Load profile pictures

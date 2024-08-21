@@ -96,7 +96,7 @@ async function sendClientMessageToWebsocket(message: string): Promise<void> {
     username === "" ||
     id === ""
   ) {
-    await errorLogger.logError(`username or id is null${username}${id}`);
+    errorLogger.logError(`username or id is null${username}${id}`);
     throw new Error(`username or id is null${username}${id}`);
   }
 

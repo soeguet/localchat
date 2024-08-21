@@ -5,6 +5,7 @@ import { useReplyStore } from "../../../stores/replyStore";
 import { useUserStore } from "../../../stores/userStore";
 import { useImageStore } from "../../../stores/imageStore";
 import { errorLogger } from "../../../logger/errorLogger";
+import {DEFAULT_HOVER_COLOR} from "../../../utils/variables";
 
 type TextAreaProps = {
 	message: string;
@@ -92,6 +93,8 @@ function TextArea(props: TextAreaProps) {
 		? t("textarea_placeholder_image_drop_here")
 		: t("chat_input_placeholder");
 
+	const textAreaRingColor = myColor ? myColor : DEFAULT_HOVER_COLOR;
+
 	return (
 		<>
       <textarea
@@ -104,7 +107,7 @@ function TextArea(props: TextAreaProps) {
 		  }
                     focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent`}
 		  // @ts-ignore
-		  style={{ "--tw-ring-color": myColor }}
+		  style={{ "--tw-ring-color": textAreaRingColor }}
 		  placeholder={placeholderText}
 		  ref={textAreaRef}
 		  rows={2}

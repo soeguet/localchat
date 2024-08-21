@@ -1,17 +1,20 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useUserStore } from "../../../stores/userStore";
+import {DEFAULT_HOVER_COLOR, DEFAULT_STROKE_COLOR} from "../../../utils/variables";
 
 function SendButtonSvg() {
 	const { t } = useTranslation();
 	const thisClientColor = useUserStore((state) => state.myColor);
-	const [strokeColor, setStrokeColor] = useState("#292D32");
+	const [strokeColor, setStrokeColor] = useState<string>(DEFAULT_STROKE_COLOR);
+
+	const hoverColor = thisClientColor ? thisClientColor : DEFAULT_HOVER_COLOR;
 
 	return (
 		<>
 			<svg
-				onMouseLeave={() => setStrokeColor("#292D32")}
-				onMouseEnter={() => setStrokeColor(thisClientColor)}
+				onMouseLeave={() => setStrokeColor(DEFAULT_STROKE_COLOR)}
+				onMouseEnter={() => setStrokeColor(hoverColor)}
 				xmlns="http://www.w3.org/2000/svg"
 				fill="none"
 				viewBox="0 0 24 24"

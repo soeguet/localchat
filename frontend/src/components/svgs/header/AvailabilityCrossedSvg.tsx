@@ -1,7 +1,13 @@
 import { useTranslation } from "react-i18next";
+import {useUserStore} from "../../../stores/userStore";
+import {useState} from "react";
+import {DEFAULT_HOVER_COLOR} from "../../../utils/variables";
 
 function AvailabilityCrossedSvg() {
 	const { t } = useTranslation();
+	const thisClientColor = useUserStore((state) => state.myColor);
+	const [hover, setHover] = useState(false);
+
 	return (
 		<>
 			<svg
@@ -11,9 +17,15 @@ function AvailabilityCrossedSvg() {
 				stroke="#b11b1b"
 				strokeWidth={0}
 				viewBox="-4.99 -4.99 43.24 43.24"
-				className="border-2 border-black rounded-full"
+				className="border-2 rounded-full"
 				width="2.5em"
 				height="2.5em"
+				onMouseEnter={() => setHover(true)}
+				onMouseLeave={() => setHover(false)}
+				style={{
+					borderColor: hover ? thisClientColor : DEFAULT_HOVER_COLOR,
+					transition: "border-color 0.3s ease-in-out",
+				}}
 			>
 				<title>{t("title_svg_availability")}</title>
 				<rect

@@ -1,6 +1,8 @@
-import { memo, useCallback } from "react";
+import {memo, useCallback, useState} from "react";
 import { useProfilePictureStore } from "../../stores/profilePictureStore";
 import type { ClientId } from "../../utils/customTypes";
+import {useUserStore} from "../../stores/userStore";
+import {DEFAULT_HOVER_COLOR, DEFAULT_STROKE_COLOR} from "../../utils/variables";
 
 type ProfilePictureProps = {
 	clientDbId: ClientId;
@@ -18,6 +20,9 @@ const ProfilePicture = memo((props: ProfilePictureProps) => {
 	const profilePicture = useProfilePictureStore((state) => {
 		return state.profilePictureMap.get(props.clientDbId);
 	});
+
+	const thisClientColor = useUserStore((state) => state.myColor);
+	const [hover, setHover] = useState(false);
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	const pictureSelection = useCallback(() => {
@@ -54,8 +59,13 @@ const ProfilePicture = memo((props: ProfilePictureProps) => {
 		return (
 			<img
 				data-testid="dummy-profile-picture"
-				style={props.style}
 				className={`rounded-full border-2 ${props.properties} transition duration-300 ease-in-out`}
+				onMouseEnter={() => setHover(true)}
+				onMouseLeave={() => setHover(false)}
+				style={{
+					...props.style,
+					borderColor: hover ? thisClientColor : DEFAULT_HOVER_COLOR,
+				}}
 				src={"logo.png"}
 				alt={""}
 			/>
@@ -66,7 +76,12 @@ const ProfilePicture = memo((props: ProfilePictureProps) => {
 		<>
 			<img
 				data-testid="profile-picture"
-				style={props.style}
+				onMouseEnter={() => setHover(true)}
+				onMouseLeave={() => setHover(false)}
+				style={{
+					...props.style,
+					borderColor: hover ? thisClientColor : DEFAULT_HOVER_COLOR,
+				}}
 				className={`rounded-full border-2 ${props.properties} transition duration-300 ease-in-out`}
 				src={pictureSelection()}
 				alt=""
