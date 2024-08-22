@@ -1,55 +1,60 @@
-import { useState } from "react";
-import { NewSettingsModal } from "../NewSettingsModal";
+import {useState} from "react";
+import {NewSettingsModal} from "../NewSettingsModal";
 import useSettingsStore from "../../../../../../../stores/settingsStore";
-import { handleProfileSettingsUpdatesWithSocketV2 } from "../../../../../../../utils/socket/handleCommunicationWithSocket";
-import { handleLocalSettingsUpdates } from "../../../../../../../utils/settings/handleLocalSettingsUpdates";
-import { useTranslation } from "react-i18next";
-import { SettingsIconSvg } from "../../../../../../svgs/icons/SettingsIconSvg";
+import {
+    handleProfileSettingsUpdatesWithSocketV2
+} from "../../../../../../../utils/socket/handleCommunicationWithSocket";
+import {handleLocalSettingsUpdates} from "../../../../../../../utils/settings/handleLocalSettingsUpdates";
+import {useTranslation} from "react-i18next";
+import {SettingsIconSvg} from "../../../../../../svgs/icons/SettingsIconSvg";
 
 function NewSettingsModalButton() {
-	const { t } = useTranslation();
-	const [isOpened, setIsOpened] = useState(false);
+    const {t} = useTranslation();
+    const [isOpened, setIsOpened] = useState(false);
 
-	function handleProfileSettingsUpdateSaveButtonClick() {
-		const reconnectionTimeoutValue = handleLocalSettingsUpdates();
+    async function handleProfileSettingsUpdateSaveButtonClick() {
+        const reconnectionTimeoutValue = await handleLocalSettingsUpdates();
 
-		const timeout: NodeJS.Timeout = setTimeout(() => {
-			handleProfileSettingsUpdatesWithSocketV2();
+        const timeout: NodeJS.Timeout = setTimeout(async () => {
+            await handleProfileSettingsUpdatesWithSocketV2();
 
-			setIsOpened(false);
-			useSettingsStore.getState().resetAllStoreValues();
+            setIsOpened(false);
+            useSettingsStore.getState().resetAllStoreValues();
 
-			return clearTimeout(timeout);
-		}, reconnectionTimeoutValue);
-	}
+            return clearTimeout(timeout);
+        }, reconnectionTimeoutValue);
+    }
 
-	return (
-		<>
-			<button
-				type="button"
-				data-testid="settings-menu-button"
-				className="group flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
-				onClick={() => {
-					setIsOpened(true);
-				}}>
-				<div className="group-hover:animate-bounce">
-					<SettingsIconSvg />
-				</div>
-				{t("menu_item_profile")}
-			</button>
+    return (
+        <>
+            <button
+                type="button"
+                data-testid="settings-menu-button"
+                className="group flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
+                onClick={() => {
+                    setIsOpened(true);
+                }}>
+                <div className="group-hover:animate-bounce">
+                    <SettingsIconSvg />
+                </div>
+                {t("menu_item_profile")}
+            </button>
 
-			{isOpened && (
-				<NewSettingsModal
-					isOpen={isOpened}
-					onClose={() => {
-						setIsOpened(false);
-						useSettingsStore.getState().resetAllStoreValues();
-					}}
-					onSave={handleProfileSettingsUpdateSaveButtonClick}
-				/>
-			)}
-		</>
-	);
+            {isOpened && (
+                <NewSettingsModal
+                    isOpen={isOpened}
+                    onClose={() => {
+                        setIsOpened(false);
+                        useSettingsStore.getState().resetAllStoreValues();
+                    }}
+                    onSave={async () => {
+                        console.log("save")
+                        await handleProfileSettingsUpdateSaveButtonClick()
+                    }}
+                />
+            )}
+        </>
+    );
 }
 
-export { NewSettingsModalButton };
+export {NewSettingsModalButton};

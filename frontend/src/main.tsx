@@ -8,6 +8,7 @@ import {useEnvironmentVariablesLoader} from "./hooks/setup/useEnvLoader";
 import {GetAllImages} from "../wailsjs/go/main/App";
 import {useProfilePictureStore} from "./stores/profilePictureStore";
 import {errorLogger} from "./logger/errorLogger";
+import {useUserStore} from "./stores/userStore";
 
 WindowSetTitle("Localchat");
 
@@ -29,13 +30,24 @@ try {
 GetAllImages().then((allImages) => {
 
     const images = allImages as DbRow[];
-    console.log("images", images);
+    const thisClientId = useUserStore.getState().myId;
 
     if (allImages !== null) {
 
         const imageStoreMap = useProfilePictureStore.getState().profilePictureMap;
 
         for (const image of images) {
+
+            console.log("image", image);
+
+            if (image.ClientDbId === thisClientId) {
+                useProfilePictureStore.getState().setThisClientProfilePictureHashObject({
+                    imageHash: image.ImageHash,
+                    clientDbId: image.ClientDbId,
+                    data: image.Data,
+                });
+            }
+
             imageStoreMap.set(image.ClientDbId, {
                 clientDbId: image.ClientDbId,
                 imageHash: image.ImageHash,

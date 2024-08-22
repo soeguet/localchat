@@ -27,9 +27,6 @@ enum PayloadTypes {
 export const PayloadSubTypeEnum = z.nativeEnum(PayloadTypes);
 export type PayloadSubType = z.infer<typeof PayloadSubTypeEnum>;
 
-export const ProfilePictureSchema = z.string();
-export type ProfilePicture = z.infer<typeof ProfilePictureSchema>;
-
 export const ProfilePictureHashSchema = z.string();
 export type ProfilePictureHash = z.infer<typeof ProfilePictureHashSchema>;
 
@@ -91,6 +88,9 @@ export const BannerListPayloadSchema = z.object({
     banners: z.array(BannerObjectSchema).optional(),
 });
 export type BannerListPayload = z.infer<typeof BannerListPayloadSchema>;
+
+export const ProfilePictureSchema = z.string();
+export type ProfilePicture = z.infer<typeof ProfilePictureSchema>;
 
 export const ProfilePictureObjectSchema = z.object({
     clientDbId: ClientIdSchema,

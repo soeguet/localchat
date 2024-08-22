@@ -4,7 +4,7 @@ import useSettingsStore from "../../stores/settingsStore";
 import { useUserStore } from "../../stores/userStore";
 import { useFontSizeStore } from "../../stores/fontSizeStore";
 
-export function handleLocalSettingsUpdates(): number {
+export async function handleLocalSettingsUpdates(): Promise<number> {
 	const newLanguage = useSettingsStore.getState().language;
 	const newFontSize = useSettingsStore.getState().fontSize;
 	const newIp = useSettingsStore.getState().localIp;
@@ -15,7 +15,7 @@ export function handleLocalSettingsUpdates(): number {
 
 	localStorage.setItem("language", newLanguage);
 	useSelectedLanguageStore.getState().setSelectedLanguage(newLanguage);
-	changeLanguage(newLanguage);
+	await changeLanguage(newLanguage);
 
 	localStorage.setItem("fontSize", newFontSize.toFixed(0));
 	useFontSizeStore.getState().setFontSize(newFontSize);

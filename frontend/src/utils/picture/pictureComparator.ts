@@ -4,15 +4,23 @@ import {useUserStore} from "../../stores/userStore";
 import {errorLogger} from "../../logger/errorLogger";
 
 export async function checkIfImageChanged() {
-    const oldImage = useProfilePictureStore.getState().profilePictureMap.get(useUserStore.getState().myId);
+    debugger
+    const oldImage = useProfilePictureStore.getState().thisClientProfilePictureObject;
     const newImage = useSettingsStore.getState().localProfilePicture;
 
     // if no image is set, always return true
-    if (!oldImage){
+    if (newImage == "" || newImage === null) {
+        return false;
+    } else if (!oldImage) {
         return true;
     }
 
-    return await compareBase64Images(oldImage.data, newImage);
+    try {
+        // TODO FIX THIS!
+        return await compareBase64Images(oldImage.data, newImage);
+    } catch (e) {
+        return true;
+    }
 }
 
 async function compareBase64Images(image1: string, image2: string) {
@@ -31,10 +39,10 @@ export async function hashBase64Image(base64: string) {
     const base64Data = base64.split(',')[1];
 
     // Decode the base64 string to binary data
-    let view:Uint8Array
-    let binary:string
-    let len:number
-    let buffer:ArrayBuffer
+    let view: Uint8Array
+    let binary: string
+    let len: number
+    let buffer: ArrayBuffer
 
     try {
         binary = atob(base64Data);

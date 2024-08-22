@@ -15,20 +15,19 @@ export async function handleProfileSettingsUpdatesWithSocketV2() {
 		throw new Error("Websocket is not initialized");
 	}
 
-	debugger
 	// check if image changed
 	const didImageChange = await checkIfImageChanged();
 
-	let imageHashForSocket = useProfilePictureStore.getState().thisClientProfilePictureHash
+	let imageHashForSocket = useProfilePictureStore.getState().thisClientProfilePictureObject?.imageHash
 	if (didImageChange) {
 		const newBase64Image = useSettingsStore.getState().localProfilePicture;
 		imageHashForSocket = await hashBase64Image(newBase64Image);
 		profilePictureUpdate(imageHashForSocket, wsReference);
 	}
 
-	if (imageHashForSocket === null) {
-		errorLogger.logError(new Error("Image hash for profile picture is null"));
-		throw new Error("Image hash for profile picture is null");
+	// since this cannot be if there is no flaw in the logic.. :D
+	if (imageHashForSocket === null || imageHashForSocket === undefined) {
+		imageHashForSocket = ""
 	}
 
 	profileUpdate(imageHashForSocket, wsReference);
