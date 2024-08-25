@@ -38,6 +38,8 @@ GetAllImages().then((allImages) => {
 
         for (const image of images) {
 
+            console.log("image", image);
+
             if (image.ClientDbId === thisClientId) {
                 useProfilePictureStore.getState().setThisClientProfilePictureHashObject({
                     imageHash: image.ImageHash,

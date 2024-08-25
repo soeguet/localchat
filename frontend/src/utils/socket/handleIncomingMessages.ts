@@ -33,11 +33,14 @@ export async function handleIncomingMessages(event: MessageEvent) {
 
         // PayloadSubTypeEnum.enum.clientList == 2
         case PayloadSubTypeEnum.enum.clientList:
+            console.log("client list");
+            console.log(event.data);
             await clientListHandler(event);
             break;
 
         // PayloadSubTypeEnum.enum.profileUpdate == 3
         case PayloadSubTypeEnum.enum.profileUpdate:
+            throw new Error("Profile update !old! is not implemented");
             // TODO check if this is needed
             profileUpdateHandler(event);
             break;

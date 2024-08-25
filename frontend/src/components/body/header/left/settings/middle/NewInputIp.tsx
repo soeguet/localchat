@@ -17,7 +17,7 @@ function NewInputIp() {
 			<input
 				type="text"
 				id="socketIp"
-				value={localIp}
+				value={localIp ?? ""}
 				onChange={(e) => setLocalIp(e.target.value)}
 				className="mt-1 rounded-md border border-gray-300 p-2"
 			/>

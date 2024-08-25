@@ -3,7 +3,7 @@ import useSettingsStore from "../../../../../../stores/settingsStore";
 import { useUserStore } from "../../../../../../stores/userStore";
 
 function NewInputPort() {
-	const localPort = useSettingsStore((state) => state.localPort);
+	const localPort = useSettingsStore((state) => state.localPort) ?? useUserStore.getState().socketPort;
 	const setLocalPort = useSettingsStore((state) => state.setLocalPort);
 
 	useEffect(() => {

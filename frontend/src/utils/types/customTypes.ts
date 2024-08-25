@@ -161,8 +161,8 @@ export const ClientEntitySchema = z.object({
     clientDbId: ClientIdSchema,
     clientUsername: z.string(),
     clientColor: z.string().optional().nullable(),
-    // TODO rename this property to clientProfileImageHash
-    clientProfileImage: z.string().optional().nullable(),
+    // TODO rename this property to clientProfilePictureHashHash
+    clientProfilePictureHash: z.string().optional().nullable(),
     availability: z.boolean(),
 });
 export type ClientEntity = z.infer<typeof ClientEntitySchema>;

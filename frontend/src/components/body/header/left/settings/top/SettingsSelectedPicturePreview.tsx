@@ -1,4 +1,5 @@
 import useSettingsStore from "../../../../../../stores/settingsStore";
+import {useUserStore} from "../../../../../../stores/userStore";
 
 type SettingsSelectedPicturePreviewProps = {
 	pictureUrl?: string;
@@ -14,7 +15,7 @@ type SettingsSelectedPicturePreviewProps = {
 function SettingsSelectedPicturePreview(
 	props: SettingsSelectedPicturePreviewProps,
 ) {
-	const picture = useSettingsStore((state) => state.localProfilePictureUrl);
+	const picture = useSettingsStore((state) => state.localProfilePictureUrl) ?? useUserStore.getState().myProfilePhoto;
 	const url = useSettingsStore((state) => state.localProfilePicture);
 
 	return (

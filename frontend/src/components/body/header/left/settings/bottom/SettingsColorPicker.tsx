@@ -7,7 +7,7 @@ import { useEffect } from "react";
 function SettingsColorPicker() {
 	const { t } = useTranslation();
 
-	const localColor = useSettingsStore((state) => state.localColor);
+	const localColor = useSettingsStore((state) => state.localColor) ?? useUserStore.getState().myColor;
 	const setLocalColor = useSettingsStore((state) => state.setLocalColor);
 
 	const myId = useUserStore((state) => state.myId);

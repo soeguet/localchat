@@ -18,13 +18,13 @@ type DbRow = {
 };
 
 const checkHashes = (client: ClientEntity, hash: Hash | undefined) => {
-  if (client.clientProfileImage === undefined) {
+  if (client.clientProfilePictureHash === undefined) {
     return false;
   }
   if (hash === undefined) {
     return false;
   }
-  return client.clientProfileImage === hash;
+  return client.clientProfilePictureHash === hash;
 };
 
 export async function processClientsProfilePictures(clients: ClientEntity[]) {

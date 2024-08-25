@@ -6,7 +6,7 @@ import React, { useEffect } from "react";
 function SettingsLanguagePicker() {
 	const { t } = useTranslation();
 
-	const language = useSettingsStore((state) => state.language);
+	const language = useSettingsStore((state) => state.language) ?? useSelectedLanguageStore.getState().selectedLanguage;
 	const setLanguage = useSettingsStore((state) => state.setLanguage);
 	const selectedLanguage = useSelectedLanguageStore(
 		(state) => state.selectedLanguage,

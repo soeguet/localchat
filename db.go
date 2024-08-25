@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"errors"
 	"log"
 	"os"
 	"path/filepath"
@@ -16,9 +17,8 @@ type Db struct {
 }
 
 type DbRow struct {
-	ImageHash  string
-	ClientDbId string
-	Data       string
+	ImageHash string
+	Data      string
 }
 
 func NewDb() *Db {
@@ -48,11 +48,16 @@ func (d *Db) startup() {
 	if err != nil {
 		log.Fatalf("error opening database: %v", err)
 	}
-	defer d.db.Close()
+
+	defer func(db *sql.DB) {
+		err := db.Close()
+		if err != nil {
+			log.Fatalf("error closing database: %v", err)
+		}
+	}(d.db)
 
 	_, err = d.db.Exec(`CREATE TABLE IF NOT EXISTS images (
-		image_hash TEXT UNIQUE,
-		client_db_id TEXT PRIMARY KEY,
+		image_hash TEXT PRIMARY KEY,
 		data TEXT
 	)`)
 	if err != nil {
@@ -66,16 +71,20 @@ func (d *Db) getImage(clientDbId string) (DbRow, error) {
 	if err != nil {
 		log.Fatalf("error opening database: %v", err)
 	}
-	defer d.db.Close()
+	defer func(db *sql.DB) {
+		err := db.Close()
+		if err != nil {
+			log.Fatalf("error closing database: %v", err)
+		}
+	}(d.db)
 	var row DbRow
 
 	err = d.db.QueryRow(`SELECT * FROM images WHERE client_db_id = ?`, clientDbId).Scan(
-		&row.ClientDbId,
 		&row.ImageHash,
 		&row.Data,
 	)
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if errors.Is(err, sql.ErrNoRows) {
 			return row, nil
 		}
 		return row, err
@@ -90,8 +99,13 @@ func (d *Db) addImage(imageObj DbRow) error {
 	if err != nil {
 		log.Fatalf("error opening database: %v", err)
 	}
-	defer d.db.Close()
-	_, err = d.db.Exec(`INSERT OR IGNORE INTO images (image_hash, client_db_id, data) VALUES (?, ?, ?)`, imageObj.ImageHash, imageObj.ClientDbId, imageObj.Data)
+	defer func(db *sql.DB) {
+		err := db.Close()
+		if err != nil {
+			log.Fatalf("error closing database: %v", err)
+		}
+	}(d.db)
+	_, err = d.db.Exec(`INSERT OR IGNORE INTO images (image_hash, data) VALUES (?, ?)`, imageObj.ImageHash, imageObj.Data)
 	return err
 }
 
@@ -101,8 +115,13 @@ func (d *Db) updateImage(imageObj DbRow) error {
 	if err != nil {
 		log.Fatalf("error opening database: %v", err)
 	}
-	defer d.db.Close()
-	_, err = d.db.Exec(`UPDATE images SET data = ? WHERE client_db_id = ?`, imageObj.Data, imageObj.ClientDbId)
+	defer func(db *sql.DB) {
+		err := db.Close()
+		if err != nil {
+			log.Fatalf("error closing database: %v", err)
+		}
+	}(d.db)
+	_, err = d.db.Exec(`UPDATE images SET data = ? WHERE image_has = ?`, imageObj.Data, imageObj.ImageHash)
 	return err
 }
 
@@ -112,7 +131,12 @@ func (d *Db) deleteImage(imageHash string) error {
 	if err != nil {
 		log.Fatalf("error opening database: %v", err)
 	}
-	defer d.db.Close()
+	defer func(db *sql.DB) {
+		err := db.Close()
+		if err != nil {
+			log.Fatalf("error closing database: %v", err)
+		}
+	}(d.db)
 	_, err = d.db.Exec(`DELETE FROM images WHERE image_hash = ?`, imageHash)
 	return err
 }
@@ -124,17 +148,27 @@ func (d *Db) getAllImages() ([]DbRow, error) {
 	if err != nil {
 		log.Fatalf("error opening database: %v", err)
 	}
-	defer d.db.Close()
+	defer func(db *sql.DB) {
+		err := db.Close()
+		if err != nil {
+			log.Fatalf("error closing database: %v", err)
+		}
+	}(d.db)
 	rows, err = d.db.Query(`SELECT * FROM images`)
 	if err != nil {
 		return nil, err
 	}
-	defer rows.Close()
+	defer func(rows *sql.Rows) {
+		err := rows.Close()
+		if err != nil {
+			log.Fatalf("error closing rows: %v", err)
+		}
+	}(rows)
 
 	var images []DbRow
 	for rows.Next() {
 		var row DbRow
-		err = rows.Scan(&row.ImageHash, &row.ClientDbId, &row.Data)
+		err = rows.Scan(&row.ImageHash, &row.Data)
 		if err != nil {
 			return nil, err
 		}

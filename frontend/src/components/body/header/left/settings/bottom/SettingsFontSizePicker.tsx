@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 function SettingsFontSizePicker() {
 	const { t } = useTranslation();
-	const localFontSize = useSettingsStore((state) => state.fontSize);
+	const localFontSize = useSettingsStore((state) => state.fontSize) ?? useFontSizeStore.getState().fontSize;
 	const setLocalFontSize = useSettingsStore((state) => state.setFontSize);
 
 	const globalFontSize = useFontSizeStore((state) => state.fontSize);

@@ -1,9 +1,10 @@
 import {create, type StoreApi, type UseBoundStore} from "zustand";
-import {ClientId, Hash, ProfilePicture, ProfilePictureObject,} from "../utils/types/customTypes";
+import type {ClientId, Hash, ProfilePicture, ProfilePictureObject,} from "../utils/types/customTypes";
 
 type useProfilePictureStoreType = {
     thisClientProfilePictureObject: ProfilePictureObject | null;
     setThisClientProfilePictureHashObject: (profilePictureObject: ProfilePictureObject | null) => void;
+    getThisClientProfilePictureHash: () => Hash;
 
     noProfilePictureAvailableMap: Map<ClientId, false>;
     removeFromNoProfilePictureAvailableMap: (clientDbId: ClientId) => void;
@@ -26,6 +27,7 @@ const useProfilePictureStore: UseBoundStore<StoreApi<useProfilePictureStoreType>
 
     thisClientProfilePictureObject: null,
     setThisClientProfilePictureHashObject: (profilePictureObject: ProfilePictureObject | null) => set({thisClientProfilePictureObject: profilePictureObject}),
+    getThisClientProfilePictureHash: () => useProfilePictureStore.getState().thisClientProfilePictureObject?.imageHash || "",
 
     noProfilePictureAvailableMap: new Map<ClientId, false>(),
 

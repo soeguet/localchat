@@ -9,6 +9,7 @@ import { NewInputUsername } from "../middle/NewInputUsername";
 import { useState } from "react";
 import useSettingsStore from "../../../../../../stores/settingsStore";
 import { AvailabilityCheckbox } from "../../extra/AvailabilityCheckbox";
+import {useUserStore} from "../../../../../../stores/userStore";
 
 type NewSettingsModalProps = {
 	onClose: () => void;
@@ -17,7 +18,7 @@ type NewSettingsModalProps = {
 
 function NewSettingsModalContainer(props: NewSettingsModalProps) {
 	const [hover, setHover] = useState(false);
-	const profileColor = useSettingsStore((state) => state.localColor);
+	const profileColor = useSettingsStore((state) => state.localColor) ?? useUserStore.getState().myColor;
 	return (
 		<>
 			<div

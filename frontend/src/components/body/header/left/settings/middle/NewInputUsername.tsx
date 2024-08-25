@@ -6,7 +6,7 @@ import { useUserStore } from "../../../../../../stores/userStore";
 function NewInputUsername() {
 	const { t } = useTranslation();
 
-	const localName = useSettingsStore((state) => state.localName);
+	const localName = useSettingsStore((state) => state.localName) ?? useUserStore.getState().myUsername;
 	const setLocalName = useSettingsStore((state) => state.setLocalName);
 
 	useEffect(() => {

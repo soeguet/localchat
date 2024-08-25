@@ -5,6 +5,8 @@ function AvailabilityCheckbox() {
 	const { t } = useTranslation();
 	const availability = useSettingsStore((state) => state.availability);
 	const setAvailability = useSettingsStore((state) => state.setAvailability);
+
+
 	return (
 		<>
 			<div className="flex-row">
@@ -13,7 +15,7 @@ function AvailabilityCheckbox() {
 						{t("settings_label_availability")}
 					</label>
 					<input
-						checked={availability}
+						checked={availability ?? false}
 						type="checkbox"
 						onChange={(e) => setAvailability(e.target.checked)}
 						id="availability"

@@ -16,7 +16,7 @@ describe("Chat", () => {
 				clientDbId: "1",
 				clientUsername: "test",
 				clientColor: "red",
-				clientProfileImage: "image",
+				clientProfilePictureHash: "image",
 				availability: true,
 			},
 		]);
