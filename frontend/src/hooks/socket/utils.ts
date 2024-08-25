@@ -106,7 +106,11 @@ export function updateThisClientsCachedDataWithNewPayloadData(payload: ClientLis
         useUserStore.getState().setMyColor(myClient.clientColor);
     }
 
+    // TODO profile picture 
     if (myClient.clientProfileImage) {
+
+        console.log("profile picture from list is: ", myClient.clientProfileImage);
+
         useUserStore.getState().setMyProfilePhoto(myClient.clientProfileImage);
     }
 }

@@ -7,9 +7,9 @@ export function checkIfImageChanged() {
     const newImage = useSettingsStore.getState().localProfilePicture;
 
     // if no image is set, always return true
-    if (newImage == "" || newImage === null) {
+    if (newImage === "" || newImage === null) {
         return false;
-    } else if (!oldImage) {
+    }if (!oldImage) {
         return true;
     }
 
