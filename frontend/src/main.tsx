@@ -28,38 +28,38 @@ try {
 
 // Load profile pictures
 GetAllImages().then((allImages) => {
-
     const images = allImages as DbRow[];
+    if (images === null) {
+        return
+    }
+
     const thisClientId = useUserStore.getState().myId;
+    const setHashForThisClient = useProfilePictureStore.getState().setThisClientProfilePictureHashObject;
+    const addToProfilePictureMap = useProfilePictureStore.getState().addToProfilePictureMap;
 
-    if (allImages !== null) {
+    for (const image of images) {
 
-        const imageStoreMap = useProfilePictureStore.getState().profilePictureMap;
-
-        for (const image of images) {
-
-            console.log("image", image);
-
-            if (image.ClientDbId === thisClientId) {
-                useProfilePictureStore.getState().setThisClientProfilePictureHashObject({
-                    imageHash: image.ImageHash,
-                    clientDbId: image.ClientDbId,
-                    data: image.Data,
-                });
-            }
-
-            imageStoreMap.set(image.ClientDbId, {
-                clientDbId: image.ClientDbId,
+        if (image.ClientDbId === thisClientId) {
+            setHashForThisClient({
                 imageHash: image.ImageHash,
+                clientDbId: image.ClientDbId,
                 data: image.Data,
             });
         }
 
-        useProfilePictureStore.getState().setProfilePictureMap(imageStoreMap);
+        addToProfilePictureMap(
+            image.ClientDbId,
+            {
+                imageHash: image.ImageHash,
+                clientDbId: image.ClientDbId,
+                data: image.Data,
+
+            })
     }
 
-}).catch(() => {
+}).catch((e) => {
     console.error("Failed to load images from database");
+    console.error(e);
     errorLogger.logError(new Error("Failed to load images from database"));
 });
 

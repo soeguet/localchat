@@ -108,9 +108,6 @@ export function updateThisClientsCachedDataWithNewPayloadData(payload: ClientLis
 
     // TODO profile picture 
     if (myClient.clientProfilePictureHash) {
-
-        console.log("profile picture from list is: ", myClient.clientProfilePictureHash);
-
         useUserStore.getState().setMyProfilePhoto(myClient.clientProfilePictureHash);
     }
 }
