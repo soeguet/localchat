@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { expect, test, describe } from "vitest";
 import { useClientStore } from "../../../stores/clientStore";
 import { useMessageMapStore } from "../../../stores/messageMapStore";
-import type { MessagePayload } from "../../../utils/types/customTypes";
+import {MessagePayload, PayloadSubTypeEnum} from "../../../utils/types/customTypes";
 import { MessageRenderMap } from "./MessageRenderMap";
 
 // chatmessageunit
@@ -30,7 +30,7 @@ describe("pictureMessages", () => {
 			clientType: {
 				clientDbId: "1",
 			},
-			payloadType: 1,
+			payloadType: PayloadSubTypeEnum.enum.message,
 			messageType: {
 				messageDbId: "1",
 				messageTime: "12:00",
@@ -63,7 +63,7 @@ describe("pictureMessages", () => {
 			clientType: {
 				clientDbId: "1",
 			},
-			payloadType: 1,
+			payloadType: PayloadSubTypeEnum.enum.message,
 			messageType: {
 				messageDbId: "1",
 				messageTime: "12:00",
@@ -100,7 +100,7 @@ describe("pictureMessages", () => {
 			clientType: {
 				clientDbId: "1",
 			},
-			payloadType: 1,
+			payloadType: PayloadSubTypeEnum.enum.message,
 			messageType: {
 				messageDbId: "1",
 				messageTime: "12:00",
