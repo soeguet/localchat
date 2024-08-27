@@ -18,35 +18,15 @@ type ChatBubbleBottomPartProps = {
 
 function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
 
-	function getBubbleBackgroundColor() {
+	const clientColor = useClientStore(
+		(state) =>
+			state.clients.find((c): boolean => {
+				return (
+					c.clientDbId === props.messagePayload.clientType.clientDbId
+				);
+			})?.clientColor,
+	);
 
-		// right side
-		if (props.thisMessageFromThisClient) {
-			const clientColor = useUserStore.getState().myColor;
-
-			if (clientColor) {
-				return clientColor;
-			}
-
-			return DEFAULT_HOVER_COLOR;
-		}
-
-		// left side
-		const clientColor = useClientStore(
-			(state) =>
-				state.clients.find((c): boolean => {
-					return (
-						c.clientDbId === props.messagePayload.clientType.clientDbId
-					);
-				})?.clientColor,
-		);
-
-		if (clientColor) {
-			return clientColor;
-		}
-
-		return DEFAULT_HOVER_COLOR;
-	}
 
 	const unseenMessagesIdList = useUnseenMessageCountStore(
 		(state) => state.unseenMessagesIdList,
@@ -89,7 +69,7 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
 				<div
 					className={`relative max-w-md  break-words rounded-lg border peer-focus/edit:animate-pulse ${borderColor} px-4 py-2 md:max-w-2xl lg:max-w-4xl`}
 					style={{
-						backgroundColor: getBubbleBackgroundColor(),
+						backgroundColor: clientColor ?? DEFAULT_HOVER_COLOR,
 						color: "#fff",
 						animation: thisMessageUnseen
 							? "pulse-border 3.5s infinite ease-in-out"
