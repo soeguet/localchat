@@ -3,10 +3,9 @@ package main
 
 import (
 	"embed"
+	"github.com/wailsapp/wails/v2/pkg/options/windows"
 	_ "image/png"
 	"log"
-
-	"github.com/wailsapp/wails/v2/pkg/options/windows"
 
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
@@ -30,8 +29,8 @@ func main() {
 	// Create application with options
 	if err := wails.Run(&options.App{
 		Title:                    "localchat",
-		Width:                    1024,
-		Height:                   768,
+		Width:                    600,
+		Height:                   1000,
 		EnableDefaultContextMenu: true,
 		AssetServer: &assetserver.Options{
 			Assets: assets,

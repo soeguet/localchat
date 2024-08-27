@@ -8,6 +8,8 @@ export type UserStore = {
 	setMyUsername: (username: string) => void;
 	myColor: string;
 	setMyColor: (color: string) => void;
+	myProfilePictureHash: string;
+	setMyProfilePictureHash: (hash: string) => void;
 	myProfilePhoto: string;
 	setMyProfilePhoto: (photo: string) => void;
 	userMap: Map<string, ClientEntity>;
@@ -31,6 +33,8 @@ const useUserStore: UseBoundStore<StoreApi<UserStore>> = create((set) => ({
 	setMyUsername: (username: string) => set({ myUsername: username }),
 	myColor: "",
 	setMyColor: (color: string) => set({ myColor: color }),
+	myProfilePictureHash: "",
+	setMyProfilePictureHash: (hash: string) => set({ myProfilePictureHash: hash }),
 	myProfilePhoto: "",
 	setMyProfilePhoto: (photo: string) => set({ myProfilePhoto: photo }),
 	userMap: new Map<string, ClientEntity>(),

@@ -1,6 +1,6 @@
 import {ProfilePictureObject, ProfilePicturePayloadSchema} from "../types/customTypes";
 import {PersistImage} from "../../../wailsjs/go/main/App";
-import {useProfilePictureStore} from "../../stores/profilePictureStore";
+import {usePictureCacheStore} from "../../stores/pictureCacheStore";
 import {errorLogger} from "../../logger/errorLogger";
 
 export async function fetchProfilePictureHandler(event: MessageEvent) {
@@ -15,11 +15,11 @@ export async function fetchProfilePictureHandler(event: MessageEvent) {
             data: profilePictureValidation.data.data,
         };
 
-        const updateMap = useProfilePictureStore.getState().profilePictureMap;
+        const updateMap = usePictureCacheStore.getState().profilePictureMap;
         updateMap.set(profilePictureObject.clientDbId, profilePictureObject);
 
         // persist in local cache - zustand
-        useProfilePictureStore.getState().setProfilePictureMap(updateMap);
+        usePictureCacheStore.getState().setProfilePictureMap(updateMap);
 
         // persist to goland sqlite db
         await PersistImage(profilePictureObject);

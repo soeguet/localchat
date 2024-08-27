@@ -6,7 +6,7 @@ import {
     type NewProfilePicturePayload,
     PayloadSubTypeEnum,
 } from "../types/customTypes";
-import { useProfilePictureStore } from "../../stores/profilePictureStore";
+import { usePictureCacheStore } from "../../stores/pictureCacheStore";
 import {
     checkIfImageChanged,
     hashBase64Image,
@@ -36,7 +36,7 @@ export async function handleProfileSettingsUpdatesWithSocketV2() {
 export function _determineNewImageHash(
     didImageChange: boolean,
 ) {
-    let imageHashForSocket = useProfilePictureStore
+    let imageHashForSocket = usePictureCacheStore
         .getState()
         .getThisClientProfilePictureHash();
 

@@ -1,12 +1,12 @@
 import { expect, test, describe } from "vitest";
-import {useProfilePictureStore} from "../../stores/profilePictureStore";
+import {usePictureCacheStore} from "../../stores/pictureCacheStore";
 import {_determineNewImageHash} from "./handleCommunicationWithSocket";
 import useSettingsStore from "../../stores/settingsStore";
 
 describe("handleCommunicationWithSocket", () => {
 
 	beforeEach(() => {
-		useProfilePictureStore.getState().setThisClientProfilePictureHashObject(null);
+		usePictureCacheStore.getState().setThisClientProfilePictureHashObject(null);
 	});
 
 	test("determineNewImageHash, no new image", () => {

@@ -1,95 +1,82 @@
-import {memo, useCallback, useState} from "react";
-import { useProfilePictureStore } from "../../stores/profilePictureStore";
-import type { ClientId } from "../../utils/types/customTypes";
-import {useUserStore} from "../../stores/userStore";
+import {memo, useEffect, useState} from "react";
+import type {ClientId, DbRow} from "../../utils/types/customTypes";
+import {GetImageViaImageHash} from "../../../wailsjs/go/main/App";
 import {DEFAULT_HOVER_COLOR, DEFAULT_STROKE_COLOR} from "../../utils/variables/variables";
+import {errorLogger} from "../../logger/errorLogger";
 
 type ProfilePictureProps = {
-	clientDbId: ClientId;
-	pictureUrl?: string;
-	properties?: string;
-	style?: {
-		width: string | "40px";
-		height: string | "40px";
-		borderColor?: string;
-		opacity?: string;
-	};
+    pictureHash: string | null;
+    clientDbId: ClientId;
+    pictureUrl?: string;
+    properties?: string;
+    style?: {
+        width: string | "40px";
+        height: string | "40px";
+        borderColor?: string;
+        opacity?: string;
+    };
 };
 
 const ProfilePicture = memo((props: ProfilePictureProps) => {
-	const profilePicture = useProfilePictureStore((state) => {
-		return state.profilePictureMap.get(props.clientDbId);
-	});
+    const [imageData, setImageData] = useState<string | null>(null);
+    const [hover, setHover] = useState(false);
 
-	const thisClientColor = useUserStore((state) => state.myColor);
-	const [hover, setHover] = useState(false);
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-	const pictureSelection = useCallback(() => {
-		if (props.pictureUrl !== undefined) {
-			return props.pictureUrl;
-		}
+    useEffect(() => {
 
-		if (profilePicture !== undefined) {
-			return profilePicture.data;
-		}
+        async function fetchImage() {
 
-		return "";
-	}, [props.pictureUrl, profilePicture, props.clientDbId]);
+            if (props.pictureHash === null) {
+                return;
+            }
 
-	const picturePresent = () => {
-		if (profilePicture === undefined || profilePicture === null) {
-			return false;
-		}
-		return true;
-	};
-	const urlPresent = () => {
-		if (
-			props.pictureUrl === undefined ||
-			props.pictureUrl === null ||
-			props.pictureUrl === ""
-		) {
-			return false;
-		}
-		return true;
-	};
+            const response = await GetImageViaImageHash(props.pictureHash) as DbRow
+            setImageData(response.Data);
+        }
 
-	// default profile picture
-	if (!picturePresent() && !urlPresent()) {
-		return (
-			<img
-				data-testid="dummy-profile-picture"
-				className={`rounded-full border-2 ${props.properties} transition duration-300 ease-in-out`}
-				onMouseEnter={() => setHover(true)}
-				onMouseLeave={() => setHover(false)}
-				style={{
-					...props.style,
-					borderColor: hover ? thisClientColor : DEFAULT_HOVER_COLOR,
-				}}
-				src={"logo.png"}
-				alt={""}
-			/>
-		);
-	}
+        fetchImage().catch((error) => {
+            console.error("Failed to fetch image", error);
+            console.error("tried to fetch image with hash", props.pictureHash);
+            errorLogger.logError(error);
+        });
 
-	return (
-		<>
-			<img
-				data-testid="profile-picture"
-				onMouseEnter={() => setHover(true)}
-				onMouseLeave={() => setHover(false)}
-				style={{
-					...props.style,
-					borderColor: hover ? thisClientColor : DEFAULT_HOVER_COLOR,
-				}}
-				className={`rounded-full border-2 ${props.properties} transition duration-300 ease-in-out`}
-				src={pictureSelection()}
-				alt=""
-			/>
-		</>
-	);
+    }, [props.pictureHash]);
+
+    if (props.pictureHash === "" || imageData === null) {
+        return (
+            <img
+                data-testid="dummy-profile-picture"
+                className={`rounded-full border-2 ${props.properties} transition duration-300 ease-in-out`}
+                onMouseEnter={() => setHover(true)}
+                onMouseLeave={() => setHover(false)}
+                style={{
+                    ...props.style,
+                    borderColor: hover ? DEFAULT_HOVER_COLOR : (props.style?.borderColor ?? DEFAULT_STROKE_COLOR),
+                }}
+                src={"logo.png"}
+                alt={""}
+            />
+        )
+    }
+
+    return (
+        <>
+            <img
+                data-testid="profile-picture"
+                onMouseEnter={() => setHover(true)}
+                onMouseLeave={() => setHover(false)}
+                style={{
+                    ...props.style,
+                    borderColor: hover ? DEFAULT_HOVER_COLOR : (props.style?.borderColor ?? DEFAULT_STROKE_COLOR),
+                }}
+                className={`rounded-full border-2 ${props.properties} transition duration-300 ease-in-out`}
+                src={imageData}
+                alt=""
+            />
+        </>
+    );
 });
 
 ProfilePicture.displayName = "ProfilePicture";
 
-export { ProfilePicture };
+export {ProfilePicture};

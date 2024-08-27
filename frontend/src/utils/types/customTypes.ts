@@ -322,3 +322,8 @@ export const ReactionPayloadSchema = ReactionEntitySchema.extend({
     payloadType: z.literal(PayloadSubTypeEnum.enum.reaction),
 });
 export type ReactionPayload = z.infer<typeof ReactionPayloadSchema>;
+
+export type DbRow = {
+    ImageHash: string;
+    Data: string;
+};

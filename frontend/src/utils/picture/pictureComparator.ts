@@ -1,9 +1,9 @@
 import useSettingsStore from "../../stores/settingsStore";
-import {useProfilePictureStore} from "../../stores/profilePictureStore";
+import {usePictureCacheStore} from "../../stores/pictureCacheStore";
 import CryptoJS from "crypto-js";
 
 export function checkIfImageChanged() {
-    const oldImage = useProfilePictureStore.getState().thisClientProfilePictureObject;
+    const oldImage = usePictureCacheStore.getState().thisClientProfilePictureObject;
     const newImage = useSettingsStore.getState().localProfilePicture;
 
     // if no image is set, always return true

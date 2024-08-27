@@ -106,8 +106,7 @@ export function updateThisClientsCachedDataWithNewPayloadData(payload: ClientLis
         useUserStore.getState().setMyColor(myClient.clientColor);
     }
 
-    // TODO profile picture 
     if (myClient.clientProfilePictureHash) {
-        useUserStore.getState().setMyProfilePhoto(myClient.clientProfilePictureHash);
+        useUserStore.getState().setMyProfilePictureHash(myClient.clientProfilePictureHash);
     }
 }

@@ -1,10 +1,10 @@
 import { DoNotDisturb } from "../../../svgs/disturb/DoNotDisturb";
 import { useDoNotDisturbStore } from "../../../../stores/doNotDisturbStore";
-import { useState } from "react";
 import { useClientStore } from "../../../../stores/clientStore";
 import { useUserStore } from "../../../../stores/userStore";
 import { ProfilePicture } from "../../../reuseable/ProfilePicture";
 import { useMenuStore } from "../../../../stores/menuStore";
+import {DEFAULT_STROKE_COLOR} from "../../../../utils/variables/variables";
 
 /**
  * checks if the user is in do not disturb mode and displays the appropriate profile picture
@@ -16,12 +16,11 @@ function ProfilePictureHandler() {
 		(state) =>
 			state.clients.find((c) => c.clientDbId === clientDbId)?.clientColor,
 	);
-	const [profilePictureHovered, setProfilePictureHovered] = useState(false);
-	const borderColorCondition = `${!profilePictureHovered ? clientColor : "cyan" || "lightgrey"}`;
+	const clientProfilePictureHash = useUserStore((state) => state.myProfilePictureHash);
 	const profilePictureStyle = {
 		width: "70px",
 		height: "70px",
-		borderColor: borderColorCondition,
+		borderColor: clientColor ?? DEFAULT_STROKE_COLOR,
 	};
 
 	const menuOpen = useMenuStore((state) => state.menuOpen);
@@ -33,13 +32,11 @@ function ProfilePictureHandler() {
 			<div
 				className="cursor-pointer"
 				onClick={() => setMenuOpen(!menuOpen)}
-				onMouseEnter={() => setProfilePictureHovered(true)}
-				onMouseLeave={() => setProfilePictureHovered(false)}
 			>
 				{doNotDisturb ? (
 					<DoNotDisturb style={profilePictureStyle} />
 				) : (
-					<ProfilePicture clientDbId={clientDbId} style={profilePictureStyle} />
+					<ProfilePicture pictureHash={clientProfilePictureHash}  clientDbId={clientDbId} style={profilePictureStyle} />
 				)}
 			</div>
 		</>

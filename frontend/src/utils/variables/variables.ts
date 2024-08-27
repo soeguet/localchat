@@ -3,5 +3,5 @@ export const svgSize = {
 	height: "40px",
 } as const;
 
-export const DEFAULT_HOVER_COLOR = "#0A1172" as const;
-export const DEFAULT_STROKE_COLOR = "#292D32" as const;
+export const DEFAULT_HOVER_COLOR = "#83dfe9" as const;
+export const DEFAULT_STROKE_COLOR = "#808080" as const;

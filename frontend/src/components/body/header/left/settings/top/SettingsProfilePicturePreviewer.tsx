@@ -8,8 +8,9 @@ function SettingsProfilePicturePreviewer() {
 
 	const localColor = useSettingsStore((state) => state.localColor);
 	const clientSelectedColor = useUserStore((state) => state.myColor);
+	const myProfilePictureHash = useUserStore((state) => state.myProfilePictureHash);
 
-	const profilepictureUrl = useSettingsStore(
+	const profilePictureUrl = useSettingsStore(
 		(state) => state.localProfilePictureUrl,
 	);
 	const profilePicture = useSettingsStore((state) => state.localProfilePicture);
@@ -21,7 +22,7 @@ function SettingsProfilePicturePreviewer() {
 				className="col-span-2 mx-auto my-auto"
 			>
 				<div className="grid">
-					{profilePicture ?? profilepictureUrl ? (
+					{profilePicture ?? profilePictureUrl ? (
 						<>
 							<SettingsSelectedPicturePreview
 								style={{
@@ -40,6 +41,7 @@ function SettingsProfilePicturePreviewer() {
 					) : (
 						<>
 							<ProfilePicture
+								pictureHash={myProfilePictureHash}
 								clientDbId={myId}
 								style={{
 									width: "100px",

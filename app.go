@@ -28,8 +28,8 @@ func (a *App) DeleteImageViaImageHash(imageHash string) error {
 	return a.db.deleteImage(imageHash)
 }
 
-func (a *App) GetImageViaClientDbId(clientDbId string) (DbRow, error) {
-	return a.db.getImage(clientDbId)
+func (a *App) GetImageViaImageHash(imageHash string) (DbRow, error) {
+	return a.db.getImageViaImageHash(imageHash)
 }
 
 // ReadFileAsBase64 reads a file and returns its content as a base64 encoded string

@@ -1,7 +1,7 @@
 import {ClientId, FetchAllProfilePicturesPayloadSchema, ProfilePictureObject} from "../types/customTypes";
 import {errorLogger} from "../../logger/errorLogger";
 import {PersistImage} from "../../../wailsjs/go/main/App";
-import {useProfilePictureStore} from "../../stores/profilePictureStore";
+import {usePictureCacheStore} from "../../stores/pictureCacheStore";
 
 export async function fetchAllProfilePicturesHandler(event: MessageEvent) {
 
@@ -24,7 +24,7 @@ export async function fetchAllProfilePicturesHandler(event: MessageEvent) {
             newMap.set(profilePicture.clientDbId, profilePicture);
         }
 
-        useProfilePictureStore.getState().setProfilePictureMap(newMap);
+        usePictureCacheStore.getState().setProfilePictureMap(newMap);
     }   else {
 
         console.error("Failed to parse fetch all profile pictures payload");

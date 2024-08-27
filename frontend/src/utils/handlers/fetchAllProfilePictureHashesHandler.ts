@@ -1,6 +1,6 @@
 import {AllProfilePictureHashesPayloadSchema, ClientId, Hash} from "../types/customTypes";
 import {errorLogger} from "../../logger/errorLogger";
-import {useProfilePictureStore} from "../../stores/profilePictureStore";
+import {usePictureCacheStore} from "../../stores/pictureCacheStore";
 import {retrieveProfilePicturesFromSocket} from "../socket/socket";
 
 export function fetchAllProfilePictureHashesHandler(event: MessageEvent) {
@@ -12,7 +12,7 @@ export function fetchAllProfilePictureHashesHandler(event: MessageEvent) {
             throw new Error("Profile picture hashes are undefined");
         }
 
-        const profilePictureMap = useProfilePictureStore.getState().profilePictureMap;
+        const profilePictureMap = usePictureCacheStore.getState().profilePictureMap;
 
         for (const profilePictureHash of fetchAllProfilePictureHashesValidation.data.profilePictureHashes) {
 

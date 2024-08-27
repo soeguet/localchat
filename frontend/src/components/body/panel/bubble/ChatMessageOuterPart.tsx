@@ -5,6 +5,7 @@ import type { MessagePayload } from "../../../../utils/types/customTypes";
 import { ProfilePicture } from "../../../reuseable/ProfilePicture";
 import { ChatBubbleMenu } from "./ChatBubbleMenu";
 import { BubbleMessageMenuSvg } from "../../../svgs/bubble/BubbleMessageMenuSvg";
+import {DEFAULT_STROKE_COLOR} from "../../../../utils/variables/variables";
 type ChatMessageOuterPartProps = {
 	messagePayload: MessagePayload;
 	lastMessageFromThisClientId: boolean;
@@ -23,6 +24,15 @@ function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
 				(c) => c.clientDbId === props.messagePayload.clientType.clientDbId,
 			)?.clientColor,
 	);
+	const clientProfilePictureHash = useClientStore(
+		(state) => {
+			const hash = state.clients.find(
+				(c) => c.clientDbId === props.messagePayload.clientType.clientDbId,
+			)?.clientProfilePictureHash
+			return hash || null
+		}
+	);
+
 
 	function determineTopMarginForMessageMenu() {
 		if (!props.lastMessageTimestampSameAsThisOne) {
@@ -61,10 +71,11 @@ function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
 				{/* need the padding on invisible profile picture, else messages will not be aligned -> handle via opacity */}
 				<ProfilePicture
 					clientDbId={props.messagePayload.clientType.clientDbId}
+					pictureHash={clientProfilePictureHash}
 					style={{
 						width: props.lastMessageFromThisClientId ? "75px" : "75px",
 						height: props.lastMessageFromThisClientId ? "40px" : "75px",
-						borderColor: clientColor || "lightgrey",
+						borderColor: clientColor || DEFAULT_STROKE_COLOR,
 						opacity: props.lastMessageFromThisClientId ? "0" : "1",
 					}}
 				/>

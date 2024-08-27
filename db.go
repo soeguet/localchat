@@ -65,7 +65,7 @@ func (d *Db) startup() {
 	}
 }
 
-func (d *Db) getImage(clientDbId string) (DbRow, error) {
+func (d *Db) getImageViaImageHash(imageHash string) (DbRow, error) {
 	var err error
 	d.db, err = sql.Open("sqlite3", idFilePath)
 	if err != nil {
@@ -79,7 +79,7 @@ func (d *Db) getImage(clientDbId string) (DbRow, error) {
 	}(d.db)
 	var row DbRow
 
-	err = d.db.QueryRow(`SELECT * FROM images WHERE client_db_id = ?`, clientDbId).Scan(
+	err = d.db.QueryRow(`SELECT * FROM images WHERE image_hash = ?`, imageHash).Scan(
 		&row.ImageHash,
 		&row.Data,
 	)

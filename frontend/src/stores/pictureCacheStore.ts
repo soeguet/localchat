@@ -1,7 +1,7 @@
 import {create, type StoreApi, type UseBoundStore} from "zustand";
 import type {ClientId, Hash, ProfilePicture, ProfilePictureObject,} from "../utils/types/customTypes";
 
-type useProfilePictureStoreType = {
+type usePictureCacheStoreType = {
     thisClientProfilePictureObject: ProfilePictureObject | null;
     setThisClientProfilePictureHashObject: (profilePictureObject: ProfilePictureObject | null) => void;
     getThisClientProfilePictureHash: () => Hash;
@@ -23,11 +23,11 @@ type useProfilePictureStoreType = {
     fetchProfilePictureHash: (clientDbId: ClientId) => Hash;
 };
 
-const useProfilePictureStore: UseBoundStore<StoreApi<useProfilePictureStoreType>> = create<useProfilePictureStoreType>((set) => ({
+const usePictureCacheStore: UseBoundStore<StoreApi<usePictureCacheStoreType>> = create<usePictureCacheStoreType>((set) => ({
 
     thisClientProfilePictureObject: null,
     setThisClientProfilePictureHashObject: (profilePictureObject: ProfilePictureObject | null) => set({thisClientProfilePictureObject: profilePictureObject}),
-    getThisClientProfilePictureHash: () => useProfilePictureStore.getState().thisClientProfilePictureObject?.imageHash || "",
+    getThisClientProfilePictureHash: () => usePictureCacheStore.getState().thisClientProfilePictureObject?.imageHash || "",
 
     noProfilePictureAvailableMap: new Map<ClientId, false>(),
 
@@ -75,7 +75,7 @@ const useProfilePictureStore: UseBoundStore<StoreApi<useProfilePictureStoreType>
     },
 
     fetchProfilePicture: (clientDbId: ClientId) => {
-        const profilePicture = useProfilePictureStore
+        const profilePicture = usePictureCacheStore
             .getState()
             .profilePictureMap.get(clientDbId);
         if (profilePicture) {
@@ -85,7 +85,7 @@ const useProfilePictureStore: UseBoundStore<StoreApi<useProfilePictureStoreType>
     },
 
     fetchProfilePictureHash: (clientDbId: ClientId) => {
-        const profilePicture = useProfilePictureStore
+        const profilePicture = usePictureCacheStore
             .getState()
             .profilePictureMap.get(clientDbId);
         if (profilePicture) {
@@ -95,4 +95,4 @@ const useProfilePictureStore: UseBoundStore<StoreApi<useProfilePictureStoreType>
     },
 }));
 
-export {useProfilePictureStore};
+export {usePictureCacheStore};
