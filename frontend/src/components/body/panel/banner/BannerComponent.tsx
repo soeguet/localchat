@@ -4,7 +4,7 @@ import { TopBanner } from "./TopBanner";
 
 function BannerComponent() {
 	const banners = useBannerStore((state) =>
-		state.banners.filter((banner) => banner.hidden === false),
+		state.banners.filter((banner) => !banner.hidden),
 	);
 	const isBannerModalOpen = useBannerStore((state) => state.bannerModalOpen);
 

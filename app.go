@@ -101,7 +101,7 @@ func (a *App) Notification(sender string, message string) {
 // GetLocalChatEnvVars retrieves the environment variables for the local chat application.
 // It returns a JSON string representation of the environment variables.
 // If an error occurs during retrieval, it panics.
-func (a *App) GetLocalChatEnvVars() string {
+func (a *App) GetLocalChatEnvVars() EnvVars {
 	vars, err := a.envVars.envVarsToFrontend()
 	if err != nil {
 		_ = fmt.Errorf("error converting env vars to frontend: %w", err)

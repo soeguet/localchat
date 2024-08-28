@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react";
-import { useInitializeSelectedAppLanguageFromLocalStorage } from "./useLanguageLoader";
+import { loadAppLanguageLocalStorage } from "./useLanguageLoader";
 import { expect } from "vitest";
 import { useSelectedLanguageStore } from "../../stores/selectedLanguageStore";
 
@@ -26,7 +26,7 @@ beforeEach(() => {
 
 describe("useLanguageLoader", () => {
 	it("should load the language from local storage", () => {
-		renderHook(() => useInitializeSelectedAppLanguageFromLocalStorage());
+		renderHook(() => loadAppLanguageLocalStorage());
 
 		expect(useSelectedLanguageStore.getState().selectedLanguage).toBe("en");
 	});

@@ -11,6 +11,7 @@ import { EmergencyContainer } from "./emergency/EmergencyContainer";
 import { ReactionModal } from "./ReactionModal";
 import {UpdateBanner} from "./update/UpdateBanner";
 import {DevmodeBanner} from "./devmode/DevmodeBanner";
+import BannerComponent from "./panel/banner/BannerComponent";
 
 /**
  * The main part of the application.
@@ -34,6 +35,7 @@ function Chat() {
 				<Header />
 				<UpdateBanner />
 				<DevmodeBanner />
+				<BannerComponent />
 				<ChatPanel />
 				<TypingIndicator />
 				<ScrollToBottomButton />

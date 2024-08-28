@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	wailsruntime "github.com/wailsapp/wails/v2/pkg/runtime"
 	"log"
@@ -47,7 +46,7 @@ func NewEnvVars() *EnvVars {
 	return &EnvVars{}
 }
 
-func (envVars *EnvVars) envVarsToFrontend() (string, error) {
+func (envVars *EnvVars) envVarsToFrontend() (EnvVars, error) {
 	vars := EnvVars{
 		Username:    Username,
 		IP:          IP,
@@ -57,12 +56,14 @@ func (envVars *EnvVars) envVarsToFrontend() (string, error) {
 		Environment: Environment,
 	}
 
-	envVarsJSON, err := json.Marshal(vars)
-	if err != nil {
-		return "", err
-	}
+	return vars, nil
 
-	return string(envVarsJSON), nil
+	//envVarsJSON, err := json.Marshal(vars)
+	//if err != nil {
+	//	return "", err
+	//}
+	//
+	//return string(envVarsJSON), nil
 }
 
 func getIdFilePath() string {

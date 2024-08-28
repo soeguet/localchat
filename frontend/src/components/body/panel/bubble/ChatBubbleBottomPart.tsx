@@ -6,7 +6,11 @@ import {base64ToUtf8} from "../../../../utils/transformation/encoder";
 import {ReactionField} from "./reaction/ReactionField";
 import {EditMessageMode} from "./EditMessageMode";
 import PictureBubblePanel from "./picture/PictureBubblePanel";
-import {DEFAULT_HOVER_COLOR, DEFAULT_STROKE_COLOR} from "../../../../utils/variables/variables";
+import {
+    DEFAULT_HOVER_COLOR, DEFAULT_OTHER_CLIENT_COLOR,
+    DEFAULT_STROKE_COLOR,
+    DEFAULT_THIS_CLIENT_COLOR
+} from "../../../../utils/variables/variables";
 
 type ChatBubbleBottomPartProps = {
     messagePayload: MessagePayload;
@@ -17,6 +21,7 @@ type ChatBubbleBottomPartProps = {
 
 function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
 
+    // states
     const clientColor = useClientStore(
         (state) =>
             state.clients.find((c): boolean => {
@@ -25,29 +30,26 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
                 );
             })?.clientColor,
     );
-
     const unseenMessagesIdList = useUnseenMessageCountStore(
         (state) => state.unseenMessagesIdList,
     );
-    // useMemo does not seem to be worth it tbh
     const thisMessageUnseen = unseenMessagesIdList.includes(
         props.messagePayload.messageType.messageDbId,
     );
+    // states
 
-    // TODO refactor this into functions
-    let borderColor = props.messagePayload.messageType.edited
-        ? "border-amber-700"
-        : "border-black";
+    const determineBorderColor = () => {
+        let borderColor = props.messagePayload.messageType.edited
+            ? "border-amber-700"
+            : "border-black";
 
-    if (thisMessageUnseen) {
-        borderColor = "border-orange";
+        if (thisMessageUnseen) {
+            borderColor = "border-orange";
+        }
+        return borderColor;
     }
 
-    const base64DecodedMessage = base64ToUtf8(
-        props.messagePayload.messageType.messageContext,
-    );
-
-    function determineMargin() {
+    const determineMargin = () => {
         let margin = "";
 
         if (
@@ -57,15 +59,15 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
             margin = "mb-7";
         }
         return margin;
-    }
+    };
 
     return (
         <>
             <div className={determineMargin()}>
                 <div
-                    className={`relative max-w-md  break-words rounded-lg border peer-focus/edit:animate-pulse ${borderColor} px-4 py-2 md:max-w-2xl lg:max-w-4xl`}
+                    className={`relative max-w-md  break-words rounded-lg border peer-focus/edit:animate-pulse ${determineBorderColor()} px-4 py-2 md:max-w-2xl lg:max-w-4xl`}
                     style={{
-                        backgroundColor: clientColor ?? (props.thisMessageFromThisClient ? DEFAULT_HOVER_COLOR : DEFAULT_STROKE_COLOR),
+                        backgroundColor: clientColor ?? (props.thisMessageFromThisClient ? DEFAULT_THIS_CLIENT_COLOR : DEFAULT_OTHER_CLIENT_COLOR),
                         color: "#fff",
                         animation: thisMessageUnseen
                             ? "pulse-border 3.5s infinite ease-in-out"
@@ -88,10 +90,10 @@ function ChatBubbleBottomPart(props: ChatBubbleBottomPartProps) {
                         />
                     ) : (
                         <div className="whitespace-pre-wrap">
-                            {base64DecodedMessage}
+                            {base64ToUtf8(props.messagePayload.messageType.messageContext)}
                         </div>
                     )}
-                    {/* // TODO reenable links in message
+                    {/* // TODO re-enable links in message
 					<LinkifiedText
 						text={props.messagePayload.messageType.messageContext}
 					/>*/}

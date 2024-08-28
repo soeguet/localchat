@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { AllBannersButton } from "./AllBannersButton";
 import { CountdownTimer } from "./CountdownTimer";
 import type { BannerObject } from "../../../../utils/types/customTypes";
+import {DEFAULT_BANNER_COLOR, DEFAULT_THIS_CLIENT_COLOR} from "../../../../utils/variables/variables";
 
 type TopBannerProps = {
 	banners: BannerObject[];
@@ -40,7 +41,10 @@ function TopBanner(props: TopBannerProps) {
 	return (
 		<>
 			<div
-				className="relative z-20 items-center gap-x-6 bg-sky-900 px-6 py-5 sm:px-3.5 sm:before:flex-1"
+				className="relative z-20 items-center gap-x-6 px-6 py-5 sm:px-3.5 sm:before:flex-1"
+				style={{
+					backgroundColor: DEFAULT_BANNER_COLOR,
+				}}
 				data-testid="banner-list-container"
 			>
 				<AllBannersButton />
