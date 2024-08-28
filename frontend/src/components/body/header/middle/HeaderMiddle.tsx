@@ -1,8 +1,8 @@
 import { useWebsocketStore } from "../../../../stores/websocketStore";
 import { ConnectedSvg } from "../../../svgs/status/ConnectedSvg";
 import { DisconnectedSvg } from "../../../svgs/status/DisconnectedSvg";
-import { AvailabilityMode } from "./AvailabilityMode";
-import { ReconnectButton } from "./ReconnectButton";
+import { AvailabilityMode } from "./availability/AvailabilityMode";
+import { ReconnectButton } from "./reconnect/ReconnectButton";
 
 function HeaderMiddle() {
 	const isConnected = useWebsocketStore((state) => state.isConnected);

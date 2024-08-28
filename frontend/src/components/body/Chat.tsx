@@ -5,13 +5,13 @@ import { ChatPanel } from "./panel/ChatPanel";
 import { ClientNotFoundPage } from "../error/ClientNotFoundPage";
 import { useWebsocketConnection } from "../../hooks/socket/useWebsocketConnection";
 import { useWindowFocussedListener } from "../../hooks/body/useWindowFocussedListener";
-import { TypingIndicator } from "./panel/TypingIndicator";
-import { ScrollToBottomButton } from "./panel/ScrollToBottomButton";
+import { TypingIndicator } from "./typing/TypingIndicator";
+import { ScrollToBottomButton } from "./scroll/ScrollToBottomButton";
 import { EmergencyContainer } from "./emergency/EmergencyContainer";
-import { ReactionModal } from "./ReactionModal";
+import { ReactionModal } from "./reaction/ReactionModal";
 import {UpdateBanner} from "./update/UpdateBanner";
 import {DevmodeBanner} from "./devmode/DevmodeBanner";
-import BannerComponent from "./panel/banner/BannerComponent";
+import BannerComponent from "./banner/BannerComponent";
 
 /**
  * The main part of the application.

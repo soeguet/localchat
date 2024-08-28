@@ -1,6 +1,6 @@
-import { ProfileMenu } from "./ProfileMenu";
-import { ProfilePictureHandler } from "./ProfilePictureHandler";
-import { ClientName } from "./ClientName";
+import { ProfileMenu } from "./menu/ProfileMenu";
+import { ProfilePictureHandler } from "./picture/ProfilePictureHandler";
+import { ClientName } from "./name/ClientName";
 
 function HeaderLeft() {
 	return (
