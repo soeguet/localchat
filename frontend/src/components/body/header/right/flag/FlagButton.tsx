@@ -23,7 +23,7 @@ function FlagButton() {
 				onMouseEnter={() => setHover(true)}
 				onMouseLeave={() => setHover(false)}
 				style={{
-					borderColor: hover ? thisClientColor : DEFAULT_HOVER_COLOR,
+					borderColor: hover ? DEFAULT_HOVER_COLOR : thisClientColor,
 				}}
 				className="rounded-full border-2 text-white transition duration-300 ease-in-out"
 			>

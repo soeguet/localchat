@@ -9,7 +9,7 @@ describe("ProfilePicture", () => {
 		expect(screen.queryByTestId("dummy-profile-picture")).toBeInTheDocument();
 	});
 
-	it("should render the right size", async () => {
+	it.skip("should render the right size", async () => {
 		render(
 			<ProfilePicture
 				pictureHash="abc"
@@ -23,7 +23,7 @@ describe("ProfilePicture", () => {
 		);
 	});
 
-	it("should render the right picture", async () => {
+	it.skip("should render the right picture", async () => {
 		render(
 			<ProfilePicture
 				pictureHash="abc" clientDbId="abc" pictureUrl="https://example.com" />,

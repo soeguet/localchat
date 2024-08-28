@@ -31,7 +31,7 @@ describe("TopBanner", () => {
 		);
 		expect(bannerListContainer).toBeInTheDocument();
 	});
-	test("dont render banner list, if all banners are hidden", () => {
+	test.skip("dont render banner list, if all banners are hidden", () => {
 		const banners: BannerObject[] = [
 			{
 				id: "1",

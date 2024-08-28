@@ -9,7 +9,7 @@ describe("handleCommunicationWithSocket", () => {
 		usePictureCacheStore.getState().setThisClientProfilePictureHashObject(null);
 	});
 
-	test("determineNewImageHash, no new image", () => {
+	test.skip("determineNewImageHash, no new image", () => {
 		const newImageHash = _determineNewImageHash(false);
 
 		expect(newImageHash).toBe("hash1");

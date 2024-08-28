@@ -25,5 +25,8 @@ export async function checkIfScrollToBottomIsNeeded(id: string) {
 
 export async function scrollToBottom(): Promise<void> {
 	const chatBottomRef = useRefStore.getState().chatBottomRef;
-	chatBottomRef?.current?.scrollIntoView({ behavior: "smooth" });
+	if (!chatBottomRef || !chatBottomRef.current) {
+		return;
+	}
+	chatBottomRef.current.scrollIntoView({ behavior: "smooth" });
 }

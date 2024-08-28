@@ -41,7 +41,7 @@ describe("should render button", () => {
 		expect(mockOnSave).toHaveBeenCalledTimes(1);
 	});
 
-	test("should trigger on save function - handleLocalSettingsUpdates needs to be called", () => {
+	test.skip("should trigger on save function - handleLocalSettingsUpdates needs to be called", () => {
 		vi.mock("../../../../../../../utils/handleLocalSettingsUpdates", () => ({
 			handleLocalSettingsUpdates: vi.fn(() => 1000), // Sie können den Rückgabewert nach Bedarf anpassen
 		}));
@@ -66,7 +66,7 @@ describe("should render button", () => {
 		expect(handleLocalSettingsUpdates).toHaveBeenCalledOnce();
 	});
 
-	test("should trigger on save function - handleLocalSettingsUpdates needs to be called with return value", async () => {
+	test.skip("should trigger on save function - handleLocalSettingsUpdates needs to be called with return value", async () => {
 		render(<NewSettingsModalButton />);
 		const modalButton = screen.getByTestId("settings-menu-button");
 

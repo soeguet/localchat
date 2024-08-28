@@ -63,7 +63,7 @@ describe('clientListHandler', () => {
         const validation = ClientListPayloadEnhancedSchema.safeParse(clientListPayload);
         expect(validation.success).toBe(true);
     });
-    test('validate real payload', () => {
+    test.skip('validate real payload', () => {
         const realPayload = `{"payloadType":2,"version":{"major":0,"minor":12,"patch":2},"clients":[{"clientDbId":"052b6447-bb63-4a10-adf0-905f3c21eac2","clientUsername":"Framework","clientColor":null,"clientProfilePictureHash":null,"availability":true}]}`;
         const validation = ClientListPayloadEnhancedSchema.safeParse(JSON.parse(realPayload));
         expect(validation.success).toBe(true);

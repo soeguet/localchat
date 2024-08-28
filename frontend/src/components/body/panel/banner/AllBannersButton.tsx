@@ -1,6 +1,6 @@
 import { useBannerStore } from "../../../../stores/bannerStore";
 import { BannerListSvg } from "../../../svgs/banner/BannerListSvg";
-import {DEFAULT_HOVER_COLOR} from "../../../../utils/variables/variables";
+import {DEFAULT_HOVER_COLOR, DEFAULT_STROKE_COLOR} from "../../../../utils/variables/variables";
 
 function AllBannersButton() {
 	const bannerCount = useBannerStore((state) =>
@@ -18,8 +18,8 @@ function AllBannersButton() {
 				onClick={() => bannerModalSetOpen(true)}>
 				<BannerListSvg
 					number={bannerCount}
-					accentColor="#4a90e2"
-					backgroundColor={DEFAULT_HOVER_COLOR}
+					accentColor={DEFAULT_STROKE_COLOR}
+					backgroundColor="#000000"
 				/>
 			</button>
 		</>
