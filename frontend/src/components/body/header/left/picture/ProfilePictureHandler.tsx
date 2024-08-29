@@ -2,7 +2,7 @@ import { DoNotDisturb } from "../../../../svgs/disturb/DoNotDisturb";
 import { useDoNotDisturbStore } from "../../../../../stores/doNotDisturbStore";
 import { useClientStore } from "../../../../../stores/clientStore";
 import { useUserStore } from "../../../../../stores/userStore";
-import { ProfilePicture } from "../../../../reuseable/ProfilePicture";
+import { ProfilePicture } from "../../../../shared-comps/ProfilePicture";
 import { useMenuStore } from "../../../../../stores/menuStore";
 import {DEFAULT_STROKE_COLOR} from "../../../../../utils/variables/variables";
 

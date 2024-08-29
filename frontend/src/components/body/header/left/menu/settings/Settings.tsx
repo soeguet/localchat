@@ -1,10 +1,9 @@
-import {useTranslation} from "react-i18next";
 import {useState} from "react";
 import {handleLocalSettingsUpdates} from "../../../../../../utils/settings/handleLocalSettingsUpdates";
 import {handleProfileSettingsUpdatesWithSocketV2} from "../../../../../../utils/socket/handleCommunicationWithSocket";
 import useSettingsStore from "../../../../../../stores/settingsStore";
 import {NewSettingsModal} from "./body/NewSettingsModal";
-import {NewSettingsModalButton} from "./body/button/NewSettingsModalButton";
+import {NewSettingsModalButton} from "./button/NewSettingsModalButton";
 
 function Settings() {
     const [isOpened, setIsOpened] = useState(false);

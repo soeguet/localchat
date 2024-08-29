@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useClientStore } from "../../../../stores/clientStore";
 import { useReplyStore } from "../../../../stores/replyStore";
 import type { MessagePayload } from "../../../../utils/types/customTypes";
-import { ProfilePicture } from "../../../reuseable/ProfilePicture";
+import { ProfilePicture } from "../../../shared-comps/ProfilePicture";
 import { ChatBubbleMenu } from "./ChatBubbleMenu";
 import { BubbleMessageMenuSvg } from "../../../svgs/bubble/BubbleMessageMenuSvg";
 import {DEFAULT_STROKE_COLOR} from "../../../../utils/variables/variables";

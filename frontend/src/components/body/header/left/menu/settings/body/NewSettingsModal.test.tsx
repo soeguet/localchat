@@ -1,7 +1,7 @@
 import { expect, test, describe } from "vitest";
 import { render, screen, userEvent } from "../../../../../../../utils/tests/test-utils";
 import { NewSettingsModal } from "./NewSettingsModal";
-import { NewSettingsModalButton } from "./button/NewSettingsModalButton";
+import { NewSettingsModalButton } from "../button/NewSettingsModalButton";
 
 beforeEach(() => {
 	HTMLDialogElement.prototype.showModal = vi.fn();
@@ -17,13 +17,13 @@ describe("NewSettingsModal", () => {
 	});
 
 	test("should not render if not called", () => {
-		render(<NewSettingsModalButton />);
+		render(<NewSettingsModalButton menuIsOpened={() => {}} />);
 		const settingsModal = screen.queryByTestId("settings-modal");
 		expect(settingsModal).toBeNull();
 	});
 
 	test("should render if button clicked", async () => {
-		render(<NewSettingsModalButton />);
+		render(<NewSettingsModalButton menuIsOpened={() => {}} />);
 		const settingsButton = screen.getByTestId("settings-menu-button");
 		await userEvent.click(settingsButton);
 		const settingsModal = screen.getByTestId("settings-modal");
@@ -31,7 +31,7 @@ describe("NewSettingsModal", () => {
 	});
 
 	test("should close if button clicked", async () => {
-		render(<NewSettingsModalButton />);
+		render(<NewSettingsModalButton menuIsOpened={() => {}} />);
 		const settingsButton = screen.getByTestId("settings-menu-button");
 		await userEvent.click(settingsButton);
 		const settingsModal = screen.getByTestId("settings-modal");

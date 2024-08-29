@@ -1,7 +1,7 @@
 import { useClientStore } from "../../../../../stores/clientStore";
 import { useUserStore } from "../../../../../stores/userStore";
 import { useDoNotDisturbStore } from "../../../../../stores/doNotDisturbStore";
-import { Timer } from "../../../../reuseable/Timer";
+import { Timer } from "../timer/Timer";
 import { useTranslation } from "react-i18next";
 
 function ClientName() {

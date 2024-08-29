@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { NewSettingsModalContainer } from "./NewSettingsModalContainer";
+import { NewSettingsModalContainer } from "./container/NewSettingsModalContainer";
 
 type NewSettingsModalProps = {
 	isOpen: boolean;

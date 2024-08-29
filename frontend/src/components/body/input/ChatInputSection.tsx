@@ -3,14 +3,14 @@ import {useCallback, useState} from "react";
 import {useTypingHook} from "../../../hooks/input/useTypingHook";
 import {useReplyStore} from "../../../stores/replyStore";
 import {sendClientMessageToWebsocket} from "../../../utils/socket/socket";
-import {ClipButton} from "./ClipButton";
-import {Emoji} from "./Emoji";
-import {Reply} from "./Reply";
-import {Image} from "./Image";
-import {SendButton} from "./SendButton";
-import {TextArea} from "./TextArea";
+import {ClipButton} from "./buttons/ClipButton";
+import {Emoji} from "./emoji/Emoji";
+import {Reply} from "./reply/Reply";
+import {Image} from "./images/Image";
+import {SendButton} from "./buttons/SendButton";
+import {TextArea} from "./text-area/TextArea";
 import {useImageStore} from "../../../stores/imageStore";
-import {DroppedImage} from "./DroppedImage";
+import {DroppedImage} from "./images/DroppedImage";
 
 function ChatInputSection() {
     const {typingTimeoutId, setTypingTimeoutId, sendTypingStatus} =
@@ -36,7 +36,7 @@ function ChatInputSection() {
     }, [message]);
 
     const handleKeyDown = useCallback(
-        async(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
             if (e.key === "Enter" && !e.shiftKey) {
                 e.preventDefault();
                 await handleSendMessage();
@@ -76,7 +76,9 @@ function ChatInputSection() {
                     <Emoji setMessage={setMessage} />
                     <ClipButton />
                 </div>
-                <div className="mx-2 my-auto flex flex-1 flex-col gap-2">
+                <div
+                    className="mx-2 my-auto flex flex-1 flex-col gap-2"
+                >
                     <Reply />
                     <Image />
                     <DroppedImage />

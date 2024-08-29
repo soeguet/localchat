@@ -30,6 +30,7 @@
     "zustand": "^4.5.5"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
     "@chromatic-com/storybook": "^1.6.1",
     "@storybook/addon-essentials": "^8.2.9",
     "@storybook/addon-interactions": "^8.2.9",
