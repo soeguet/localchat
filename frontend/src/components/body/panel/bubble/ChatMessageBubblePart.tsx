@@ -1,4 +1,4 @@
-import type { MessagePayload } from "../../../../utils/customTypes";
+import type { MessagePayload } from "../../../../utils/types/customTypes";
 import { ChatBubbleBottomPart } from "./ChatBubbleBottomPart";
 import { ChatBubbleTopPart } from "./ChatBubbleTopPart";
 import { ReactionTriggerDiv } from "./reaction/ReactionTriggerDiv";

@@ -1,5 +1,5 @@
 import { type StoreApi, type UseBoundStore, create } from "zustand";
-import type { BannerObject, Hash } from "../utils/customTypes";
+import type { BannerObject, Hash } from "../utils/types/customTypes";
 
 type useBannerStoreType = {
 	banners: BannerObject[];

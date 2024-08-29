@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { ChatBubbleMenu } from "./ChatBubbleMenu";
-import { render, screen } from "../../../../utils/test-utils";
-import {PayloadSubType, PayloadSubTypeEnum} from "../../../../utils/customTypes";
+import { render, screen } from "../../../../utils/tests/test-utils";
+import {PayloadSubTypeEnum} from "../../../../utils/types/customTypes";
 
 describe("ChatBubbleMenu", () => {
 	test("should not render menu", () => {

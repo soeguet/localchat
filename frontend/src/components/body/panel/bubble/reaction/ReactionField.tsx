@@ -1,5 +1,5 @@
 import { useUserStore } from "../../../../../stores/userStore";
-import type { MessagePayload } from "../../../../../utils/customTypes";
+import type { MessagePayload } from "../../../../../utils/types/customTypes";
 
 type ReactionFieldProps = {
 	messagePayload: MessagePayload;

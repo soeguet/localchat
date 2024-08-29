@@ -2,9 +2,8 @@ import { Fragment, useDeferredValue, useEffect } from "react";
 import { useMessageMapStore } from "../../../stores/messageMapStore";
 import { useUnseenMessageCountStore } from "../../../stores/unseenMessageCountStore";
 import { useUserStore } from "../../../stores/userStore";
-import type { MessagePayload } from "../../../utils/customTypes";
-import { scrollToBottom } from "../../../utils/functionality";
-import { checkIfScrollToBottomIsNeeded } from "../../../utils/scrollToBottomNeeded";
+import type { MessagePayload } from "../../../utils/types/customTypes";
+import {checkIfScrollToBottomIsNeeded, scrollToBottom} from "../../../utils/gui/scrollToBottomNeeded";
 import { UnreadMessagesBelowBanner } from "./UnreadMessagesBelowBanner";
 import { ChatMessageUnit } from "./bubble/ChatMessageUnit";
 import { DeletedMessage } from "./DeletedMessage";
@@ -26,13 +25,17 @@ function MessageRenderMap() {
 		if (lastMessage[1].clientType.clientDbId === undefined) {
 			return;
 		}
-		if (checkIfScrollToBottomIsNeeded(lastMessage[1].clientType.clientDbId)) {
-			scrollToBottom().then(() => {
-				useUnseenMessageCountStore.getState().resetUnseenMessageCount();
-			});
-		} else {
-			useUnseenMessageCountStore.getState().incrementUnseenMessageCount();
-		}
+
+		checkIfScrollToBottomIsNeeded(lastMessage[1].clientType.clientDbId).then((scrollToBottomIsNeeded) => {
+			if (scrollToBottomIsNeeded) {
+				scrollToBottom().then(() => {
+					useUnseenMessageCountStore.getState().resetUnseenMessageCount();
+				});
+			} else {
+				useUnseenMessageCountStore.getState().incrementUnseenMessageCount();
+			}
+		});
+
 	}, [newMap]);
 
 	return (

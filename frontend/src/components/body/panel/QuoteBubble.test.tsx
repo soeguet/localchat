@@ -3,10 +3,10 @@ import { useMessageMapStore } from "../../../stores/messageMapStore";
 import { useUserStore } from "../../../stores/userStore";
 import {
 	type MessagePayload,
-	PayloadSubType, PayloadSubTypeEnum,
-} from "../../../utils/customTypes";
+	PayloadSubTypeEnum,
+} from "../../../utils/types/customTypes";
 import { ChatPanel } from "./ChatPanel";
-import { render, screen, waitFor } from "../../../utils/test-utils";
+import { render, screen, waitFor } from "../../../utils/tests/test-utils";
 import { useClientStore } from "../../../stores/clientStore";
 
 describe("QuoteBubble", () => {

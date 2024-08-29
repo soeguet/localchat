@@ -1,18 +1,22 @@
 import { useTranslation } from "react-i18next";
 import { useUserStore } from "../../../stores/userStore";
 import { useState } from "react";
+import {DEFAULT_HOVER_COLOR, DEFAULT_STROKE_COLOR} from "../../../utils/variables/variables";
 
 function PaperClipSvg() {
 	const { t } = useTranslation();
 	const thisClientColor = useUserStore((state) => state.myColor);
-	const [strokeColor, setStrokeColor] = useState("#292D32");
+	const [strokeColor, setStrokeColor] = useState<string>(DEFAULT_STROKE_COLOR);
+
+	const hoverColor = thisClientColor ? thisClientColor : DEFAULT_HOVER_COLOR;
+
 	return (
 		<>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				fill="none"
-				onMouseLeave={() => setStrokeColor("#292D32")}
-				onMouseEnter={() => setStrokeColor(thisClientColor)}
+				onMouseLeave={() => setStrokeColor(DEFAULT_STROKE_COLOR)}
+				onMouseEnter={() => setStrokeColor(hoverColor)}
 				viewBox="0 0 24 24"
 				width="2em"
 				height="2em"

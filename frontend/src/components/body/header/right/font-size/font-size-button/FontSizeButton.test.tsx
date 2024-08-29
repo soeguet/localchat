@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { render } from "../../../../../../utils/test-utils";
+import { render } from "../../../../../../utils/tests/test-utils";
 import { FontSizeButton } from "./FontSizeButton";
 import { fireEvent, screen } from "@testing-library/react";
 

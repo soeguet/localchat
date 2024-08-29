@@ -5,8 +5,8 @@ import { useUserStore } from "../../../stores/userStore";
 import { useWebsocketStore } from "../../../stores/websocketStore";
 import {
 	type EmergencyInitPayload,
-	PayloadSubType, PayloadSubTypeEnum,
-} from "../../../utils/customTypes";
+	PayloadSubTypeEnum,
+} from "../../../utils/types/customTypes";
 import { MenuDotsSvg } from "../../svgs/emergency/MenuDotsSvg";
 
 function EmergencyChatMenu() {

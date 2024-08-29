@@ -1,4 +1,4 @@
-import { render, screen, userEvent } from "../../../../../utils/test-utils";
+import { render, screen, userEvent } from "../../../../../utils/tests/test-utils";
 import { FlagButton } from "./FlagButton";
 import { waitFor } from "@testing-library/react";
 import { useSelectedLanguageStore } from "../../../../../stores/selectedLanguageStore";

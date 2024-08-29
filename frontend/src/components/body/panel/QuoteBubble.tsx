@@ -1,7 +1,8 @@
 import { useClientStore } from "../../../stores/clientStore";
 import { useFontSizeStore } from "../../../stores/fontSizeStore";
-import type { MessagePayload } from "../../../utils/customTypes";
-import { base64ToUtf8 } from "../../../utils/encoder";
+import type { MessagePayload } from "../../../utils/types/customTypes";
+import { base64ToUtf8 } from "../../../utils/transformation/encoder";
+import {DEFAULT_HOVER_COLOR} from "../../../utils/variables/variables";
 
 type QuoteBubbleProps = {
 	payload: MessagePayload;
@@ -43,7 +44,7 @@ function QuoteBubble(props: QuoteBubbleProps) {
 					className="my-1 rounded-md border-l-4 border-opacity-30  bg-gray-100 bg-opacity-70 p-2"
 					data-testid="quote-bubble"
 					style={{
-						borderColor: quotedClientColor,
+						borderColor: quotedClientColor ?? DEFAULT_HOVER_COLOR,
 						fontSize: `${fontSize - 3}px`,
 					}}
 				>

@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useImageStore } from "../../../../stores/imageStore";
 import { CameraSvg } from "../../../svgs/input/CameraSvg";
-import { useRef } from "react";
+import React, { useRef } from "react";
 
 type AttachmentMenuProps = {
 	setAttachmentMenuVisible: (visible: boolean) => void;

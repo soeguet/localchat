@@ -1,13 +1,13 @@
-import { useRef } from "react";
+import React, { useRef } from "react";
 import { useUserStore } from "../../../stores/userStore";
 import { useWebsocketStore } from "../../../stores/websocketStore";
 import {
 	type EmergencyMessagePayload,
-	PayloadSubType, PayloadSubTypeEnum,
-} from "../../../utils/customTypes";
-import { utf8ToBase64 } from "../../../utils/encoder";
-import { generateSimpleId } from "../../../utils/functionality";
-import { getTimeWithHHmmFormat } from "../../../utils/time";
+	PayloadSubTypeEnum,
+} from "../../../utils/types/customTypes";
+import { utf8ToBase64 } from "../../../utils/transformation/encoder";
+import { generateSimpleId } from "../../../utils/helper/functionality";
+import { getTimeWithHHmmFormat } from "../../../utils/time/time";
 import { SendButtonSvg } from "../../svgs/input/SendButtonSvg";
 import { useEmergencyStore } from "../../../stores/emergencyStore";
 

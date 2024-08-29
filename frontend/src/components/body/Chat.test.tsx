@@ -4,7 +4,7 @@ import { useClientStore } from "../../stores/clientStore";
 import * as socketConnection from "../../hooks/socket/useWebsocketConnection";
 import * as windowFocussed from "../../hooks/body/useWindowFocussedListener";
 import { useUserStore } from "../../stores/userStore";
-import { render } from "../../utils/test-utils";
+import { render } from "../../utils/tests/test-utils";
 import { Chat } from "./Chat";
 import { screen } from "@testing-library/react";
 
@@ -16,7 +16,7 @@ describe("Chat", () => {
 				clientDbId: "1",
 				clientUsername: "test",
 				clientColor: "red",
-				clientProfileImage: "image",
+				clientProfilePictureHash: "image",
 				availability: true,
 			},
 		]);

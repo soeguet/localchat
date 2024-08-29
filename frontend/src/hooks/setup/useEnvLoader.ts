@@ -1,20 +1,19 @@
-import { GetLocalChatEnvVars } from "../../../wailsjs/go/main/App";
-import { useUserStore } from "../../stores/userStore";
+import {GetLocalChatEnvVars} from "../../../wailsjs/go/main/App";
+import {useUserStore} from "../../stores/userStore";
 import packageInfo from "../../../package.json";
 import {useVersionStore} from "../../stores/versionStore";
+import {main} from "../../../wailsjs/go/models";
 
 export async function useEnvironmentVariablesLoader() {
-	GetLocalChatEnvVars().then((envVars) => {
-		const envVarsObj = JSON.parse(envVars);
+    const envVars = await GetLocalChatEnvVars() as main.EnvVars
 
-		useUserStore.getState().setSocketIp(envVarsObj.ip);
-		useUserStore.getState().setSocketPort(envVarsObj.port);
-		useUserStore.getState().setClientOs(envVarsObj.os);
-		useUserStore.getState().setMyUsername(envVarsObj.username);
-		useUserStore.getState().setMyId(envVarsObj.id);
-		useUserStore.getState().setEnvironment(envVarsObj.environment);
+    useUserStore.getState().setSocketIp(envVars.ip);
+    useUserStore.getState().setSocketPort(envVars.port);
+    useUserStore.getState().setClientOs(envVars.os);
+    useUserStore.getState().setMyUsername(envVars.username);
+    useUserStore.getState().setMyId(envVars.id);
+    useUserStore.getState().setEnvironment(envVars.environment);
 
-		const version = packageInfo.version;
-		useVersionStore.getState().setVersion(version);
-	});
+    const version = packageInfo.version;
+    useVersionStore.getState().setVersion(version);
 }

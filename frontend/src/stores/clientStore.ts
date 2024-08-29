@@ -1,5 +1,5 @@
 import { create, type StoreApi, type UseBoundStore } from "zustand";
-import type { ClientEntity, Hash } from "../utils/customTypes";
+import type { ClientEntity, Hash } from "../utils/types/customTypes";
 
 /**
  * Represents a registered user.
@@ -21,8 +21,12 @@ const useClientStore: UseBoundStore<StoreApi<ClientStore>> =
 		},
 		getClientHashById: (id: string): Hash | undefined => {
 			const clients = useClientStore.getState().clients;
-			return clients.find((client) => client.clientDbId === id)
-				?.clientProfileImage;
+			const clientProfilePictureHash = clients.find((client) => client.clientDbId === id)
+				?.clientProfilePictureHash;
+			if (clientProfilePictureHash === null || clientProfilePictureHash === undefined) {
+				return undefined;
+			}
+			return clientProfilePictureHash;
 		},
 	}));
 

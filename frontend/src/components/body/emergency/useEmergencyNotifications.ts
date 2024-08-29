@@ -5,12 +5,12 @@ import {
 import {
 	WindowIsMinimised,
 	WindowShow,
-} from "../../../../wailsjs/runtime/runtime.js";
+} from "../../../../wailsjs/runtime";
 import { useClientStore } from "../../../stores/clientStore.js";
 import { useEmergencyStore } from "../../../stores/emergencyStore";
 import { useGuiHasFocusStore } from "../../../stores/guiHasFocusStore.js";
 import { useUserStore } from "../../../stores/userStore";
-import { base64ToUtf8 } from "../../../utils/encoder.js";
+import { base64ToUtf8 } from "../../../utils/transformation/encoder";
 
 const useEmergencyNotifications = () => {
 	// no need for notifications, if chat is in focus and chat is open

@@ -1,6 +1,6 @@
 import { useFontSizeStore } from "../../../../../../stores/fontSizeStore";
 import { FontSizeAdjustButton } from "../font-size-elements/FontSizeAdjustButton";
-import { useSetFontSizeLocalStorage } from "../../flag/hooks/useSetFontSizeLocalStorage";
+import { useSetFontSizeLocalStorage } from "../../../../../../hooks/flag/useSetFontSizeLocalStorage";
 import { FontSizePopupHeader } from "./FontSizePopupHeader";
 import { FontSizePopupModalBody } from "./FontSizePopupModalBody";
 

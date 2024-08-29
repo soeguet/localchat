@@ -1,4 +1,4 @@
-import { base64ToUtf8 } from "../../../../utils/encoder";
+import { base64ToUtf8 } from "../../../../utils/transformation/encoder";
 
 type EmergencyMessageContentProps = {
 	message: string;

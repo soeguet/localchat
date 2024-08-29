@@ -1,8 +1,8 @@
 import { Chat } from "./components/body/Chat";
 import { Form } from "./components/startup/Form";
 import { useFontSizeInitializer } from "./hooks/setup/useFontSizeInitializer";
-import { useUserEnvChecker } from "./hooks/useUserEnvChecker";
-import { useInitializeSelectedAppLanguageFromLocalStorage } from "./utils/useLanguageLoader";
+import { useUserEnvChecker } from "./hooks/chat/useUserEnvChecker";
+import { loadAppLanguageLocalStorage } from "./utils/i18n/useLanguageLoader";
 
 /**
  * The main part of the application.
@@ -10,7 +10,7 @@ import { useInitializeSelectedAppLanguageFromLocalStorage } from "./utils/useLan
  */
 function App() {
 	const socketVariableAllAvailable = useUserEnvChecker();
-	useInitializeSelectedAppLanguageFromLocalStorage();
+	loadAppLanguageLocalStorage();
 	useFontSizeInitializer();
 
 	if (!socketVariableAllAvailable) {

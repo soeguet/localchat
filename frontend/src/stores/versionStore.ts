@@ -1,5 +1,5 @@
-import { create } from "zustand";
-import { VersionEntity } from "../utils/customTypes";
+import {create} from "zustand";
+import {VersionEntity} from "../utils/types/customTypes";
 import {errorLogger} from "../logger/errorLogger";
 
 type VersionStoreProps = {
@@ -25,12 +25,10 @@ const useVersionStore = create<VersionStoreProps>((set, get) => ({
             (major === 0 && minor === 0 && patch === 0)) {
             console.error("Version is not valid");
 
-            errorLogger.logError(new Error("Version is not valid")).catch((error) => {
-                console.error("Error logging error", error);
-            });
+            errorLogger.logError(new Error("Version is not valid"));
         }
 
-        return { major, minor, patch };
+        return {major, minor, patch};
     }),
 
     checkForUpdate: (newVersion: VersionEntity) => set((state) => {
@@ -40,11 +38,11 @@ const useVersionStore = create<VersionStoreProps>((set, get) => ({
             (newVersion.major === state.major && newVersion.minor === state.minor && newVersion.patch > state.patch);
 
         if (needsUpdate) {
-            return{ major: newVersion.major, minor: newVersion.minor, patch: newVersion.patch, needsUpdate }
+            return {major: newVersion.major, minor: newVersion.minor, patch: newVersion.patch, needsUpdate}
         }
 
         return state;
     }),
 }));
 
-export { useVersionStore };
+export {useVersionStore};

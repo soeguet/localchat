@@ -28,8 +28,8 @@ func (a *App) DeleteImageViaImageHash(imageHash string) error {
 	return a.db.deleteImage(imageHash)
 }
 
-func (a *App) GetImageViaClientDbId(clientDbId string) (DbRow, error) {
-	return a.db.getImage(clientDbId)
+func (a *App) GetImageViaImageHash(imageHash string) (DbRow, error) {
+	return a.db.getImageViaImageHash(imageHash)
 }
 
 // ReadFileAsBase64 reads a file and returns its content as a base64 encoded string
@@ -101,7 +101,7 @@ func (a *App) Notification(sender string, message string) {
 // GetLocalChatEnvVars retrieves the environment variables for the local chat application.
 // It returns a JSON string representation of the environment variables.
 // If an error occurs during retrieval, it panics.
-func (a *App) GetLocalChatEnvVars() string {
+func (a *App) GetLocalChatEnvVars() EnvVars {
 	vars, err := a.envVars.envVarsToFrontend()
 	if err != nil {
 		_ = fmt.Errorf("error converting env vars to frontend: %w", err)

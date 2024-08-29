@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { svgSize } from "../../../utils/variables";
+import { svgSize } from "../../../utils/variables/variables";
 
 function DisconnectedSvg() {
 	const { t } = useTranslation();

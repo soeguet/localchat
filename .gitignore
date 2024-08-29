@@ -27,3 +27,4 @@ frontend/src/test/.nvim/.bookmarks
 frontend/pnpm-lock.yaml
 frontend/__mocks__/zustand.js
 frontend/.storybook/main.js
+Session.vim

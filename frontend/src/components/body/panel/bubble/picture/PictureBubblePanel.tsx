@@ -1,4 +1,4 @@
-import type { MessagePayload } from "../../../../../utils/customTypes";
+import type { MessagePayload } from "../../../../../utils/types/customTypes";
 
 type PictureBubblePanelProps = {
 	messagePayload: MessagePayload;

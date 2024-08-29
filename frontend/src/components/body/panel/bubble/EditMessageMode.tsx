@@ -1,9 +1,8 @@
 import { useState } from "react";
 import {
-	PayloadSubType,
 	type MessagePayload, PayloadSubTypeEnum,
-} from "../../../../utils/customTypes";
-import { base64ToUtf8, utf8ToBase64 } from "../../../../utils/encoder";
+} from "../../../../utils/types/customTypes";
+import { base64ToUtf8, utf8ToBase64 } from "../../../../utils/transformation/encoder";
 import { useWebsocketStore } from "../../../../stores/websocketStore";
 import { useTranslation } from "react-i18next";
 

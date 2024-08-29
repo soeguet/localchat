@@ -1,6 +1,6 @@
 import { memo, useState } from "react";
 import "./ChatMessageUnit.css";
-import type { MessagePayload } from "../../../../utils/customTypes";
+import type { MessagePayload } from "../../../../utils/types/customTypes";
 import { ChatMessageBubblePart } from "./ChatMessageBubblePart";
 import { ChatMessageOuterPart } from "./ChatMessageOuterPart";
 type MessageProps = {

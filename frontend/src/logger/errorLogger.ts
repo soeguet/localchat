@@ -5,42 +5,29 @@ interface HttpLogger {
 }
 
 class ErrorLogger implements HttpLogger {
-	#socketIP: string;
-	#socketPort: string;
+	#socketIp: string = "";
+	#socketPort: string = "";
 
-	constructor(socketIP: string, socketPort: string) {
-		this.#socketIP = socketIP;
-		this.#socketPort = socketPort;
+	setSocketIP(newIp: string): void {
+		this.#socketIp = newIp;
 	}
 
-	setSocketIP(socketIP: string) {
-		this.#socketIP = socketIP;
+	setSocketPort(newPort: string): void {
+		this.#socketPort = newPort;
 	}
 
-	setSocketPort(socketPort: string) {
-		this.#socketPort = socketPort;
-	}
-
-	getSocketIP() {
-		return this.#socketIP;
-	}
-
-	getSocketPort() {
-		return this.#socketPort;
-	}
-
-	async logError(error: unknown) {
+	logError(error: unknown) {
 		if (!(error instanceof Error)) {
-			await errorLogger.logError(
-				// the irony :D
+			errorLogger.logError(
 				new Error("Error is not an instance of Error"),
 			);
 			return;
 		}
 
 		const time = new Date().toISOString();
-		const clientDbId = useUserStore.getState().myId;
-		const clientUsername = useUserStore.getState().myUsername;
+		const clientDbId = useUserStore.getState().myId || "ERROR_CLIENT_ID";
+		const clientUsername =
+			useUserStore.getState().myUsername || "ERROR_USERNAME";
 
 		const errorPayload = {
 			title: error.name,
@@ -52,8 +39,13 @@ class ErrorLogger implements HttpLogger {
 		};
 
 		try {
-			const response = await fetch(
-				`http://${this.#socketIP}:${this.#socketPort}/v1/log/error`,
+			// biome-ignore lint/style/useTemplate: <explanation>
+			fetch(
+				"http://" +
+					this.#socketIp +
+					":" +
+					this.#socketPort +
+					"/v1/log/error",
 				{
 					method: "POST",
 					headers: {
@@ -61,22 +53,26 @@ class ErrorLogger implements HttpLogger {
 					},
 					body: JSON.stringify(errorPayload),
 				},
-			);
-
-			if (!response.ok) {
-				// if the request fails, log the error to the console
-				console.error("Failed to log error", response.statusText);
-				console.error("Error message: ", error);
-			}
+			)
+				.then((response) => {
+					if (!response.ok) {
+						// if the request fails, log the error to the console
+						console.error(
+							"Failed to log error",
+							response.statusText,
+						);
+						console.error("Error message: ", error);
+					}
+				})
+				.catch((loggingError) => {
+					console.error("Error logging error:", loggingError);
+				});
 		} catch (loggingError) {
-			console.error("Error logging error", loggingError);
+			console.error("Error logging error:", loggingError);
 		}
 	}
 }
 
-const socketIP = useUserStore.getState().socketIp;
-const socketPort = useUserStore.getState().socketPort;
-
-const errorLogger = new ErrorLogger(socketIP, socketPort);
+const errorLogger = new ErrorLogger();
 
 export { errorLogger };

@@ -1,13 +1,19 @@
 {
 	"$schema": "https://biomejs.dev/schemas/1.7.3/schema.json",
 	"formatter": {
-		"enabled": true,
+		"enabled": false,
 		"formatWithErrors": true,
 		"indentStyle": "tab",
 		"indentWidth": 4,
 		"lineEnding": "lf",
 		"lineWidth": 80,
-		"attributePosition": "auto"
+		"attributePosition": "multiline"
+	},
+	"json": {
+		"formatter": {
+			"enabled": false,
+			"trailingCommas": "all"
+		}
 	},
 	"organizeImports": {
 		"enabled": true

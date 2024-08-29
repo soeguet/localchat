@@ -1,7 +1,7 @@
 {
   "name": "react-src",
   "private": true,
-  "version": "0.12.2",
+  "version": "0.13.12",
   "author": "soeguet",
   "type": "module",
   "scripts": {
@@ -17,6 +17,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "crypto-js": "^4.2.0",
     "emoji-picker-react": "^4.11.1",
     "i18next": "^23.13.0",
     "i18next-http-backend": "^2.5.2",
@@ -29,6 +30,7 @@
     "zustand": "^4.5.5"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
     "@chromatic-com/storybook": "^1.6.1",
     "@storybook/addon-essentials": "^8.2.9",
     "@storybook/addon-interactions": "^8.2.9",
@@ -42,6 +44,7 @@
     "@testing-library/jest-dom": "^6.4.8",
     "@testing-library/react": "^15.0.7",
     "@testing-library/user-event": "^14.5.2",
+    "@types/crypto-js": "^4.2.2",
     "@types/node": "^20.14.15",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
@@ -49,8 +52,8 @@
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
     "@vitejs/plugin-react": "^4.3.1",
-    "@vitest/coverage-v8": "latest",
-    "@vitest/ui": "^1.6.0",
+    "@vitest/coverage-v8": "^2.0.5",
+    "@vitest/ui": "^2.0.5",
     "autoprefixer": "^10.4.20",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
@@ -68,6 +71,6 @@
     "typescript": "^5.5.4",
     "vite": "^5.4.1",
     "vite-plugin-top-level-await": "^1.4.4",
-    "vitest": "^1.6.0"
+    "vitest": "^2.0.5"
   }
 }
