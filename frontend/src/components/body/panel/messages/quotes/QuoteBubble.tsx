@@ -1,8 +1,8 @@
-import { useClientStore } from "../../../stores/clientStore";
-import { useFontSizeStore } from "../../../stores/fontSizeStore";
-import type { MessagePayload } from "../../../utils/types/customTypes";
-import { base64ToUtf8 } from "../../../utils/transformation/encoder";
-import {DEFAULT_HOVER_COLOR} from "../../../utils/variables/variables";
+import { useClientStore } from "../../../../../stores/clientStore";
+import { useFontSizeStore } from "../../../../../stores/fontSizeStore";
+import { base64ToUtf8 } from "../../../../../utils/transformation/encoder";
+import type { MessagePayload } from "../../../../../utils/types/customTypes";
+import { DEFAULT_HOVER_COLOR } from "../../../../../utils/variables/variables";
 
 type QuoteBubbleProps = {
 	payload: MessagePayload;
@@ -46,8 +46,7 @@ function QuoteBubble(props: QuoteBubbleProps) {
 					style={{
 						borderColor: quotedClientColor ?? DEFAULT_HOVER_COLOR,
 						fontSize: `${fontSize - 3}px`,
-					}}
-				>
+					}}>
 					<div className="text-gray-800">
 						{base64DecodedQuoteMessage}
 						{/* <LinkifiedText

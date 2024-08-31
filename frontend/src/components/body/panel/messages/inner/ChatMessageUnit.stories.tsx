@@ -1,5 +1,5 @@
-import { useClientStore } from "../../../../stores/clientStore";
 import type { StoryFn } from "@storybook/react";
+import { useClientStore } from "../../../../../stores/clientStore";
 import { ChatMessageUnit } from "./ChatMessageUnit";
 
 export default {

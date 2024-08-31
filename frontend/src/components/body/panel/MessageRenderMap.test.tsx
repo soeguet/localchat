@@ -1,11 +1,12 @@
 import { render, screen } from "@testing-library/react";
-import { expect, test, describe } from "vitest";
+import { describe, expect, test } from "vitest";
 import { useClientStore } from "../../../stores/clientStore";
 import { useMessageMapStore } from "../../../stores/messageMapStore";
-import {MessagePayload, PayloadSubTypeEnum} from "../../../utils/types/customTypes";
+import {
+	type MessagePayload,
+	PayloadSubTypeEnum,
+} from "../../../utils/types/customTypes";
 import { MessageRenderMap } from "./MessageRenderMap";
-
-// chatmessageunit
 
 describe("pictureMessages", () => {
 	beforeEach(() => {

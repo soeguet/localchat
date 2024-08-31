@@ -1,4 +1,4 @@
-import type { MessagePayload } from "../../../../utils/types/customTypes";
+import type { MessagePayload } from "../../../../../utils/types/customTypes";
 
 type ChatMessageTimestampProps = {
 	lastMessageTimestampSameAsThisOne: boolean;

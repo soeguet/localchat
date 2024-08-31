@@ -17,8 +17,11 @@ type Db struct {
 }
 
 type DbRow struct {
-	ImageHash string
-	Data      string
+	ImageHash string `json:"imageHash"`
+	Data      string `json:"data"`
+}
+type Osman struct {
+	ABC bool
 }
 
 func NewDb() *Db {

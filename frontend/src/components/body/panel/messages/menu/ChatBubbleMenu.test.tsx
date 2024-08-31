@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
+import { render, screen } from "../../../../../utils/tests/test-utils";
+import { PayloadSubTypeEnum } from "../../../../../utils/types/customTypes";
 import { ChatBubbleMenu } from "./ChatBubbleMenu";
-import { render, screen } from "../../../../utils/tests/test-utils";
-import {PayloadSubTypeEnum} from "../../../../utils/types/customTypes";
 
 describe("ChatBubbleMenu", () => {
 	test("should not render menu", () => {
@@ -28,7 +28,9 @@ describe("ChatBubbleMenu", () => {
 				thisMessageFromThisClient={true}
 			/>,
 		);
-		expect(screen.queryByTestId("chat-bubble-menu")).not.toBeInTheDocument();
+		expect(
+			screen.queryByTestId("chat-bubble-menu"),
+		).not.toBeInTheDocument();
 	});
 	test("should render menu", () => {
 		render(

@@ -7,7 +7,8 @@ type ReactionFieldProps = {
 
 function ReactionField(props: ReactionFieldProps) {
 	const side =
-		useUserStore.getState().myId === props.messagePayload.clientType.clientDbId
+		useUserStore.getState().myId ===
+		props.messagePayload.clientType.clientDbId
 			? "right-0"
 			: "left-0";
 
@@ -23,7 +24,9 @@ function ReactionField(props: ReactionFieldProps) {
 				].map((reactionContext, index) => {
 					if (index > 3) return null;
 					return (
-						<div className="mr-1 hover:animate-spin" key={reactionContext}>
+						<div
+							className="mr-1 hover:animate-spin"
+							key={reactionContext}>
 							{reactionContext}
 						</div>
 					);

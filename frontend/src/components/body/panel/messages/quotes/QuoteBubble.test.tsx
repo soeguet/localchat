@@ -1,13 +1,13 @@
-import { expect, test, describe } from "vitest";
-import { useMessageMapStore } from "../../../stores/messageMapStore";
-import { useUserStore } from "../../../stores/userStore";
+import { describe, expect, test } from "vitest";
+import { useClientStore } from "../../../../../stores/clientStore";
+import { useMessageMapStore } from "../../../../../stores/messageMapStore";
+import { useUserStore } from "../../../../../stores/userStore";
+import { render, screen, waitFor } from "../../../../../utils/tests/test-utils";
 import {
 	type MessagePayload,
 	PayloadSubTypeEnum,
-} from "../../../utils/types/customTypes";
-import { ChatPanel } from "./ChatPanel";
-import { render, screen, waitFor } from "../../../utils/tests/test-utils";
-import { useClientStore } from "../../../stores/clientStore";
+} from "../../../../../utils/types/customTypes";
+import { ChatPanel } from "../../ChatPanel";
 
 describe("QuoteBubble", () => {
 	test("render quote bubble for this client", async () => {
