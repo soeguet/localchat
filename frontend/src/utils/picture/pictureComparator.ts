@@ -1,22 +1,27 @@
 import useSettingsStore from "../../stores/settingsStore";
-import {usePictureCacheStore} from "../../stores/pictureCacheStore";
 import CryptoJS from "crypto-js";
+import { useUserStore } from "../../stores/userStore";
+import { useClientStore } from "../../stores/clientStore";
 
 export function checkIfImageChanged() {
-    const oldImage = usePictureCacheStore.getState().thisClientProfilePictureObject;
+    const myId = useUserStore.getState().myId;
+    const oldImage = useClientStore.getState().clients.find(
+        (client) => client.clientDbId === myId,
+    )?.clientProfilePictureBase64;
     const newImage = useSettingsStore.getState().localProfilePicture;
 
     // if no image is set, always return true
     if (newImage === "" || newImage === null) {
         return false;
-    }if (!oldImage) {
+    }if (!oldImage || oldImage === "") {
         return true;
     }
 
-    return compareBase64Images(oldImage.data, newImage);
+    const sameImage = compareBase64Images(oldImage, newImage);
+    return !sameImage;
 }
 
-function compareBase64Images(image1: string, image2: string) {
+export function compareBase64Images(image1: string, image2: string) {
     // remove whitespaces first
     const cleanedImage1 = image1.replace(/\s/g, '');
     const cleanedImage2 = image2.replace(/\s/g, '');

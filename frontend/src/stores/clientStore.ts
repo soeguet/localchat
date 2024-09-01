@@ -3,7 +3,6 @@ import { GetImageViaImageHash, PersistImage } from "../../wailsjs/go/main/App";
 import {
 	type ClientEntity,
 	DeliverPicturePayloadSchema,
-	type Hash,
 	PayloadSubTypeEnum,
 } from "../utils/types/customTypes";
 import { useUserStore } from "./userStore";
@@ -15,7 +14,6 @@ export type ClientStore = {
 	clients: ClientEntity[];
 	setClients: (clients: ClientEntity[]) => void;
 	getClientById: (id: string) => ClientEntity | undefined;
-	getClientHashById: (id: string) => Hash | undefined;
 };
 
 const useClientStore: UseBoundStore<StoreApi<ClientStore>> =
@@ -123,24 +121,6 @@ const useClientStore: UseBoundStore<StoreApi<ClientStore>> =
 			const clients = useClientStore.getState().clients;
 			return clients.find((client) => client.clientDbId === id);
 		},
-		getClientHashById: (id: string): Hash | undefined => {
-			const clients = useClientStore.getState().clients;
-			const clientProfilePictureHash = clients.find(
-				(client) => client.clientDbId === id,
-			)?.clientProfilePictureHash;
-			if (
-				clientProfilePictureHash === null ||
-				clientProfilePictureHash === undefined
-			) {
-				return undefined;
-			}
-			return clientProfilePictureHash;
-		},
 	}));
-
-// export const getClientById = (id: string): ClientEntity | undefined => {
-// 	const clients = useClientStore.getState().clients;
-// 	return clients.find((client) => client.clientDbId === id);
-// };
 
 export { useClientStore };

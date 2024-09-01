@@ -4,7 +4,7 @@ import { NewSettingsModalContainer } from "./container/NewSettingsModalContainer
 type NewSettingsModalProps = {
 	isOpen: boolean;
 	onClose: () => void;
-	onSave: () => void;
+	handleProfileSettingsUpdateSaveButtonClick: () => void;
 };
 
 /**
@@ -35,7 +35,7 @@ function NewSettingsModal(props: NewSettingsModalProps): JSX.Element {
 				ref={dialogRef}
 			>
 				<NewSettingsModalContainer
-					onSave={props.onSave}
+				handleProfileSettingsUpdateSaveButtonClick={props.handleProfileSettingsUpdateSaveButtonClick}
 					onClose={props.onClose}
 				/>
 			</dialog>

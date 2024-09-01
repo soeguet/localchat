@@ -22,17 +22,14 @@ function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
 		: "right-0";
 	const clientColor = useClientStore(
 		(state) =>
-			state.clients.find(
-				(c) =>
-					c.clientDbId === props.messagePayload.clientType.clientDbId,
-			)?.clientColor,
+			state.getClientById(props.messagePayload.clientType.clientDbId)
+				?.clientColor,
 	);
-	const clientProfilePictureHash = useClientStore((state) => {
-		const hash = state.clients.find(
-			(c) => c.clientDbId === props.messagePayload.clientType.clientDbId,
-		)?.clientProfilePictureHash;
-		return hash || null;
-	});
+	const clientProfilePictureHash = useClientStore(
+		(state) =>
+			state.getClientById(props.messagePayload.clientType.clientDbId)
+				?.clientProfilePictureHash,
+	);
 	// state
 
 	const determineTopMarginForMessageMenu = () => {
@@ -74,7 +71,7 @@ function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
 				{/* need the padding on invisible profile picture, else messages will not be aligned -> handle via opacity */}
 				<ProfilePicture
 					clientDbId={props.messagePayload.clientType.clientDbId}
-					pictureHash={clientProfilePictureHash}
+					pictureHash={clientProfilePictureHash ?? null}
 					style={{
 						width: props.lastMessageFromThisClientId
 							? "75px"

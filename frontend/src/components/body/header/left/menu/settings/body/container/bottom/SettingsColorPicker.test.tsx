@@ -16,7 +16,7 @@ describe("SettingsColorPicker", () => {
 
 	test("should change the color of the whole modal - only state!", async () => {
 		// To be implemented
-		render(<NewSettingsModalContainer onClose={() => {}} onSave={() => {}} />);
+		render(<NewSettingsModalContainer onClose={() => {}}  handleProfileSettingsUpdateSaveButtonClick={() => {}} />);
 
 		act(() => {
 			useSettingsStore.getState().setLocalColor("red");
@@ -44,7 +44,7 @@ describe("SettingsColorPicker", () => {
 
 	test("should change the color of the whole modal - colorpicker change", async () => {
 		// To be implemented
-		render(<NewSettingsModalContainer onClose={() => {}} onSave={() => {}} />);
+		render(<NewSettingsModalContainer onClose={() => {}} handleProfileSettingsUpdateSaveButtonClick={() => {}} />);
 		const colorPicker = screen.queryByTestId("settings-profile-color-picker");
 
 		if (!colorPicker) {

@@ -1,11 +1,14 @@
-import { ScrollSymbolSvg } from "../../svgs/scroll/ScrollSymbolSvg";
-import { useUnseenMessageCountStore } from "../../../stores/unseenMessageCountStore";
+import { useCallback, useEffect, useState } from "react";
 import { useRefStore } from "../../../stores/refStore";
-import {useCallback, useEffect, useState} from "react";
+import { useUnseenMessageCountStore } from "../../../stores/unseenMessageCountStore";
+import { useUserStore } from "../../../stores/userStore";
+import { scrollToBottom } from "../../../utils/gui/scrollToBottomNeeded";
 import { debounce } from "../../../utils/socket/debounce";
-import {useUserStore} from "../../../stores/userStore";
-import {DEFAULT_HOVER_COLOR, DEFAULT_STROKE_COLOR} from "../../../utils/variables/variables";
-import {scrollToBottom} from "../../../utils/gui/scrollToBottomNeeded";
+import {
+	DEFAULT_HOVER_COLOR,
+	DEFAULT_STROKE_COLOR,
+} from "../../../utils/variables/variables";
+import { ScrollSymbolSvg } from "../../svgs/scroll/ScrollSymbolSvg";
 
 function ScrollToBottomButton() {
 	const [hover, setHover] = useState(false);
@@ -20,6 +23,7 @@ function ScrollToBottomButton() {
 	);
 	const chatContainerRef = useRefStore((state) => state.chatContainerRef);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	const handleScroll = useCallback(
 		debounce(() => {
 			if (!chatContainerRef) return;
@@ -34,9 +38,10 @@ function ScrollToBottomButton() {
 			}
 		}, 250),
 		// don't remove chatContainerRef as a dependency, else the button will not disappear
-		[chatContainerRef],
+		[chatContainerRef, setChatBottomRefVisible],
 	);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		if (!chatContainerRef) return;
 		const element = chatContainerRef.current;
@@ -49,26 +54,31 @@ function ScrollToBottomButton() {
 		}
 	}, [handleScroll]);
 
-	const backgroundColor = thisClientColor ? thisClientColor : DEFAULT_HOVER_COLOR;
+	const backgroundColor = thisClientColor
+		? thisClientColor
+		: DEFAULT_HOVER_COLOR;
 
 	return (
 		<>
 			{!chatBottomRefVisible && (
-				<div
-					className="relative max-h-0 -translate-y-12">
+				<div className="relative max-h-0 -translate-y-12">
 					<button
-					onMouseEnter={() => setHover(true)}
-					onMouseLeave={() => setHover(false)}
+						type="button"
+						onMouseEnter={() => setHover(true)}
+						onMouseLeave={() => setHover(false)}
 						onClick={async () => {
 							await scrollToBottom();
-							useUnseenMessageCountStore.getState().resetUnseenMessageCount();
+							useUnseenMessageCountStore
+								.getState()
+								.resetUnseenMessageCount();
 						}}
 						style={{
-							borderColor: hover ? backgroundColor : DEFAULT_STROKE_COLOR,
-							opacity: hover ? 1:0.7
+							borderColor: hover
+								? backgroundColor
+								: DEFAULT_STROKE_COLOR,
+							opacity: hover ? 1 : 0.7,
 						}}
-						className="sticky left-full z-50 mr-6 flex size-10 max-w-xs transform animate-bounce items-center justify-center rounded-full border bg-gray-200 text-xs shadow transition duration-300 ease-in-out"
-					>
+						className="sticky left-full z-50 mr-6 flex size-10 max-w-xs transform animate-bounce items-center justify-center rounded-full border bg-gray-200 text-xs shadow transition duration-300 ease-in-out">
 						<ScrollSymbolSvg />
 					</button>
 				</div>

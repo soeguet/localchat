@@ -50,8 +50,8 @@ function QuoteBubble(props: QuoteBubbleProps) {
 					<div className="text-gray-800">
 						{base64DecodedQuoteMessage}
 						{/* <LinkifiedText
-                            text={props.payload.quoteType.quoteMessageContext}
-                        /> */}
+						    text={props.payload.quoteType.quoteMessageContext}
+						/> */}
 					</div>
 					<div className="mt-2 text-gray-500">
 						{`— ${quotedClientName}, ${props.payload.quoteType.quoteTime}`}

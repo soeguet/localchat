@@ -12,8 +12,8 @@ type EmergencyMessageOnPanelProps = {
 function EmergencyMessageOnPanel(props: EmergencyMessageOnPanelProps) {
 	const clientList = useClientStore((state) => state.clients);
 	const messageSender = clientList.find(
-		(client) => client.clientDbId === props.message.clientDbId,
-	);
+        (client) => client.clientDbId === props.message.clientDbId,
+    );
 
 	if (messageSender === undefined || messageSender === null) {
 		throw new Error("messageSender is undefined");

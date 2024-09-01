@@ -1,7 +1,6 @@
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo,  useEffect, useState } from "react";
 import { GetImageViaImageHash } from "../../../wailsjs/go/main/App";
 import type { main } from "../../../wailsjs/go/models";
-import { errorLogger } from "../../logger/errorLogger";
 import type { ClientId } from "../../utils/types/customTypes";
 import {
 	DEFAULT_HOVER_COLOR,

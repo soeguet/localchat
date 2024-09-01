@@ -13,8 +13,7 @@ function ProfilePictureHandler() {
 	const doNotDisturb = useDoNotDisturbStore((state) => state.doNotDisturb);
 	const clientDbId = useUserStore((state) => state.myId);
 	const clientColor = useClientStore(
-		(state) =>
-			state.clients.find((c) => c.clientDbId === clientDbId)?.clientColor,
+		(state) => state.getClientById(clientDbId)?.clientColor,
 	);
 	const clientProfilePictureHash = useUserStore(
 		(state) => state.myProfilePictureHash,

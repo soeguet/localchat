@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useClientStore } from "../../../stores/clientStore";
 import { useEmergencyStore } from "../../../stores/emergencyStore";
-import {DEFAULT_HOVER_COLOR} from "../../../utils/variables/variables";
+import { DEFAULT_HOVER_COLOR } from "../../../utils/variables/variables";
 
 function EmergencyInitBanner() {
 	const { t } = useTranslation();
@@ -12,14 +12,10 @@ function EmergencyInitBanner() {
 		(state) => state.emergencyInitiatorId,
 	);
 	const emergencyInitiatorColor = useClientStore(
-		(state) =>
-			state.clients.find((client) => client.clientDbId === emergencyInitiatorId)
-				?.clientColor,
+		(state) => state.getClientById(emergencyInitiatorId)?.clientColor,
 	);
 	const emergencyInitiatorName = useClientStore(
-		(state) =>
-			state.clients.find((client) => client.clientDbId === emergencyInitiatorId)
-				?.clientUsername,
+		(state) => state.getClientById(emergencyInitiatorId)?.clientUsername,
 	);
 	return (
 		<>
@@ -27,11 +23,11 @@ function EmergencyInitBanner() {
 				<div
 					className="m-1 mt-3 animate-bounce rounded-2xl border-0 p-2 text-center"
 					style={{
-						backgroundColor: emergencyInitiatorColor ?? DEFAULT_HOVER_COLOR,
+						backgroundColor:
+							emergencyInitiatorColor ?? DEFAULT_HOVER_COLOR,
 						opacity: 0.8,
 						color: "white",
-					}}
-				>
+					}}>
 					{t("emergency_chat_init_text", {
 						initiatorName: emergencyInitiatorName,
 					})}
