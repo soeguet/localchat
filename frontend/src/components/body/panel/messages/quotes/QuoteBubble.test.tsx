@@ -4,6 +4,7 @@ import { useMessageMapStore } from "../../../../../stores/messageMapStore";
 import { useUserStore } from "../../../../../stores/userStore";
 import { render, screen, waitFor } from "../../../../../utils/tests/test-utils";
 import {
+	ClientEntity,
 	type MessagePayload,
 	PayloadSubTypeEnum,
 } from "../../../../../utils/types/customTypes";
@@ -98,18 +99,19 @@ describe("QuoteBubble", () => {
 		useMessageMapStore.getState().onMessage(messagePayload2);
 		useUserStore.getState().setMyId(id);
 		useUserStore.getState().setMyUsername("TestUser");
-		useClientStore.getState().setClients([
-			{
-				clientDbId: id,
-				clientUsername: "TestUser",
-				availability: true,
-			},
-			{
-				clientDbId: otherId,
-				clientUsername: "TestUser2",
-				availability: true,
-			},
-		]);
+
+		const map = new Map<string, ClientEntity>();
+		map.set(id, {
+			clientDbId: id,
+			clientUsername: "TestUser",
+			availability: true,
+		});
+		map.set(otherId, {
+			clientDbId: otherId,
+			clientUsername: "TestUser2",
+			availability: true,
+		});
+		useClientStore.getState().setClientMap(map);
 
 		render(<ChatPanel />);
 		await waitFor(async () => {

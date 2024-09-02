@@ -2,10 +2,7 @@ import {
 	MakeWindowsTaskIconFlash,
 	Notification,
 } from "../../../../wailsjs/go/main/App.js";
-import {
-	WindowIsMinimised,
-	WindowShow,
-} from "../../../../wailsjs/runtime";
+import { WindowIsMinimised, WindowShow } from "../../../../wailsjs/runtime";
 import { useClientStore } from "../../../stores/clientStore.js";
 import { useEmergencyStore } from "../../../stores/emergencyStore";
 import { useGuiHasFocusStore } from "../../../stores/guiHasFocusStore.js";
@@ -27,15 +24,11 @@ const useEmergencyNotifications = () => {
 	const thisClientId = useUserStore.getState().myId;
 	const thisClientName = useClientStore
 		.getState()
-		.clients.find(
-			(client) => client.clientDbId === thisClientId,
-		)?.clientUsername;
+		.clientMap.get(thisClientId)?.clientUsername;
 	const decodedMessage = base64ToUtf8(lastMessage.message);
 	const messageSenderUsername = useClientStore
 		.getState()
-		.clients.find(
-			(client) => client.clientDbId === lastMessageClientId,
-		)?.clientUsername;
+		.clientMap.get(lastMessageClientId)?.clientUsername;
 
 	if (!availability) {
 		return;

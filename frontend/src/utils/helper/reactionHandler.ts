@@ -1,9 +1,9 @@
-import type { MessagePayload } from "../types/customTypes";
-import { useUserStore } from "../../stores/userStore";
 import { Notification } from "../../../wailsjs/go/main/App";
 import { useClientStore } from "../../stores/clientStore";
-import { base64ToUtf8 } from "../transformation/encoder";
 import { useDoNotDisturbStore } from "../../stores/doNotDisturbStore";
+import { useUserStore } from "../../stores/userStore";
+import { base64ToUtf8 } from "../transformation/encoder";
+import type { MessagePayload } from "../types/customTypes";
 
 export async function notifyClientIfReactionTarget(payload: MessagePayload) {
 	const messageFromThisClient =
@@ -20,9 +20,7 @@ export async function notifyClientIfReactionTarget(payload: MessagePayload) {
 	const reaction = payload.reactionType[payload.reactionType.length - 1];
 	const reactingClient = useClientStore
 		.getState()
-		.clients.find(
-			(client) => client.clientDbId === reaction.reactionClientId,
-		)?.clientUsername;
+		.clientMap.get(reaction.reactionClientId)?.clientUsername;
 	const reactionContext = reaction.reactionContext;
 	const message = base64ToUtf8(payload.messageType.messageContext);
 

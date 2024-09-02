@@ -10,10 +10,7 @@ type DeletedMessageProps = {
 function DeletedMessage(props: DeletedMessageProps) {
 	const { t } = useTranslation();
 	const clientColor = useClientStore(
-		(state) =>
-			state.clients.filter(
-				(client) => client.clientDbId === props.clientDbId,
-			)[0].clientColor,
+		(state) => state.clientMap.get(props.clientDbId)?.clientColor,
 	);
 	const messageOnWhichSideAligned = `${
 		props.thisMessageFromThisClient ? "justify-end pr-16" : "pl-16"

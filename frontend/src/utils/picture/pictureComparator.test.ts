@@ -1,58 +1,54 @@
-import { expect, test, describe } from "vitest";
-import { checkIfImageChanged, compareBase64Images } from "./pictureComparator";
-import { useUserStore } from "../../stores/userStore";
+import { describe, expect, test } from "vitest";
 import { useClientStore } from "../../stores/clientStore";
 import useSettingsStore from "../../stores/settingsStore";
+import { useUserStore } from "../../stores/userStore";
+import { ClientEntity } from "../types/customTypes";
+import { checkIfImageChanged, compareBase64Images } from "./pictureComparator";
 
 describe("pictureComparator", () => {
+	test("test if images are the same", () => {
+		const oldImage = "test";
+		const newImage = "test";
 
-    test("test if images are the same", () => {
+		const sameImage = compareBase64Images(oldImage, newImage);
 
-        const oldImage = "test";
-        const newImage = "test";
+		expect(sameImage).toBe(true);
+	});
 
-        const sameImage = compareBase64Images(oldImage, newImage);
+	test("test if images are different", () => {
+		const oldImage = "test";
+		const newImage = "test2";
 
-        expect(sameImage).toBe(true);
-    });
+		const sameImage = compareBase64Images(oldImage, newImage);
 
-    test("test if images are different", () => {
+		expect(sameImage).toBe(false);
+	});
 
-        const oldImage = "test";
-        const newImage = "test2";
+	test("test if image changed, no old, no new image set", () => {
+		const imageCheck = checkIfImageChanged();
+		expect(imageCheck).toBe(false);
+	});
 
-        const sameImage = compareBase64Images(oldImage, newImage);
+	test("test if image changed, no old image set", () => {
+		useUserStore.getState().setMyId("1");
+		// TODO setting clients will ask backend for the image via hash -> extract it or mock it
 
-        expect(sameImage).toBe(false);
-    });
+		const map = new Map<string, ClientEntity>();
+		map.set("1", {
+			clientDbId: "1",
+			clientProfilePictureBase64: "test",
+			availability: true,
+			clientUsername: "TestUser",
+			clientProfilePictureHash: "imagehash",
+		});
+		useClientStore.getState().setClientMap(map);
+		// random base64 string for an image
+		useSettingsStore.getState().setLocalProfilePicture("base64string");
 
-    test("test if image changed, no old, no new image set", () => {
-        const imageCheck = checkIfImageChanged();
-        expect(imageCheck).toBe(false);
-    });
+		const imageCheck = checkIfImageChanged();
 
-    test("test if image changed, no old image set", () => {
-
-        useUserStore.getState().setMyId("1");
-        // TODO setting clients will ask backend for the image via hash -> extract it or mock it
-        useClientStore.getState().setClients([
-            {
-                clientDbId: "1",
-                clientProfilePictureBase64: "test",
-                availability: true,
-                clientUsername: "TestUser",
-                clientProfilePictureHash: "imagehash",
-            },
-        ]);
-        // random base64 string for an image
-        useSettingsStore.getState().setLocalProfilePicture("base64string");
-
-        const imageCheck = checkIfImageChanged();
-
-        expect(imageCheck).toBe(true);
-
-    });
-
+		expect(imageCheck).toBe(true);
+	});
 });
 //import useSettingsStore from "../../stores/settingsStore";
 //import CryptoJS from "crypto-js";

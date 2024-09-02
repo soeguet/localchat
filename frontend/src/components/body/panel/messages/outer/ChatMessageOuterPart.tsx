@@ -22,13 +22,15 @@ function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
 		: "right-0";
 	const clientColor = useClientStore(
 		(state) =>
-			state.getClientById(props.messagePayload.clientType.clientDbId)
-				?.clientColor,
+			state.getClientFromMapById(
+				props.messagePayload.clientType.clientDbId,
+			)?.clientColor,
 	);
 	const clientProfilePictureHash = useClientStore(
 		(state) =>
-			state.getClientById(props.messagePayload.clientType.clientDbId)
-				?.clientProfilePictureHash,
+			state.getClientFromMapById(
+				props.messagePayload.clientType.clientDbId,
+			)?.clientProfilePictureHash,
 	);
 	// state
 
@@ -50,11 +52,8 @@ function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
 			username:
 				useClientStore
 					.getState()
-					.clients.find(
-						(c) =>
-							c.clientDbId ===
-							props.messagePayload.clientType.clientDbId,
-					)?.clientUsername || "Unknown",
+					.clientMap.get(props.messagePayload.clientType.clientDbId)
+					?.clientUsername || "Unknown",
 			time: props.messagePayload.messageType.messageTime,
 			date: props.messagePayload.messageType.messageDate,
 			message: props.messagePayload.messageType.messageContext,

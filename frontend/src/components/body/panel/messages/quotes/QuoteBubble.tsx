@@ -8,34 +8,56 @@ type QuoteBubbleProps = {
 	payload: MessagePayload;
 };
 
-function QuoteBubble(props: QuoteBubbleProps) {
-	if (props.payload === undefined || props.payload.quoteType === null) {
+function nullChecks(payload: MessagePayload) {
+	if (payload === undefined || payload === null) {
 		return null;
 	}
-	if (
-		props.payload.quoteType === undefined ||
-		!props.payload.quoteType.quoteMessageContext
-	) {
-		return;
+
+	if (payload.quoteType === undefined || payload.quoteType === null) {
+		return null;
 	}
+
+	if (
+		payload.quoteType.quoteClientId === undefined ||
+		payload.quoteType.quoteClientId === null
+	) {
+		return null;
+	}
+
+	if (
+		payload.quoteType.quoteMessageContext === undefined ||
+		payload.quoteType.quoteMessageContext === null
+	) {
+		return null;
+	}
+	return payload.quoteType;
+}
+
+function QuoteBubble(props: QuoteBubbleProps) {
+	const quoteType = nullChecks(props.payload);
+
+	if (
+		quoteType === null ||
+		quoteType.quoteClientId === null ||
+		quoteType.quoteMessageContext === null
+	) {
+		return null;
+	}
+
+	const quotedClientId = quoteType.quoteClientId;
+	const quoteMessageContext = quoteType.quoteMessageContext;
+
+	// state
 	const fontSize = useFontSizeStore((state) => state.fontSize);
 	const quotedClientColor = useClientStore(
-		(state) =>
-			state.clients.find(
-				(c) => c.clientDbId === props.payload.quoteType?.quoteClientId,
-			)?.clientColor,
+		(state) => state.clientMap.get(quotedClientId)?.clientColor,
 	);
-
 	const quotedClientName = useClientStore(
-		(state) =>
-			state.clients.find(
-				(c) => c.clientDbId === props.payload.quoteType?.quoteClientId,
-			)?.clientUsername,
+		(state) => state.clientMap.get(quotedClientId)?.clientUsername,
 	);
+	// state
 
-	const base64DecodedQuoteMessage = base64ToUtf8(
-		props.payload.quoteType.quoteMessageContext,
-	);
+	const base64DecodedQuoteMessage = base64ToUtf8(quoteMessageContext);
 
 	return (
 		<>

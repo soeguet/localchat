@@ -3,7 +3,7 @@ import { useClientStore } from "../../stores/clientStore";
 import { usePictureCacheStore } from "../../stores/pictureCacheStore";
 import useSettingsStore from "../../stores/settingsStore";
 import { useUserStore } from "../../stores/userStore";
-import type { ProfilePictureObject } from "../types/customTypes";
+import type { ClientEntity, ProfilePictureObject } from "../types/customTypes";
 import { _determineNewImageHash } from "./handleCommunicationWithSocket";
 
 describe("handleCommunicationWithSocket", () => {
@@ -15,19 +15,16 @@ describe("handleCommunicationWithSocket", () => {
 
 	test.skip("determineNewImageHash, no new image", () => {
 		useUserStore.getState().setMyId("1");
-		useClientStore.getState().setClients([
-			{
-				clientDbId: "1",
-				clientProfilePictureHash: "hash1",
-				clientProfilePictureBase64: "data",
-				availability: true,
-				clientUsername: "TestUser",
-			},
-		]);
-		console.log(useClientStore.getState().clients);
-
+		const map = new Map<string, ClientEntity>();
+		map.set("1", {
+			clientDbId: "1",
+			clientProfilePictureHash: "hash1",
+			clientProfilePictureBase64: "data",
+			availability: true,
+			clientUsername: "TestUser",
+		});
+		useClientStore.getState().setClientMap(map);
 		const newImageHash = _determineNewImageHash(false);
-
 		expect(newImageHash).toBe("hash1");
 	});
 

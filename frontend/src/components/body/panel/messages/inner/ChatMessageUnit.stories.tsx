@@ -1,25 +1,27 @@
 import type { StoryFn } from "@storybook/react";
 import { useClientStore } from "../../../../../stores/clientStore";
+import type { ClientEntity } from "../../../../../utils/types/customTypes";
 import { ChatMessageUnit } from "./ChatMessageUnit";
+
+const map = new Map<string, ClientEntity>();
+map.set("AAA", {
+	clientDbId: "AAA",
+	clientUsername: "TestUser",
+	clientColor: "#cd2a1a",
+	availability: true,
+});
+map.set("BBB", {
+	clientDbId: "BBB",
+	clientUsername: "TestUser2",
+	clientColor: "#003000",
+	availability: true,
+});
 
 export default {
 	component: ChatMessageUnit,
 	decorators: [
 		(Story: StoryFn) => {
-			useClientStore.getState().setClients([
-				{
-					clientDbId: "AAA",
-					clientUsername: "TestUser",
-					clientColor: "#cd2a1a",
-					availability: true,
-				},
-				{
-					clientDbId: "BBB",
-					clientUsername: "TestUser2",
-					clientColor: "#003000",
-					availability: true,
-				},
-			]);
+			useClientStore.getState().setClientMap(map);
 
 			return <Story />;
 		},

@@ -32,10 +32,8 @@ export async function handleProfileSettingsUpdatesWithSocketV2() {
  */
 export function _determineNewImageHash(didImageChange: boolean) {
 	const myId = useUserStore.getState().myId;
-	const clients = useClientStore.getState().clients;
-	const myProfilePictureHash = clients.find(
-		(client) => client.clientDbId === myId,
-	)?.clientProfilePictureHash;
+	const clients = useClientStore.getState().clientMap;
+	const myProfilePictureHash = clients.get(myId)?.clientProfilePictureHash;
 
 	if (!didImageChange) {
 		if (myProfilePictureHash === undefined) {

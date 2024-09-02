@@ -14,7 +14,7 @@ function SettingsColorPicker() {
 
 	const myId = useUserStore((state) => state.myId);
 	const myProfileColor = useClientStore(
-		(state) => state.getClientById(myId)?.clientColor,
+		(state) => state.getClientFromMapById(myId)?.clientColor,
 	);
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: changing this useEffect will break the color functionality

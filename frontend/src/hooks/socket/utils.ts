@@ -13,6 +13,7 @@ import { useVersionStore } from "../../stores/versionStore";
 import { scrollToBottom } from "../../utils/gui/scrollToBottomNeeded";
 import { base64ToUtf8 } from "../../utils/transformation/encoder";
 import type {
+	ClientEntity,
 	ClientListPayload,
 	ClientListPayloadEnhanced,
 	MessagePayload,
@@ -59,10 +60,7 @@ export async function checkIfNotificationIsNeeded(
 
 	const messageSenderName = useClientStore
 		.getState()
-		.clients.find(
-			(predicate) =>
-				predicate.clientDbId === messagePayload.clientType.clientDbId,
-		)?.clientUsername;
+		.clientMap.get(messagePayload.clientType.clientDbId)?.clientUsername;
 
 	const titleNotification = `${messagePayload.messageType.messageTime.slice(0, 5)} - ${messageSenderName}`;
 
@@ -89,7 +87,13 @@ export function handleClientListPayload(
 ) {
 	const newVersion = clientListPayload.version;
 	useVersionStore.getState().checkForUpdate(newVersion);
-	useClientStore.getState().setClients(clientListPayload.clients);
+
+	const clients = clientListPayload.clients;
+	const map = new Map<string, ClientEntity>();
+	for (const client of clients) {
+		map.set(client.clientDbId, client);
+	}
+	useClientStore.getState().setClientMap(map);
 }
 
 // updates this specific client and caches its values
