@@ -1,8 +1,8 @@
 import { memo, useState } from "react";
 import "./ChatMessageUnit.css";
-import type { MessagePayload } from "../../../../utils/types/customTypes";
-import { ChatMessageBubblePart } from "./ChatMessageBubblePart";
-import { ChatMessageOuterPart } from "./ChatMessageOuterPart";
+import type { MessagePayload } from "../../../../../utils/types/customTypes";
+import { ChatMessageBubblePart } from "../bubble/ChatMessageBubblePart";
+import { ChatMessageOuterPart } from "../outer/ChatMessageOuterPart";
 type MessageProps = {
 	messagePayload: MessagePayload;
 	thisMessageFromThisClient: boolean;
@@ -25,8 +25,7 @@ const ChatMessageUnit = memo((props: MessageProps) => {
 
 	return (
 		<div
-			className={`group/message flex items-end ${messageOnWhichSideAligned} ${howMuchMarginToMessageAbove}`}
-		>
+			className={`group/message flex items-end ${messageOnWhichSideAligned} ${howMuchMarginToMessageAbove}`}>
 			<ChatMessageOuterPart
 				lastMessageTimestampSameAsThisOne={
 					props.lastMessageTimestampSameAsThisOne

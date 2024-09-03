@@ -2,11 +2,14 @@ import { Fragment, useDeferredValue, useEffect } from "react";
 import { useMessageMapStore } from "../../../stores/messageMapStore";
 import { useUnseenMessageCountStore } from "../../../stores/unseenMessageCountStore";
 import { useUserStore } from "../../../stores/userStore";
+import {
+	checkIfScrollToBottomIsNeeded,
+	scrollToBottom,
+} from "../../../utils/gui/scrollToBottomNeeded";
 import type { MessagePayload } from "../../../utils/types/customTypes";
-import {checkIfScrollToBottomIsNeeded, scrollToBottom} from "../../../utils/gui/scrollToBottomNeeded";
-import { UnreadMessagesBelowBanner } from "./UnreadMessagesBelowBanner";
-import { ChatMessageUnit } from "./bubble/ChatMessageUnit";
-import { DeletedMessage } from "./DeletedMessage";
+import { DeletedMessage } from "./messages/deleted/DeletedMessage";
+import { ChatMessageUnit } from "./messages/inner/ChatMessageUnit";
+import { UnreadMessagesBelowBanner } from "./messages/unread/UnreadMessagesBelowBanner";
 
 function MessageRenderMap() {
 	const messageMap = useMessageMapStore((state) => state.messageMap);
@@ -26,16 +29,21 @@ function MessageRenderMap() {
 			return;
 		}
 
-		checkIfScrollToBottomIsNeeded(lastMessage[1].clientType.clientDbId).then((scrollToBottomIsNeeded) => {
+		checkIfScrollToBottomIsNeeded(
+			lastMessage[1].clientType.clientDbId,
+		).then((scrollToBottomIsNeeded) => {
 			if (scrollToBottomIsNeeded) {
 				scrollToBottom().then(() => {
-					useUnseenMessageCountStore.getState().resetUnseenMessageCount();
+					useUnseenMessageCountStore
+						.getState()
+						.resetUnseenMessageCount();
 				});
 			} else {
-				useUnseenMessageCountStore.getState().incrementUnseenMessageCount();
+				useUnseenMessageCountStore
+					.getState()
+					.incrementUnseenMessageCount();
 			}
 		});
-
 	}, [newMap]);
 
 	return (
@@ -48,14 +56,17 @@ function MessageRenderMap() {
 						value[1].clientType.clientDbId === thisClientId;
 
 					const thisIsTheFirstUnreadMessage =
-						value[1].messageType.messageDbId === idOfTheFirstUnreadMessage;
+						value[1].messageType.messageDbId ===
+						idOfTheFirstUnreadMessage;
 
 					if (array.length > 1 && index > 0) {
-						const lastMessage: [string, MessagePayload] = array[index - 1];
+						const lastMessage: [string, MessagePayload] =
+							array[index - 1];
 						if (
 							// skip if message was deleted
 							!lastMessage[1].messageType.deleted &&
-							lastMessage[1].clientType.clientDbId !== undefined &&
+							lastMessage[1].clientType.clientDbId !==
+								undefined &&
 							lastMessage[1].clientType.clientDbId ===
 								value[1].clientType.clientDbId
 						) {
@@ -72,22 +83,30 @@ function MessageRenderMap() {
 					return (
 						<Fragment key={value[0]}>
 							<UnreadMessagesBelowBanner
-								thisIsTheFirstUnreadMessage={thisIsTheFirstUnreadMessage}
+								thisIsTheFirstUnreadMessage={
+									thisIsTheFirstUnreadMessage
+								}
 							/>
 
 							{value[1].messageType.deleted ? (
 								<DeletedMessage
 									clientDbId={value[1].clientType.clientDbId}
-									thisMessageFromThisClient={thisMessageFromThisClient}
+									thisMessageFromThisClient={
+										thisMessageFromThisClient
+									}
 								/>
 							) : (
 								<ChatMessageUnit
 									messagePayload={value[1]}
-									lastMessageFromThisClientId={lastMessageFromThisClientId}
+									lastMessageFromThisClientId={
+										lastMessageFromThisClientId
+									}
 									lastMessageTimestampSameAsThisOne={
 										lastMessageTimestampSameAsThisOne
 									}
-									thisMessageFromThisClient={thisMessageFromThisClient}
+									thisMessageFromThisClient={
+										thisMessageFromThisClient
+									}
 								/>
 							)}
 						</Fragment>

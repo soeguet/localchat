@@ -19,7 +19,7 @@ describe("SettingsLanguagePicker", () => {
 	});
 
 	test("should change store value after value change", () => {
-		render(<NewSettingsModalContainer onSave={() => {}} onClose={() => {}} />);
+		render(<NewSettingsModalContainer handleProfileSettingsUpdateSaveButtonClick={() => {}} onClose={() => {}} />);
 
 		act(() => {
 			useSettingsStore.getState().setLocalColor("red");
@@ -31,7 +31,7 @@ describe("SettingsLanguagePicker", () => {
 	});
 
 	test("should change modal border color after state change", () => {
-		render(<NewSettingsModalContainer onSave={() => {}} onClose={() => {}} />);
+		render(<NewSettingsModalContainer handleProfileSettingsUpdateSaveButtonClick={() => {}} onClose={() => {}} />);
 
 		act(() => {
 			useSettingsStore.getState().setLocalColor("red");
@@ -49,7 +49,7 @@ describe("SettingsLanguagePicker", () => {
 	});
 
 	test.skip("should change color picker style to red", () => {
-		render(<NewSettingsModalContainer onSave={() => {}} onClose={() => {}} />);
+		render(<NewSettingsModalContainer handleProfileSettingsUpdateSaveButtonClick={() => {}} onClose={() => {}} />);
 
 		// color picker
 		const colorPicker = screen.queryByTestId("settings-profile-color-picker");
@@ -66,7 +66,7 @@ describe("SettingsLanguagePicker", () => {
 	});
 
 	test("should render no modal border color if no mouse enter", () => {
-		render(<NewSettingsModalContainer onSave={() => {}} onClose={() => {}} />);
+		render(<NewSettingsModalContainer handleProfileSettingsUpdateSaveButtonClick={() => {}} onClose={() => {}} />);
 
 		// color picker
 		const colorPicker = screen.queryByTestId("settings-profile-color-picker");
@@ -91,7 +91,7 @@ describe("SettingsLanguagePicker", () => {
 
 	test.skip("should render new border color after mouse enter", async () => {
 		// for some reason after using the hover event the test fails
-		render(<NewSettingsModalContainer onSave={() => {}} onClose={() => {}} />);
+		render(<NewSettingsModalContainer handleProfileSettingsUpdateSaveButtonClick={() => {}} onClose={() => {}} />);
 
 		// color picker
 		const colorPicker = screen.queryByTestId("settings-profile-color-picker");

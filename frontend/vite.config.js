@@ -11,7 +11,7 @@ export default defineConfig({
         react(),
         topLevelAwait({
             promiseExportName: "__tla",
-            promiseImportName: function (i) { return "__tla_".concat(i); },
+            promiseImportName: (i) => "__tla_".concat(i),
         }),
     ],
     test: {

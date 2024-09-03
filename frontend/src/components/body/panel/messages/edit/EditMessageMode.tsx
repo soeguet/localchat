@@ -1,10 +1,14 @@
 import { useState } from "react";
-import {
-	type MessagePayload, PayloadSubTypeEnum,
-} from "../../../../utils/types/customTypes";
-import { base64ToUtf8, utf8ToBase64 } from "../../../../utils/transformation/encoder";
-import { useWebsocketStore } from "../../../../stores/websocketStore";
 import { useTranslation } from "react-i18next";
+import { useWebsocketStore } from "../../../../../stores/websocketStore";
+import {
+	base64ToUtf8,
+	utf8ToBase64,
+} from "../../../../../utils/transformation/encoder";
+import {
+	type MessagePayload,
+	PayloadSubTypeEnum,
+} from "../../../../../utils/types/customTypes";
 
 type EditMessageModeProps = {
 	messagePayload: MessagePayload;
@@ -52,8 +56,7 @@ function EditMessageMode(props: EditMessageModeProps) {
 						type="button"
 						onClick={onChangedMessageSubmit}
 						onKeyDown={onChangedMessageSubmit}
-						className="rounded-xl bg-emerald-700 p-2 px-3 text-white"
-					>
+						className="rounded-xl bg-emerald-700 p-2 px-3 text-white">
 						{t("save_edit_button")}
 					</button>
 					<button
@@ -64,8 +67,7 @@ function EditMessageMode(props: EditMessageModeProps) {
 						onKeyDown={() => {
 							props.setEnableMessageEditingMode(false);
 						}}
-						className="rounded-xl bg-amber-700 p-2 px-3 text-white"
-					>
+						className="rounded-xl bg-amber-700 p-2 px-3 text-white">
 						{t("cancel_edit_button")}
 					</button>
 				</div>

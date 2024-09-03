@@ -13,7 +13,7 @@ import {useUserStore} from "../../../../../../../../stores/userStore";
 
 type NewSettingsModalProps = {
 	onClose: () => void;
-	onSave: () => void;
+	handleProfileSettingsUpdateSaveButtonClick: () => void;
 };
 
 function NewSettingsModalContainer(props: NewSettingsModalProps) {
@@ -49,7 +49,7 @@ function NewSettingsModalContainer(props: NewSettingsModalProps) {
 						<AvailabilityCheckbox />
 					</div>
 				</div>
-				<NewSettingsButtonArea onSave={props.onSave} onClose={props.onClose} />
+				<NewSettingsButtonArea handleProfileSettingsUpdateSaveButtonClick={props.handleProfileSettingsUpdateSaveButtonClick} onClose={props.onClose} />
 			</div>
 		</>
 	);

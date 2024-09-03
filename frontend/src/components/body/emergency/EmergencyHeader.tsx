@@ -1,20 +1,20 @@
 import { useTranslation } from "react-i18next";
+import { useClientStore } from "../../../stores/clientStore";
 import { useEmergencyStore } from "../../../stores/emergencyStore";
 import { useUserStore } from "../../../stores/userStore";
+import { EmergencyLogoSvg } from "../../svgs/emergency/EmergencyLogoSvg";
 import { CloseButton } from "../../svgs/ui/CloseButton";
 import { EmergencyChatMenu } from "./EmergencyChatMenu";
-import { useClientStore } from "../../../stores/clientStore";
-import { EmergencyLogoSvg } from "../../svgs/emergency/EmergencyLogoSvg";
 
 function EmergencyHeader() {
 	const { t } = useTranslation();
 	const myColor = useUserStore((state) => state.myColor);
 	const headerColor = myColor ? `${myColor}` : "bg-amber-900/80";
-	const initiatorId = useEmergencyStore((state) => state.emergencyInitiatorId);
+	const initiatorId = useEmergencyStore(
+		(state) => state.emergencyInitiatorId,
+	);
 	const initiatorName = useClientStore(
-		(state) =>
-			state.clients.find((client) => client.clientDbId === initiatorId)
-				?.clientUsername,
+		(state) => state.clientMap.get(initiatorId)?.clientUsername,
 	);
 
 	return (
@@ -23,8 +23,7 @@ function EmergencyHeader() {
 				className="relative flex w-full cursor-default select-none items-center gap-2 p-2 font-bold text-white"
 				style={{
 					backgroundColor: headerColor,
-				}}
-			>
+				}}>
 				<EmergencyLogoSvg />
 				{t("emergency_chat_header_text", {
 					initiatorName: initiatorName,
@@ -35,8 +34,7 @@ function EmergencyHeader() {
 						className="cursor-pointer hover:animate-spin"
 						onClick={() => {
 							useEmergencyStore.getState().setChatVisible(false);
-						}}
-					>
+						}}>
 						<CloseButton />
 					</div>
 				</div>

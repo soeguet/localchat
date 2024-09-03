@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import useSettingsStore from "../../../../../../../../../stores/settingsStore";
 
-type NewSettingsButtonAreaProps = { onClose: () => void; onSave: () => void };
+type NewSettingsButtonAreaProps = { onClose: () => void; handleProfileSettingsUpdateSaveButtonClick: () => void };
 
 function NewSettingsButtonArea(props: NewSettingsButtonAreaProps) {
 	const { t } = useTranslation();
@@ -24,14 +24,16 @@ function NewSettingsButtonArea(props: NewSettingsButtonAreaProps) {
 				className="col-span-2 flex items-center justify-end"
 			>
 				<button
+					type="button"
 					data-testid="save-settings-modal-button"
-					onClick={props.onSave}
+					onClick={props.handleProfileSettingsUpdateSaveButtonClick}
 					className="mt-2 rounded-lg  px-4 py-2 text-white"
 					style={{ backgroundColor: localColor }}
 				>
 					{t("settings_save_button")}
 				</button>
 				<button
+					type="button"
 					data-testid="close-settings-modal-button"
 					onClick={props.onClose}
 					className="ml-2 mt-2 rounded-lg bg-gray-500 px-4 py-2 text-white"

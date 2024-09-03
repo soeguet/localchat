@@ -1,7 +1,7 @@
-import type { MessagePayload } from "../../../../utils/types/customTypes";
-import { ChatBubbleBottomPart } from "./ChatBubbleBottomPart";
-import { ChatBubbleTopPart } from "./ChatBubbleTopPart";
-import { ReactionTriggerDiv } from "./reaction/ReactionTriggerDiv";
+import type { MessagePayload } from "../../../../../utils/types/customTypes";
+import { ChatBubbleBottomPart } from "../inner/ChatBubbleBottomPart";
+import { ReactionTriggerDiv } from "../reaction/ReactionTriggerDiv";
+import { ChatBubbleTopPart } from "../top/ChatBubbleTopPart";
 
 type ChatMessageBubblePartProps = {
 	messagePayload: MessagePayload;
@@ -26,7 +26,9 @@ function ChatMessageBubblePart(props: ChatMessageBubblePartProps) {
 			<div className={`flex flex-col ${alignChatLeftOrRight}`}>
 				<ChatBubbleTopPart
 					messagePayload={props.messagePayload}
-					lastMessageFromThisClientId={props.lastMessageFromThisClientId}
+					lastMessageFromThisClientId={
+						props.lastMessageFromThisClientId
+					}
 					lastMessageTimestampSameAsThisOne={
 						props.lastMessageTimestampSameAsThisOne
 					}
@@ -34,10 +36,16 @@ function ChatMessageBubblePart(props: ChatMessageBubblePartProps) {
 				<div className={`flex ${flexOrder}`}>
 					<ReactionTriggerDiv messagePayload={props.messagePayload} />
 					<ChatBubbleBottomPart
-						enableMessageEditingMode={props.enableMessageEditingMode}
-						setEnableMessageEditingMode={props.setEnableMessageEditingMode}
+						enableMessageEditingMode={
+							props.enableMessageEditingMode
+						}
+						setEnableMessageEditingMode={
+							props.setEnableMessageEditingMode
+						}
 						messagePayload={props.messagePayload}
-						thisMessageFromThisClient={props.thisMessageFromThisClient}
+						thisMessageFromThisClient={
+							props.thisMessageFromThisClient
+						}
 					/>
 				</div>
 			</div>

@@ -1,21 +1,23 @@
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useClientStore } from "../../../../../../../../../stores/clientStore";
 import useSettingsStore from "../../../../../../../../../stores/settingsStore";
 import { useUserStore } from "../../../../../../../../../stores/userStore";
-import { useClientStore } from "../../../../../../../../../stores/clientStore";
-import { useEffect } from "react";
 
 function SettingsColorPicker() {
 	const { t } = useTranslation();
 
-	const localColor = useSettingsStore((state) => state.localColor) ?? useUserStore.getState().myColor;
+	const localColor =
+		useSettingsStore((state) => state.localColor) ??
+		useUserStore.getState().myColor;
 	const setLocalColor = useSettingsStore((state) => state.setLocalColor);
 
 	const myId = useUserStore((state) => state.myId);
-	const myProfileColor = useClientStore((state) => {
-		return state.clients.find((client) => client.clientDbId === myId)
-			?.clientColor;
-	});
+	const myProfileColor = useClientStore(
+		(state) => state.clientMap.get(myId)?.clientColor,
+	);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: changing this useEffect will break the color functionality
 	useEffect(() => {
 		setLocalColor(myProfileColor || localColor);
 	}, [myProfileColor]);
@@ -24,8 +26,7 @@ function SettingsColorPicker() {
 		<>
 			<div
 				data-testid="settings-profile-color-picker-container"
-				className="flex flex-col"
-			>
+				className="flex flex-col">
 				<label htmlFor="profileColor">
 					{t("profile_menu_profile_color_label")}
 				</label>

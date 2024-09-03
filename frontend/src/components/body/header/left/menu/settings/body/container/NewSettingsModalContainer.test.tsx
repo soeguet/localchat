@@ -9,14 +9,14 @@ beforeEach(() => {
 });
 describe("NewSettingsModalContainer", () => {
 	test("should render component", () => {
-		render(<NewSettingsModalContainer onSave={() => {}} onClose={() => {}} />);
+		render(<NewSettingsModalContainer handleProfileSettingsUpdateSaveButtonClick={() => {}} onClose={() => {}} />);
 		const container = screen.getByTestId("settings-modal-container");
 		expect(container).toBeInTheDocument();
 	});
 
 	test("should close on button click", async () => {
 		const onClose = vi.fn();
-		render(<NewSettingsModalContainer onClose={onClose} onSave={() => {}} />);
+		render(<NewSettingsModalContainer onClose={onClose} handleProfileSettingsUpdateSaveButtonClick={() => {}} />);
 		const closeButton = screen.getByTestId("close-settings-modal-button");
 		await userEvent.click(closeButton);
 		expect(onClose).toHaveBeenCalledTimes(1);
@@ -38,13 +38,13 @@ describe("NewSettingsModalContainer", () => {
 	});
 
 	test("should have no border", () => {
-		render(<NewSettingsModalContainer onSave={() => {}} onClose={() => {}} />);
+		render(<NewSettingsModalContainer handleProfileSettingsUpdateSaveButtonClick={() => {}} onClose={() => {}} />);
 		const container = screen.getByTestId("settings-modal-container");
 		expect(container).toHaveStyle({ borderColor: "" });
 	});
 
 	test("should have green border", async () => {
-		render(<NewSettingsModalContainer onSave={() => {}} onClose={() => {}} />);
+		render(<NewSettingsModalContainer handleProfileSettingsUpdateSaveButtonClick={() => {}} onClose={() => {}} />);
 
 		const borderColor = useSettingsStore.getState().localColor;
 		const container = screen.getByTestId("settings-modal-container");

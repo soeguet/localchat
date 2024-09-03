@@ -1,11 +1,12 @@
 import { useBannerStore } from "../../../stores/bannerStore";
+import {
+	DEFAULT_HOVER_COLOR,
+	DEFAULT_STROKE_COLOR,
+} from "../../../utils/variables/variables";
 import { BannerListSvg } from "../../svgs/banner/BannerListSvg";
-import {DEFAULT_HOVER_COLOR, DEFAULT_STROKE_COLOR} from "../../../utils/variables/variables";
 
 function AllBannersButton() {
-	const bannerCount = useBannerStore((state) =>
-		state.countBanners(state.banners),
-	);
+	const bannerCount = useBannerStore((state) => state.banners.length);
 	const bannerModalSetOpen = useBannerStore(
 		(state) => state.setBannerModalOpen,
 	);

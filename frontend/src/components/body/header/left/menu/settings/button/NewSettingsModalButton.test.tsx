@@ -9,7 +9,7 @@ import {
     waitFor,
 } from "../../../../../../../utils/tests/test-utils";
 import {NewSettingsModal} from "../body/NewSettingsModal";
-import {handleLocalSettingsUpdates} from "../../../../../../../utils/settings/handleLocalSettingsUpdates";
+import {handleWebsocketDataUpdates} from "../../../../../../../utils/settings/handleLocalSettingsUpdates";
 
 beforeEach(() => {
     HTMLDialogElement.prototype.showModal = vi.fn();
@@ -27,7 +27,7 @@ describe("should render button", () => {
         const mockOnSave = vi.fn();
 
         render(
-            <NewSettingsModal onSave={mockOnSave} isOpen={true} onClose={() => {
+            <NewSettingsModal handleProfileSettingsUpdateSaveButtonClick={mockOnSave} isOpen={true} onClose={() => {
             }} />,
         );
 
@@ -50,10 +50,9 @@ describe("should render button", () => {
 
         render(
             <NewSettingsModal
-                onSave={handleLocalSettingsUpdates}
+                handleProfileSettingsUpdateSaveButtonClick={handleWebsocketDataUpdates}
                 isOpen={true}
-                onClose={() => {
-                }}
+                onClose={() => {}}
             />,
         );
 
@@ -66,7 +65,7 @@ describe("should render button", () => {
             fireEvent.click(saveButton);
         });
 
-        expect(handleLocalSettingsUpdates).toHaveBeenCalledOnce();
+        expect(handleWebsocketDataUpdates).toHaveBeenCalledOnce();
     });
 
     test.skip("should trigger on save function - handleLocalSettingsUpdates needs to be called with return value", async () => {
@@ -88,7 +87,7 @@ describe("should render button", () => {
                 fireEvent.click(button);
             });
 
-            expect(handleLocalSettingsUpdates).toHaveBeenCalled();
+            expect(handleWebsocketDataUpdates).toHaveBeenCalled();
         });
     });
 });

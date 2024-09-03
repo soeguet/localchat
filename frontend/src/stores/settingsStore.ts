@@ -28,8 +28,8 @@ type SettingsStoreType = {
     localProfilePictureUrl: string | null;
     setLocalProfilePictureUrl: (url: string | null) => void;
 
-    availability: boolean | null;
-    setAvailability: (availability: boolean | null) => void;
+    localAvailability: boolean | null;
+    setLocalAvailability: (availability: boolean | null) => void;
 };
 
 const useSettingsStore: UseBoundStore<StoreApi<SettingsStoreType>> =
@@ -77,9 +77,9 @@ const useSettingsStore: UseBoundStore<StoreApi<SettingsStoreType>> =
         setLocalProfilePictureUrl: (url: string | null) =>
             set({localProfilePictureUrl: url}),
 
-        availability: useUserStore.getState().availability,
-        setAvailability: (availability: boolean | null) =>
-            set({availability}),
+        localAvailability: useUserStore.getState().availability,
+        setLocalAvailability: (availability: boolean | null) =>
+            set({localAvailability: availability}),
     }));
 
 export default useSettingsStore;

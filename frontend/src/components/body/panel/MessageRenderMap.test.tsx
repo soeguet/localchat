@@ -1,28 +1,30 @@
 import { render, screen } from "@testing-library/react";
-import { expect, test, describe } from "vitest";
+import { describe, expect, test } from "vitest";
 import { useClientStore } from "../../../stores/clientStore";
 import { useMessageMapStore } from "../../../stores/messageMapStore";
-import {MessagePayload, PayloadSubTypeEnum} from "../../../utils/types/customTypes";
+import {
+	type ClientEntity,
+	type MessagePayload,
+	PayloadSubTypeEnum,
+} from "../../../utils/types/customTypes";
 import { MessageRenderMap } from "./MessageRenderMap";
-
-// chatmessageunit
 
 describe("pictureMessages", () => {
 	beforeEach(() => {
-		useClientStore.getState().setClients([
-			{
-				clientDbId: "1",
-				clientUsername: "TestUser",
-				clientColor: "#cd2a1a",
-				availability: true,
-			},
-			{
-				clientDbId: "2",
-				clientUsername: "TestUser2",
-				clientColor: "#003000",
-				availability: true,
-			},
-		]);
+		const map = new Map<string, ClientEntity>();
+		map.set("1", {
+			clientDbId: "1",
+			clientUsername: "TestUser",
+			clientColor: "#cd2a1a",
+			availability: true,
+		});
+		map.set("2", {
+			clientDbId: "2",
+			clientUsername: "TestUser2",
+			clientColor: "#003000",
+			availability: true,
+		});
+		useClientStore.getState().setClientMap(map);
 	});
 	test("render normal message", async () => {
 		const messageMap = new Map<string, MessagePayload>();

@@ -1,17 +1,17 @@
-import { expect, test, describe } from "vitest";
+import { describe, expect, test } from "vitest";
+import { useMessageMapStore } from "../../../../../stores/messageMapStore";
+import { useUserStore } from "../../../../../stores/userStore";
 import {
 	fireEvent,
 	render,
 	screen,
 	waitFor,
-} from "../../../../utils/tests/test-utils";
-import { useMessageMapStore } from "../../../../stores/messageMapStore";
+} from "../../../../../utils/tests/test-utils";
 import {
 	type MessagePayload,
 	PayloadSubTypeEnum,
-} from "../../../../utils/types/customTypes";
-import { ChatPanel } from "../ChatPanel";
-import { useUserStore } from "../../../../stores/userStore";
+} from "../../../../../utils/types/customTypes";
+import { ChatPanel } from "../../ChatPanel";
 
 describe("EditMessageMode", () => {
 	test("test if edit mode activates after pressing edit", async () => {

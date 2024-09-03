@@ -3,8 +3,8 @@ import { useTranslation } from "react-i18next";
 
 function AvailabilityCheckbox() {
 	const { t } = useTranslation();
-	const availability = useSettingsStore((state) => state.availability);
-	const setAvailability = useSettingsStore((state) => state.setAvailability);
+	const availability = useSettingsStore((state) => state.localAvailability);
+	const setAvailability = useSettingsStore((state) => state.setLocalAvailability);
 
 
 	return (

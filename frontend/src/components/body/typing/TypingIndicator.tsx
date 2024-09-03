@@ -1,6 +1,6 @@
 import { useClientStore } from "../../../stores/clientStore";
 import { useTypingStore } from "../../../stores/typingStore";
-import "../panel/TypingIndicator.css";
+import "./TypingIndicator.css";
 import { useEffect, useRef, useState } from "react";
 
 /**
@@ -17,8 +17,7 @@ function TypingIndicator(): JSX.Element {
 
 	const typingUserNames: string[] = typingUsers.map((id) => {
 		return (
-			useClientStore.getState().getClientById(id)?.clientUsername ||
-			"Unknown"
+			useClientStore.getState().clientMap.get(id)?.clientUsername || "Unknown"
 		);
 	});
 

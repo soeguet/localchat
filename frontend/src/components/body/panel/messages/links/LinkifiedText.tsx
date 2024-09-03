@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { BrowserOpenURL } from "../../../../wailsjs/runtime";
+import { BrowserOpenURL } from "../../../../../../wailsjs/runtime";
 
 import "./LinkifiedText.css";
 

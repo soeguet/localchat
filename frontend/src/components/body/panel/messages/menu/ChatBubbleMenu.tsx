@@ -1,10 +1,11 @@
-import { useRef, useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { handleClickOutsideOfDiv } from "../../../../utils/gui/handleClickOutsideOfDiv";
+import { useWebsocketStore } from "../../../../../stores/websocketStore";
+import { handleClickOutsideOfDiv } from "../../../../../utils/gui/handleClickOutsideOfDiv";
 import {
-	type MessagePayload, PayloadSubTypeEnum,
-} from "../../../../utils/types/customTypes";
-import { useWebsocketStore } from "../../../../stores/websocketStore";
+	type MessagePayload,
+	PayloadSubTypeEnum,
+} from "../../../../../utils/types/customTypes";
 
 type ChatBubbleMenuProps = {
 	messagePayload: MessagePayload;

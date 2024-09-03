@@ -50,7 +50,6 @@ function Form() {
      */
     const saveEnvVars = (e: FormEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        debugger
         setIsClickable(false);
         setTimeout(() => {
             setIsClickable(true);
