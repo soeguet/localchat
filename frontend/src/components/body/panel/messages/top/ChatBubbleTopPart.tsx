@@ -15,9 +15,8 @@ function ChatBubbleTopPart(props: ChatBubbleTopPartProps) {
 	const { t } = useTranslation();
 	const messageSenderUsername = useClientStore(
 		(state) =>
-			state.getClientFromMapById(
-				props.messagePayload.clientType.clientDbId,
-			)?.clientUsername,
+			state.clientMap.get(props.messagePayload.clientType.clientDbId)
+				?.clientUsername,
 	);
 	const fontSize = useFontSizeStore((state) => state.fontSize);
 	return (

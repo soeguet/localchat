@@ -13,11 +13,11 @@ function EmergencyInitBanner() {
 	);
 	const emergencyInitiatorColor = useClientStore(
 		(state) =>
-			state.getClientFromMapById(emergencyInitiatorId)?.clientColor,
+			state.clientMap.get(emergencyInitiatorId)?.clientColor,
 	);
 	const emergencyInitiatorName = useClientStore(
 		(state) =>
-			state.getClientFromMapById(emergencyInitiatorId)?.clientUsername,
+			state.clientMap.get(emergencyInitiatorId)?.clientUsername,
 	);
 	return (
 		<>

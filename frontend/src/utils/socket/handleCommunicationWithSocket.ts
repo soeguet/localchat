@@ -2,54 +2,42 @@ import { useClientStore } from "../../stores/clientStore";
 import useSettingsStore from "../../stores/settingsStore";
 import { useUserStore } from "../../stores/userStore";
 import { useWebsocketStore } from "../../stores/websocketStore";
-import {
-	checkIfImageChanged,
-	hashBase64Image,
-} from "../picture/pictureComparator";
+import { hashBase64Image } from "../picture/pictureComparator";
 import {
 	type ClientUpdatePayloadV2,
-	type NewProfilePicturePayload,
 	PayloadSubTypeEnum,
 } from "../types/customTypes";
 
 // TODO implement hashing for profile pictures instead of sending the whole image all the time
 export async function handleProfileSettingsUpdatesWithSocketV2() {
 	const wsReference = useWebsocketStore.getState().getNullSafeWebsocket();
-	const didImageChange = checkIfImageChanged();
-
-	const imageHashForSocket = _determineNewImageHash(didImageChange);
-
-	if (didImageChange) {
-		profilePictureUpdate(imageHashForSocket, wsReference);
-	}
+	const imageHashForSocket = _determineNewImageHash();
 	profileUpdate(imageHashForSocket, wsReference);
 }
 
-/**
- * Determines the new image hash.
- * @param didImageChange - Whether the image changed.
- * @returns The new image hash. String may contain old hash, new hash or empty string.
- */
-export function _determineNewImageHash(didImageChange: boolean) {
+export function _determineNewImageHash() {
 	const myId = useUserStore.getState().myId;
-	const clients = useClientStore.getState().clientMap;
-	const myProfilePictureHash = clients.get(myId)?.clientProfilePictureHash;
-
-	if (!didImageChange) {
-		if (myProfilePictureHash === undefined) {
-			return "";
-		}
-		if (myProfilePictureHash === null) {
-			return "";
-		}
-		return myProfilePictureHash;
-	}
-
+	const oldImage = useClientStore
+		.getState()
+		.clientMap.get(myId)?.clientProfilePictureBase64;
 	const newBase64Image = useSettingsStore.getState().localProfilePicture;
-	if (newBase64Image === null || newBase64Image === "") {
+
+	let newImageHashCandidate = "";
+
+	if (!newBase64Image && oldImage) {
+		newImageHashCandidate = oldImage;
+	} else if (!newBase64Image && !oldImage) {
 		return "";
+	} else if (newBase64Image && !oldImage) {
+		newImageHashCandidate = newBase64Image;
+	} else if (newBase64Image && oldImage) {
+		newImageHashCandidate = newBase64Image;
+	} else {
+		console.error("Invalid state for new image hash");
+		throw new Error("Invalid state for new image hash");
 	}
-	return hashBase64Image(newBase64Image);
+
+	return hashBase64Image(newImageHashCandidate);
 }
 
 function profileUpdate(newImageHash: string, wsReference: WebSocket) {
@@ -63,10 +51,13 @@ function profileUpdate(newImageHash: string, wsReference: WebSocket) {
 	const availability =
 		useSettingsStore.getState().localAvailability ??
 		useUserStore.getState().availability;
+	const base64Image = useSettingsStore.getState().localProfilePicture;
 
 	const clientUpdatePayload: ClientUpdatePayloadV2 = {
 		payloadType: PayloadSubTypeEnum.enum.profileUpdateV2,
 		clientUsername: newUsername,
+		clientProfilePictureBase64:
+			base64Image ?? useUserStore.getState().myProfilePictureBase64,
 		clientDbId: useUserStore.getState().myId,
 		clientColor: newColor,
 		// TODO change this parameter name to something more descriptive for hashes
@@ -75,17 +66,4 @@ function profileUpdate(newImageHash: string, wsReference: WebSocket) {
 	};
 
 	wsReference.send(JSON.stringify(clientUpdatePayload));
-}
-
-function profilePictureUpdate(newImageHash: string, wsReference: WebSocket) {
-	const pictureData = useSettingsStore.getState().localProfilePicture;
-
-	const picturePayload: NewProfilePicturePayload = {
-		payloadType: PayloadSubTypeEnum.enum.newProfilePicture,
-		clientDbId: useUserStore.getState().myId,
-		imageHash: pictureData ? newImageHash : "",
-		data: pictureData ? pictureData : "",
-	};
-
-	wsReference.send(JSON.stringify(picturePayload));
 }

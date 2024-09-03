@@ -17,8 +17,7 @@ function TypingIndicator(): JSX.Element {
 
 	const typingUserNames: string[] = typingUsers.map((id) => {
 		return (
-			useClientStore.getState().getClientFromMapById(id)
-				?.clientUsername || "Unknown"
+			useClientStore.getState().clientMap.get(id)?.clientUsername || "Unknown"
 		);
 	});
 

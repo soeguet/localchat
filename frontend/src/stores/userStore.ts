@@ -14,6 +14,9 @@ export type UserStore = {
 	myProfilePictureHash: string;
 	setMyProfilePictureHash: (hash: string) => void;
 
+	myProfilePictureBase64: string;
+	setMyProfilePictureBase64: (base64: string) => void;
+
 	socketIp: string;
 	setSocketIp: (newIp: string) => void;
 
@@ -40,6 +43,10 @@ const useUserStore: UseBoundStore<StoreApi<UserStore>> = create((set) => ({
 	myProfilePictureHash: "",
 	setMyProfilePictureHash: (hash: string) =>
 		set({ myProfilePictureHash: hash }),
+
+	myProfilePictureBase64: "",
+	setMyProfilePictureBase64: (base64: string) =>
+		set({ myProfilePictureBase64: base64 }),
 
 	socketIp: "",
 	setSocketIp: (newIp: string) => set({ socketIp: newIp }),

@@ -14,7 +14,7 @@ function EmergencyHeader() {
 		(state) => state.emergencyInitiatorId,
 	);
 	const initiatorName = useClientStore(
-		(state) => state.getClientFromMapById(initiatorId)?.clientUsername,
+		(state) => state.clientMap.get(initiatorId)?.clientUsername,
 	);
 
 	return (

@@ -24,13 +24,13 @@ describe("handleCommunicationWithSocket", () => {
 			clientUsername: "TestUser",
 		});
 		useClientStore.getState().setClientMap(map);
-		const newImageHash = _determineNewImageHash(false);
+		const newImageHash = _determineNewImageHash();
 		expect(newImageHash).toBe("hash1");
 	});
 
 	test("determineNewImageHash, new image", () => {
 		useSettingsStore.getState().setLocalProfilePicture("newImage");
-		const newImageHash = _determineNewImageHash(true);
+		const newImageHash = _determineNewImageHash();
 
 		expect(newImageHash).not.toBe("hash1");
 	});
@@ -45,7 +45,7 @@ describe("handleCommunicationWithSocket", () => {
 		useSettingsStore
 			.getState()
 			.setLocalProfilePicture(profilePictureObject.data);
-		const newImageHash = _determineNewImageHash(true);
+		const newImageHash = _determineNewImageHash();
 
 		expect(newImageHash).toBe(profilePictureObject.imageHash);
 	});

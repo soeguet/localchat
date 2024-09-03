@@ -2,7 +2,7 @@ import { describe, expect, test } from "vitest";
 import { useClientStore } from "../../stores/clientStore";
 import useSettingsStore from "../../stores/settingsStore";
 import { useUserStore } from "../../stores/userStore";
-import { ClientEntity } from "../types/customTypes";
+import type { ClientEntity } from "../types/customTypes";
 import { checkIfImageChanged, compareBase64Images } from "./pictureComparator";
 
 describe("pictureComparator", () => {

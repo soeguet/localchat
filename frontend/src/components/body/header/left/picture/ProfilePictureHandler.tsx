@@ -13,10 +13,10 @@ function ProfilePictureHandler() {
 	const doNotDisturb = useDoNotDisturbStore((state) => state.doNotDisturb);
 	const clientDbId = useUserStore((state) => state.myId);
 	const clientColor = useClientStore(
-		(state) => state.getClientFromMapById(clientDbId)?.clientColor,
+		(state) => state.clientMap.get(clientDbId)?.clientColor,
 	);
-	const clientProfilePictureHash = useUserStore(
-		(state) => state.myProfilePictureHash,
+	const clientProfilePictureBase64 = useClientStore(
+		(state) => state.clientMap.get(clientDbId)?.clientProfilePictureBase64,
 	);
 	const profilePictureStyle = {
 		width: "70px",
@@ -36,9 +36,12 @@ function ProfilePictureHandler() {
 					<DoNotDisturb style={profilePictureStyle} />
 				) : (
 					<ProfilePicture
+						profilePictureBase64={
+							clientProfilePictureBase64 ?? null
+						}
 						pictureUrl={null}
 						properties={null}
-						pictureHash={clientProfilePictureHash}
+						pictureHash={null}
 						clientDbId={clientDbId}
 						style={profilePictureStyle}
 					/>

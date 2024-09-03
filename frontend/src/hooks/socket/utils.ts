@@ -122,4 +122,10 @@ export function updateThisClientsCachedDataWithNewPayloadData(
 			.getState()
 			.setMyProfilePictureHash(myNewClient.clientProfilePictureHash);
 	}
+
+	if (myNewClient.clientProfilePictureBase64) {
+		useUserStore
+			.getState()
+			.setMyProfilePictureBase64(myNewClient.clientProfilePictureBase64);
+	}
 }

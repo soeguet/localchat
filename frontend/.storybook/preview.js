@@ -1,8 +1,7 @@
-"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-require("../src/index.css");
-require("../src/config/i18n");
-var preview = {
+import "../src/index.css";
+import "../src/config/i18n";
+const preview = {
     parameters: {
         controls: {
             matchers: {
@@ -12,4 +11,5 @@ var preview = {
         },
     },
 };
-exports.default = preview;
+const _default = preview;
+export { _default as default };

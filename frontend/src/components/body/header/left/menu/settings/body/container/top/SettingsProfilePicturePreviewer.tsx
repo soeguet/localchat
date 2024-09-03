@@ -1,3 +1,4 @@
+import { useClientStore } from "../../../../../../../../../stores/clientStore";
 import useSettingsStore from "../../../../../../../../../stores/settingsStore";
 import { useUserStore } from "../../../../../../../../../stores/userStore";
 import { ProfilePicture } from "../../../../../../../../shared-comps/ProfilePicture";
@@ -10,6 +11,10 @@ function SettingsProfilePicturePreviewer() {
 	const clientSelectedColor = useUserStore((state) => state.myColor);
 	const myProfilePictureHash = useUserStore(
 		(state) => state.myProfilePictureHash,
+	);
+
+	const myProfilePictureBase64 = useClientStore(
+		(state) => state.clientMap.get(myId)?.clientProfilePictureBase64,
 	);
 
 	const profilePictureUrl = useSettingsStore(
@@ -44,6 +49,7 @@ function SettingsProfilePicturePreviewer() {
 					) : (
 						<>
 							<ProfilePicture
+								profilePictureBase64={myProfilePictureBase64 ?? null}
 								pictureUrl={null}
 								properties={null}
 								pictureHash={myProfilePictureHash}

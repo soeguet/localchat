@@ -106,6 +106,7 @@ export type ProfilePicture = z.infer<typeof ProfilePictureSchema>;
 export const ProfilePictureObjectSchema = z.object({
 	clientDbId: ClientIdSchema,
 	imageHash: ProfilePictureHashSchema,
+	imageBase64: z.string().optional(),
 	data: ProfilePictureSchema,
 });
 export type ProfilePictureObject = z.infer<typeof ProfilePictureObjectSchema>;
@@ -313,6 +314,7 @@ export type FetchProfilePicturePayload = z.infer<
 export const DeliverPicturePayloadSchema = z.object({
 	payloadType: z.literal(PayloadSubTypeEnum.enum.deliverPicture),
 	imageHash: HashSchema,
+	imageBase64: z.string().optional(),
 	data: z.string(),
 });
 export type DeliverPicturePayload = z.infer<typeof DeliverPicturePayloadSchema>;
@@ -320,6 +322,7 @@ export type DeliverPicturePayload = z.infer<typeof DeliverPicturePayloadSchema>;
 export const FetchPicturePayloadSchema = z.object({
 	payloadType: z.literal(PayloadSubTypeEnum.enum.fetchPicture),
 	imageHash: HashSchema,
+	imageBase64: z.string().optional(),
 });
 export type FetchPicturePayload = z.infer<typeof FetchPicturePayloadSchema>;
 
@@ -339,7 +342,12 @@ export const ReactionPayloadSchema = ReactionEntitySchema.extend({
 });
 export type ReactionPayload = z.infer<typeof ReactionPayloadSchema>;
 
-export type DbRow = {
-	ImageHash: string;
-	Data: string;
-};
+export const ErrorLogSchema = z.object({
+	title: z.string(),
+	message: z.string(),
+	stack: z.string(),
+	time: z.string(),
+	clientDbId: ClientIdSchema,
+	clientUsername: z.string(),
+});
+export type ErrorLog = z.infer<typeof ErrorLogSchema>;

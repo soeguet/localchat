@@ -4,7 +4,7 @@ import { useUserStore } from "../../stores/userStore";
 export function useClientChecker() {
 	const clientDbId = useUserStore((state) => state.myId);
 	const thisClient = useClientStore((state) =>
-		state.getClientFromMapById(clientDbId),
+		state.clientMap.get(clientDbId),
 	);
 	return thisClient !== undefined;
 }

@@ -91,7 +91,7 @@ async function sendClientMessageToWebsocket(message: string): Promise<void> {
 	const id = useUserStore.getState().myId;
 	const username = useClientStore
 		.getState()
-		.getClientFromMapById(id)?.clientUsername;
+		.clientMap.get(id)?.clientUsername;
 	const selectedImage = useImageStore.getState().selectedImage;
 	const droppedImage = useImageStore.getState().droppedImage;
 

@@ -8,7 +8,7 @@ function ClientName() {
 	const { t } = useTranslation();
 	const clientDbId = useUserStore((state) => state.myId);
 	const username = useClientStore(
-		(state) => state.getClientFromMapById(clientDbId)?.clientUsername,
+		(state) => state.clientMap.get(clientDbId)?.clientUsername,
 	);
 
 	const doNotDisturb = useDoNotDisturbStore((state) => state.doNotDisturb);

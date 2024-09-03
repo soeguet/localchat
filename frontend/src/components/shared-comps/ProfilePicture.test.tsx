@@ -6,6 +6,7 @@ describe("ProfilePicture", () => {
 	it("should render", async () => {
 		render(
 			<ProfilePicture
+				profilePictureBase64="abc"
 				pictureUrl={null}
 				properties={null}
 				style={{ width: "48px", height: "48px" }}
@@ -21,6 +22,7 @@ describe("ProfilePicture", () => {
 	it.skip("should render the right size", async () => {
 		render(
 			<ProfilePicture
+				profilePictureBase64="abc"
 				pictureUrl={null}
 				properties={null}
 				pictureHash="abc"
@@ -37,6 +39,7 @@ describe("ProfilePicture", () => {
 	it.skip("should render the right picture", async () => {
 		render(
 			<ProfilePicture
+				profilePictureBase64="abc"
 				properties={null}
 				style={{ width: "48px", height: "48px" }}
 				pictureHash="abc"

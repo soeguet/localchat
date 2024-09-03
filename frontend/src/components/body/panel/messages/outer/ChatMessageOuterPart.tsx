@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useClientStore } from "../../../../../stores/clientStore";
 import { useReplyStore } from "../../../../../stores/replyStore";
+import { useUserStore } from "../../../../../stores/userStore";
 import type { MessagePayload } from "../../../../../utils/types/customTypes";
 import { DEFAULT_STROKE_COLOR } from "../../../../../utils/variables/variables";
 import { ProfilePicture } from "../../../../shared-comps/ProfilePicture";
@@ -22,15 +23,18 @@ function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
 		: "right-0";
 	const clientColor = useClientStore(
 		(state) =>
-			state.getClientFromMapById(
-				props.messagePayload.clientType.clientDbId,
-			)?.clientColor,
+			state.clientMap.get(props.messagePayload.clientType.clientDbId)
+				?.clientColor,
 	);
 	const clientProfilePictureHash = useClientStore(
 		(state) =>
-			state.getClientFromMapById(
-				props.messagePayload.clientType.clientDbId,
-			)?.clientProfilePictureHash,
+			state.clientMap.get(props.messagePayload.clientType.clientDbId)
+				?.clientProfilePictureHash,
+	);
+	const clientProfilePictureBase64 = useClientStore(
+		(state) =>
+			state.clientMap.get(props.messagePayload.clientType.clientDbId)
+				?.clientProfilePictureBase64,
 	);
 	// state
 
@@ -69,6 +73,7 @@ function ChatMessageOuterPart(props: ChatMessageOuterPartProps) {
 				className="relative mx-2 flex cursor-pointer flex-col items-center self-stretch">
 				{/* need the padding on invisible profile picture, else messages will not be aligned -> handle via opacity */}
 				<ProfilePicture
+					profilePictureBase64={clientProfilePictureBase64 ?? null}
 					clientDbId={props.messagePayload.clientType.clientDbId}
 					pictureHash={clientProfilePictureHash ?? null}
 					style={{
