@@ -19,7 +19,7 @@ function PictureBubblePanel(props: PictureBubblePanelProps) {
 				<img
 					src={props.messagePayload.imageType.data}
 					alt="message"
-					className="max-h-[15rem] w-auto h-auto max-w-[30rem] object-contain"
+					className="max-h-[15rem] w-auto h-auto max-w-[23rem] object-contain"
 				/>
 			</div>
 		</>
