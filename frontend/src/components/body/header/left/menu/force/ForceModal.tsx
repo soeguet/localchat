@@ -8,32 +8,41 @@ import { ForceIconSvg } from "../../../../../svgs/icons/ForceIconSvg";
 import { CloseButton } from "../../../../../svgs/ui/CloseButton";
 
 function ForceModal() {
-	const clientsList = useClientStore((state) => state.clientMap);
-	if (clientsList.size === 0) {
-		return null;
-	}
-	const [hover, setHover] = useState(false);
+	// state ref
 	const { t } = useTranslation();
+	const clientsList = useClientStore((state) => state.clientMap);
+	const websocket = useWebsocketStore((state) => state.ws);
+	const thisClientId = useUserStore((state) => state.myId);
+	const thisClientColor = useUserStore((state) => state.myColor);
+
+	const [hover, setHover] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);
+
 	const forceModalRef = useRef<HTMLDialogElement>(null);
-	const thisClientColor: string = useUserStore((state) => state.myColor);
+	// state ref
 
 	useEffect(() => {
-		if (forceModalRef == null || forceModalRef.current === null) {
+		if (!forceModalRef.current) {
 			return;
 		}
+
 		if (isOpen) {
 			forceModalRef.current.showModal();
+			document.addEventListener("mousedown", handleClickOutside);
 		} else if (forceModalRef.current.open) {
 			forceModalRef.current.close();
 		}
+
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
 	}, [isOpen]);
 
-	const websocket = useWebsocketStore((state) => state.ws);
+	if (clientsList.size === 0) {
+		return null;
+	}
 
-	const thisClientId = useUserStore((state) => state.myId);
-
-	function forceClient(clientDbId: string) {
+	const forceClient = (clientDbId: string) => {
 		if (websocket !== null) {
 			websocket.send(
 				JSON.stringify({
@@ -42,17 +51,18 @@ function ForceModal() {
 				}),
 			);
 		}
-	}
+	};
 
 	/**
 	 * Handles the click outside the modal.
 	 * @param event - The mouse event object.
 	 */
 	const handleClickOutside = (event: MouseEvent) => {
-		if (
-			forceModalRef.current &&
-			!forceModalRef.current.contains(event.target as Node)
-		) {
+		if (!forceModalRef.current) {
+			return;
+		}
+
+		if (!forceModalRef.current.contains(event.target as Node)) {
 			const { left, top, right, bottom } =
 				forceModalRef.current.getBoundingClientRect();
 			const { clientX, clientY } = event;
@@ -67,18 +77,6 @@ function ForceModal() {
 			}
 		}
 	};
-
-	// TODO are the dependencies right?
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-	useEffect(() => {
-		if (isOpen) {
-			document.addEventListener("mousedown", handleClickOutside);
-		}
-
-		return () => {
-			document.removeEventListener("mousedown", handleClickOutside);
-		};
-	}, [isOpen]);
 
 	return (
 		<>
