@@ -1,15 +1,30 @@
-import {useMessageMapStore} from "../../stores/messageMapStore";
-import {notifyClientIfReactionTarget} from "../helper/reactionHandler";
-import {MessagePayloadSchema} from "../types/customTypes";
+import { errorLogger } from "../../logger/errorLogger";
+import { useMessageMapStore } from "../../stores/messageMapStore";
+import { notifyClientIfReactionTarget } from "../helper/reactionHandler";
+import { type MessagePayload, MessagePayloadSchema, PayloadSubTypeEnum, UpdatedReactionMessagePayloadSchema } from "../types/customTypes";
 
 export async function reactionHandler(event: MessageEvent) {
+	const messagePayloadValidation = UpdatedReactionMessagePayloadSchema.safeParse(
+		JSON.parse(event.data),
+	);
 
-    const messagePayloadValidation = MessagePayloadSchema.safeParse(JSON.parse(event.data));
+	if (messagePayloadValidation.success) {
+        // TODO change to interface
+        const payload: MessagePayload = {
+            ...messagePayloadValidation.data,
+            payloadType: PayloadSubTypeEnum.enum.message
+        }
+		useMessageMapStore
+			.getState()
+			.onUpdateMessage(payload);
+		await notifyClientIfReactionTarget(payload);
 
-    if (messagePayloadValidation.success) {
+	} else {
 
-        useMessageMapStore.getState().onUpdateMessage(messagePayloadValidation.data);
-        await notifyClientIfReactionTarget(messagePayloadValidation.data);
-
-    }
+        console.error("Failed to parse reaction payload");
+        console.error(JSON.stringify(event.data, null, 2));
+        errorLogger.logError("Failed to parse reaction payload");
+        errorLogger.logError(JSON.parse(event.data))
+		throw new Error("Failed to parse reaction payload");
+	}
 }

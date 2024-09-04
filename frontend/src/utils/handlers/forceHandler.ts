@@ -27,8 +27,9 @@ export async function forceHandler(event: MessageEvent) {
     } else {
 
         console.error("Failed to parse force payload");
+        console.error(JSON.stringify(forcePayloadValidation));
         errorLogger.logError(new Error("Failed to parse force payload"));
+        errorLogger.logError(JSON.stringify(forcePayloadValidation));
         throw new Error("Failed to parse force payload");
-
     }
 }

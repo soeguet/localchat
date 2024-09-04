@@ -278,6 +278,7 @@ export const MessagePayloadSchema = z.object({
 });
 export type MessagePayload = z.infer<typeof MessagePayloadSchema>;
 
+
 export const MessageListPayloadSchema = z.object({
 	payloadType: z.literal(PayloadSubTypeEnum.enum.messageList),
 	messageList: z.array(MessagePayloadSchema.omit({ payloadType: true })),
@@ -341,6 +342,15 @@ export const ReactionPayloadSchema = ReactionEntitySchema.extend({
 	payloadType: z.literal(PayloadSubTypeEnum.enum.reaction),
 });
 export type ReactionPayload = z.infer<typeof ReactionPayloadSchema>;
+
+export const UpdatedReactionMessagePayloadSchema = MessagePayloadSchema.omit({
+	payloadType: true,
+}).extend({
+	payloadType: z.literal(PayloadSubTypeEnum.enum.reaction),
+});
+export type UpdatedReactionMessagePayload = z.infer<
+	typeof UpdatedReactionMessagePayloadSchema
+>;
 
 export const ErrorLogSchema = z.object({
 	title: z.string(),
