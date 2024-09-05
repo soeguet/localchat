@@ -29,7 +29,7 @@ func main() {
 	if err := wails.Run(&options.App{
 		Title:                    "localchat",
 		Width:                    600,
-		Height:                   1000,
+		Height:                   800,
 		EnableDefaultContextMenu: true,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
@@ -59,3 +59,4 @@ func main() {
 		log.Fatal(err)
 	}
 }
+
